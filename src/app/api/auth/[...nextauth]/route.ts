@@ -3,18 +3,9 @@ import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth/next";
 import type { JWT } from "next-auth/jwt";
 import type { Account } from "@prisma/client";
-import type { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
-
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-    } & DefaultSession["user"]
-  }
-}
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
