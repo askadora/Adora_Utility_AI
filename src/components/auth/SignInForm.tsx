@@ -9,6 +9,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 
+interface ApiError extends Error {
+  message: string;
+}
+
 export default function SignInForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -53,8 +57,9 @@ export default function SignInForm() {
       
       // Redirect to homepage
       router.push("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const error = err as ApiError;
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }

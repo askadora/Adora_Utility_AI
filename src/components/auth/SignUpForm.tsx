@@ -8,6 +8,10 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 
+interface ApiError extends Error {
+  message: string;
+}
+
 export default function SignUpForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -59,10 +63,10 @@ export default function SignUpForm() {
         throw new Error(data.error || "Something went wrong");
       }
 
-      // Redirect to signin page after successful signup
       router.push("/signin");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const error = err as ApiError;
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }

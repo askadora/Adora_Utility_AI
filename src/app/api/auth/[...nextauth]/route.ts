@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import NextAuth from "next-auth";
+import NextAuth from "next-auth/next";
+import type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
@@ -28,7 +29,7 @@ const handler = NextAuth({
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }: { user: any; account: any }) {
       if (account?.provider === "google") {
         // Check if user exists with this email
         const existingUser = await prisma.user.findUnique({
@@ -59,13 +60,13 @@ const handler = NextAuth({
       }
       return true;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (session.user) {
         session.user.id = token.sub!;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user: any }) {
       if (user) {
         token.id = user.id;
       }
