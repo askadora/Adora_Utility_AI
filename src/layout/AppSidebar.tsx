@@ -69,8 +69,8 @@ const navItems: NavItem[] = [
   },
   {
     icon: <PieChartIcon />,
-    name: "Analytics",
-    path: "/analytics",
+    name: "KPI's",
+    path: "/kpi",
   },
   {
     icon: <BoxCubeIcon />,
