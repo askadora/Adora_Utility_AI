@@ -1,14 +1,14 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaAdapter } from "@auth/prisma-adapter";
+// import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth/next";
 import type { JWT } from "next-auth/jwt";
-import type { Account } from "@prisma/client";
+// import type { Account } from "@prisma/client";
 import GoogleProvider from "next-auth/providers/google";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -32,31 +32,37 @@ const handler = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
-        // Check if user exists with this email
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email! },
-        });
+        try {
+          // Commented out Prisma queries
+          // const existingUser = await prisma.user.findUnique({
+          //   where: { email: user.email! },
+          // });
 
-        if (existingUser && !existingUser.hashedPassword) {
-          // If user exists but has no password (created via Google), allow sign in
-          return true;
-        }
+          // if (!existingUser) {
+          //   await prisma.user.create({
+          //     data: {
+          //       email: user.email!,
+          //       name: user.name!,
+          //     },
+          //   });
+          // }
 
-        if (existingUser && existingUser.hashedPassword) {
-          // If user exists with password, link the Google account
-          await prisma.account.create({
-            data: {
-              userId: existingUser.id,
-              type: account.type,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
-              token_type: account.token_type,
-              scope: account.scope,
-              id_token: account.id_token,
-            },
-          });
+          // await prisma.account.create({
+          //   data: {
+          //     userId: existingUser?.id || "",
+          //     type: account.type,
+          //     provider: account.provider,
+          //     providerAccountId: account.providerAccountId,
+          //     access_token: account.access_token,
+          //     token_type: account.token_type,
+          //     scope: account.scope,
+          //   },
+          // });
+
           return true;
+        } catch (error) {
+          console.error("Error during Google sign in:", error);
+          return false;
         }
       }
       return true;
