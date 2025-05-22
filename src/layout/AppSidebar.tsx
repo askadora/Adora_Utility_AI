@@ -16,6 +16,7 @@ import {
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
+  PromptIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 
@@ -26,11 +27,70 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
+const WorkflowIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 3H18V7H6V3ZM6 17H18V21H6V17ZM2 10H22V14H2V10Z" fill="currentColor"/>
+  </svg>
+);
+
+const IntegrationsIcon = () => (
+  <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="currentColor" strokeWidth="2">
+      <circle cx="7" cy="9" r="5" fill="none"/>
+      <circle cx="29" cy="9" r="5" fill="none"/>
+      <path d="M12 9h7m0 0l-3-3m3 3l-3 3m7-3h4" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+  </svg>
+);
+
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/dashboard",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Demos",
+    subItems: [
+      { name: "Full Demo", path: "/full-demo", pro: false },
+      { name: "Investors", path: "/investors", pro: false },
+    ],
+  },
+  {
+    icon: <PromptIcon />,
+    name: "Prompt",
+    subItems: [
+      { name: "Chat", path: "/prompt/chat", pro: false },
+      { name: "Create Prompt", path: "/prompt/create", pro: false },
+      { name: "My Prompts", path: "/prompt/list", pro: false },
+      { name: "Prompt Library", path: "/prompt/library", pro: false },
+    ],
+  },
+  {
+    icon: <PieChartIcon />,
+    name: "Analytics",
+    path: "/analytics",
+  },
+  {
+    icon: <BoxCubeIcon />,
+    name: "Marketing",
+    path: "/marketing",
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "CRM",
+    path: "/crm",
+  },
+  {
+    icon: <TableIcon />,
+    name: "Stocks",
+    path: "/stocks",
+  },
+  {
+    icon: <PlugInIcon />,
+    name: "SaaS",
+    path: "/saas",
   },
   {
     icon: <CalenderIcon />,
@@ -38,28 +98,52 @@ const navItems: NavItem[] = [
     path: "/calendar",
   },
   {
+    name: "Chat",
+    icon: <ListIcon />,
+    path: "/chat",
+  },
+  {
     icon: <UserCircleIcon />,
     name: "User Profile",
     path: "/profile",
   },
-
   {
-    name: "Forms",
+    name: "Task",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
     subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
+      { name: "List", path: "/task/list", pro: false },
+      { name: "Kanban", path: "/task/kanban", pro: false },
     ],
+  },
+  {
+    name: "Workflow",
+    icon: <WorkflowIcon />,
+    path: "/workflow",
+  },
+  {
+    name: "Integrations",
+    icon: <IntegrationsIcon />,
+    path: "/integrations",
+  },
+  {
+    name: "Settings",
+    icon: <PlugInIcon />,
+    path: "/settings",
+  },
+  {
+    name: "Projections",
+    icon: <PieChartIcon />,
+    path: "/projections",
+  },
+  {
+    icon: <PlugInIcon />,
+    name: "Email",
+    path: "/email/inbox",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Invoice",
+    path: "/invoice",
   },
 ];
 
@@ -90,6 +174,24 @@ const othersItems: NavItem[] = [
     subItems: [
       { name: "Sign In", path: "/signin", pro: false },
       { name: "Sign Up", path: "/signup", pro: false },
+    ],
+  },
+  {
+    name: "Forms",
+    icon: <ListIcon />,
+    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+  },
+  {
+    name: "Tables",
+    icon: <TableIcon />,
+    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+  },
+  {
+    name: "Pages",
+    icon: <PageIcon />,
+    subItems: [
+      { name: "Blank Page", path: "/blank", pro: false },
+      { name: "404 Error", path: "/error-404", pro: false },
     ],
   },
 ];
@@ -131,14 +233,16 @@ const AppSidebar: React.FC = () => {
                 <span className={`menu-item-text`}>{nav.name}</span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
-                <ChevronDownIcon
+                <span
                   className={`ml-auto w-5 h-5 transition-transform duration-200  ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
                       ? "rotate-180 text-brand-500"
                       : ""
                   }`}
-                />
+                >
+                  <ChevronDownIcon />
+                </span>
               )}
             </button>
           ) : (
@@ -304,44 +408,46 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex  ${
+        className={`h-16 flex items-start mt-3 lg:mt-4 ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
+            <div className="flex items-center gap-3">
               <Image
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
+                className="dark:hidden w-10 h-10 lg:w-11 lg:h-11"
+                src="/images/logo/adora-ai-logo.png"
+                alt="Adora AI Logo"
+                width={40}
                 height={40}
               />
               <Image
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
+                className="hidden dark:block w-10 h-10 lg:w-11 lg:h-11"
+                src="/images/logo/adora-ai-logo.png"
+                alt="Adora AI Logo"
+                width={40}
                 height={40}
               />
-            </>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">Adora AI</span>
+            </div>
           ) : (
             <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
+              className="w-10 h-10 lg:w-11 lg:h-11"
+              src="/images/logo/adora-ai-logo.png"
+              alt="Adora AI Logo"
+              width={44}
+              height={44}
             />
           )}
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar mt-[40px]">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`hidden mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -365,7 +471,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
+                  "Customize"
                 ) : (
                   <HorizontaLDots />
                 )}

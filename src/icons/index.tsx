@@ -107,3 +107,44 @@ export {
   ChevronUpIcon,
   ChatIcon,
 };
+
+export const PromptIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5ZM10 15.8333C6.77834 15.8333 4.16667 13.2217 4.16667 10C4.16667 6.77834 6.77834 4.16667 10 4.16667C13.2217 4.16667 15.8333 6.77834 15.8333 10C15.8333 13.2217 13.2217 15.8333 10 15.8333Z"
+      fill="currentColor"
+    />
+    <path
+      d="M10 6.66667C9.53976 6.66667 9.16667 7.03976 9.16667 7.5V10C9.16667 10.4602 9.53976 10.8333 10 10.8333C10.4602 10.8333 10.8333 10.4602 10.8333 10V7.5C10.8333 7.03976 10.4602 6.66667 10 6.66667Z"
+      fill="currentColor"
+    />
+    <path
+      d="M10 12.5C10.4602 12.5 10.8333 12.1269 10.8333 11.6667C10.8333 11.2064 10.4602 10.8333 10 10.8333C9.53976 10.8333 9.16667 11.2064 9.16667 11.6667C9.16667 12.1269 9.53976 12.5 10 12.5Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const MicrophoneIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+    <line x1="12" y1="19" x2="12" y2="23" />
+    <line x1="8" y1="23" x2="16" y2="23" />
+  </svg>
+);
