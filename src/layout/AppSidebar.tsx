@@ -429,7 +429,20 @@ const AppSidebar: React.FC = () => {
                 width={40}
                 height={40}
               />
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">Adora AI</span>
+              <Image
+                className="dark:hidden h-8 w-auto object-contain"
+                src="/images/logo/adora-ai-dark-grey-logo.png"
+                alt="Adora AI Dark Grey Logo"
+                width={120}
+                height={32}
+              />
+              <Image
+                className="hidden dark:block h-8 w-auto object-contain"
+                src="/images/logo/adora-ai-white-logo.png"
+                alt="Adora AI White Logo"
+                width={120}
+                height={32}
+              />
             </div>
           ) : (
             <Image
