@@ -1,157 +1,104 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
+import Image from 'next/image';
 
 export default function SignIn() {
   const router = useRouter();
+  const { session, isLoading: authLoading } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const rememberMe = formData.get('remember-me') === 'on';
-
-    try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError('Invalid email or password');
-        return;
-      }
-
-      router.push('/');
-      router.refresh();
-    } catch (error) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) setError(error.message);
+    else router.push('/');
+    setIsLoading(false);
   };
 
+  if (authLoading || session) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-100 to-white py-12 px-4 dark:from-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-xl dark:bg-gray-800/50">
         <div>
-          <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-            Back to dashboard
-          </Link>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign In
+          <Image
+            className="mx-auto h-12 w-auto"
+            src="/images/logo/logo-dark.svg"
+            alt="Your Company"
+            width={150}
+            height={40}
+          />
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email and password to sign in!
-          </p>
         </div>
-        
-        <div className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <button
-              onClick={() => signIn('google', { callbackUrl: '/' })}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              Sign in with Google
-            </button>
-            <button
-              onClick={() => signIn('github', { callbackUrl: '/' })}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700"
-            >
-              Sign in with X
-            </button>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">Or</span>
+        {error && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+              </div>
             </div>
           </div>
-
-          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-            {error && (
-              <div className="rounded-md bg-red-50 p-4">
-                <div className="text-sm text-red-700">{error}</div>
-              </div>
-            )}
-            
-            <div className="rounded-md shadow-sm space-y-4">
-              <div>
-                <label htmlFor="email" className="sr-only">Email</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Email *"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Password *"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Keep me logged in
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <Link href="/auth/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot password?
-                </Link>
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading ? 'Signing in...' : 'Sign in'}
-              </button>
-            </div>
-          </form>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
-              <Link href="/auth/signup" className="font-medium text-blue-600 hover:text-blue-500">
-                Sign Up
-              </Link>
-            </p>
+        )}
+        <form onSubmit={handleSignIn} className="space-y-6">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+            />
           </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-3 px-4 text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-offset-gray-800"
+          >
+            {isLoading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+        <div className="text-center text-sm">
+          <p className="text-gray-600 dark:text-gray-400">
+            Don't have an account?{' '}
+            <Link href="/auth/signup" className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
     </div>

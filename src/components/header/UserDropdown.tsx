@@ -2,36 +2,66 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext"; // Adjust path if necessary
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
 export default function UserDropdown() {
+  const { user, signOut, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-  e.stopPropagation();
-  setIsOpen((prev) => !prev);
-}
+  function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  }
 
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  const handleSignOut = async () => {
+    await signOut();
+    closeDropdown();
+    // Router push to /auth/signin can be added here if needed, 
+    // but AuthProvider should ideally handle redirecting unauthenticated users.
+  };
+
+  if (isLoading) {
+    return <div className="w-20 h-11 animate-pulse bg-gray-300 rounded-full dark:bg-gray-700"></div>;
+  }
+
+  if (!user) {
+    return (
+      <Link href="/auth/signin"
+        className="px-4 py-2 text-sm font-medium text-white bg-sky-600 rounded-md hover:bg-sky-700"
+      >
+        Sign In
+      </Link>
+    );
+  }
+
+  // Extract user display name and email
+  const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || "User";
+  const displayEmail = user.email || "No email provided";
+  const avatarUrl = user.user_metadata?.avatar_url || "/images/user/owner.jpg"; // Default avatar
+
   return (
     <div className="relative">
       <button
-        onClick={toggleDropdown} 
+        onClick={toggleDropdown}
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
           <Image
             width={44}
             height={44}
-            src="/images/user/owner.jpg"
+            src={avatarUrl} // Use Supabase avatar_url if available
             alt="User"
+            className="object-cover w-full h-full" // Added object-cover
           />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Kyle</span>
+        <span className="block mr-1 font-medium text-theme-sm">{displayName}</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -60,10 +90,10 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Kyle Thomas
+            {displayName}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+            {displayEmail}
           </span>
         </div>
 
@@ -72,7 +102,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              href="/profile"
+              href="/profile" // Assuming you have a profile page
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -144,9 +174,9 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
             </DropdownItem>
           </li>
         </ul>
-        <Link
-          href="/signin"
-          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 w-full text-left"
         >
           <svg
             className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300"
@@ -164,7 +194,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
             />
           </svg>
           Sign out
-        </Link>
+        </button>
       </Dropdown>
     </div>
   );
