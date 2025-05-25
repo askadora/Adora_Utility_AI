@@ -156,41 +156,34 @@ export const singleChatCompletion = async (
       presence_penalty: options.presencePenalty ?? 0,
       stream: true
     }, {
-      responseType: 'stream',
+      responseType: 'text',
       validateStatus: (status) => status === 200
     });
-    console.log('response', response);
+
     console.log('response.data', response.data);
-    const reader = response.data.getReader();
-    const decoder = new TextDecoder();
+    if (!response.data) {
+      throw new Error('No response data received');
+    }
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+    // Split the response into lines and process each event
+    const lines = response.data.split('\n').filter((line: string) => line.trim() !== '');
 
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n').filter(line => line.trim() !== '');
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
 
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-
-          try {
-            const parsed = JSON.parse(data);
-            // Check if the response has the expected structure
-            if (parsed.type === 'message' && 
-                parsed.role === 'assistant' && 
-                Array.isArray(parsed.content)) {
-              // Extract text from the first content item
-              const textContent = parsed.content[0]?.text;
-              if (textContent) {
-                onChunk(textContent);
-              }
-            }
-          } catch (e) {
-            console.error('Error parsing stream chunk:', e);
+        try {
+          const parsed = JSON.parse(data);
+          
+          // Only handle text_delta events
+          if (parsed.type === 'content_block_delta' && 
+              parsed.delta?.type === 'text_delta' && 
+              parsed.delta?.text) {
+            onChunk(parsed.delta.text);
           }
+        } catch (e) {
+          console.error('Error parsing stream chunk:', e);
         }
       }
     }
