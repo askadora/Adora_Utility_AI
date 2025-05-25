@@ -17,6 +17,7 @@ import {
   TableIcon,
   UserCircleIcon,
   PromptIcon,
+  SettingsIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 
@@ -127,7 +128,7 @@ const navItems: NavItem[] = [
   },
   {
     name: "Settings",
-    icon: <PlugInIcon />,
+    icon: <SettingsIcon />,
     path: "/settings",
   },
   {
