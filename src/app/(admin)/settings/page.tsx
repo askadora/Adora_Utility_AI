@@ -1,13 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  BellIcon, 
-  GlobeIcon, 
-  MoonIcon,
-  SunIcon,
-  ClockIcon
-} from '@/icons';
+import { ShieldIcon, KeyIcon, CreditCardIcon, UserIcon } from '@/icons';
 
 export default function Settings() {
   const [isDarkMode, setIsDarkMode] = useState(false);

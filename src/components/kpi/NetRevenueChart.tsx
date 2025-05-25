@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 // We'll use recharts for this example. Ensure it's installed: npm install recharts
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Sample data - replace with your actual data source
 const data = [

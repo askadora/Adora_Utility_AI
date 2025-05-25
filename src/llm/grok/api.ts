@@ -1,5 +1,3 @@
-import { xai } from "@ai-sdk/xai";
-import { streamText } from "ai";
 import axios from 'axios';
 
 // Types
@@ -50,7 +48,7 @@ export const listGrokModels = async (): Promise<GrokModel[]> => {
       throw new Error('Invalid response format from API');
     }
 
-    return response.data.data.map((model: any) => ({
+    return response.data.data.map((model: GrokModel) => ({
       id: model.id,
       name: model.name || model.id,
       description: model.description || `Grok model ${model.id}`,

@@ -2,15 +2,17 @@
 import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-const data = [
-  { name: "Org", price: 6000 },
-  { name: "Pro", price: 200 },
-  { name: "Play", price: 20 },
-];
+interface BreakdownChartProps {
+  data: {
+    name: string;
+    value: number;
+  }[];
+  colors?: string[];
+}
 
-const COLORS = ["#6366f1", "#38bdf8", "#a3e635"];
+const BreakdownChart: React.FC<BreakdownChartProps> = ({ data, colors }) => {
+  const COLORS = colors || ["#6366f1", "#38bdf8", "#a3e635"];
 
-const BreakdownChart: React.FC<{ title: string }> = ({ title }) => {
   return (
     <div className="h-72 flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Subscription Prices</h3>
@@ -40,7 +42,7 @@ const BreakdownChart: React.FC<{ title: string }> = ({ title }) => {
             contentStyle={{ background: "#fff", borderRadius: 8, border: "none", color: "#334155" }}
             formatter={(value: number) => `$${value.toLocaleString()}/m`}
           />
-          <Bar dataKey="price" radius={[8, 8, 8, 8]} barSize={32}>
+          <Bar dataKey="value" radius={[8, 8, 8, 8]} barSize={32}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index]} />
             ))}
@@ -48,9 +50,9 @@ const BreakdownChart: React.FC<{ title: string }> = ({ title }) => {
         </BarChart>
       </ResponsiveContainer>
       <div className="flex w-full justify-between mt-4 text-sm text-gray-500 dark:text-gray-400">
-        <span>Org: $6,000/m</span>
-        <span>Pro: $200/m</span>
-        <span>Play: $20/m</span>
+        {data.map((entry, index) => (
+          <span key={`span-${index}`}>{entry.name}: ${entry.value.toLocaleString()}m</span>
+        ))}
       </div>
     </div>
   );

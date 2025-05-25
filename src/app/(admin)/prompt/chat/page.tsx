@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PaperPlaneIcon, ChevronDownIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@/icons';
 // import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
 import { listGrokModels, type GrokModel, singleChatCompletion } from '@/llm/grok/api';
@@ -123,7 +123,7 @@ export default function Chat() {
     grok: 'grok-3-mini',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([
+  const [chatHistory] = useState<ChatHistory[]>([
     {
       id: '1',
       title: 'Previous Chat 1',
@@ -134,10 +134,9 @@ export default function Chat() {
     // Add more chat history items as needed
   ]);
   const [isRecording, setIsRecording] = useState(false);
-  const [selectedGrokModel, setSelectedGrokModel] = useState<string>('grok-3-mini');
-  const [availableModels, setAvailableModels] = useState<Model[]>(initialModels);
-  const [isHistoryCollapsed, setIsHistoryCollapsed] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState<string>('grok');
+  const [availableModels] = useState<Model[]>(initialModels);
+  const [isHistoryCollapsed, setIsHistoryCollapsed] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -243,15 +242,6 @@ export default function Chat() {
   const toggleRecording = () => {
     setIsRecording(!isRecording);
     // TODO: Implement voice recording functionality
-  };
-
-  const handleGrokModelSelect = (modelId: string) => {
-    setSelectedGrokModel(modelId);
-    // Update the selectedModels state to include the Grok model
-    setSelectedModels(prev => ({
-      ...prev,
-      grok: modelId
-    }));
   };
 
   return (

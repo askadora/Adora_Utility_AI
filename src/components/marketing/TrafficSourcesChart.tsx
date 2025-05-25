@@ -33,6 +33,33 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
+interface TrafficData {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: TrafficData;
+    value: number;
+  }>;
+}
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{data.name}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{data.value}%</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const TrafficSourcesChart = () => {
   return (
     <div className="h-72 flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">

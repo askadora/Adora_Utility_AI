@@ -6,13 +6,13 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 type Priority = 'A' | 'B' | 'C' | 'D';
 
 interface Task {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  priority: Priority;
+  priority: string;
   assignee: string;
-  dueDate: string;
-  status: 'todo' | 'in-progress' | 'completed';
+  dueDate: Date;
+  status: string;
   tag?: string;
 }
 
@@ -28,98 +28,98 @@ interface NewTask {
 
 const mockTasks: Task[] = [
   {
-    id: 1,
+    id: "1",
     title: "Finish user onboarding",
     description: "Complete the user onboarding process",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/32.jpg",
-    dueDate: "Tomorrow",
+    dueDate: new Date("2024-04-15"),
     status: "todo",
     tag: "Marketing",
   },
   {
-    id: 2,
+    id: "2",
     title: "Solve the Dribbble prioritisation issue with the team",
     description: "Work with the team to resolve prioritization issues",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/women/44.jpg",
-    dueDate: "Jan 8, 2027",
+    dueDate: new Date("2027-01-08"),
     status: "todo",
     tag: "Marketing",
   },
   {
-    id: 3,
+    id: "3",
     title: "Change license and remove products",
     description: "Update license and remove outdated products",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/46.jpg",
-    dueDate: "Jan 8, 2027",
+    dueDate: new Date("2027-01-08"),
     status: "todo",
     tag: "Dev",
   },
   {
-    id: 4,
+    id: "4",
     title: "Work In Progress (WIP) Dashboard",
     description: "Create a dashboard for tracking work in progress",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/women/68.jpg",
-    dueDate: "Today",
+    dueDate: new Date("2024-04-15"),
     status: "in-progress",
   },
   {
-    id: 5,
+    id: "5",
     title: "Kanban Flow Manager",
     description: "Implement Kanban flow management system",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/75.jpg",
-    dueDate: "Feb 12, 2027",
+    dueDate: new Date("2027-02-12"),
     status: "in-progress",
     tag: "Template",
   },
   {
-    id: 6,
+    id: "6",
     title: "Product Update - Q4 2024",
     description: "Dedicated form for a category of users that will perform actions",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/women/90.jpg",
-    dueDate: "Feb 12, 2027",
+    dueDate: new Date("2027-02-12"),
     status: "in-progress",
   },
   {
-    id: 7,
+    id: "7",
     title: "Make figbot send comment when ticket is auto-moved back to inbox",
     description: "Implement automatic comment feature for ticket movement",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/men/91.jpg",
-    dueDate: "Mar 08, 2027",
+    dueDate: new Date("2027-03-08"),
     status: "in-progress",
   },
   {
-    id: 8,
+    id: "8",
     title: "Manage internal feedback",
     description: "Set up system for managing internal feedback",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/women/22.jpg",
-    dueDate: "Tomorrow",
+    dueDate: new Date("2024-04-15"),
     status: "completed",
   },
   {
-    id: 9,
+    id: "9",
     title: "Do some projects on React Native with Flutter",
     description: "Create cross-platform mobile applications",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/men/41.jpg",
-    dueDate: "Jan 8, 2027",
+    dueDate: new Date("2027-01-08"),
     status: "completed",
     tag: "Development",
   },
   {
-    id: 10,
+    id: "10",
     title: "Design marketing assets",
     description: "Create marketing materials and assets",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/women/46.jpg",
-    dueDate: "Jan 8, 2027",
+    dueDate: new Date("2024-04-15"),
     status: "completed",
     tag: "Marketing",
   },
@@ -151,7 +151,7 @@ const TaskKanbanPage = () => {
 
   const handleAddTask = () => {
     const task: Task = {
-      id: tasks.length + 1,
+      id: tasks.length + 1 + "",
       ...newTask,
     };
     setTasks(prev => [...prev, task]);
@@ -161,12 +161,16 @@ const TaskKanbanPage = () => {
       description: "",
       priority: "C",
       assignee: "https://randomuser.me/api/portraits/men/32.jpg",
-      dueDate: new Date().toISOString().split('T')[0],
+      dueDate: new Date(),
       status: "todo",
     });
   };
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: {
+    destination?: { droppableId: string; index: number };
+    source: { droppableId: string; index: number };
+    draggableId: string;
+  }) => {
     if (!result.destination) return;
 
     const { source, destination } = result;
@@ -205,7 +209,7 @@ const TaskKanbanPage = () => {
   };
 
   const renderTaskCard = (task: Task, index: number) => (
-    <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+    <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided) => (
         <div
           ref={provided.innerRef}
@@ -217,7 +221,7 @@ const TaskKanbanPage = () => {
             <span className="font-medium text-gray-900 dark:text-white">
               {task.title}
             </span>
-            <span className="text-xs text-gray-400">{task.dueDate}</span>
+            <span className="text-xs text-gray-400">{task.dueDate.toDateString()}</span>
           </div>
           {task.tag && (
             <div className="mt-2">
@@ -228,7 +232,7 @@ const TaskKanbanPage = () => {
           )}
           <div className="mt-2 flex items-center gap-2">
             <span
-              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${priorityMap[task.priority]}`}
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${priorityMap[task.priority as Priority]}`}
             >
               {task.priority}
             </span>
