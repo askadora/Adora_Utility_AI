@@ -42,7 +42,7 @@ export default function FormInModal() {
 
             <div className="col-span-1">
               <Label>Last Name</Label>
-              <Input type="email" placeholder="emirhanboruch55@gmail.com" />
+              <Input type="email" placeholder="hello@adorahq.com" />
             </div>
 
             <div className="col-span-1">

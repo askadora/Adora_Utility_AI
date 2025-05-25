@@ -4,6 +4,12 @@ import NetRevenueChart from "@/components/kpi/NetRevenueChart";
 import TopChannelsChart from "@/components/marketing/TopChannelsChart";
 import TrafficSourcesChart from "@/components/marketing/TrafficSourcesChart";
 import RecentCampaignsTable from "@/components/marketing/RecentCampaignsTable";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard Adora AI",
+  description: "Marketing dashboard for Adora AI",
+};
 
 export default function MarketingDashboard() {
   return (

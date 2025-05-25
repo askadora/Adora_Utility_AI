@@ -12,10 +12,12 @@ import {
 } from "@fullcalendar/core";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
+import clsx from "clsx";
 
 interface CalendarEvent extends EventInput {
   extendedProps: {
     calendar: string;
+    type: 'personal' | 'professional';
   };
 }
 
@@ -30,6 +32,9 @@ const Calendar: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const calendarRef = useRef<FullCalendar>(null);
   const { isOpen, openModal, closeModal } = useModal();
+  const [calendarType, setCalendarType] = useState<'play' | 'pro'>('play');
+  // Ref for the toggle container
+  const toggleRef = useRef<HTMLDivElement>(null);
 
   const calendarsEvents = {
     Danger: "danger",
@@ -39,29 +44,71 @@ const Calendar: React.FC = () => {
   };
 
   useEffect(() => {
-    // Initialize with some events
+    // Initialize with some personal and professional events
     setEvents([
       {
-        id: "1",
-        title: "Event Conf.",
-        start: new Date().toISOString().split("T")[0],
-        extendedProps: { calendar: "Danger" },
+        id: '1',
+        title: 'Doctor Appointment',
+        start: new Date().toISOString().split('T')[0],
+        extendedProps: { calendar: 'Danger', type: 'personal' },
       },
       {
-        id: "2",
-        title: "Meeting",
-        start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Success" },
+        id: '2',
+        title: 'Team Meeting',
+        start: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Success', type: 'professional' },
       },
       {
-        id: "3",
-        title: "Workshop",
-        start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-        end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Primary" },
+        id: '3',
+        title: 'Family Dinner',
+        start: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Primary', type: 'personal' },
+      },
+      {
+        id: '4',
+        title: 'Project Deadline',
+        start: new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Warning', type: 'professional' },
+      },
+      {
+        id: '5',
+        title: 'Yoga Class',
+        start: new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Success', type: 'personal' },
+      },
+      {
+        id: '6',
+        title: 'Client Call',
+        start: new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Danger', type: 'professional' },
       },
     ]);
   }, []);
+
+  // Filter events based on calendarType
+  const filteredEvents = events.filter(event =>
+    calendarType === 'play'
+      ? event.extendedProps.type === 'personal'
+      : event.extendedProps.type === 'professional'
+  );
+
+  // Effect to inject the toggle into the FullCalendar header
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (!calendarApi) return;
+    // Wait for the DOM to update
+    setTimeout(() => {
+      const header = document.querySelector('.fc-header-toolbar .fc-toolbar-chunk:last-child');
+      if (header && toggleRef.current && !header.contains(toggleRef.current)) {
+        header.appendChild(toggleRef.current);
+      }
+      // Add custom class to Add Event button for styling
+      const addEventBtn = document.querySelector('.fc-addEventButton-button');
+      if (addEventBtn) {
+        addEventBtn.classList.add('fc-add-event-btn');
+      }
+    }, 0);
+  }, [calendarType]);
 
   const handleDateSelect = (selectInfo: DateSelectArg) => {
     resetModalFields();
@@ -91,7 +138,7 @@ const Calendar: React.FC = () => {
                 title: eventTitle,
                 start: eventStartDate,
                 end: eventEndDate,
-                extendedProps: { calendar: eventLevel },
+                extendedProps: { calendar: eventLevel, type: selectedEvent.extendedProps.type },
               }
             : event
         )
@@ -104,7 +151,7 @@ const Calendar: React.FC = () => {
         start: eventStartDate,
         end: eventEndDate,
         allDay: true,
-        extendedProps: { calendar: eventLevel },
+        extendedProps: { calendar: eventLevel, type: calendarType === 'play' ? 'personal' : 'professional' },
       };
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     }
@@ -121,30 +168,55 @@ const Calendar: React.FC = () => {
   };
 
   return (
-    <div className="rounded-2xl border  border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+    <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="custom-calendar">
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            left: "prev,next addEventButton",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            left: 'prev,next',
+            center: 'title',
+            right: 'addEventButton dayGridMonth,timeGridWeek,timeGridDay',
           }}
-          events={events}
+          events={filteredEvents}
           selectable={true}
           select={handleDateSelect}
           eventClick={handleEventClick}
           eventContent={renderEventContent}
           customButtons={{
             addEventButton: {
-              text: "Add Event +",
+              text: 'Add Event +',
               click: openModal,
             },
           }}
         />
+        {/* Toggle injected into the header via ref */}
+        <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 16, verticalAlign: 'middle', height: '100%' }}>
+          <span className={calendarType === 'play' ? 'text-brand-500 font-semibold' : 'text-gray-400'}>Play</span>
+          <label className="relative inline-flex items-center cursor-pointer mx-2">
+            <input
+              type="checkbox"
+              checked={calendarType === 'pro'}
+              onChange={e => setCalendarType(e.target.checked ? 'pro' : 'play')}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand-500 dark:bg-gray-700 rounded-full peer dark:peer-focus:ring-brand-800 transition-all peer-checked:bg-brand-500"></div>
+            <div className="absolute left-1 top-1 bg-white dark:bg-gray-900 w-4 h-4 rounded-full shadow transition-all peer-checked:translate-x-5"></div>
+          </label>
+          <span className={(calendarType === 'pro' ? 'text-brand-500 font-semibold' : 'text-gray-400') + ' pr-6'}>Pro</span>
+        </div>
       </div>
+      <style>{`
+        .fc-add-event-btn {
+          color: #fff !important;
+          background: #6366f1 !important; /* fallback to your brand color */
+          border: none !important;
+        }
+        .fc-add-event-btn:hover, .fc-add-event-btn:focus {
+          background: #4f46e5 !important;
+        }
+      `}</style>
       <Modal
         isOpen={isOpen}
         onClose={closeModal}
