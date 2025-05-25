@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PaperPlaneIcon, ChevronDownIcon, PlusIcon } from '@/icons';
+// import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
+import { listGrokModels, type GrokModel, singleChatCompletion } from '@/llm/grok/api';
 
 interface Message {
   id: string;
@@ -34,7 +36,7 @@ interface ChatHistory {
   modelResponses: { [key: string]: string };
 }
 
-const availableModels: Model[] = [
+const initialModels: Model[] = [
   {
     id: 'chatgpt',
     name: 'ChatGPT',
@@ -73,8 +75,7 @@ const availableModels: Model[] = [
     description: 'xAI\'s real-time AI model',
     icon: '⚡',
     versions: [
-      { id: 'grok-3', name: 'Grok 3', description: 'Standard version' },
-      { id: 'grok-3-flash', name: 'Grok 3 Flash', description: 'Optimized for speed' },
+      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
     ],
   },
   {
@@ -133,6 +134,8 @@ export default function Chat() {
     // Add more chat history items as needed
   ]);
   const [isRecording, setIsRecording] = useState(false);
+  const [selectedGrokModel, setSelectedGrokModel] = useState<string>('grok-3-mini');
+  const [availableModels, setAvailableModels] = useState<Model[]>(initialModels);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -148,20 +151,67 @@ export default function Chat() {
     setInput('');
     setIsLoading(true);
 
-    // TODO: Implement actual API calls to selected models
-    setTimeout(() => {
-      const responses = Object.entries(selectedModels).map(([modelId, versionId]) => ({
-        id: `${Date.now()}-${modelId}`,
-        content: `This is a sample response from ${modelId} (${versionId})`,
-        role: 'assistant' as const,
-        model: modelId,
-        modelVersion: versionId,
-        timestamp: new Date(),
-      }));
+    try {
+      // Check if Grok is selected
+      if (selectedModels['grok']) {
+        const tempMessageId = `${Date.now()}-grok`;
+        // Add temporary message for streaming
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: tempMessageId,
+            content: '',
+            role: 'assistant',
+            model: 'grok',
+            modelVersion: selectedModels['grok'],
+            timestamp: new Date(),
+          },
+        ]);
 
-      setMessages((prev) => [...prev, ...responses]);
+        // Stream the response
+        await singleChatCompletion(
+          input,
+          (chunk) => {
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === tempMessageId
+                  ? { ...msg, content: msg.content + chunk }
+                  : msg
+              )
+            );
+          },
+          selectedModels['grok']
+        );
+      }
+
+      // Handle other selected models
+      const otherModels = Object.entries(selectedModels)
+        .filter(([modelId]) => modelId !== 'grok')
+        .map(([modelId, versionId]) => ({
+          id: `${Date.now()}-${modelId}`,
+          content: `This is a sample response from ${modelId} (${versionId})`,
+          role: 'assistant' as const,
+          model: modelId,
+          modelVersion: versionId,
+          timestamp: new Date(),
+        }));
+
+      if (otherModels.length > 0) {
+        setMessages((prev) => [...prev, ...otherModels]);
+      }
+    } catch (error) {
+      console.error('Error getting response:', error);
+      // Add error message to chat
+      const errorMessage: Message = {
+        id: `${Date.now()}-error`,
+        content: 'Sorry, there was an error getting the response. Please try again.',
+        role: 'assistant',
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const toggleModel = (modelId: string, versionId: string) => {
@@ -187,6 +237,15 @@ export default function Chat() {
     // TODO: Implement voice recording functionality
   };
 
+  const handleGrokModelSelect = (modelId: string) => {
+    setSelectedGrokModel(modelId);
+    // Update the selectedModels state to include the Grok model
+    setSelectedModels(prev => ({
+      ...prev,
+      grok: modelId
+    }));
+  };
+
   return (
     <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
       {/* Chat History Sidebar */}
@@ -199,9 +258,9 @@ export default function Chat() {
               className="w-full p-3 rounded-lg text-left hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
             >
               <div className="font-medium text-gray-900 dark:text-white">{chat.title}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 truncate">{chat.lastMessage}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">{chat.lastMessage}</div>
               <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                {chat.timestamp.toLocaleDateString()}
+                {chat.timestamp.toLocaleString()}
               </div>
             </button>
           ))}
@@ -339,7 +398,7 @@ export default function Chat() {
               >
                 {message.model && (
                   <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                    {availableModels.find((m) => m.id === message.model)?.name}
+                    {message.model}
                     {message.modelVersion && ` (${message.modelVersion})`}
                   </div>
                 )}
