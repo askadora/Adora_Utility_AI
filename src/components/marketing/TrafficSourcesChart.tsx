@@ -14,7 +14,17 @@ const data = [
 const COLORS = ["#6366f1", "#38bdf8", "#a3e635", "#fbbf24", "#f87171"];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+
+interface LabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}
+
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: LabelProps) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -80,10 +90,7 @@ const TrafficSourcesChart = () => {
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip 
-            formatter={(value) => [`${value}%`, '']}
-            contentStyle={{ backgroundColor: '#fff', border: '1px solid #ccc' }}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Legend 
             layout="horizontal" 
             verticalAlign="bottom" 

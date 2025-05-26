@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import Image from 'next/image';
 
 type Priority = 'A' | 'B' | 'C' | 'D';
 
@@ -11,7 +12,7 @@ interface Task {
   description: string;
   priority: string;
   assignee: string;
-  dueDate: Date;
+  dueDate: string;
   status: string;
   tag?: string;
 }
@@ -33,7 +34,7 @@ const mockTasks: Task[] = [
     description: "Complete the user onboarding process",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/32.jpg",
-    dueDate: new Date("2024-04-15"),
+    dueDate: "2024-04-15",
     status: "todo",
     tag: "Marketing",
   },
@@ -43,7 +44,7 @@ const mockTasks: Task[] = [
     description: "Work with the team to resolve prioritization issues",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/women/44.jpg",
-    dueDate: new Date("2027-01-08"),
+    dueDate: "2027-01-08",
     status: "todo",
     tag: "Marketing",
   },
@@ -53,7 +54,7 @@ const mockTasks: Task[] = [
     description: "Update license and remove outdated products",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/46.jpg",
-    dueDate: new Date("2027-01-08"),
+    dueDate: "2027-01-08",
     status: "todo",
     tag: "Dev",
   },
@@ -63,7 +64,7 @@ const mockTasks: Task[] = [
     description: "Create a dashboard for tracking work in progress",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/women/68.jpg",
-    dueDate: new Date("2024-04-15"),
+    dueDate: "2024-04-15",
     status: "in-progress",
   },
   {
@@ -72,7 +73,7 @@ const mockTasks: Task[] = [
     description: "Implement Kanban flow management system",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/men/75.jpg",
-    dueDate: new Date("2027-02-12"),
+    dueDate: "2027-02-12",
     status: "in-progress",
     tag: "Template",
   },
@@ -82,7 +83,7 @@ const mockTasks: Task[] = [
     description: "Dedicated form for a category of users that will perform actions",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/women/90.jpg",
-    dueDate: new Date("2027-02-12"),
+    dueDate: "2027-02-12",
     status: "in-progress",
   },
   {
@@ -91,7 +92,7 @@ const mockTasks: Task[] = [
     description: "Implement automatic comment feature for ticket movement",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/men/91.jpg",
-    dueDate: new Date("2027-03-08"),
+    dueDate: "2027-03-08",
     status: "in-progress",
   },
   {
@@ -100,7 +101,7 @@ const mockTasks: Task[] = [
     description: "Set up system for managing internal feedback",
     priority: "A",
     assignee: "https://randomuser.me/api/portraits/women/22.jpg",
-    dueDate: new Date("2024-04-15"),
+    dueDate: "2024-04-15",
     status: "completed",
   },
   {
@@ -109,7 +110,7 @@ const mockTasks: Task[] = [
     description: "Create cross-platform mobile applications",
     priority: "B",
     assignee: "https://randomuser.me/api/portraits/men/41.jpg",
-    dueDate: new Date("2027-01-08"),
+    dueDate: "2027-01-08",
     status: "completed",
     tag: "Development",
   },
@@ -119,7 +120,7 @@ const mockTasks: Task[] = [
     description: "Create marketing materials and assets",
     priority: "C",
     assignee: "https://randomuser.me/api/portraits/women/46.jpg",
-    dueDate: new Date("2024-04-15"),
+    dueDate: "2024-04-15",
     status: "completed",
     tag: "Marketing",
   },
@@ -153,6 +154,7 @@ const TaskKanbanPage = () => {
     const task: Task = {
       id: tasks.length + 1 + "",
       ...newTask,
+      dueDate: newTask.dueDate,
     };
     setTasks(prev => [...prev, task]);
     setIsModalOpen(false);
@@ -161,13 +163,13 @@ const TaskKanbanPage = () => {
       description: "",
       priority: "C",
       assignee: "https://randomuser.me/api/portraits/men/32.jpg",
-      dueDate: new Date(),
+      dueDate: new Date().toISOString().split('T')[0],
       status: "todo",
     });
   };
 
   const handleDragEnd = (result: {
-    destination?: { droppableId: string; index: number };
+    destination?: { droppableId: string; index: number } | null;
     source: { droppableId: string; index: number };
     draggableId: string;
   }) => {
@@ -221,7 +223,7 @@ const TaskKanbanPage = () => {
             <span className="font-medium text-gray-900 dark:text-white">
               {task.title}
             </span>
-            <span className="text-xs text-gray-400">{task.dueDate.toDateString()}</span>
+            <span className="text-xs text-gray-400">{task.dueDate}</span>
           </div>
           {task.tag && (
             <div className="mt-2">
@@ -236,10 +238,12 @@ const TaskKanbanPage = () => {
             >
               {task.priority}
             </span>
-            <img
+            <Image
               src={task.assignee}
               alt="Assignee"
-              className="h-6 w-6 rounded-full"
+              width={24}
+              height={24}
+              className="rounded-full"
             />
           </div>
         </div>
