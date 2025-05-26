@@ -1,16 +1,14 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { Session } from "next-auth";
-import { JWT } from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
-const authOptions: NextAuthConfig = {
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -43,7 +41,7 @@ const authOptions: NextAuthConfig = {
         }
 
         const isCorrectPassword = await bcrypt.compare(
-          credentials.password as string,
+          credentials.password,
           user.hashedPassword
         );
 
@@ -57,29 +55,28 @@ const authOptions: NextAuthConfig = {
   ],
   pages: {
     signIn: '/auth/signin',
+    signUp: '/auth/signup',
     error: '/auth/error',
   },
   debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: "jwt" as const,
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({ session, token }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
       return session;
     },
-    async jwt({ token, user }: { token: JWT; user: any }) {
+    async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
       }
       return token;
     },
   },
-};
-
-const handler = NextAuth(authOptions);
+});
 
 export { handler as GET, handler as POST }; 
