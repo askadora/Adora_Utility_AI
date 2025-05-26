@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from 'next/image';
 
 type Priority = 'A' | 'B' | 'C' | 'D';
 
@@ -310,12 +309,10 @@ const TaskListPage = () => {
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{task.dueDate}</td>
                   <td className="px-4 py-3">
-                    <Image
+                    <img
                       src={task.assignee}
                       alt="Assignee"
-                      width={24}
-                      height={24}
-                      className="rounded-full"
+                      className="h-8 w-8 rounded-full"
                     />
                   </td>
                   <td className="px-4 py-3">
