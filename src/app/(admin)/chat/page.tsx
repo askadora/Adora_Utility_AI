@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from 'next/image';
 
 interface Contact {
   id: string;
@@ -124,12 +123,10 @@ export default function ChatPage() {
                 selectedContact.id === contact.id ? "bg-gray-100 dark:bg-gray-700" : ""
               }`}
             >
-              <Image
+              <img
                 src={contact.avatar}
                 alt={contact.name}
-                width={32}
-                height={32}
-                className="rounded-full"
+                className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
@@ -151,12 +148,10 @@ export default function ChatPage() {
       <main className="flex-1 flex flex-col h-full min-h-0 overflow-hidden">
         {/* Header */}
         <div className="flex items-center gap-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-8 py-4 flex-shrink-0">
-          <Image
+          <img
             src={selectedContact.avatar}
             alt={selectedContact.name}
-            width={32}
-            height={32}
-            className="rounded-full"
+            className="w-12 h-12 rounded-full object-cover"
           />
           <div>
             <div className="font-semibold text-gray-900 dark:text-white">{selectedContact.name}</div>

@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthConfig, User } from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -71,7 +71,7 @@ const authOptions: NextAuthConfig = {
       }
       return session;
     },
-    async jwt({ token, user }: { token: JWT; user: User | null }) {
+    async jwt({ token, user }: { token: JWT; user: any }) {
       if (user) {
         token.sub = user.id;
       }
