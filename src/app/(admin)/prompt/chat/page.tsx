@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PaperPlaneIcon, ChevronDownIcon, PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@/icons';
 // import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
 import { listGrokModels, type GrokModel, singleChatCompletion } from '@/llm/grok/api';
