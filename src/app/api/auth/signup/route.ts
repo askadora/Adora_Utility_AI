@@ -1,59 +1,64 @@
-// import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
     const { name, email, password } = await request.json();
+    console.log("Signup attempt for email:", email);
 
     if (!name || !email || !password) {
+      console.log("Missing required fields");
       return NextResponse.json(
         { error: "Name, email and password are required" },
         { status: 400 }
       );
     }
 
-    // Commented out Prisma query
-    // const existingUser = await prisma.user.findUnique({
-    //   where: { email },
-    // });
-
-    // Dummy check for existing user
-    const existingUser = email === "test@example.com";
+    // Check if user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    console.log("Existing user found:", existingUser ? "Yes" : "No");
 
     if (existingUser) {
+      console.log("User already exists");
       return NextResponse.json(
         { error: "User with this email already exists" },
         { status: 400 }
       );
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Password hashed successfully");
 
-    // Commented out Prisma user creation
-    // const user = await prisma.user.create({
-    //   data: {
-    //     name,
-    //     email,
-    //     hashedPassword,
-    //   },
-    // });
-
-    // Dummy user response
-    const user = {
-      id: "1",
-      name,
-      email,
-    };
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        hashedPassword,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    console.log("User created successfully:", user.id);
 
     return NextResponse.json({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
+      user,
     });
   } catch (error) {
     console.error("Signup error:", error);
