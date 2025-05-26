@@ -12,6 +12,7 @@ import {
 } from "@fullcalendar/core";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
+import { ChevronLeftIcon, ChevronRightIcon } from '@/icons';
 
 interface CalendarEvent extends EventInput {
   extendedProps: {

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import Image from "next/image";
 
 type Priority = 'A' | 'B' | 'C' | 'D';
 
@@ -237,12 +236,10 @@ const TaskKanbanPage = () => {
             >
               {task.priority}
             </span>
-            <Image
+            <img
               src={task.assignee}
               alt="Assignee"
-              width={24}
-              height={24}
-              className="rounded-full"
+              className="h-6 w-6 rounded-full"
             />
           </div>
         </div>
