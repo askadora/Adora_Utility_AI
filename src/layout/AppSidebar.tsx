@@ -25,7 +25,13 @@ type NavItem = {
   name: string;
   icon: React.ReactNode;
   path?: string;
-  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+  subItems?: { 
+    name: string; 
+    path: string; 
+    pro?: boolean; 
+    new?: boolean;
+    subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+  }[];
 };
 
 const WorkflowIcon = () => (
@@ -49,14 +55,6 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     path: "/dashboard",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Demos",
-    subItems: [
-      { name: "Full Demo", path: "/full-demo", pro: false },
-      { name: "Investors", path: "/investors", pro: false },
-    ],
   },
   {
     icon: <PromptIcon />,
@@ -150,49 +148,68 @@ const navItems: NavItem[] = [
 
 const othersItems: NavItem[] = [
   {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
     icon: <BoxCubeIcon />,
-    name: "UI Elements",
+    name: "Customize",
     subItems: [
+      { 
+        name: "Charts", 
+        path: "/charts",
+        subItems: [
+          { name: "Line Chart", path: "/line-chart", pro: false },
+          { name: "Bar Chart", path: "/bar-chart", pro: false },
+        ],
+        pro: false 
+      },
       { name: "Alerts", path: "/alerts", pro: false },
       { name: "Avatar", path: "/avatars", pro: false },
       { name: "Badge", path: "/badge", pro: false },
       { name: "Buttons", path: "/buttons", pro: false },
       { name: "Images", path: "/images", pro: false },
       { name: "Videos", path: "/videos", pro: false },
+      { 
+        name: "Authentication", 
+        path: "/auth",
+        subItems: [
+          { name: "Sign In", path: "/signin", pro: false },
+          { name: "Sign Up", path: "/signup", pro: false },
+        ],
+        pro: false 
+      },
+      { 
+        name: "Forms", 
+        path: "/form-elements",
+        pro: false 
+      },
+      { 
+        name: "Tables", 
+        path: "/basic-tables",
+        pro: false 
+      },
+      { 
+        name: "Pages",
+        path: "/pages",
+        subItems: [
+          { name: "Blank Page", path: "/blank", pro: false },
+          { name: "404 Error", path: "/error-404", pro: false },
+        ],
+        pro: false 
+      },
     ],
   },
+];
+
+const companyItems: NavItem[] = [
   {
-    icon: <PlugInIcon />,
-    name: "Authentication",
+    icon: <UserCircleIcon />,
+    name: "Company",
     subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
+      { name: "About Us", path: "/company/about", pro: false },
+      { name: "Team", path: "/company/team", pro: false },
+      { name: "Careers", path: "/company/careers", pro: false },
+      { name: "Contact", path: "/company/contact", pro: false },
+      { name: "Investors", path: "/company/investors", pro: false },
+      { name: "Press", path: "/company/press", pro: false },
+      { name: "Knowledge Base", path: "/company/knowledge-base", pro: false },
     ],
   },
 ];
@@ -203,7 +220,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others"
+    menuType: "main" | "others" | "company"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -285,40 +302,74 @@ const AppSidebar: React.FC = () => {
               <ul className="mt-2 space-y-1 ml-9">
                 {nav.subItems.map((subItem) => (
                   <li key={subItem.name}>
-                    <Link
-                      href={subItem.path}
-                      className={`menu-dropdown-item ${
-                        isActive(subItem.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
-                      }`}
-                    >
-                      {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
-                        {subItem.new && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
-                          >
-                            new
+                    {subItem.subItems ? (
+                      <div className="space-y-1">
+                        <button
+                          onClick={() => handleSubmenuToggle(index, menuType)}
+                          className={`menu-dropdown-item w-full text-left ${
+                            isActive(subItem.path)
+                              ? "menu-dropdown-item-active"
+                              : "menu-dropdown-item-inactive"
+                          }`}
+                        >
+                          {subItem.name}
+                          <span className="flex items-center gap-1 ml-auto">
+                            {subItem.new && (
+                              <span className="menu-dropdown-badge">new</span>
+                            )}
+                            {subItem.pro && (
+                              <span className="menu-dropdown-badge">pro</span>
+                            )}
+                            <ChevronDownIcon className="w-4 h-4 ml-1" />
                           </span>
+                        </button>
+                        {subItem.subItems && (
+                          <ul className="ml-4 space-y-1">
+                            {subItem.subItems.map((nestedItem) => (
+                              <li key={nestedItem.name}>
+                                <Link
+                                  href={nestedItem.path}
+                                  className={`menu-dropdown-item ${
+                                    isActive(nestedItem.path)
+                                      ? "menu-dropdown-item-active"
+                                      : "menu-dropdown-item-inactive"
+                                  }`}
+                                >
+                                  {nestedItem.name}
+                                  <span className="flex items-center gap-1 ml-auto">
+                                    {nestedItem.new && (
+                                      <span className="menu-dropdown-badge">new</span>
+                                    )}
+                                    {nestedItem.pro && (
+                                      <span className="menu-dropdown-badge">pro</span>
+                                    )}
+                                  </span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
                         )}
-                        {subItem.pro && (
-                          <span
-                            className={`ml-auto ${
-                              isActive(subItem.path)
-                                ? "menu-dropdown-badge-active"
-                                : "menu-dropdown-badge-inactive"
-                            } menu-dropdown-badge `}
-                          >
-                            pro
-                          </span>
-                        )}
-                      </span>
-                    </Link>
+                      </div>
+                    ) : (
+                      <Link
+                        href={subItem.path}
+                        className={`menu-dropdown-item ${
+                          isActive(subItem.path)
+                            ? "menu-dropdown-item-active"
+                            : "menu-dropdown-item-inactive"
+                        }`}
+                      >
+                        {subItem.name}
+                        <span className="flex items-center gap-1 ml-auto">
+                          {subItem.new && (
+                            <span className="menu-dropdown-badge">new</span>
+                          )}
+                          {subItem.pro && (
+                            <span className="menu-dropdown-badge">pro</span>
+                          )}
+                        </span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -330,7 +381,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others";
+    type: "main" | "others" | "company";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -344,28 +395,35 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
-    ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+    ["main", "others", "company"].forEach((menuType) => {
+      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : companyItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
-          nav.subItems.forEach((subItem) => {
-            if (isActive(subItem.path)) {
-              setOpenSubmenu({
-                type: menuType as "main" | "others",
-                index,
-              });
-              submenuMatched = true;
+          // Check both direct subItems and nested subItems
+          const hasMatch = nav.subItems.some(subItem => {
+            if (isActive(subItem.path)) return true;
+            if (subItem.subItems) {
+              return subItem.subItems.some(nestedItem => isActive(nestedItem.path));
             }
+            return false;
           });
+
+          if (hasMatch) {
+            setOpenSubmenu({
+              type: menuType as "main" | "others" | "company",
+              index,
+            });
+            submenuMatched = true;
+          }
         }
       });
     });
 
-    // If no submenu item matches, close the open submenu
+    // Only close the submenu if no match was found at any level
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
@@ -380,7 +438,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -431,18 +489,20 @@ const AppSidebar: React.FC = () => {
                 height={40}
               />
               <Image
-                className="dark:hidden h-8 w-auto object-contain"
+                className="dark:hidden h-8 w-auto"
                 src="/images/logo/adora-ai-dark-grey-logo.png"
-                alt="Adora AI Dark Grey Logo"
-                width={120}
-                height={32}
+                alt="Adora AI Wordmark"
+                width={160}
+                height={28}
+                style={{ objectFit: 'contain' }}
               />
               <Image
-                className="hidden dark:block h-8 w-auto object-contain"
+                className="hidden dark:block h-8 w-auto"
                 src="/images/logo/adora-ai-white-logo.png"
-                alt="Adora AI White Logo"
-                width={120}
-                height={32}
+                alt="Adora AI Wordmark"
+                width={160}
+                height={28}
+                style={{ objectFit: 'contain' }}
               />
             </div>
           ) : (
@@ -491,6 +551,23 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(othersItems, "others")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Company"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(companyItems, "company")}
             </div>
           </div>
         </nav>
