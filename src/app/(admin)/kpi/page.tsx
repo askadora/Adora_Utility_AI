@@ -32,8 +32,22 @@ export default function KpiPage() {
       </div>
       {/* Breakdown Charts */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-        <BreakdownChart title="Customers by Plan" />
-        <BreakdownChart title="Revenue by Channel" />
+        <BreakdownChart 
+          title="Customers by Plan" 
+          data={[
+            { name: "Enterprise", value: 2500 },
+            { name: "Business", value: 4200 },
+            { name: "Pro", value: 3300 }
+          ]}
+        />
+        <BreakdownChart 
+          title="Revenue by Channel" 
+          data={[
+            { name: "Direct", value: 5200 },
+            { name: "Partners", value: 3800 },
+            { name: "Marketplace", value: 2900 }
+          ]}
+        />
       </div>
     </div>
   );

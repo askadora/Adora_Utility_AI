@@ -3,6 +3,7 @@ import React from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 interface BreakdownChartProps {
+  title: string;
   data: {
     name: string;
     value: number;
@@ -10,12 +11,12 @@ interface BreakdownChartProps {
   colors?: string[];
 }
 
-const BreakdownChart: React.FC<BreakdownChartProps> = ({ data, colors }) => {
+const BreakdownChart: React.FC<BreakdownChartProps> = ({ title, data, colors }) => {
   const COLORS = colors || ["#6366f1", "#38bdf8", "#a3e635"];
 
   return (
     <div className="h-72 flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Subscription Prices</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={180}>
         <BarChart
           data={data}
