@@ -11,6 +11,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "select_account",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
   ],
   pages: {
@@ -45,6 +52,26 @@ export const authOptions: NextAuthOptions = {
         }
       }
       return true;
+    },
+    async jwt({ token, user, account }) {
+      if (user) {
+        // Add user data to the token
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.image = user.image;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        // Add user data to the session
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.image = token.image as string;
+      }
+      return session;
     },
   },
 }; 

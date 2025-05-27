@@ -51,9 +51,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // Generate JWT token
+    // Generate JWT token with user data
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { 
+        userId: user.id, 
+        email: user.email,
+        name: user.name,
+        image: user.image
+      },
       process.env.JWT_SECRET || "your-secret-key",
       { expiresIn: "1d" }
     );

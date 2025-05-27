@@ -6,8 +6,9 @@ import Button from "@/components/ui/button/Button";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 interface ApiError extends Error {
   message: string;
@@ -23,6 +24,43 @@ export default function SignInForm() {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    const storeToken = async () => {
+      if (status === "authenticated" && session?.user) {
+        try {
+          // Call the API to create token
+          const response = await fetch("/api/auth/create-token", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: session.user.id,
+              name: session.user.name,
+              email: session.user.email,
+              image: session.user.image
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Failed to create token");
+          }
+
+          // Store token in localStorage
+          console.log("Storing token in localStorage");
+          localStorage.setItem('token', data.token);
+        } catch (error) {
+          console.error("Error creating token:", error);
+        }
+      }
+    };
+
+    storeToken();
+  }, [status, session]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -66,8 +104,15 @@ export default function SignInForm() {
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { 
-      callbackUrl: "/"
+    signIn("google", {
+      callbackUrl: "/",
+      redirect: false,
+    }).then((result) => {
+      if (result?.error) {
+        console.error("Sign in error:", result.error);
+      } else {
+        console.log("Sign in successful:", result);
+      }
     });
   };
 
