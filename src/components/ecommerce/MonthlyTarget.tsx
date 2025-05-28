@@ -7,9 +7,10 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { MoreDotIcon } from "@/icons";
 import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-// Dynamically import the ReactApexChart component
+// Dynamically import the ReactApexChart component with proper configuration
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => <div className="h-[330px] flex items-center justify-center">Loading chart...</div>
 });
 
 export default function MonthlyTarget() {
@@ -81,7 +82,7 @@ export default function MonthlyTarget() {
               Monthly Target
             </h3>
             <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-              Target you’ve set for each month
+              Target you've set for each month
             </p>
           </div>
           <div className="relative inline-block">
@@ -130,9 +131,16 @@ export default function MonthlyTarget() {
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5">
-        <div>
-          <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
+      {/* 
+        RESPONSIVE METRICS SECTION - CSS Grid Layout (2D)
+        - Mobile: Single column (stacked vertically for better readability)
+        - Tablet+: 3 equal columns with dividers
+        - Responsive padding and spacing
+      */}
+      <div className="grid grid-cols-1 gap-4 px-4 py-4 sm:grid-cols-3 sm:gap-0 sm:px-6 sm:py-5">
+        {/* TARGET METRIC */}
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-1 text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
             Target
           </p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
@@ -154,10 +162,18 @@ export default function MonthlyTarget() {
           </p>
         </div>
 
-        <div className="w-px bg-gray-200 h-7 dark:bg-gray-800"></div>
+        {/* 
+          DIVIDER - Hidden on mobile, visible on tablet+
+          - Mobile: No dividers needed in stacked layout
+          - Tablet+: Vertical dividers between sections
+        */}
+        <div className="hidden sm:flex sm:items-center sm:justify-center">
+          <div className="w-px bg-gray-200 h-7 dark:bg-gray-800"></div>
+        </div>
 
-        <div>
-          <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
+        {/* REVENUE METRIC */}
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-1 text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
             Revenue
           </p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
@@ -179,10 +195,14 @@ export default function MonthlyTarget() {
           </p>
         </div>
 
-        <div className="w-px bg-gray-200 h-7 dark:bg-gray-800"></div>
+        {/* DIVIDER - Hidden on mobile, visible on tablet+ */}
+        <div className="hidden sm:flex sm:items-center sm:justify-center">
+          <div className="w-px bg-gray-200 h-7 dark:bg-gray-800"></div>
+        </div>
 
-        <div>
-          <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
+        {/* TODAY METRIC */}
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-1 text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
             Today
           </p>
           <p className="flex items-center justify-center gap-1 text-base font-semibold text-gray-800 dark:text-white/90 sm:text-lg">
