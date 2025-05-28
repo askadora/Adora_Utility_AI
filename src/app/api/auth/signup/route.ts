@@ -1,70 +1,48 @@
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { name, email, password } = await request.json();
-    console.log("Signup attempt for email:", email);
+    const body = await req.json();
+    const { email, password, name } = body;
 
-    if (!name || !email || !password) {
-      console.log("Missing required fields");
-      return NextResponse.json(
-        { error: "Name, email and password are required" },
-        { status: 400 }
-      );
+    if (!email || !password || !name) {
+      return new NextResponse("Missing required fields", { status: 400 });
     }
 
-    // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-      },
-    });
-    console.log("Existing user found:", existingUser ? "Yes" : "No");
+    // const existingUser = await prisma.user.findUnique({
+    //   where: {
+    //     email
+    //   }
+    // });
 
-    if (existingUser) {
-      console.log("User already exists");
-      return NextResponse.json(
-        { error: "User with this email already exists" },
-        { status: 400 }
-      );
-    }
+    // if (existingUser) {
+    //   return new NextResponse("User already exists", { status: 400 });
+    // }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Password hashed successfully");
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create user
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        hashedPassword,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    console.log("User created successfully:", user.id);
+    // const user = await prisma.user.create({
+    //   data: {
+    //     email,
+    //     name,
+    //     password: hashedPassword,
+    //   }
+    // });
 
     return NextResponse.json({
-      user,
+      message: "User created successfully",
+      // user: {
+      //   id: user.id,
+      //   email: user.email,
+      //   name: user.name,
+      // }
     });
   } catch (error) {
-    console.error("Signup error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("[SIGNUP_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 } 
