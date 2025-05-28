@@ -1,13 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
 
 export default function SignUp() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const type = searchParams.get('type');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,6 +19,30 @@ export default function SignUp() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    async function handleEmailConfirmation() {
+      if (token && type === 'email') {
+        setIsLoading(true);
+        setError(null);
+        const { error } = await supabase.auth.verifyOtp({
+          email: email, // Note: This assumes the email state holds the email from the confirmation link. This might need adjustment based on how Supabase passes the email back in the URL, or we might need to prompt the user for their email here.
+          token,
+          type: 'email',
+        });
+
+        if (error) {
+          setError(error.message);
+        } else {
+          // Email confirmed successfully, redirect user
+          router.push('/dashboard'); // Redirect to dashboard or a success page
+        }
+        setIsLoading(false);
+      }
+    }
+
+    handleEmailConfirmation();
+  }, [token, type, router, email, setIsLoading, setError]); // Add dependencies
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +78,25 @@ export default function SignUp() {
       router.push('/auth/signin?registered=true');
     }
     setIsLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError(null);
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`, // Assuming a callback route at /auth/callback
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+      setIsLoading(false);
+    } else {
+      // Supabase will redirect to Google, so no need to redirect here
+    }
+    // setIsLoading(false); // Keep loading until redirected by OAuth flow
   };
 
   return (
@@ -167,6 +213,29 @@ export default function SignUp() {
             </button>
           </div>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Image src="/google-icon.svg" alt="Google Icon" width={20} height={20} className="mr-2" />
+              Sign in with Google
+            </button>
+          </div>
+        </div>
+
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}
