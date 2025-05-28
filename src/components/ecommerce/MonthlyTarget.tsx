@@ -7,9 +7,10 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { MoreDotIcon } from "@/icons";
 import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
-// Dynamically import the ReactApexChart component
+// Dynamically import the ReactApexChart component with proper configuration
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => <div className="h-[330px] flex items-center justify-center">Loading chart...</div>
 });
 
 export default function MonthlyTarget() {
@@ -81,7 +82,7 @@ export default function MonthlyTarget() {
               Monthly Target
             </h3>
             <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-              Target you’ve set for each month
+              Target you've set for each month
             </p>
           </div>
           <div className="relative inline-block">

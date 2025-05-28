@@ -6,14 +6,16 @@ import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
 export const EcommerceMetrics = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
+      {/* Customers Metric */}
+      <div className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 transition-all duration-200 hover:shadow-lg">
+        {/* Icon Container */}
+        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800 mb-5">
           <GroupIcon className="text-gray-800 size-6 dark:text-white/90" />
         </div>
 
-        <div className="flex items-end justify-between mt-5">
-          <div>
+        {/* Content */}
+        <div className="flex items-end justify-between flex-1">
+          <div className="flex flex-col">
             <span className="text-sm text-gray-500 dark:text-gray-400">
               Customers
             </span>
@@ -27,15 +29,17 @@ export const EcommerceMetrics = () => {
           </Badge>
         </div>
       </div>
-      {/* <!-- Metric Item End --> */}
 
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
+      {/* Orders Metric */}
+      <div className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 transition-all duration-200 hover:shadow-lg">
+        {/* Icon Container */}
+        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800 mb-5">
           <BoxIconLine className="text-gray-800 dark:text-white/90" />
         </div>
-        <div className="flex items-end justify-between mt-5">
-          <div>
+        
+        {/* Content */}
+        <div className="flex items-end justify-between flex-1">
+          <div className="flex flex-col">
             <span className="text-sm text-gray-500 dark:text-gray-400">
               Orders
             </span>
@@ -50,7 +54,6 @@ export const EcommerceMetrics = () => {
           </Badge>
         </div>
       </div>
-      {/* <!-- Metric Item End --> */}
     </div>
   );
 };

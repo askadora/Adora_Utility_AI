@@ -8,28 +8,45 @@ import RecentOrders from "@/components/ecommerce/RecentOrders";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 
 export const metadata: Metadata = {
-  title: "Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is the Dashboard page, matching the Projections layout.",
+  title: "Dashboard | Adora AI - AI-Powered Business Intelligence Platform",
+  description: "Comprehensive dashboard for Adora AI's business intelligence and analytics platform.",
 };
 
 export default function Dashboard() {
   return (
-    <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-12 space-y-6 xl:col-span-7">
-        <EcommerceMetrics />
+    <div className="space-y-6 md:space-y-8">
+      {/* Top Section - Metrics and Target */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+        {/* Metrics - Takes more space on desktop */}
+        <div className="lg:col-span-8">
+          <EcommerceMetrics />
+        </div>
+        {/* Monthly Target - Sidebar on desktop */}
+        <div className="lg:col-span-4">
+          <MonthlyTarget />
+        </div>
+      </div>
+
+      {/* Sales Chart - Full width */}
+      <div className="w-full">
         <MonthlySalesChart />
       </div>
-      <div className="col-span-12 xl:col-span-5">
-        <MonthlyTarget />
-      </div>
-      <div className="col-span-12">
+
+      {/* Statistics Chart - Full width */}
+      <div className="w-full">
         <StatisticsChart />
       </div>
-      <div className="col-span-12 xl:col-span-5">
-        <DemographicCard />
-      </div>
-      <div className="col-span-12 xl:col-span-7">
-        <RecentOrders />
+
+      {/* Bottom Section - Demographics and Orders */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+        {/* Demographics - Smaller section */}
+        <div className="lg:col-span-5">
+          <DemographicCard />
+        </div>
+        {/* Recent Orders - Larger section */}
+        <div className="lg:col-span-7">
+          <RecentOrders />
+        </div>
       </div>
     </div>
   );

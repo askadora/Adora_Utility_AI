@@ -8,8 +8,8 @@ import RecentOrders from "@/components/ecommerce/RecentOrders";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 
 export const metadata: Metadata = {
-  title: "Projections | TailAdmin - Next.js Dashboard Template",
-  description: "This is the Projections page, matching the Dashboard layout.",
+  title: "Projections | Adora AI - AI-Powered Business Intelligence Platform",
+  description: "Advanced financial projections and forecasting powered by Adora AI's analytics engine.",
 };
 
 export default function Projections() {
