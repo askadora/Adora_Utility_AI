@@ -1,3 +1,34 @@
+"use client";
+
+import React from 'react';
+
+interface PartnershipMetric {
+  label: string;
+  value: string | number;
+  trend?: string;
+  trendDirection?: 'up' | 'down';
+}
+
+interface PartnershipHealth {
+  status: string;
+  percentage: number;
+  color: string;
+  bgColor: string;
+}
+
+const partnershipMetrics: PartnershipMetric[] = [
+  { label: 'Total Partners', value: 156, trend: '+12%', trendDirection: 'up' },
+  { label: 'Active Partnerships', value: 89, trend: '+8%', trendDirection: 'up' },
+  { label: 'Avg. Partnership Value', value: '$45K', trend: '+15%', trendDirection: 'up' },
+  { label: 'Partnership ROI', value: '3.2x', trend: '+0.4x', trendDirection: 'up' },
+];
+
+const partnershipHealth: PartnershipHealth[] = [
+  { status: 'Healthy', percentage: 68, color: 'text-green-500 dark:text-green-400', bgColor: 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30' },
+  { status: 'At Risk', percentage: 24, color: 'text-yellow-500 dark:text-yellow-400', bgColor: 'bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/30' },
+  { status: 'Critical', percentage: 8, color: 'text-red-500 dark:text-red-400', bgColor: 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30' },
+];
+
   <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-0 dark:bg-white/[0.03]">
     <h2 className="text-xl font-semibold text-black dark:text-white/90 mb-4">Partnership Overview</h2>
     
