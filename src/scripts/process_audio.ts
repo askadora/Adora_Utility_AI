@@ -1,11 +1,27 @@
-const fs = require('fs');
-const path = require('path');
-const { exec } = require('child_process');
-const { promisify } = require('util');
+import fs from 'fs';
+import path from 'path';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
 const execAsync = promisify(exec);
 
 // Configuration
-const config = {
+interface Config {
+    inputDir: string;
+    outputDir: string;
+    tempDir: string;
+    sampleRate: number;
+    channels: number;
+    format: string;
+    maxDuration: number;
+    minDuration: number;
+    targetLoudness: number;
+    noiseReduction: boolean;
+    normalize: boolean;
+    trim: boolean;
+}
+
+const config: Config = {
     inputDir: path.join(__dirname, '../../data/raw/audio'),
     outputDir: path.join(__dirname, '../../data/processed/audio'),
     tempDir: path.join(__dirname, '../../data/temp'),
@@ -21,7 +37,7 @@ const config = {
 };
 
 // Create directories if they don't exist
-function createDirectories() {
+function createDirectories(): void {
     [config.inputDir, config.outputDir, config.tempDir].forEach(dir => {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -30,7 +46,7 @@ function createDirectories() {
 }
 
 // Get audio duration using ffprobe
-async function getAudioDuration(filePath) {
+async function getAudioDuration(filePath: string): Promise<number | null> {
     try {
         const { stdout } = await execAsync(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${filePath}"`);
         return parseFloat(stdout.trim());
@@ -41,7 +57,7 @@ async function getAudioDuration(filePath) {
 }
 
 // Process audio file
-async function processAudioFile(inputFile) {
+async function processAudioFile(inputFile: string): Promise<void> {
     const filename = path.basename(inputFile);
     const outputFile = path.join(config.outputDir, filename);
     const tempFile = path.join(config.tempDir, `temp_${filename}`);
@@ -64,7 +80,7 @@ async function processAudioFile(inputFile) {
         let ffmpegCmd = `ffmpeg -y -i "${inputFile}"`;
 
         // Add audio filters
-        const filters = [];
+        const filters: string[] = [];
 
         if (config.normalize) {
             filters.push(`loudnorm=I=${config.targetLoudness}:LRA=11:TP=-1.5`);
@@ -99,7 +115,7 @@ async function processAudioFile(inputFile) {
 }
 
 // Main function
-async function main() {
+async function main(): Promise<void> {
     try {
         // Create necessary directories
         createDirectories();
