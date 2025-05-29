@@ -6,16 +6,9 @@ import { useAuth } from "@/contexts/AuthContext"; // Adjust path if necessary
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
-interface UserData {
-  name: string;
-  email: string;
-}
-
 export default function UserDropdown() {
   const { user, signOut, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [hasToken, setHasToken] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null);
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();

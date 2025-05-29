@@ -1,7 +1,22 @@
 "use client";
 import React from "react";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 export default function UserInfoCard() {
+  const { profile, loading, error } = useUserProfile();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!profile) {
+    return <div>No profile data found</div>;
+  }
+
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -16,7 +31,7 @@ export default function UserInfoCard() {
                 First Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Kyle
+                {profile.firstName}
               </p>
             </div>
 
@@ -25,7 +40,7 @@ export default function UserInfoCard() {
                 Last Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Thomas
+                {profile.lastName}
               </p>
             </div>
 
@@ -34,7 +49,7 @@ export default function UserInfoCard() {
                 Email address
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                hello@adorahq.com
+                {profile.email}
               </p>
             </div>
 
@@ -43,7 +58,7 @@ export default function UserInfoCard() {
                 Bio
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Team Manager
+                {profile.bio}
               </p>
             </div>
           </div>

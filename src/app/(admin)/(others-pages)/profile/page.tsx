@@ -2,20 +2,130 @@
 import UserAddressCard from "@/components/user-profile/UserAddressCard";
 import UserInfoCard from "@/components/user-profile/UserInfoCard";
 import UserMetaCard from "@/components/user-profile/UserMetaCard";
-import React from "react";
+import React, { useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
 import Button from "@/components/ui/button/Button";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Profile() {
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
-    closeModal();
+  const { profile, loading, error } = useUserProfile();
+  const { session } = useAuth();
+  const [formData, setFormData] = useState({
+    bio: "",
+    city: "",
+    state: "",
+    country: "",
+    zipCode: "",
+    facebook: "",
+    x: "",
+    linkedin: "",
+    instagram: "",
+  });
+
+  React.useEffect(() => {
+    if (profile) {
+      setFormData({
+        bio: profile.bio || "",
+        city: profile.city || "",
+        state: profile.state || "",
+        country: profile.country || "",
+        zipCode: profile.zipCode || "",
+        facebook: profile.facebook || "",
+        x: profile.x || "",
+        linkedin: profile.linkedin || "",
+        instagram: profile.instagram || "",
+      });
+    }
+  }, [profile]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const handleSave = async () => {
+    try {
+      if (!session?.user) {
+        throw new Error("Please sign in to update your profile");
+      }
+
+      console.log('Updating profile with data:', {
+        auth_user_id: session.user.id,
+        bio: formData.bio,
+        city: formData.city,
+        state: formData.state,
+        country: formData.country,
+        zip_code: formData.zipCode,
+        facebook: formData.facebook,
+        x: formData.x,
+        linkedin: formData.linkedin,
+        instagram: formData.instagram
+      });
+
+      // Call the update_user_profile function
+      const { data, error } = await supabase
+        .rpc('update_user_profile', {
+          auth_user_id: session.user.id,
+          bio: formData.bio,
+          city: formData.city,
+          state: formData.state,
+          country: formData.country,
+          zip_code: formData.zipCode,
+          facebook: formData.facebook,
+          x: formData.x,
+          linkedin: formData.linkedin,
+          instagram: formData.instagram
+        });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      console.log('Profile updated successfully:', data);
+      closeModal();
+      // Refresh the page to show updated data
+      window.location.reload();
+    } catch (err) {
+      console.error("Error saving profile:", err);
+      alert(err instanceof Error ? err.message : "Failed to save profile changes");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-lg text-gray-600 dark:text-gray-400">Loading profile...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-lg text-red-600 dark:text-red-400">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-lg text-gray-600 dark:text-gray-400">
+          Please sign in to view your profile
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -79,20 +189,29 @@ export default function Profile() {
                     <Label>Facebook</Label>
                     <Input
                       type="text"
-                      defaultValue="https://www.facebook.com/PimjoHQ"
+                      name="facebook"
+                      value={formData.facebook}
+                      onChange={handleInputChange}
                     />
                   </div>
 
                   <div>
                     <Label>X.com</Label>
-                    <Input type="text" defaultValue="https://x.com/PimjoHQ" />
+                    <Input
+                      type="text"
+                      name="x"
+                      value={formData.x}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div>
                     <Label>Linkedin</Label>
                     <Input
                       type="text"
-                      defaultValue="https://www.linkedin.com/company/pimjo"
+                      name="linkedin"
+                      value={formData.linkedin}
+                      onChange={handleInputChange}
                     />
                   </div>
 
@@ -100,7 +219,9 @@ export default function Profile() {
                     <Label>Instagram</Label>
                     <Input
                       type="text"
-                      defaultValue="https://instagram.com/PimjoHQ"
+                      name="instagram"
+                      value={formData.instagram}
+                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
@@ -112,25 +233,20 @@ export default function Profile() {
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                   <div className="col-span-2 lg:col-span-1">
-                    <Label>First Name</Label>
-                    <Input type="text" defaultValue="Kyle" />
-                  </div>
-
-                  <div className="col-span-2 lg:col-span-1">
-                    <Label>Last Name</Label>
-                    <Input type="text" defaultValue="Thomas" />
-                  </div>
-
-                  <div className="col-span-2 lg:col-span-1">
                     <Label>Email Address</Label>
                     <div className="flex h-11 w-full items-center rounded-lg border border-gray-300 bg-gray-300 px-4 text-sm font-medium text-gray-600 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-300">
-                      hello@adorahq.com
+                      {profile.email}
                     </div>
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Bio</Label>
-                    <Input type="text" defaultValue="Team Manager" />
+                    <Input
+                      type="text"
+                      name="bio"
+                      value={formData.bio}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
               </div>
@@ -141,25 +257,44 @@ export default function Profile() {
                 </h5>
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-
                   <div className="col-span-2 lg:col-span-1">
                     <Label>City</Label>
-                    <Input type="text" defaultValue="New York" />
+                    <Input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>State</Label>
-                    <Input type="text" defaultValue="NY" />
+                    <Input
+                      type="text"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Zip Code</Label>
-                    <Input type="text" defaultValue="10001" />
+                    <Input
+                      type="text"
+                      name="zipCode"
+                      value={formData.zipCode}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Country</Label>
-                    <Input type="text" defaultValue="United States" />
+                    <Input
+                      type="text"
+                      name="country"
+                      value={formData.country}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
               </div>
