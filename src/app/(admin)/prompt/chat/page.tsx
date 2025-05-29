@@ -136,7 +136,9 @@ export default function Chat() {
   const [isRecording, setIsRecording] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState<string>('grok');
   const [availableModels] = useState<Model[]>(initialModels);
-  const [isHistoryCollapsed, setIsHistoryCollapsed] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
+  const [showModelSelector, setShowModelSelector] = useState(false);
+  const [showMobileTools, setShowMobileTools] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -244,225 +246,374 @@ export default function Chat() {
     // TODO: Implement voice recording functionality
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const startNewChat = () => {
+    setMessages([]);
+    setInput('');
+  };
+
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
-      {/* Main Container - Fixed Height */}
-      <div className="flex-1 flex min-h-0">
-        {/* Chat History Sidebar - Left */}
-        <div className={`${isHistoryCollapsed ? 'w-12' : 'w-64'} transition-all duration-300 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 relative flex flex-col min-h-0`}>
+    <div className="h-[calc(100vh-4rem)] flex overflow-hidden bg-white dark:bg-gray-900">
+      {/* Mobile Overlay Background */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Responsive with proper mobile handling */}
+      <div className={`
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isSidebarOpen ? 'w-64' : 'w-0'}
+        fixed md:relative inset-y-0 left-0 z-50 md:z-auto
+        transition-all duration-300 ease-in-out
+        bg-white dark:bg-gray-950 
+        flex flex-col
+        overflow-hidden
+        border-r border-gray-200 dark:border-gray-800
+      `}>
+        {/* Sidebar Header */}
+        <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-800">
           <button
-            onClick={() => setIsHistoryCollapsed(!isHistoryCollapsed)}
-            className="absolute -right-3 top-4 z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full p-1 hover:bg-gray-50 dark:hover:bg-gray-700"
+            onClick={startNewChat}
+            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-white bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
-            {isHistoryCollapsed ? (
-              <ChevronRightIcon className="w-4 h-4 text-gray-500" />
-            ) : (
-              <ChevronLeftIcon className="w-4 h-4 text-gray-500" />
-            )}
+            <PlusIcon className="w-4 h-4 flex-shrink-0" />
+            <span>New chat</span>
           </button>
-          {!isHistoryCollapsed && (
-            <div className="flex-none p-4 border-b border-gray-200 dark:border-gray-700">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Chat History</h2>
-                <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                  <PlusIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                </button>
-              </div>
-            </div>
-          )}
-          <div className="flex-1 overflow-y-auto min-h-0 p-2">
-            {!isHistoryCollapsed && (
-              <div className="space-y-2">
-                {chatHistory.map((chat) => (
-                  <button
-                    key={chat.id}
-                    className="w-full p-2 rounded-lg text-left hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
-                  >
-                    <div className="font-medium text-gray-900 dark:text-white truncate">{chat.title}</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400 truncate">{chat.lastMessage}</div>
-                    <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {chat.timestamp.toLocaleString()}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+        </div>
+
+        {/* Chat History */}
+        <div className="flex-1 overflow-y-auto p-2 min-h-0">
+          <div className="space-y-1">
+            {chatHistory.map((chat) => (
+              <button
+                key={chat.id}
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group"
+              >
+                <div className="truncate">{chat.title}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-500 truncate mt-1">{chat.lastMessage}</div>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Main Chat Area - Middle */}
-        <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-          {/* Messages Container - Scrollable */}
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="flex flex-col justify-end min-h-full">
-              <div className="p-4 space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${
-                      message.role === 'user' ? 'justify-end' : 'justify-start'
-                    }`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-lg p-3 shadow-sm ${
-                        message.role === 'user'
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
-                      }`}
-                    >
-                      {message.model && (
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                          {message.model}
-                          {message.modelVersion && ` (${message.modelVersion})`}
-                        </div>
-                      )}
-                      <div className="text-sm">{message.content}</div>
-                      <div className="text-xs mt-1 opacity-70">
-                        {message.timestamp.toLocaleTimeString()}
-                      </div>
-                    </div>
-                  </div>
+        {/* Model Selector in Sidebar */}
+        <div className="flex-none p-3 border-t border-gray-200 dark:border-gray-800">
+          <button
+            onClick={() => setShowModelSelector(!showModelSelector)}
+            className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+              <span className="truncate">{availableModels.find(m => m.id === selectedLLM)?.name}</span>
+            </div>
+            <svg className={`w-4 h-4 transition-transform flex-shrink-0 ${showModelSelector ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          {showModelSelector && (
+            <div className="mt-2 space-y-2">
+              <select
+                value={selectedLLM}
+                onChange={(e) => handleLLMChange(e.target.value)}
+                className="w-full text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-700 dark:text-white"
+              >
+                {availableModels.map((model) => (
+                  <option key={model.id} value={model.id}>
+                    {model.icon} {model.name}
+                  </option>
                 ))}
-                {isLoading && (
-                  <div className="flex justify-center">
-                    <div className="animate-pulse text-gray-500 dark:text-gray-400">Thinking...</div>
+              </select>
+              <select
+                value={selectedModels[selectedLLM] || ''}
+                onChange={(e) => handleVersionChange(e.target.value)}
+                className="w-full text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-700 dark:text-white"
+              >
+                <option value="">Select version</option>
+                {availableModels
+                  .find(model => model.id === selectedLLM)
+                  ?.versions.map((version) => (
+                    <option key={version.id} value={version.id}>
+                      {version.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-h-0 min-w-0">
+        {/* Header - Compact and responsive */}
+        <header className="flex-none flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded flex-shrink-0"
+            >
+              <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-base md:text-lg flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+              <div className="min-w-0">
+                <div className="font-medium text-gray-900 dark:text-white text-sm truncate">
+                  {availableModels.find(m => m.id === selectedLLM)?.name}
+                </div>
+                {selectedModels[selectedLLM] && (
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {availableModels
+                      .find(m => m.id === selectedLLM)
+                      ?.versions.find(v => v.id === selectedModels[selectedLLM])?.name}
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Prompt Input Area - Fixed at bottom */}
-          <div className="flex-none bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
-            <div className="max-w-4xl mx-auto p-3">
-              <div className="relative">
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your prompt here..."
-                  className="w-full h-20 p-3 pr-40 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 shadow-sm text-sm"
-                />
-                <div className="absolute bottom-2 right-2 flex items-center gap-2">
-                  <label className="cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={handleFileUpload}
-                      multiple
-                    />
-                    <div className="w-8 h-8 text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-5 h-5"
-                      >
-                        <line x1="12" y1="5" x2="12" y2="19" />
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                      </svg>
-                    </div>
-                  </label>
-                  <button
-                    onClick={toggleRecording}
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      isRecording 
-                        ? 'bg-red-100 dark:bg-red-900/30 text-red-500 dark:text-red-400' 
-                        : 'text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="w-5 h-5"
-                    >
-                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                      <line x1="12" y1="19" x2="12" y2="23" />
-                      <line x1="8" y1="23" x2="16" y2="23" />
+          {/* Mobile Tools Toggle */}
+          <button 
+            onClick={() => setShowMobileTools(!showMobileTools)}
+            className="md:hidden p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded flex-shrink-0"
+          >
+            <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+          </button>
+
+          {/* Desktop Share Button */}
+          <button className="hidden md:block p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg flex-shrink-0">
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+            </svg>
+          </button>
+        </header>
+
+        {/* Mobile Tools Panel - Slides down from header */}
+        {showMobileTools && (
+          <div className="md:hidden flex-none bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {/* File Upload */}
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    multiple
+                  />
+                  <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                     </svg>
-                  </button>
-                  <button
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 shadow-sm"
-                  >
-                    <PaperPlaneIcon className="w-4 h-4 text-white" />
-                  </button>
-                </div>
+                    <span>Attach</span>
+                  </div>
+                </label>
+                
+                {/* Voice Recording */}
+                <button
+                  onClick={toggleRecording}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                    isRecording 
+                      ? 'text-red-600 bg-red-50 border-red-200 dark:text-red-400 dark:bg-red-900/20 dark:border-red-800' 
+                      : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                  <span>{isRecording ? 'Recording...' : 'Voice'}</span>
+                </button>
               </div>
+              
+              <button
+                onClick={() => setShowMobileTools(false)}
+                className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Model Options Sidebar - Right */}
-        <div className="w-72 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 flex flex-col min-h-0">
-          <div className="flex-none p-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">AI Models</h2>
-            <div className="space-y-4">
-              {/* LLM Selection Dropdown */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Select AI Model
-                </label>
-                <select
-                  value={selectedLLM}
-                  onChange={(e) => handleLLMChange(e.target.value)}
-                  className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded-lg p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  {availableModels.map((model) => (
-                    <option key={model.id} value={model.id}>
-                      {model.icon} {model.name}
-                    </option>
-                  ))}
-                </select>
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto min-h-0">
+          {messages.length === 0 ? (
+            /* Welcome Screen */
+            <div className="flex flex-col items-center justify-center h-full px-4 text-center">
+              <div className="max-w-md w-full">
+                <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+                </div>
+                <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                  How can I help you today?
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  I'm {availableModels.find(m => m.id === selectedLLM)?.name}, ready to assist you with any questions or tasks.
+                </p>
               </div>
-
-              {/* Version Selection Dropdown */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Select Version
-                </label>
-                <select
-                  value={selectedModels[selectedLLM] || ''}
-                  onChange={(e) => handleVersionChange(e.target.value)}
-                  className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded-lg p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Select version</option>
-                  {availableModels
-                    .find(model => model.id === selectedLLM)
-                    ?.versions.map((version) => (
-                      <option key={version.id} value={version.id}>
-                        {version.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              {/* Model Info */}
-              {selectedLLM && (
-                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">
-                      {availableModels.find(m => m.id === selectedLLM)?.icon}
-                    </span>
-                    <div className="font-medium text-gray-900 dark:text-white text-sm">
-                      {availableModels.find(m => m.id === selectedLLM)?.name}
+            </div>
+          ) : (
+            /* Messages */
+            <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-4 md:py-6">
+              <div className="space-y-4 md:space-y-6">
+                {messages.map((message) => (
+                  <div key={message.id} className="group">
+                    <div className={`flex gap-3 md:gap-4 ${message.role === 'user' ? 'justify-end' : ''}`}>
+                      {message.role === 'assistant' && (
+                        <div className="w-7 h-7 md:w-8 md:h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                          <span className="text-xs md:text-sm">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+                        </div>
+                      )}
+                      
+                      <div className={`flex-1 min-w-0 ${message.role === 'user' ? 'max-w-[85%] md:max-w-[80%]' : ''}`}>
+                        {message.role === 'user' && (
+                          <div className="flex justify-end mb-1">
+                            <div className="w-7 h-7 md:w-8 md:h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs md:text-sm font-medium">You</span>
+                            </div>
+                          </div>
+                        )}
+                        
+                        <div className={`${
+                          message.role === 'user' 
+                            ? 'bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 md:px-4 py-2 md:py-3 ml-auto' 
+                            : 'text-gray-900 dark:text-gray-100'
+                        }`}>
+                          {message.model && message.role === 'assistant' && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">
+                              {message.model}
+                              {message.modelVersion && ` (${message.modelVersion})`}
+                            </div>
+                          )}
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">
+                            {message.content}
+                          </div>
+                        </div>
+                        
+                        <div className={`text-xs text-gray-500 dark:text-gray-400 mt-1 ${
+                          message.role === 'user' ? 'text-right' : ''
+                        }`}>
+                          {message.timestamp.toLocaleTimeString()}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {availableModels.find(m => m.id === selectedLLM)?.description}
-                  </p>
-                </div>
-              )}
+                ))}
+                
+                {isLoading && (
+                  <div className="group">
+                    <div className="flex gap-3 md:gap-4">
+                      <div className="w-7 h-7 md:w-8 md:h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs md:text-sm">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                          <div className="flex space-x-1">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          </div>
+                          <span className="text-sm">Thinking...</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Input Area - Streamlined and contained */}
+        <div className="flex-none border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-3">
+            <div className="relative">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Message Adora AI..."
+                className="w-full min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-12 md:pr-16
+                         border border-gray-300 dark:border-gray-600 rounded-xl 
+                         focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                         resize-none bg-white dark:bg-gray-800 
+                         text-gray-900 dark:text-white 
+                         placeholder-gray-500 dark:placeholder-gray-400 
+                         text-sm leading-relaxed
+                         transition-all duration-200"
+                rows={1}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = 'auto';
+                  target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
+                }}
+              />
+              
+              {/* Desktop Tools - Inside input */}
+              <div className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-1">
+                {/* File Upload */}
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    multiple
+                  />
+                  <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                  </div>
+                </label>
+                
+                {/* Voice Recording */}
+                <button
+                  onClick={toggleRecording}
+                  className={`p-1.5 rounded-lg transition-colors ${
+                    isRecording 
+                      ? 'text-red-500 bg-red-50 dark:bg-red-900/20' 
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Send Button */}
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || isLoading}
+                className="absolute right-2 bottom-2 md:right-14 md:bottom-1/2 md:translate-y-1/2 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
+                         flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
+                         transition-all duration-200"
+              >
+                <PaperPlaneIcon className="w-3 h-3 md:w-4 md:h-4 text-white" />
+              </button>
+            </div>
+            
+            {/* Character Counter - Always visible */}
+            <div className="flex justify-end mt-1">
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {input.length}/2000
+              </div>
             </div>
           </div>
         </div>

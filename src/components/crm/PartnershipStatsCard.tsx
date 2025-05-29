@@ -32,7 +32,7 @@ const partnershipTypes: PartnershipType[] = [
 
 export default function PartnershipStatsCard() {
   return (
-    <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-white/[0.03]">
+    <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-0 dark:bg-white/[0.03]">
       <h2 className="text-xl font-semibold text-black dark:text-white/90 mb-4">Partnership Overview</h2>
       
       {/* Partnership Metrics */}
