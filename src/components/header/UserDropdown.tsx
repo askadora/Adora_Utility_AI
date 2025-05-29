@@ -22,8 +22,7 @@ export default function UserDropdown() {
   const handleSignOut = async () => {
     await signOut();
     closeDropdown();
-    // Router push to /auth/signin can be added here if needed, 
-    // but AuthProvider should ideally handle redirecting unauthenticated users.
+    window.location.href = '/profile';
   };
 
   if (isLoading) {

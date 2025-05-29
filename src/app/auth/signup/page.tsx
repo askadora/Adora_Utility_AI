@@ -74,7 +74,7 @@ function SignUpForm() {
     if (error) {
       setError(error.message);
     } else {
-      router.push('/auth/signin?registered=true');
+      router.push('/auth/verify-email');
     }
     setIsLoading(false);
   };
