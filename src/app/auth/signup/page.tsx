@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
+<<<<<<< HEAD
 
 function SignUpForm() {
   const router = useRouter();
@@ -257,11 +258,14 @@ function SignUpForm() {
     </div>
   );
 }
+=======
+import SignUpContent from './SignUpContent';
+>>>>>>> auth
 
 export default function SignUp() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <SignUpForm />
+      <SignUpContent />
     </Suspense>
   );
 } 
