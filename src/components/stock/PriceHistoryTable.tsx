@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
