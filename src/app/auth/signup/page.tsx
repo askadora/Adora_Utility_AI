@@ -20,6 +20,8 @@ function SignUpContent() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+
   useEffect(() => {
     async function handleEmailConfirmation() {
       if (token && type === 'email') {
