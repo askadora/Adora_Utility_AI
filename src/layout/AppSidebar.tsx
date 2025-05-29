@@ -66,6 +66,44 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    icon: <CalenderIcon />,
+    name: "Calendar",
+    path: "/calendar",
+  },
+  {
+    name: "Chat",
+    icon: <ListIcon />,
+    path: "/chat",
+  },
+  {
+    icon: <PlugInIcon />,
+    name: "Email",
+    path: "/email/inbox",
+  },
+  {
+    name: "Task",
+    icon: <ListIcon />,
+    subItems: [
+      { name: "List", path: "/task/list", pro: false },
+      { name: "Kanban", path: "/task/kanban", pro: false },
+    ],
+  },
+  {
+    name: "Workflow",
+    icon: <WorkflowIcon />,
+    path: "/workflow",
+  },
+  {
+    name: "Integrations",
+    icon: <IntegrationsIcon />,
+    path: "/integrations",
+  },
+  {
+    name: "Projections",
+    icon: <PieChartIcon />,
+    path: "/projections",
+  },
+  {
     icon: <PieChartIcon />,
     name: "KPI's",
     path: "/kpi",
@@ -91,14 +129,9 @@ const navItems: NavItem[] = [
     path: "/saas",
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    name: "Chat",
     icon: <ListIcon />,
-    path: "/chat",
+    name: "Invoice",
+    path: "/invoice",
   },
   {
     icon: <UserCircleIcon />,
@@ -106,42 +139,9 @@ const navItems: NavItem[] = [
     path: "/profile",
   },
   {
-    name: "Task",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "List", path: "/task/list", pro: false },
-      { name: "Kanban", path: "/task/kanban", pro: false },
-    ],
-  },
-  {
-    name: "Workflow",
-    icon: <WorkflowIcon />,
-    path: "/workflow",
-  },
-  {
-    name: "Integrations",
-    icon: <IntegrationsIcon />,
-    path: "/integrations",
-  },
-  {
     name: "Settings",
     icon: <SettingsIcon />,
     path: "/settings",
-  },
-  {
-    name: "Projections",
-    icon: <PieChartIcon />,
-    path: "/projections",
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Email",
-    path: "/email/inbox",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Invoice",
-    path: "/invoice",
   },
 ];
 
@@ -203,9 +203,6 @@ const companyItems: NavItem[] = [
     name: "Company",
     subItems: [
       { name: "About Us", path: "/company/about", pro: false },
-      { name: "Team", path: "/company/team", pro: false },
-      { name: "Careers", path: "/company/careers", pro: false },
-      { name: "Contact", path: "/company/contact", pro: false },
       { name: "Investors", path: "/company/investors", pro: false },
       { name: "Press", path: "/company/press", pro: false },
       { name: "Knowledge Base", path: "/company/knowledge-base", pro: false },
