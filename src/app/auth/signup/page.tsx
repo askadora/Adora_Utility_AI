@@ -5,9 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
-<<<<<<< HEAD
 
-function SignUpForm() {
+function SignUpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -258,9 +257,6 @@ function SignUpForm() {
     </div>
   );
 }
-=======
-import SignUpContent from './SignUpContent';
->>>>>>> auth
 
 export default function SignUp() {
   return (
