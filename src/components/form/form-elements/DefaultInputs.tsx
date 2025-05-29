@@ -26,7 +26,7 @@ export default function DefaultInputs() {
         </div>
         <div>
           <Label>Input with Placeholder</Label>
-          <Input type="text" placeholder="info@gmail.com" />
+          <Input type="text" placeholder="hello@adorahq.com" />
         </div>
         <div>
           <Label>Select Input</Label>

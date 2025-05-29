@@ -8,8 +8,8 @@ import RecentOrders from "@/components/ecommerce/RecentOrders";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 
 export const metadata: Metadata = {
-  title: "Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is the Dashboard page, matching the Projections layout.",
+  title: "Dashboard | Adora AI - AI-Powered Business Intelligence Platform",
+  description: "Comprehensive dashboard for Adora AI's business intelligence and analytics platform.",
 };
 
 export default function Dashboard() {
@@ -19,15 +19,19 @@ export default function Dashboard() {
         <EcommerceMetrics />
         <MonthlySalesChart />
       </div>
+
       <div className="col-span-12 xl:col-span-5">
         <MonthlyTarget />
       </div>
+
       <div className="col-span-12">
         <StatisticsChart />
       </div>
+
       <div className="col-span-12 xl:col-span-5">
         <DemographicCard />
       </div>
+
       <div className="col-span-12 xl:col-span-7">
         <RecentOrders />
       </div>

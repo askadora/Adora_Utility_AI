@@ -4,9 +4,10 @@ import React from "react";
 import { ApexOptions } from "apexcharts";
 
 import dynamic from "next/dynamic";
-// Dynamically import the ReactApexChart component
+// Dynamically import the ReactApexChart component with proper configuration
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => <div className="h-[310px] flex items-center justify-center">Loading chart...</div>
 });
 
 export default function LineChartOne() {
