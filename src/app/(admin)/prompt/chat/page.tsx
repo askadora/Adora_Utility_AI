@@ -259,7 +259,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex overflow-hidden bg-white dark:bg-gray-900">
+    <div className="h-[calc(100vh-9rem)] flex overflow-hidden bg-white dark:bg-gray-900">
       {/* Mobile Overlay Background */}
       {isSidebarOpen && (
         <div 

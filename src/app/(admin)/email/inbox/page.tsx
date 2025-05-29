@@ -65,7 +65,7 @@ export default function EmailInboxPage() {
   });
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-[calc(100vh-9rem)] bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
       <aside className="w-72 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col p-6 gap-8">
         <button className="w-full mb-4 rounded-lg bg-brand-500 text-white py-2 font-medium hover:bg-brand-600 transition">Compose</button>

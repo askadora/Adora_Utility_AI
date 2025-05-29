@@ -109,7 +109,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] w-full bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <div className="flex h-[calc(100vh-9rem)] w-full max-w-[1400px] mx-auto bg-gray-50 dark:bg-gray-900 overflow-hidden">
       {/* Sidebar */}
       <aside className="w-80 h-full border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col flex-shrink-0 min-w-0 overflow-hidden">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
