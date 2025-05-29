@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
+import Image from 'next/image';
 
 function SignUpForm() {
   const router = useRouter();
@@ -95,16 +96,29 @@ function SignUpForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-100 to-white py-12 px-4 dark:from-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-xl dark:bg-gray-800/50">
         <div>
-          <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
+          <Link 
+            href="/" 
+            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors mb-4"
+          >
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
             Back to dashboard
           </Link>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <Image
+            className="mx-auto h-12 w-auto"
+            src="/images/logo/adora-ai-logo.png"
+            alt="Adora AI"
+            width={150}
+            height={40}
+          />
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             Sign Up
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
             Enter your email and password to sign up!
           </p>
         </div>
@@ -120,7 +134,7 @@ function SignUpForm() {
                   required
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
                   placeholder="First Name *"
                 />
               </div>
@@ -133,7 +147,7 @@ function SignUpForm() {
                   required
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
                   placeholder="Last Name *"
                 />
               </div>
@@ -146,7 +160,7 @@ function SignUpForm() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="Email *"
             />
             <label htmlFor="password" className="sr-only">Password</label>
@@ -157,7 +171,7 @@ function SignUpForm() {
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="Password *"
             />
             <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
@@ -168,7 +182,7 @@ function SignUpForm() {
               required
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="Confirm Password *"
             />
           </div>
@@ -180,27 +194,27 @@ function SignUpForm() {
               required
               checked={termsAccepted}
               onChange={e => setTermsAccepted(e.target.checked)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded dark:border-gray-600"
             />
-            <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="terms" className="ml-2 block text-sm text-gray-900 dark:text-gray-200">
               By creating an account means you agree to the{' '}
-              <Link href="/terms" className="text-blue-600 hover:text-blue-500">
+              <Link href="/terms" className="text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
                 Terms and Conditions
               </Link>
               , and our{' '}
-              <Link href="/privacy" className="text-blue-600 hover:text-blue-500">
+              <Link href="/privacy" className="text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
                 Privacy Policy
               </Link>
             </label>
           </div>
           {error && (
-            <div className="text-red-500 text-sm">{error}</div>
+            <div className="text-red-500 text-sm dark:text-red-400">{error}</div>
           )}
           <div>
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 disabled:opacity-50 dark:focus:ring-offset-gray-800"
             >
               {isLoading ? 'Signing up...' : 'Sign up'}
             </button>
@@ -209,17 +223,17 @@ function SignUpForm() {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-300 dark:border-gray-600" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or continue with</span>
             </div>
           </div>
           <div className="mt-6">
             <button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 dark:focus:ring-offset-gray-800"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -232,9 +246,9 @@ function SignUpForm() {
           </div>
         </div>
         <div className="text-center mt-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link href="/auth/signin" className="text-blue-600 hover:text-blue-500">
+            <Link href="/auth/signin" className="text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
               Sign in
             </Link>
           </p>
