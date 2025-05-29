@@ -27,6 +27,8 @@ export default function Profile() {
     linkedin: "",
     instagram: "",
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   React.useEffect(() => {
     if (profile) {
@@ -54,50 +56,64 @@ export default function Profile() {
 
   const handleSave = async () => {
     try {
+      setIsSaving(true);
+      setSaveError(null);
+
       if (!session?.user) {
         throw new Error("Please sign in to update your profile");
       }
 
-      console.log('Updating profile with data:', {
+      // Format social media URLs
+      const formatUrl = (url: string) => {
+        if (!url) return "";
+        if (url.startsWith('http://') || url.startsWith('https://')) return url;
+        return `https://${url}`;
+      };
+
+      const formattedData = {
         auth_user_id: session.user.id,
         bio: formData.bio,
         city: formData.city,
         state: formData.state,
         country: formData.country,
         zip_code: formData.zipCode,
-        facebook: formData.facebook,
-        x: formData.x,
-        linkedin: formData.linkedin,
-        instagram: formData.instagram
-      });
+        facebook: formatUrl(formData.facebook),
+        x: formatUrl(formData.x),
+        linkedin: formatUrl(formData.linkedin),
+        instagram: formatUrl(formData.instagram)
+      };
+
+      console.log('Updating profile with data:', formattedData);
 
       // Call the update_user_profile function
       const { data, error } = await supabase
-        .rpc('update_user_profile', {
-          auth_user_id: session.user.id,
-          bio: formData.bio,
-          city: formData.city,
-          state: formData.state,
-          country: formData.country,
-          zip_code: formData.zipCode,
-          facebook: formData.facebook,
-          x: formData.x,
-          linkedin: formData.linkedin,
-          instagram: formData.instagram
-        });
+        .rpc('update_user_profile', formattedData);
 
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('Supabase error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
         throw error;
       }
 
       console.log('Profile updated successfully:', data);
       closeModal();
-      // Refresh the page to show updated data
-      window.location.reload();
+      // Add a small delay before reloading to ensure the user sees the success state
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (err) {
-      console.error("Error saving profile:", err);
-      alert(err instanceof Error ? err.message : "Failed to save profile changes");
+      console.error("Error saving profile:", {
+        error: err,
+        message: err instanceof Error ? err.message : "Unknown error",
+        stack: err instanceof Error ? err.stack : undefined
+      });
+      setSaveError(err instanceof Error ? err.message : "Failed to save profile changes. Please check your internet connection and try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -300,13 +316,18 @@ export default function Profile() {
               </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-              <Button size="sm" variant="outline" onClick={closeModal}>
+              <Button size="sm" variant="outline" onClick={closeModal} disabled={isSaving}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
-                Save Changes
+              <Button size="sm" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>
+            {saveError && (
+              <div className="mt-4 px-2 text-sm text-red-600 dark:text-red-400">
+                {saveError}
+              </div>
+            )}
           </form>
         </div>
       </Modal>
