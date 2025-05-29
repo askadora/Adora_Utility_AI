@@ -43,7 +43,7 @@ export default function UserDropdown() {
   // Extract user display name and email
   const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || "User";
   const displayEmail = user.email || "No email provided";
-  const avatarUrl = user.user_metadata?.avatar_url || "/images/user/owner.jpg"; // Default avatar
+  const avatarUrl = user.user_metadata?.avatar_url || "/images/user/blank_image.jpg"; // Default avatar
 
   return (
     <div className="relative">

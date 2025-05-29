@@ -33,10 +33,19 @@ export default function SignIn() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-100 to-white py-12 px-4 dark:from-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-xl dark:bg-gray-800/50">
         <div>
+          <Link 
+            href="/" 
+            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors mb-4"
+          >
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to dashboard
+          </Link>
           <Image
             className="mx-auto h-12 w-auto"
-            src="/images/logo/logo-dark.svg"
-            alt="Your Company"
+            src="/images/logo/adora-ai-logo.png"
+            alt="Adora AI"
             width={150}
             height={40}
           />

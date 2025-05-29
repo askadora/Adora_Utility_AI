@@ -58,7 +58,7 @@ export default function InputStates() {
           <Label>Email</Label>
           <Input
             type="text"
-            defaultValue="disabled@example.com"
+            defaultValue="hello@adorahq.com"
             disabled={true}
             placeholder="Disabled email"
             hint="This field is disabled."

@@ -4,62 +4,46 @@ import bcrypt from "bcryptjs";
 
 // const prisma = new PrismaClient();
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { name, email, password } = await request.json();
+    const body = await req.json();
+    const { email, password, name } = body;
 
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: "Name, email and password are required" },
-        { status: 400 }
-      );
+    if (!email || !password || !name) {
+      return new NextResponse("Missing required fields", { status: 400 });
     }
 
-    // Commented out Prisma query
     // const existingUser = await prisma.user.findUnique({
-    //   where: { email },
+    //   where: {
+    //     email
+    //   }
     // });
 
-    // Dummy check for existing user
-    const existingUser = email === "test@example.com";
+    // if (existingUser) {
+    //   return new NextResponse("User already exists", { status: 400 });
+    // }
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "User with this email already exists" },
-        { status: 400 }
-      );
-    }
+    // Hash password for future use when database operations are uncommented
+    await bcrypt.hash(password, 12);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Commented out Prisma user creation
     // const user = await prisma.user.create({
     //   data: {
-    //     name,
     //     email,
-    //     hashedPassword,
-    //   },
+    //     name,
+    //     password: hashedPassword,
+    //   }
     // });
 
-    // Dummy user response
-    const user = {
-      id: "1",
-      name,
-      email,
-    };
-
     return NextResponse.json({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
+      message: "User created successfully",
+      // user: {
+      //   id: user.id,
+      //   email: user.email,
+      //   name: user.name,
+      // }
     });
   } catch (error) {
-    console.error("Signup error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("[SIGNUP_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 } 

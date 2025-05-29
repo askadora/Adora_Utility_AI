@@ -5,9 +5,10 @@ import { ApexOptions } from "apexcharts";
 import ChartTab from "../common/ChartTab";
 import dynamic from "next/dynamic";
 
-// Dynamically import the ReactApexChart component
+// Dynamically import the ReactApexChart component with proper configuration
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
+  loading: () => <div className="h-[310px] flex items-center justify-center">Loading chart...</div>
 });
 
 export default function StatisticsChart() {
@@ -127,7 +128,7 @@ export default function StatisticsChart() {
             Statistics
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Target you’ve set for each month
+            Target you've set for each month
           </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">

@@ -1,82 +1,65 @@
 // import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
 // const prisma = new PrismaClient();
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { email, password } = await request.json();
+    const body = await req.json();
+    const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json(
-        { error: "Email and password are required" },
-        { status: 400 }
-      );
+      return new NextResponse("Missing required fields", { status: 400 });
     }
 
-    // Dummy user for testing
-    const dummyUser = {
-      id: "1",
-      email: "test@example.com",
-      name: "Test User",
-      hashedPassword: await bcrypt.hash("password123", 10)
-    };
-
-    // Commented out Prisma query
     // const user = await prisma.user.findUnique({
-    //   where: { email },
+    //   where: {
+    //     email
+    //   }
     // });
 
-    // Using dummy user instead
-    const user = email === dummyUser.email ? dummyUser : null;
+    // if (!user) {
+    //   return new NextResponse("User not found", { status: 404 });
+    // }
 
-    if (!user || !user.hashedPassword) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
+    // const passwordMatch = await bcrypt.compare(password, user.password);
 
-    const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+    // if (!passwordMatch) {
+    //   return new NextResponse("Invalid password", { status: 401 });
+    // }
 
-    if (!isPasswordValid) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
-    // Create JWT token
     const token = sign(
-      { userId: user.id, email: user.email },
+      {
+        // id: user.id,
+        // email: user.email,
+        // name: user.name,
+        id: "1",
+        email: email,
+        name: "Test User",
+      },
       process.env.JWT_SECRET || "your-secret-key",
       { expiresIn: "1d" }
     );
 
-    // Commented out Prisma session creation
     // await prisma.session.create({
     //   data: {
-    //     sessionToken: token,
     //     userId: user.id,
+    //     token,
     //     expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
     //   },
     // });
 
     return NextResponse.json({
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-      },
       token,
+      // user: {
+      //   id: user.id,
+      //   email: user.email,
+      //   name: user.name,
+      // }
     });
   } catch (error) {
-    console.error("Signin error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("[SIGNIN_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 } 
