@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { SendIcon } from '@/components/icons';
-import Link from 'next/link';
 
 interface Message {
   role: 'user' | 'assistant';

@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     // Temporary mock response
     return NextResponse.json({
-      response: "I'm your AI assistant for the Knowledge Base. I'll help you find information about our documentation. This feature is coming soon!"
+      response: `I received your message: "${message}". I'm your AI assistant for the Knowledge Base. I'll help you find information about our documentation. This feature is coming soon!`
     });
   } catch (error) {
     console.error('Error in knowledge base chat:', error);
