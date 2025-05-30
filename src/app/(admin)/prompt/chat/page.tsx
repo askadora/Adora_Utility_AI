@@ -301,10 +301,10 @@ export default function Chat() {
         border-r border-gray-200 dark:border-gray-800
       `}>
         {/* Sidebar Header */}
-        <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex-none p-3 pb-4.5 border-b border-gray-200 dark:border-gray-800">
           <button
             onClick={startNewChat}
-            className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-white bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-gray-700 dark:text-white bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
           >
             <PlusIcon className="w-4 h-4 flex-shrink-0" />
             <span>New chat</span>
@@ -317,10 +317,32 @@ export default function Chat() {
             {chatHistory.map((chat) => (
               <button
                 key={chat.id}
-                className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group"
+                className="w-full text-left px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors group relative"
               >
-                <div className="truncate">{chat.title}</div>
-                <div className="text-xs text-gray-500 dark:text-gray-500 truncate mt-1">{chat.lastMessage}</div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 flex-shrink-0 text-gray-500 dark:text-gray-400">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="truncate font-medium">{chat.title}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 truncate mt-0.5">{chat.lastMessage}</div>
+                  </div>
+                </div>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Add your menu click handler here
+                    }}
+                    className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                  </div>
+                </div>
               </button>
             ))}
           </div>
