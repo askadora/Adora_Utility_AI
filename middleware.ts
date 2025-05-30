@@ -30,18 +30,20 @@ export const updateSession = async (request: NextRequest) => {
 
     // 🔒 This will return null if no token in headers or cookies
     const { data: { user }, error } = await supabase.auth.getUser();
-    console.log("User:", user?.id ?? "Not signed in", "Error:", error?.message ?? "None");
+    console.log("Middleware Auth Check - User:", user ? user.id : 'null', "Error:", error?.message ?? "None");
 
     const publicRoutes = ["/auth/signin"];
+    console.log('Public Routes:', publicRoutes);
     const isPublicRoute = publicRoutes.some(route =>
       request.nextUrl.pathname.startsWith(route)
     );
+    console.log('Is Public Route:', isPublicRoute);
 
     // 🔁 Redirect to login if not signed in and trying to access protected routes
     if (!user && !isPublicRoute) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/signin";
-      console.log(`Redirecting unauthenticated user to /auth/signin`);
+      console.log(`Middleware: Redirecting unauthenticated user to /auth/signin from ${request.nextUrl.pathname}`);
       return NextResponse.redirect(url);
     }
 
@@ -49,9 +51,11 @@ export const updateSession = async (request: NextRequest) => {
     if (user && request.nextUrl.pathname === "/auth/signin") {
       const url = request.nextUrl.clone();
       url.pathname = "/dashboard";
-      console.log(`Redirecting authenticated user to /dashboard`);
+      console.log(`Middleware: Redirecting authenticated user from /auth/signin to /dashboard`);
       return NextResponse.redirect(url);
     }
+
+    console.log('Middleware: No redirect needed. Proceeding.');
 
     return NextResponse.next();
 

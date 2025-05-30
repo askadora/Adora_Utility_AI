@@ -34,7 +34,12 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+  // Use a state to track if the component has mounted on the client
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true); // Mark as mounted on the client
+
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
@@ -63,10 +68,13 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
     setOpenSubmenu((prev) => (prev === item ? null : item));
   };
 
+  // Determine the final isExpanded value based on mount state
+  const finalIsExpanded = mounted && isMobile ? false : isExpanded;
+
   return (
     <SidebarContext.Provider
       value={{
-        isExpanded: isMobile ? false : isExpanded,
+        isExpanded: finalIsExpanded, // Use the client-aware expanded state
         isMobileOpen,
         isHovered,
         activeItem,
