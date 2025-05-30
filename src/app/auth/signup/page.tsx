@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
 
-function SignUpForm() {
+function SignUpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -21,6 +21,8 @@ function SignUpForm() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
 
   useEffect(() => {
     async function handleEmailConfirmation() {
@@ -299,7 +301,7 @@ function SignUpForm() {
 export default function SignUp() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <SignUpForm />
+      <SignUpContent />
     </Suspense>
   );
 } 
