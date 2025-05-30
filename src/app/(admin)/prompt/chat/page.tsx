@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
 // import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
 import { singleChatCompletion } from '@/llm/grok/api';
 
+type MessageRole = 'user' | 'assistant';
+
 interface Message {
   id: string;
+  role: MessageRole;
   content: string;
-  role: 'user' | 'assistant';
   model?: string;
   modelVersion?: string;
   timestamp: Date;
@@ -119,6 +121,7 @@ const initialModels: Model[] = [
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [selectedModels, setSelectedModels] = useState<{ [key: string]: string }>({
     grok: 'grok-3-mini',
   });
@@ -140,13 +143,30 @@ export default function Chat() {
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);
 
+  // Set default model and version on component mount
+  useEffect(() => {
+    setSelectedLLM('grok');
+    setSelectedModels(prev => ({
+      ...prev,
+      grok: 'grok-3-mini'
+    }));
+  }, []);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      content: input,
       role: 'user',
+      content: input,
       timestamp: new Date(),
     };
 
@@ -170,8 +190,8 @@ export default function Chat() {
           ...prev,
           {
             id: tempMessageId,
-            content: '',
             role: 'assistant',
+            content: '',
             model: 'grok',
             modelVersion: selectedVersionId,
             timestamp: new Date(),
@@ -195,8 +215,8 @@ export default function Chat() {
         // For other models, add a single response
         const responseMessage: Message = {
           id: `${Date.now()}-${selectedModelId}`,
-          content: `This is a sample response from ${selectedModelId} (${selectedVersionId})`,
           role: 'assistant',
+          content: `This is a sample response from ${selectedModelId} (${selectedVersionId})`,
           model: selectedModelId,
           modelVersion: selectedVersionId,
           timestamp: new Date(),
@@ -207,8 +227,8 @@ export default function Chat() {
       console.error('Error getting response:', error);
       const errorMessage: Message = {
         id: `${Date.now()}-error`,
-        content: 'Sorry, there was an error getting the response. Please try again.',
         role: 'assistant',
+        content: 'Sorry, there was an error getting the response. Please try again.',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -259,11 +279,29 @@ export default function Chat() {
   };
 
   return (
-    <div className="h-screen flex">
-      {/* Sidebar */}
-      <aside className="flex flex-col w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <div className="h-[calc(100vh-9rem)] flex overflow-hidden bg-white dark:bg-gray-900">
+      {/* Mobile Overlay Background */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Responsive with proper mobile handling */}
+      <div className={`
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isSidebarOpen ? 'w-64' : 'w-0'}
+        fixed md:relative inset-y-0 left-0 z-50 md:z-auto
+        transition-all duration-300 ease-in-out
+        bg-white dark:bg-gray-950 
+        flex flex-col
+        overflow-hidden
+        border-r border-gray-200 dark:border-gray-800
+      `}>
         {/* Sidebar Header */}
-        <div className="flex-none h-14 px-3 flex items-center border-b border-gray-200 dark:border-gray-800">
+        <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-800">
           <button
             onClick={startNewChat}
             className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-white bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -272,6 +310,7 @@ export default function Chat() {
             <span>New chat</span>
           </button>
         </div>
+
         {/* Chat History */}
         <div className="flex-1 overflow-y-auto p-2 min-h-0">
           <div className="space-y-1">
@@ -286,16 +325,12 @@ export default function Chat() {
             ))}
           </div>
         </div>
-        {/* Model Selector in Sidebar - Removed border-t */}
-        <div className="flex-none p-3">
-          {/* Remove the old model selector content */}
-        </div>
-      </aside>
+      </div>
 
-      {/* Main Area */}
-      <main className="flex flex-col flex-1 min-h-0 bg-white dark:bg-gray-900">
-        {/* Header */}
-        <header className="flex-none h-14 flex items-center justify-between px-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-h-0 min-w-0">
+        {/* Header - Compact and responsive */}
+        <header className="flex-none flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-2 min-w-0">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -306,36 +341,80 @@ export default function Chat() {
               </svg>
             </button>
             
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-base md:text-lg flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
-              <div className="flex flex-col gap-1">
-                <select
-                  value={selectedLLM}
-                  onChange={(e) => handleLLMChange(e.target.value)}
-                  className="bg-transparent text-sm font-medium text-gray-900 dark:text-white border-none focus:outline-none focus:ring-0 p-0 pr-6 appearance-none cursor-pointer"
-                >
+            {/* Model Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setShowModelSelector(!showModelSelector)}
+                className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <span className="flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+                <div className="flex flex-col items-start">
+                  <span className="truncate">{availableModels.find(m => m.id === selectedLLM)?.name}</span>
+                  {selectedModels[selectedLLM] && (
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {availableModels
+                        .find(m => m.id === selectedLLM)
+                        ?.versions.find(v => v.id === selectedModels[selectedLLM])?.name}
+                    </span>
+                  )}
+                </div>
+                <svg className={`w-4 h-4 transition-transform flex-shrink-0 ${showModelSelector ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {showModelSelector && (
+                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
                   {availableModels.map((model) => (
-                    <option key={model.id} value={model.id}>
-                      {model.name}
-                    </option>
+                    <div key={model.id}>
+                      <button
+                        onClick={() => {
+                          handleLLMChange(model.id);
+                          if (!selectedModels[model.id]) {
+                            handleVersionChange(model.versions[0].id);
+                          }
+                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                          selectedLLM === model.id ? 'bg-gray-50 dark:bg-gray-700' : ''
+                        }`}
+                      >
+                        <span className="flex-shrink-0">{model.icon}</span>
+                        <div className="flex-1 text-left">
+                          <div className="font-medium text-gray-900 dark:text-white">{model.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{model.description}</div>
+                        </div>
+                      </button>
+                      
+                      {selectedLLM === model.id && (
+                        <div className="pl-10 pr-3 py-1 space-y-1">
+                          {model.versions.map((version) => (
+                            <button
+                              key={version.id}
+                              onClick={() => {
+                                handleVersionChange(version.id);
+                                setShowModelSelector(false);
+                              }}
+                              className={`w-full flex items-center gap-2 px-2 py-1.5 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                                selectedModels[model.id] === version.id ? 'bg-gray-50 dark:bg-gray-700' : ''
+                              }`}
+                            >
+                              <div className="flex-1 text-left">
+                                <div className="font-medium text-gray-900 dark:text-white">{version.name}</div>
+                                <div className="text-gray-500 dark:text-gray-400">{version.description}</div>
+                              </div>
+                              {selectedModels[model.id] === version.id && (
+                                <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
-                </select>
-                {selectedLLM && (
-                  <select
-                    value={selectedModels[selectedLLM] || ''}
-                    onChange={(e) => handleVersionChange(e.target.value)}
-                    className="bg-transparent text-xs text-gray-500 dark:text-gray-400 border-none focus:outline-none focus:ring-0 p-0 pr-6 appearance-none cursor-pointer"
-                  >
-                    {availableModels
-                      .find(model => model.id === selectedLLM)
-                      ?.versions.map((version) => (
-                        <option key={version.id} value={version.id}>
-                          {version.name}
-                        </option>
-                      ))}
-                  </select>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -406,101 +485,26 @@ export default function Chat() {
           </div>
         )}
 
-        {/* Conditional Layout for Chat Area and Input Bar */}
-        {messages.length === 0 ? (
-          // Centered welcome and input when no messages
-          <div className="flex-1 flex flex-col items-center justify-center min-h-0 px-4 py-6">
-            <div className="max-w-md w-full mb-8">
-              <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                <span className="text-2xl">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
-              </div>
-              <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-                How can I help you today?
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                I'm {availableModels.find(m => m.id === selectedLLM)?.name}, ready to assist you with any questions or tasks.
-              </p>
-            </div>
-            {/* Centered Input Bar */}
-            <div className="w-full max-w-2xl">
-              <div className="border-t px-4 py-3 bg-white rounded-xl shadow-md">
-                <div className="relative flex items-end">
-                  <textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Message Adora AI..."
-                    className="flex-1 min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-24
-                             border border-gray-300 dark:border-gray-600 rounded-xl
-                             focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-                             resize-none bg-white dark:bg-gray-800
-                             text-gray-900 dark:text-white
-                             placeholder-gray-500 dark:placeholder-gray-400
-                             text-sm leading-relaxed
-                             transition-all duration-200"
-                    rows={1}
-                    onInput={(e) => {
-                      const target = e.target as HTMLTextAreaElement;
-                      target.style.height = 'auto';
-                      target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
-                    }}
-                  />
-                  {/* Desktop Tools + Character Counter + Send Button */}
-                  <div className="absolute right-0 bottom-0 flex items-end p-2">
-                    {/* Desktop Tools - Inside input */}
-                    <div className="hidden md:flex items-center gap-1 mr-2">
-                      {/* File Upload */}
-                      <label className="cursor-pointer">
-                        <input
-                          type="file"
-                          className="hidden"
-                          onChange={handleFileUpload}
-                          multiple
-                        />
-                        <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                          </svg>
-                        </div>
-                      </label>
-                      {/* Voice Recording */}
-                      <button
-                        onClick={toggleRecording}
-                        className={`p-1.5 rounded-lg transition-colors ${
-                          isRecording
-                            ? 'text-red-500 bg-red-50 dark:bg-red-900/20'
-                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                        </svg>
-                      </button>
-                    </div>
-                    {/* Character Counter */}
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mr-2 mb-1">
-                      {input.length}/2000
-                    </div>
-                    {/* Send Button */}
-                    <button
-                      onClick={handleSend}
-                      disabled={!input.trim() || isLoading}
-                      className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed
-                             flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700
-                             transition-all duration-200 flex-shrink-0"
-                    >
-                      <PaperPlaneIcon className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto min-h-0">
+          {messages.length === 0 ? (
+            /* Welcome Screen */
+            <div className="flex flex-col items-center justify-center h-full px-4 text-center">
+              <div className="max-w-md w-full">
+                <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
                 </div>
+                <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                  How can I help you today?
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  I'm {availableModels.find(m => m.id === selectedLLM)?.name}, ready to assist you with any questions or tasks.
+                </p>
               </div>
             </div>
-          </div>
-        ) : (
-          // Standard layout when there are messages
-          <>
-            {/* Chat Area (scrollable) */}
-            <section className="flex-1 overflow-y-auto min-h-0 px-4 py-6">
+          ) : (
+            /* Messages */
+            <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-4 md:py-6">
               <div className="space-y-4 md:space-y-6">
                 {messages.map((message) => (
                   <div key={message.id} className="group">
@@ -510,38 +514,28 @@ export default function Chat() {
                           <span className="text-xs md:text-sm">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
                         </div>
                       )}
-                      <div className={`flex-1 min-w-0 ${message.role === 'user' ? 'max-w-[85%] md:max-w-[80%]' : ''}`}>
-                        {message.role === 'user' && (
-                          <div className="flex justify-end mb-1">
-                            <div className="w-7 h-7 md:w-8 md:h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                              <span className="text-white text-xs md:text-sm font-medium">You</span>
-                            </div>
+                      
+                      <div className={`${
+                        message.role === 'user' 
+                          ? 'bg-gray-100 dark:bg-gray-800' 
+                          : 'bg-white dark:bg-gray-800'
+                      } rounded-2xl px-3 md:px-4 py-2 md:py-3 ${
+                        message.role === 'user' ? 'ml-auto' : ''
+                      }`}>
+                        {message.model && message.role === 'assistant' && (
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">
+                            {message.model}
+                            {message.modelVersion && ` (${message.modelVersion})`}
                           </div>
                         )}
-                        <div className={`${
-                          message.role === 'user' 
-                            ? 'bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 md:px-4 py-2 md:py-3 ml-auto' 
-                            : 'text-gray-900 dark:text-gray-100'
-                        }`}>
-                          {message.model && message.role === 'assistant' && (
-                            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">
-                              {message.model}
-                              {message.modelVersion && ` (${message.modelVersion})`}
-                            </div>
-                          )}
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">
-                            {message.content}
-                          </div>
-                        </div>
-                        <div className={`text-xs text-gray-500 dark:text-gray-400 mt-1 ${
-                          message.role === 'user' ? 'text-right' : ''
-                        }`}>
-                          {message.timestamp.toLocaleTimeString()}
+                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white">
+                          {message.content}
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
+                
                 {isLoading && (
                   <div className="group">
                     <div className="flex gap-3 md:gap-4">
@@ -561,83 +555,96 @@ export default function Chat() {
                     </div>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
-            </section>
-            {/* Input Area - Streamlined and contained */}
-            <footer className="flex-none border-t px-4 py-3 bg-white">
-              <div className="relative flex items-end">
+            </div>
+          )}
+        </div>
+
+        {/* Input Area - Streamlined and contained */}
+        <div className="flex-none border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-3">
+            <div className="relative">
+              <div className="relative flex items-center min-h-[44px] md:min-h-[48px]">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Message Adora AI..."
-                  className="flex-1 min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-24
-                           border border-gray-300 dark:border-gray-600 rounded-xl
+                  className="w-full min-h-[44px] md:min-h-[48px] max-h-32 md:max-h-40 px-3 md:px-4 py-2 md:py-3 pr-24 md:pr-28
+                           border border-gray-300 dark:border-gray-600 rounded-xl 
                            focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-                           resize-none bg-white dark:bg-gray-800
-                           text-gray-900 dark:text-white
-                           placeholder-gray-500 dark:placeholder-gray-400
+                           resize-none bg-white dark:bg-gray-800 
+                           text-gray-900 dark:text-white 
+                           placeholder-gray-500 dark:placeholder-gray-400 
                            text-sm leading-relaxed
-                           transition-all duration-200"
+                           transition-all duration-200
+                           [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
                   rows={1}
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement;
                     target.style.height = 'auto';
-                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
+                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 160 : 128) + 'px';
                   }}
                 />
-                {/* Desktop Tools + Character Counter + Send Button */}
-                <div className="absolute right-0 bottom-0 flex items-end p-2">
-                  {/* Desktop Tools - Inside input */}
-                  <div className="hidden md:flex items-center gap-1 mr-2">
-                    {/* File Upload */}
-                    <label className="cursor-pointer">
-                      <input
-                        type="file"
-                        className="hidden"
-                        onChange={handleFileUpload}
-                        multiple
-                      />
-                      <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                        </svg>
-                      </div>
-                    </label>
-                    {/* Voice Recording */}
-                    <button
-                      onClick={toggleRecording}
-                      className={`p-1.5 rounded-lg transition-colors ${
-                        isRecording
-                          ? 'text-red-500 bg-red-50 dark:bg-red-900/20'
-                          : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                      }`}
-                    >
+                
+                {/* Desktop Tools - Inside input */}
+                <div className="absolute right-2 bottom-2 flex items-center gap-1">
+                  {/* File Upload */}
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                      multiple
+                    />
+                    <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                       </svg>
-                    </button>
-                  </div>
-                  {/* Character Counter */}
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mr-2 mb-1">
-                    {input.length}/2000
-                  </div>
+                    </div>
+                  </label>
+                  
+                  {/* Voice Recording */}
+                  <button
+                    onClick={toggleRecording}
+                    className={`p-1.5 rounded-lg transition-colors ${
+                      isRecording 
+                        ? 'text-red-500 bg-red-50 dark:bg-red-900/20' 
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                  </button>
+
                   {/* Send Button */}
                   <button
                     onClick={handleSend}
                     disabled={!input.trim() || isLoading}
-                    className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed
-                           flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700
-                           transition-all duration-200 flex-shrink-0"
+                    className="ml-1 w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
+                             flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
+                             transition-all duration-200"
                   >
                     <PaperPlaneIcon className="w-4 h-4 text-white" />
                   </button>
                 </div>
               </div>
-            </footer>
-          </>
-        )}
-      </main>
+              
+              {/* Character Counter and Help Text */}
+              <div className="flex justify-between items-center mt-1 px-1 h-4">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  Press Enter to send, Shift + Enter for new line
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
+                  {input.length}/2000
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 } 
