@@ -13,6 +13,8 @@ export default function AdminLayout({
 }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
+  console.log('Supabase URL (Admin Layout):', process.env.NEXT_PUBLIC_SUPABASE_URL);
+
   /* 
     RESPONSIVE SIDEBAR MARGIN CALCULATION
     - Mobile: No margin (ml-0) - sidebar overlays content
