@@ -11,8 +11,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "TailAdmin - Next.js Admin Dashboard Template",
-  description: "Free Next.js Tailwind CSS Admin Dashboard Template",
+  title: "Adora AI - AI-Powered Business Intelligence Platform",
+  description: "Adora AI is a platform that uses AI to help businesses make better decisions.",
 };
 
 export default function RootLayout({

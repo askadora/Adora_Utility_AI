@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext"; // Adjust path if necessary
 import { Dropdown } from "../ui/dropdown/Dropdown";

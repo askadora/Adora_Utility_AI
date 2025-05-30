@@ -109,10 +109,11 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] w-full bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <div className="flex h-[calc(100vh-9rem)] w-full max-w-[1400px] mx-auto bg-gray-50 dark:bg-gray-900 overflow-hidden">
       {/* Sidebar */}
       <aside className="w-80 h-full border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col flex-shrink-0 min-w-0 overflow-hidden">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+        {/* Sidebar Header */}
+        <div className="flex-none h-14 px-3 flex items-center border-b border-gray-200 dark:border-gray-800">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Chats</h2>
         </div>
         <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
@@ -149,20 +150,22 @@ export default function ChatPage() {
       </aside>
       {/* Chat Window */}
       <main className="flex-1 flex flex-col h-full min-h-0 overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center gap-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-8 py-4 flex-shrink-0">
-          <Image
-            src={selectedContact.avatar}
-            alt={selectedContact.name}
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
-          <div>
-            <div className="font-semibold text-gray-900 dark:text-white">{selectedContact.name}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">{selectedContact.role}</div>
+        {/* Main Header */}
+        <header className="flex-none h-14 flex items-center justify-between px-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <div className="flex items-center gap-4">
+            <Image
+              src={selectedContact.avatar}
+              alt={selectedContact.name}
+              width={32}
+              height={32}
+              className="rounded-full"
+            />
+            <div>
+              <div className="font-semibold text-gray-900 dark:text-white">{selectedContact.name}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">{selectedContact.role}</div>
+            </div>
           </div>
-        </div>
+        </header>
         {/* Messages */}
         <div className="flex-1 min-h-0 overflow-y-auto px-8 py-6 space-y-4 bg-gray-50 dark:bg-gray-900">
           {messages.map((msg) => (

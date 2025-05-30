@@ -3,70 +3,105 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const updateSession = async (request: NextRequest) => {
-  console.log("Middleware: Processing path:", request.nextUrl.pathname);
+  const path = request.nextUrl.pathname;
+  console.log("[Middleware Debug] Processing path:", path);
 
   try {
-    // 🔥 Remove all cookies manually
+    // Create a new response
+    const response = NextResponse.next();
+
+    // Clear all cookies
     request.cookies.getAll().forEach(cookie => {
-      request.cookies.delete(cookie.name);
+      response.cookies.delete(cookie.name);
     });
 
-    // 🔥 Strip Authorization header (optional but highly recommended)
+    // Add security headers
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    response.headers.set('Surrogate-Control', 'no-store');
+
+    // Strip all auth-related headers
     const headers = new Headers(request.headers);
     headers.delete("Authorization");
     headers.delete("authorization");
+    headers.delete("x-supabase-auth");
+    headers.delete("x-supabase-auth-token");
 
-    // ✅ Supabase client that ignores session cookies
+    // Create Supabase client with no session persistence
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll: () => [], // no session persistence
-          setAll: () => {}  // no setting cookies
+          get: () => undefined,
+          set: () => {},
+          remove: () => {}
         }
       }
     );
 
-    // 🔒 This will return null if no token in headers or cookies
+    // Check auth status
     const { data: { user }, error } = await supabase.auth.getUser();
-    console.log("Middleware Auth Check - User:", user ? user.id : 'null', "Error:", error?.message ?? "None");
+    console.log("[Middleware Debug] Auth Check:", {
+      hasUser: !!user,
+      userId: user?.id,
+      error: error?.message,
+      path
+    });
 
-    const publicRoutes = ["/auth/signin"];
-    console.log('Public Routes:', publicRoutes);
-    const isPublicRoute = publicRoutes.some(route =>
-      request.nextUrl.pathname.startsWith(route)
-    );
-    console.log('Is Public Route:', isPublicRoute);
+    // Define public and protected routes
+    const publicRoutes = ["/auth/signin", "/auth/signup", "/auth/callback"];
+    const isPublicRoute = publicRoutes.some(route => path.startsWith(route));
+    const isRootPath = path === "/";
+    
+    console.log("[Middleware Debug] Route Check:", { 
+      path, 
+      isPublicRoute,
+      isRootPath
+    });
 
-    // 🔁 Redirect to login if not signed in and trying to access protected routes
+    // If no user and trying to access protected route, redirect to signin
     if (!user && !isPublicRoute) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/auth/signin";
-      console.log(`Middleware: Redirecting unauthenticated user to /auth/signin from ${request.nextUrl.pathname}`);
-      return NextResponse.redirect(url);
+      console.log("[Middleware Debug] No user found, redirecting to signin");
+      const signinUrl = new URL('/auth/signin', request.url);
+      signinUrl.searchParams.set('redirect', path);
+      return NextResponse.redirect(signinUrl);
     }
 
-    // 🔁 Redirect logged-in users away from sign-in page
-    if (user && request.nextUrl.pathname === "/auth/signin") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/dashboard";
-      console.log(`Middleware: Redirecting authenticated user from /auth/signin to /dashboard`);
-      return NextResponse.redirect(url);
+    // If user is authenticated and trying to access auth pages, redirect to dashboard
+    if (user && (path === "/auth/signin" || path === "/auth/signup")) {
+      console.log("[Middleware Debug] User authenticated, redirecting to dashboard");
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    console.log('Middleware: No redirect needed. Proceeding.');
+    // If user is authenticated and on root path, redirect to dashboard
+    if (user && isRootPath) {
+      console.log("[Middleware Debug] User authenticated on root, redirecting to dashboard");
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
 
-    return NextResponse.next();
+    console.log("[Middleware Debug] Proceeding with request");
+    return response;
 
   } catch (error) {
-    console.error("Middleware error:", error);
-    return NextResponse.next();
+    console.error("[Middleware Debug] Error:", error);
+    // On error, redirect to signin to be safe
+    return NextResponse.redirect(new URL('/auth/signin', request.url));
   }
 };
 
+// Update matcher to include all routes except static files and API routes
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(svg|png|jpg|jpeg|gif|webp)$|api/).*)",
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     * - api routes
+     */
+    '/((?!_next/static|_next/image|favicon.ico|public/|api/).*)',
   ],
 };
