@@ -29,14 +29,9 @@ export default function UserDropdown() {
     return <div className="w-20 h-11 animate-pulse bg-gray-300 rounded-full dark:bg-gray-700"></div>;
   }
 
+  // If user is null or undefined and not loading, return null (don't render anything)
   if (!user) {
-    return (
-      <Link href="/auth/signin"
-        className="px-4 py-2 text-sm font-medium text-white bg-sky-600 rounded-md hover:bg-sky-700"
-      >
-        Sign In
-      </Link>
-    );
+    return null;
   }
 
   // Extract user display name and email
