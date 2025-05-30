@@ -259,29 +259,11 @@ export default function Chat() {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex overflow-hidden bg-white dark:bg-gray-900">
-      {/* Mobile Overlay Background */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar - Responsive with proper mobile handling */}
-      <div className={`
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        ${isSidebarOpen ? 'w-64' : 'w-0'}
-        fixed md:relative inset-y-0 left-0 z-50 md:z-auto
-        transition-all duration-300 ease-in-out
-        bg-white dark:bg-gray-950 
-        flex flex-col
-        overflow-hidden
-        border-r border-gray-200 dark:border-gray-800
-      `}>
+    <div className="h-screen flex">
+      {/* Sidebar */}
+      <aside className="flex flex-col w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
         {/* Sidebar Header */}
-        <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex-none h-14 px-3 flex items-center border-b border-gray-200 dark:border-gray-800">
           <button
             onClick={startNewChat}
             className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-white bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -290,7 +272,6 @@ export default function Chat() {
             <span>New chat</span>
           </button>
         </div>
-
         {/* Chat History */}
         <div className="flex-1 overflow-y-auto p-2 min-h-0">
           <div className="space-y-1">
@@ -305,58 +286,16 @@ export default function Chat() {
             ))}
           </div>
         </div>
-
-        {/* Model Selector in Sidebar */}
-        <div className="flex-none p-3 border-t border-gray-200 dark:border-gray-800">
-          <button
-            onClick={() => setShowModelSelector(!showModelSelector)}
-            className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
-              <span className="truncate">{availableModels.find(m => m.id === selectedLLM)?.name}</span>
-            </div>
-            <svg className={`w-4 h-4 transition-transform flex-shrink-0 ${showModelSelector ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          
-          {showModelSelector && (
-            <div className="mt-2 space-y-2">
-              <select
-                value={selectedLLM}
-                onChange={(e) => handleLLMChange(e.target.value)}
-                className="w-full text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-700 dark:text-white"
-              >
-                {availableModels.map((model) => (
-                  <option key={model.id} value={model.id}>
-                    {model.icon} {model.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={selectedModels[selectedLLM] || ''}
-                onChange={(e) => handleVersionChange(e.target.value)}
-                className="w-full text-xs bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-700 dark:text-white"
-              >
-                <option value="">Select version</option>
-                {availableModels
-                  .find(model => model.id === selectedLLM)
-                  ?.versions.map((version) => (
-                    <option key={version.id} value={version.id}>
-                      {version.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-          )}
+        {/* Model Selector in Sidebar - Removed border-t */}
+        <div className="flex-none p-3">
+          {/* Remove the old model selector content */}
         </div>
-      </div>
+      </aside>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-h-0 min-w-0">
-        {/* Header - Compact and responsive */}
-        <header className="flex-none flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      {/* Main Area */}
+      <main className="flex flex-col flex-1 min-h-0 bg-white dark:bg-gray-900">
+        {/* Header */}
+        <header className="flex-none h-14 flex items-center justify-between px-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-2 min-w-0">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -369,16 +308,32 @@ export default function Chat() {
             
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-base md:text-lg flex-shrink-0">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
-              <div className="min-w-0">
-                <div className="font-medium text-gray-900 dark:text-white text-sm truncate">
-                  {availableModels.find(m => m.id === selectedLLM)?.name}
-                </div>
-                {selectedModels[selectedLLM] && (
-                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+              <div className="flex flex-col gap-1">
+                <select
+                  value={selectedLLM}
+                  onChange={(e) => handleLLMChange(e.target.value)}
+                  className="bg-transparent text-sm font-medium text-gray-900 dark:text-white border-none focus:outline-none focus:ring-0 p-0 pr-6 appearance-none cursor-pointer"
+                >
+                  {availableModels.map((model) => (
+                    <option key={model.id} value={model.id}>
+                      {model.name}
+                    </option>
+                  ))}
+                </select>
+                {selectedLLM && (
+                  <select
+                    value={selectedModels[selectedLLM] || ''}
+                    onChange={(e) => handleVersionChange(e.target.value)}
+                    className="bg-transparent text-xs text-gray-500 dark:text-gray-400 border-none focus:outline-none focus:ring-0 p-0 pr-6 appearance-none cursor-pointer"
+                  >
                     {availableModels
-                      .find(m => m.id === selectedLLM)
-                      ?.versions.find(v => v.id === selectedModels[selectedLLM])?.name}
-                  </div>
+                      .find(model => model.id === selectedLLM)
+                      ?.versions.map((version) => (
+                        <option key={version.id} value={version.id}>
+                          {version.name}
+                        </option>
+                      ))}
+                  </select>
                 )}
               </div>
             </div>
@@ -451,26 +406,101 @@ export default function Chat() {
           </div>
         )}
 
-        {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto min-h-0">
-          {messages.length === 0 ? (
-            /* Welcome Screen */
-            <div className="flex flex-col items-center justify-center h-full px-4 text-center">
-              <div className="max-w-md w-full">
-                <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+        {/* Conditional Layout for Chat Area and Input Bar */}
+        {messages.length === 0 ? (
+          // Centered welcome and input when no messages
+          <div className="flex-1 flex flex-col items-center justify-center min-h-0 px-4 py-6">
+            <div className="max-w-md w-full mb-8">
+              <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                <span className="text-2xl">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
+              </div>
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                How can I help you today?
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                I'm {availableModels.find(m => m.id === selectedLLM)?.name}, ready to assist you with any questions or tasks.
+              </p>
+            </div>
+            {/* Centered Input Bar */}
+            <div className="w-full max-w-2xl">
+              <div className="border-t px-4 py-3 bg-white rounded-xl shadow-md">
+                <div className="relative flex items-end">
+                  <textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Message Adora AI..."
+                    className="flex-1 min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-24
+                             border border-gray-300 dark:border-gray-600 rounded-xl
+                             focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                             resize-none bg-white dark:bg-gray-800
+                             text-gray-900 dark:text-white
+                             placeholder-gray-500 dark:placeholder-gray-400
+                             text-sm leading-relaxed
+                             transition-all duration-200"
+                    rows={1}
+                    onInput={(e) => {
+                      const target = e.target as HTMLTextAreaElement;
+                      target.style.height = 'auto';
+                      target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
+                    }}
+                  />
+                  {/* Desktop Tools + Character Counter + Send Button */}
+                  <div className="absolute right-0 bottom-0 flex items-end p-2">
+                    {/* Desktop Tools - Inside input */}
+                    <div className="hidden md:flex items-center gap-1 mr-2">
+                      {/* File Upload */}
+                      <label className="cursor-pointer">
+                        <input
+                          type="file"
+                          className="hidden"
+                          onChange={handleFileUpload}
+                          multiple
+                        />
+                        <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                          </svg>
+                        </div>
+                      </label>
+                      {/* Voice Recording */}
+                      <button
+                        onClick={toggleRecording}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          isRecording
+                            ? 'text-red-500 bg-red-50 dark:bg-red-900/20'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        }`}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                      </button>
+                    </div>
+                    {/* Character Counter */}
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mr-2 mb-1">
+                      {input.length}/2000
+                    </div>
+                    {/* Send Button */}
+                    <button
+                      onClick={handleSend}
+                      disabled={!input.trim() || isLoading}
+                      className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed
+                             flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700
+                             transition-all duration-200 flex-shrink-0"
+                    >
+                      <PaperPlaneIcon className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
                 </div>
-                <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-                  How can I help you today?
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  I'm {availableModels.find(m => m.id === selectedLLM)?.name}, ready to assist you with any questions or tasks.
-                </p>
               </div>
             </div>
-          ) : (
-            /* Messages */
-            <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-4 md:py-6">
+          </div>
+        ) : (
+          // Standard layout when there are messages
+          <>
+            {/* Chat Area (scrollable) */}
+            <section className="flex-1 overflow-y-auto min-h-0 px-4 py-6">
               <div className="space-y-4 md:space-y-6">
                 {messages.map((message) => (
                   <div key={message.id} className="group">
@@ -480,7 +510,6 @@ export default function Chat() {
                           <span className="text-xs md:text-sm">{availableModels.find(m => m.id === selectedLLM)?.icon}</span>
                         </div>
                       )}
-                      
                       <div className={`flex-1 min-w-0 ${message.role === 'user' ? 'max-w-[85%] md:max-w-[80%]' : ''}`}>
                         {message.role === 'user' && (
                           <div className="flex justify-end mb-1">
@@ -489,7 +518,6 @@ export default function Chat() {
                             </div>
                           </div>
                         )}
-                        
                         <div className={`${
                           message.role === 'user' 
                             ? 'bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 md:px-4 py-2 md:py-3 ml-auto' 
@@ -505,7 +533,6 @@ export default function Chat() {
                             {message.content}
                           </div>
                         </div>
-                        
                         <div className={`text-xs text-gray-500 dark:text-gray-400 mt-1 ${
                           message.role === 'user' ? 'text-right' : ''
                         }`}>
@@ -515,7 +542,6 @@ export default function Chat() {
                     </div>
                   </div>
                 ))}
-                
                 {isLoading && (
                   <div className="group">
                     <div className="flex gap-3 md:gap-4">
@@ -536,88 +562,82 @@ export default function Chat() {
                   </div>
                 )}
               </div>
-            </div>
-          )}
-        </div>
-
-        {/* Input Area - Streamlined and contained */}
-        <div className="flex-none border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-3">
-            <div className="relative">
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Message Adora AI..."
-                className="w-full min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-12 md:pr-16
-                         border border-gray-300 dark:border-gray-600 rounded-xl 
-                         focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-                         resize-none bg-white dark:bg-gray-800 
-                         text-gray-900 dark:text-white 
-                         placeholder-gray-500 dark:placeholder-gray-400 
-                         text-sm leading-relaxed
-                         transition-all duration-200"
-                rows={1}
-                onInput={(e) => {
-                  const target = e.target as HTMLTextAreaElement;
-                  target.style.height = 'auto';
-                  target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
-                }}
-              />
-              
-              {/* Desktop Tools - Inside input */}
-              <div className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-1">
-                {/* File Upload */}
-                <label className="cursor-pointer">
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                    multiple
-                  />
-                  <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                    </svg>
+            </section>
+            {/* Input Area - Streamlined and contained */}
+            <footer className="flex-none border-t px-4 py-3 bg-white">
+              <div className="relative flex items-end">
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Message Adora AI..."
+                  className="flex-1 min-h-[44px] md:min-h-[48px] max-h-20 md:max-h-24 px-3 md:px-4 py-2 md:py-3 pr-24
+                           border border-gray-300 dark:border-gray-600 rounded-xl
+                           focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                           resize-none bg-white dark:bg-gray-800
+                           text-gray-900 dark:text-white
+                           placeholder-gray-500 dark:placeholder-gray-400
+                           text-sm leading-relaxed
+                           transition-all duration-200"
+                  rows={1}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 96 : 80) + 'px';
+                  }}
+                />
+                {/* Desktop Tools + Character Counter + Send Button */}
+                <div className="absolute right-0 bottom-0 flex items-end p-2">
+                  {/* Desktop Tools - Inside input */}
+                  <div className="hidden md:flex items-center gap-1 mr-2">
+                    {/* File Upload */}
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileUpload}
+                        multiple
+                      />
+                      <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                      </div>
+                    </label>
+                    {/* Voice Recording */}
+                    <button
+                      onClick={toggleRecording}
+                      className={`p-1.5 rounded-lg transition-colors ${
+                        isRecording
+                          ? 'text-red-500 bg-red-50 dark:bg-red-900/20'
+                          : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                      </svg>
+                    </button>
                   </div>
-                </label>
-                
-                {/* Voice Recording */}
-                <button
-                  onClick={toggleRecording}
-                  className={`p-1.5 rounded-lg transition-colors ${
-                    isRecording 
-                      ? 'text-red-500 bg-red-50 dark:bg-red-900/20' 
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                  </svg>
-                </button>
+                  {/* Character Counter */}
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mr-2 mb-1">
+                    {input.length}/2000
+                  </div>
+                  {/* Send Button */}
+                  <button
+                    onClick={handleSend}
+                    disabled={!input.trim() || isLoading}
+                    className="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed
+                           flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700
+                           transition-all duration-200 flex-shrink-0"
+                  >
+                    <PaperPlaneIcon className="w-4 h-4 text-white" />
+                  </button>
+                </div>
               </div>
-
-              {/* Send Button */}
-              <button
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                className="absolute right-2 bottom-2 md:right-14 md:bottom-1/2 md:translate-y-1/2 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
-                         flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
-                         transition-all duration-200"
-              >
-                <PaperPlaneIcon className="w-3 h-3 md:w-4 md:h-4 text-white" />
-              </button>
-            </div>
-            
-            {/* Character Counter - Always visible */}
-            <div className="flex justify-end mt-1">
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                {input.length}/2000
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </footer>
+          </>
+        )}
+      </main>
     </div>
   );
 } 
