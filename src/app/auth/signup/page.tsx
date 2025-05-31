@@ -47,6 +47,50 @@ function SignUpContent() {
     handleEmailConfirmation();
   }, [token, type, router, email, setIsLoading, setError]);
 
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const { user } = session;
+        console.log('User:', user);
+        // Only process for Google sign-up
+        if (user.app_metadata?.provider === 'google' && user.user_metadata) {
+          console.log('Google sign-up detected');
+          // Extract name from Google metadata
+          const fullName = user.user_metadata.full_name || '';
+          const names = fullName.split(' ');
+          const firstName = names[0] || '';
+          const lastName = names.slice(1).join(' ') || '';
+
+          // Update user metadata in Supabase
+          const { error: updateError } = await supabase.auth.updateUser({
+            data: {
+              firstName,
+              lastName,
+              full_name: fullName,
+              name: fullName
+            }
+          });
+          console.log('Updated user metadata:', {
+            firstName,
+            lastName,
+            full_name: fullName,
+            name: fullName
+          });
+
+          if (updateError) {
+            console.error('Error updating user metadata:', updateError);
+          }
+        }
+        
+        router.push('/dashboard');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -91,10 +135,11 @@ function SignUpContent() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/signup`,
         queryParams: {
           prompt: 'select_account'
-        }
+        },
+        scopes: 'email profile'
       },
     });
 
