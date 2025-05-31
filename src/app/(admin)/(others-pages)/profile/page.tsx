@@ -23,6 +23,7 @@ export default function Profile() {
     state: "",
     country: "",
     zipCode: "",
+    address: "",
     facebook: "",
     x: "",
     linkedin: "",
@@ -39,6 +40,7 @@ export default function Profile() {
         state: profile.state || "",
         country: profile.country || "",
         zipCode: profile.zipCode || "",
+        address: profile.address || "",
         facebook: profile.facebook || "",
         x: profile.x || "",
         linkedin: profile.linkedin || "",
@@ -57,6 +59,7 @@ export default function Profile() {
 
   const handleSave = async () => {
     try {
+      console.log('Saving profile...');
       setIsSaving(true);
       setSaveError(null);
 
@@ -78,6 +81,7 @@ export default function Profile() {
         state: formData.state,
         country: formData.country,
         zip_code: formData.zipCode,
+        address: formData.address,
         facebook: formatUrl(formData.facebook),
         x: formatUrl(formData.x),
         linkedin: formatUrl(formData.linkedin),
@@ -332,6 +336,17 @@ export default function Profile() {
                 </h5>
 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                  <div className="col-span-2">
+                    <Label>Street Address</Label>
+                    <Input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder="Enter your street address"
+                    />
+                  </div>
+
                   <div className="col-span-2 lg:col-span-1">
                     <Label>City</Label>
                     <Input
@@ -339,6 +354,7 @@ export default function Profile() {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
+                      placeholder="Enter your city"
                     />
                   </div>
 
@@ -349,6 +365,7 @@ export default function Profile() {
                       name="state"
                       value={formData.state}
                       onChange={handleInputChange}
+                      placeholder="Enter your state"
                     />
                   </div>
 
@@ -359,6 +376,7 @@ export default function Profile() {
                       name="zipCode"
                       value={formData.zipCode}
                       onChange={handleInputChange}
+                      placeholder="Enter your zip code"
                     />
                   </div>
 
@@ -369,6 +387,7 @@ export default function Profile() {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
+                      placeholder="Enter your country"
                     />
                   </div>
                 </div>

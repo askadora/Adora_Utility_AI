@@ -26,12 +26,21 @@ export default function UserAddressCard() {
           </h4>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
+            <div className="col-span-2">
+              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                Street Address
+              </p>
+              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                {profile.address || 'NA'}
+              </p>
+            </div>
+
             <div>
               <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
                 City
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {profile.city}
+                {profile.city || 'NA'}
               </p>
             </div>
 
@@ -40,7 +49,7 @@ export default function UserAddressCard() {
                 State
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {profile.state}
+                {profile.state || 'NA'}
               </p>
             </div>
 
@@ -49,7 +58,7 @@ export default function UserAddressCard() {
                 Country
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {profile.country}
+                {profile.country || 'NA'}
               </p>
             </div>
 
@@ -58,7 +67,7 @@ export default function UserAddressCard() {
                 Zip Code
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {profile.zipCode}
+                {profile.zipCode || 'NA'}
               </p>
             </div>
           </div>
