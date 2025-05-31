@@ -71,6 +71,8 @@ function SignUpContent() {
         data: {
           firstName,
           lastName,
+          full_name: `${firstName} ${lastName}`,
+          name: `${firstName} ${lastName}`,
         },
       },
     });
