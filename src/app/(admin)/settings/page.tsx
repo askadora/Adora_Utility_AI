@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function Settings() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const [emailNotifications, setEmailNotifications] = useState(true);
+  const [pushNotifications, setPushNotifications] = useState(false);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -20,9 +23,18 @@ export default function Settings() {
                   <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email Notifications</h4>
                   <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive email updates</p>
                 </div>
-                <button className="relative inline-flex h-8 w-14 items-center rounded-full bg-blue-600">
+                <button
+                  onClick={() => setEmailNotifications(!emailNotifications)}
+                  className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                    emailNotifications ? 'bg-sky-600' : 'bg-gray-200'
+                  }`}
+                >
                   <span className="sr-only">Enable email notifications</span>
-                  <span className="inline-block h-6 w-6 transform rounded-full bg-white translate-x-7" />
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                      emailNotifications ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
                 </button>
               </div>
               <div className="flex items-center justify-between">
@@ -30,9 +42,18 @@ export default function Settings() {
                   <h4 className="text-lg font-medium text-gray-900 dark:text-white">Push Notifications</h4>
                   <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive push notifications</p>
                 </div>
-                <button className="relative inline-flex h-8 w-14 items-center rounded-full bg-gray-200">
+                <button
+                  onClick={() => setPushNotifications(!pushNotifications)}
+                  className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                    pushNotifications ? 'bg-sky-600' : 'bg-gray-200'
+                  }`}
+                >
                   <span className="sr-only">Enable push notifications</span>
-                  <span className="inline-block h-6 w-6 transform rounded-full bg-white translate-x-1" />
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                      pushNotifications ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
                 </button>
               </div>
             </div>
@@ -66,13 +87,15 @@ export default function Settings() {
                 <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Toggle dark mode appearance</p>
               </div>
               <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className="relative inline-flex h-8 w-14 items-center rounded-full bg-gray-200 dark:bg-gray-700"
+                onClick={toggleTheme}
+                className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                  theme === 'dark' ? 'bg-sky-600' : 'bg-gray-200'
+                }`}
               >
                 <span className="sr-only">Toggle dark mode</span>
                 <span
-                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition ${
-                    isDarkMode ? 'translate-x-7' : 'translate-x-1'
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                    theme === 'dark' ? 'translate-x-7' : 'translate-x-1'
                   }`}
                 />
               </button>
