@@ -13,6 +13,14 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Adora AI - AI-Powered Business Intelligence Platform",
   description: "Adora AI is a platform that uses AI to help businesses make better decisions.",
+  icons: {
+    icon: [
+      {
+        url: '/images/logo/adora-ai-logo.png',
+        sizes: 'any',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
