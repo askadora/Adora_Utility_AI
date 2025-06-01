@@ -15,6 +15,41 @@ export default function AuthCallback() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         // User is authenticated, redirect to dashboard
+
+        // Check if the event is a sign-in to avoid sending email on every state change
+        if (_event === 'SIGNED_IN') {
+          const user = session.user;
+          if (user) {
+            (async () => {
+              try {
+                console.log('Attempting to send welcome email from callback with payload:', {
+                  email: user.email,
+                  name: user.user_metadata?.full_name || user.email,
+                });
+                const response = await fetch('https://tnbsoahieqhejtoewmbt.supabase.co/functions/v1/send-welcome-email', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    email: user.email,
+                    name: user.user_metadata?.full_name || user.email,
+                  }),
+                });
+                console.log('Callback welcome email fetch response status:', response.status);
+                if (!response.ok) {
+                  const errorText = await response.text();
+                  console.error('Callback failed to send welcome email:', errorText);
+                } else {
+                  console.log('Callback welcome email sent successfully (hopefully)');
+                }
+              } catch (fetchError) {
+                console.error('Error initiating welcome email fetch:', fetchError);
+              }
+            })();
+          }
+        }
+
         router.push('/dashboard');
       } else {
         // If no session, it might be an error or the callback didn't result in a session
