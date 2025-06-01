@@ -1,12 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
-import { SendIcon } from '@/components/icons';
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
+import React from 'react';
 
 export default function KnowledgeBase() {
   // Remove chat state and handlers since we're embedding the iframe
