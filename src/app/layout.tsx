@@ -5,6 +5,7 @@ import './globals.css';
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import DocsBotWidget from '@/components/investor-dashboard/DocsBotWidget';
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
             </SidebarProvider>
           </ThemeProvider>
         </AuthProvider>
+        <DocsBotWidget />
       </body>
     </html>
   );

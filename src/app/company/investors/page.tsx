@@ -2,44 +2,60 @@
 
 import React from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
-import DocsBotWidget from '@/components/investor-dashboard/DocsBotWidget';
 
 export default function InvestorDataRoom() {
   return (
     <div className="relative min-h-screen">
       <div className="space-y-6 md:space-y-8">
-        {/* Header Section */}
-        <header className="flex flex-col gap-2 pb-6 border-b border-gray-200 dark:border-gray-800">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white/90 md:text-3xl">
-            Investor Data Room
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 max-w-3xl">
-            Access our comprehensive investment materials and learn about the opportunity to join Adora AI's journey.
-          </p>
-        </header>
+        {/* Main Heading Section */}
+        <div className="mt-1 p-4 md:p-6 2xl:p-10">
+          <div className="mb-4 flex flex-col gap-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white/90">
+              Investor Data Room
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 max-w-3xl">
+              Access our secure investor data room for pitch decks, financials, legal documents, and more. Connect with our team and explore investment opportunities with Adora AI.
+            </p>
+          </div>
+        </div>
 
         {/* Hero Section */}
         <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white/90 mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white/90 mb-3">
               Your Investment Opportunity
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              We're seeking $2.5-3.2M in funding to accelerate our AI platform launch. 
-              Join us in building the future of artificial intelligence.
+            <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6">
+              We're seeking $2.5-3.2M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
             </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-4">
-              <div className="rounded-lg bg-gray-50 dark:bg-gray-800/50 p-4 text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Minimum Investment</p>
-                <p className="text-xl font-semibold text-gray-900 dark:text-white">$250K</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-6">
+              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Minimum Investment</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">$250K</p>
               </div>
-              <div className="rounded-lg bg-gray-50 dark:bg-gray-800/50 p-4 text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Client Investor</p>
-                <p className="text-xl font-semibold text-gray-900 dark:text-white">$322K</p>
+              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Client Investor</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">$322K</p>
               </div>
             </div>
           </div>
         </section>
+
+        {/* InvestAssist AI Chatbot Section */}
+        <div className="mb-8">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark" style={{ height: 400, width: '100%', padding: 0, overflow: 'hidden', display: 'block' }}>
+            <iframe
+              src="https://docsbot.ai/iframe/r5DFHTmBuQSdYrUAhqXk/vPCRFfIbGuVNMeJi08nt"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              allowTransparency={true}
+              scrolling="no"
+              style={{ border: 'none', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.12)', width: '100%', height: '100%', display: 'block' }}
+              title="DocsBot AI Chatbot"
+            />
+          </div>
+        </div>
 
         {/* Pitch Deck Section */}
         <ComponentCard title="Pitch Deck" desc="Watch our presentation and download materials">
@@ -386,12 +402,6 @@ export default function InvestorDataRoom() {
             </div>
           </div>
         </ComponentCard>
-      </div>
-
-      {/* DocsBot AI Widget - Fixed to bottom right */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <DocsBotWidget />
-        <div id="docsbotai-root"></div>
       </div>
     </div>
   );
