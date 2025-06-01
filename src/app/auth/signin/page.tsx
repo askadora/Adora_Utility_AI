@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
+import { getAdorahqUrl } from '@/utils/getBaseUrl';
 
 export default function SignIn() {
   const router = useRouter();
@@ -76,7 +77,41 @@ export default function SignIn() {
     setIsLoading(true);
     setError(null);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
+    if (error) {
+      setError(error.message);
+    } else {
+      // Login successful, now send welcome email
+      // Fetch the updated user object to ensure user_metadata is available
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        try {
+          console.log('Attempting to send welcome email with payload:', {
+            email: user.email,
+            name: user.user_metadata?.full_name || user.email,
+          });
+          const response = await fetch('https://tnbsoahieqhejtoewmbt.supabase.co/functions/v1/send-welcome-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.user_metadata?.full_name || user.email,
+            }),
+          });
+          console.log('Welcome email fetch response status:', response.status);
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Failed to send welcome email:', errorText);
+          } else {
+            console.log('Welcome email sent successfully (hopefully)');
+          }
+        } catch (emailError) {
+          console.error('Failed to send welcome email:', emailError);
+        }
+      }
+      // The useEffect will handle the redirect to /dashboard
+    }
     setIsLoading(false);
   };
 
@@ -120,7 +155,7 @@ export default function SignIn() {
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-xl dark:bg-gray-800/50">
         <div>
           <Link 
-            href="https://www.adorahq.com" 
+            href={getAdorahqUrl()} 
             className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors mb-4"
           >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
