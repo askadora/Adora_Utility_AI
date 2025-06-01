@@ -13,24 +13,30 @@ export default function AuthCallback() {
     // parameters on page load for OAuth and some email confirmation flows.
     // We can simply wait for the session and then redirect.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('Auth state change event:', _event);
+      console.log('Session in callback:', session);
+      
       if (session) {
         // User is authenticated, redirect to dashboard
 
         // Check if the event is a sign-in to avoid sending email on every state change
         if (_event === 'SIGNED_IN') {
+          console.log('SIGNED_IN event detected');
           const user = session.user;
           if (user) {
+            console.log('User found in session:', user);
             (async () => {
               try {
                 console.log('Attempting to send welcome email from callback with payload:', {
                   email: user.email,
                   name: user.user_metadata?.full_name || user.email,
                 });
+                console.log('Using access token:', session.access_token);
                 const response = await fetch('https://tnbsoahieqhejtoewmbt.supabase.co/functions/v1/send-welcome-email', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.access_token}`,
+                    'Authorization': `Bearer ${session.access_token}`,
                   },
                   body: JSON.stringify({
                     email: user.email,
