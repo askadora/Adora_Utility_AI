@@ -1,6 +1,5 @@
 import React from 'react';
 import { Metadata } from 'next';
-import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import ComponentCard from '@/components/common/ComponentCard';
 
 export const metadata: Metadata = {
@@ -11,27 +10,22 @@ export const metadata: Metadata = {
 export default function PressPage() {
   return (
     <div className="space-y-6 md:space-y-8">
-      <PageBreadcrumb pageTitle="Press & Media" />
-
-      {/* Hero Section */}
-      <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03] text-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white/90 mb-2">Adora AI in the News</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Stay up to date with the latest press releases, media coverage, and company news from Adora AI.
-        </p>
-      </section>
+      {/* Main Heading - left aligned, matching card headings */}
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white/90 md:text-3xl mb-4">
+        Press & Media
+      </h1>
 
       {/* Latest Press Releases */}
       <ComponentCard title="Latest Press Releases" desc="Official announcements from Adora AI">
         <ul className="divide-y divide-gray-200 dark:divide-gray-800">
           <li className="py-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Announces $3M Pre-Launch Funding Round</h3>
-            <p className="text-gray-600 dark:text-gray-400">June 2025 &mdash; Adora AI secures strategic investment to accelerate product launch and team growth.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90 mb-1">Adora AI Announces $3M Pre-Launch Funding Round</h3>
+            <p className="text-base text-gray-600 dark:text-gray-400 mb-1">June 2025 &mdash; Adora AI secures strategic investment to accelerate product launch and team growth.</p>
             <a href="#" className="text-primary hover:underline text-sm">Read full release</a>
           </li>
           <li className="py-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Unveils Next-Gen AI OS at Tech Summit</h3>
-            <p className="text-gray-600 dark:text-gray-400">April 2025 &mdash; The company showcases its multi-model AI platform at the annual Tech Summit.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90 mb-1">Adora AI Unveils Next-Gen AI OS at Tech Summit</h3>
+            <p className="text-base text-gray-600 dark:text-gray-400 mb-1">April 2025 &mdash; The company showcases its multi-model AI platform at the annual Tech Summit.</p>
             <a href="#" className="text-primary hover:underline text-sm">Read full release</a>
           </li>
         </ul>

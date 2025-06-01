@@ -7,9 +7,9 @@ export default function KnowledgeBase() {
   return (
     <div className="mt-1 p-4 md:p-6 2xl:p-10">
       <div className="mb-4">
-        <h2 className="text-title-md2 font-bold text-black dark:text-white">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white/90 md:text-3xl">
           Knowledge Base
-        </h2>
+        </h1>
       </div>
 
       {/* Chat Interface replaced with DocsBot AI iframe */}

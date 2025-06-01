@@ -1,6 +1,5 @@
 import React from 'react';
 import { Metadata } from 'next';
-import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import ComponentCard from '@/components/common/ComponentCard';
 
 export const metadata: Metadata = {
@@ -11,35 +10,19 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="space-y-6 md:space-y-8">
-      <PageBreadcrumb pageTitle="About Us" />
-
-      {/* Hero Section */}
-      <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white/90 mb-4">
-            Transforming Business Intelligence with AI
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Adora AI is at the forefront of artificial intelligence innovation, 
-            helping businesses make smarter decisions through advanced analytics 
-            and machine learning.
-          </p>
-        </div>
-      </section>
+      {/* Main Heading - left aligned, matching card headings */}
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white/90 md:text-3xl mb-4">
+        About Us
+      </h1>
 
       {/* About Us Section */}
       <ComponentCard title="Our Story" desc="Learn about our journey and mission">
         <div className="prose dark:prose-invert max-w-none">
-          <p>
-            Founded in 2023, Adora AI emerged from a vision to democratize artificial 
-            intelligence for businesses of all sizes. Our platform combines cutting-edge 
-            AI technology with intuitive design to deliver powerful business intelligence 
-            solutions that drive growth and innovation.
+          <p className="text-base text-gray-600 dark:text-gray-400 mb-2">
+            Founded in 2023, Adora AI emerged from a vision to democratize artificial intelligence for businesses of all sizes. Our platform combines cutting-edge AI technology with intuitive design to deliver powerful business intelligence solutions that drive growth and innovation.
           </p>
-          <p>
-            We believe that AI should be accessible, understandable, and actionable. 
-            That's why we've built a platform that makes it easy for businesses to 
-            harness the power of AI without needing a team of data scientists.
+          <p className="text-base text-gray-600 dark:text-gray-400">
+            We believe that AI should be accessible, understandable, and actionable. That's why we've built a platform that makes it easy for businesses to harness the power of AI without needing a team of data scientists.
           </p>
         </div>
       </ComponentCard>
