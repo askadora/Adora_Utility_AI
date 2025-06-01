@@ -9,42 +9,7 @@ interface Message {
 }
 
 export default function KnowledgeBase() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    // Add user message
-    const userMessage: Message = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
-    try {
-      // TODO: Implement vector search and chat completion
-      // This will be implemented when we set up the vector database
-      const response = await fetch('/api/knowledge-base/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input }),
-      });
-
-      const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-    } catch (error) {
-      console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered an error. Please try again.' 
-      }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  // Remove chat state and handlers since we're embedding the iframe
   return (
     <div className="mt-1 p-4 md:p-6 2xl:p-10">
       <div className="mb-4">
@@ -53,58 +18,18 @@ export default function KnowledgeBase() {
         </h2>
       </div>
 
-      {/* Chat Interface */}
-      <div className="mb-8 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex h-[calc(50vh-120px)] flex-col">
-          {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`mb-4 flex ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
-                    message.role === 'user'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 dark:bg-gray-800'
-                  }`}
-                >
-                  {message.content}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="max-w-[80%] rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-                  Thinking...
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Chat Input */}
-          <form onSubmit={handleSubmit} className="border-t border-stroke p-4 dark:border-strokedark">
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question about our documentation..."
-                className="w-full rounded-lg border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-center font-medium text-white hover:bg-opacity-90 disabled:opacity-50"
-              >
-                <SendIcon />
-              </button>
-            </div>
-          </form>
-        </div>
+      {/* Chat Interface replaced with DocsBot AI iframe */}
+      <div className="mb-8 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark" style={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 0 }}>
+        <iframe
+          src="https://docsbot.ai/iframe/r5DFHTmBuQSdYrUAhqXk/vPCRFfIbGuVNMeJi08nt"
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          allowTransparency={true}
+          scrolling="no"
+          style={{ border: 'none', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.12)', width: '100%', height: '100%' }}
+          title="DocsBot AI Chatbot"
+        />
       </div>
 
       {/* Documentation Sections */}
