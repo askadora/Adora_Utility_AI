@@ -22,6 +22,54 @@ export default function SignIn() {
       router.replace('/dashboard'); // or your dashboard route
     }
   }, [user, authLoading, router]);
+  console.log('User:', user);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const { user } = session;
+        // Only process for Google sign-in
+        console.log('User:', user.app_metadata);
+        if (user.app_metadata?.provider === 'google' && user.user_metadata) {
+          const fullName = user.user_metadata.full_name || user.user_metadata.name || '';
+          const names = fullName.split(' ');
+          const firstName = names[0] || '';
+          const lastName = names.slice(1).join(' ') || '';
+          console.log('User first name, last name:', firstName, lastName);
+
+          // Update user metadata in Supabase
+          const { error: updateError } = await supabase.auth.updateUser({
+            data: {
+              firstName,
+              lastName,
+              full_name: fullName,
+              name: fullName
+            }
+          });
+          console.log('Update error:', updateError);
+          if (updateError) {
+            console.error('Error updating user metadata:', updateError);
+          }
+          // Update your custom User table
+          const { error: updateUserTableError } = await supabase.rpc('update_user_name_for_google', {
+            auth_user_id: user.id, // Supabase Auth user UUID
+            first_name: firstName,
+            last_name: lastName
+          });
+          console.log('Update user table error:', updateUserTableError);
+          if (updateUserTableError) {
+            console.error('Error updating User table:', updateUserTableError);
+          }
+          console.log('User table updated successfully');
+        }
+        router.replace('/dashboard');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
