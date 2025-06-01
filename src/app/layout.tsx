@@ -33,7 +33,9 @@ export default function RootLayout({
       <body className={`${outfit.className} dark:bg-gray-900`}>
         <AuthProvider>
           <ThemeProvider>
-            <SidebarProvider>{children}</SidebarProvider>
+            <SidebarProvider>
+              {children}
+            </SidebarProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

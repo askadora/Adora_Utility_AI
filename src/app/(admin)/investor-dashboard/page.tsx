@@ -1,4 +1,7 @@
+'use client';
+
 import React from "react";
+
 
 export default function InvestorDashboard() {
   return (
@@ -7,6 +10,7 @@ export default function InvestorDashboard() {
       <div className="bg-white shadow-md rounded-lg p-6 mb-6 dark:bg-gray-700">
         <p className="text-gray-700 dark:text-gray-300">Welcome to the Investor Dashboard. This page is intended for investors to access important information and metrics.</p>
       </div>
+     
     </div>
   );
 } 
