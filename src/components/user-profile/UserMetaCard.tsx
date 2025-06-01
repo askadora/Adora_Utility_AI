@@ -2,9 +2,12 @@
 import React from "react";
 import Image from "next/image";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import Button from "@/components/ui/button/Button";
 
 export default function UserMetaCard() {
   const { profile, loading, error } = useUserProfile();
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -18,20 +21,55 @@ export default function UserMetaCard() {
     return <div>No profile data found</div>;
   }
 
-  const imageUrl = "/images/user/blank_image.jpg";
+  const imageUrl = previewUrl || "/images/user/blank_image.jpg";
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // Show preview
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    // TODO: Add upload logic here (e.g., upload to Supabase Storage)
+    // Example: uploadProfileImage(file)
+    // alert("Selected file: " + file.name);
+  };
 
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
-          <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-            <Image
-              width={80}
-              height={80}
-              src={imageUrl}
-              alt={`${profile.firstName} ${profile.lastName}`}
-              className="object-cover"
+          <div className="relative flex items-end" style={{ height: 80 }}>
+            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 bg-white">
+              <Image
+                width={80}
+                height={80}
+                src={imageUrl}
+                alt={`${profile.firstName} ${profile.lastName}`}
+                className="object-cover"
+              />
+            </div>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.svg"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileChange}
             />
+            <button
+              type="button"
+              onClick={handleUploadClick}
+              className="absolute right-0 bottom-0 translate-x-1/3 translate-y-1/3 w-11 h-11 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10"
+              title="Upload profile image"
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                <circle cx="12" cy="13" r="3" />
+              </svg>
+            </button>
           </div>
           <div className="order-3 xl:order-2">
             <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
