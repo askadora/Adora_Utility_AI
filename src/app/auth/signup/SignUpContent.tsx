@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
+import { getAdorahqUrl, getBaseUrl } from '@/utils/getBaseUrl';
 
 export default function SignUpContent() {
   const router = useRouter();
@@ -96,7 +97,7 @@ export default function SignUpContent() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`, // Assuming a callback route at /auth/callback
+        redirectTo: `${getBaseUrl()}/auth/callback`,
       },
     });
 
