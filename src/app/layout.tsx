@@ -37,9 +37,9 @@ export default function RootLayout({
             <SidebarProvider>
               {children}
             </SidebarProvider>
+            <DocsBotWidget />
           </ThemeProvider>
         </AuthProvider>
-        <DocsBotWidget />
       </body>
     </html>
   );
