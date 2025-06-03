@@ -6,7 +6,6 @@ export const DOCSBOT_CONFIG = {
 
 export const DOCSBOT_BOTS = {
   INVESTOR: process.env.NEXT_PUBLIC_DOCSBOT_INVESTOR_ID,
-  // Add other bot IDs here as needed
   KNOW_BASE: process.env.NEXT_PUBLIC_DOCSBOT_KNOW_BASE_ID,
   COMMON: process.env.NEXT_PUBLIC_DOCSBOT_COMMON_ID,
 } as const;

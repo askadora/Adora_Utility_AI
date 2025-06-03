@@ -5,7 +5,7 @@ export interface Message {
 
 export interface ChatRequest {
   question: string;
-  history: Message[];
+  history: [string, string][]; // Array of [role, content] pairs
 }
 
 export interface ChatResponse {

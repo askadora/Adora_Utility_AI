@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Outfit } from 'next/font/google';
 import './globals.css';
-import Script from "next/script";
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';

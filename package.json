@@ -41,7 +41,8 @@
     "react-hot-toast": "^2.5.2",
     "recharts": "^2.15.3",
     "swiper": "^11.2.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "tailwind-scrollbar-hide": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

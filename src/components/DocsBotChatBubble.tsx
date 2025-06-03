@@ -1,217 +1,133 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-
-const TEAM_ID = 'r5DFHTmBuQSdYrUAhqXk';
-const BOT_ID = 'vPCRFfIbGuVNMeJi08nt';
-const API_URL = `https://app.docsbot.ai/api/chat/${TEAM_ID}/${BOT_ID}`;
-
-function sendMessageToDocsBot(message: string) {
-  return fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ message }),
-  })
-    .then((res) => res.json())
-    .then((data) => data.response || 'No response');
-}
-
-const AGENT_NAME = 'Adora AI agent';
-const AGENT_COLOR = '#4F6AFB';
-const AGENT_AVATAR = (
-  <span style={{
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    background: AGENT_COLOR,
-    color: '#fff',
-    fontWeight: 700,
-    fontSize: 18,
-    marginRight: 8,
-    boxShadow: '0 1px 4px rgba(79,106,251,0.10)'
-  }}>A</span>
-);
+import React, { useState } from 'react';
+import { useDocsBot } from '@/docsbot/useDocsBot';
+import { DOCSBOT_BOTS } from '@/docsbot/config';
 
 export default function DocsBotChatBubble() {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'bot', text: 'What can I help you with?' },
-  ]);
+  const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const { messages, isLoading, sendMessage, error } = useDocsBot(DOCSBOT_BOTS.COMMON as string);
 
-  useEffect(() => {
-    if (open && chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages, open]);
-
-  const handleSend = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-    const userMsg = { role: 'user', text: input };
-    setMessages((msgs) => [...msgs, userMsg]);
-    setInput('');
-    setLoading(true);
-    try {
-      const botReply = await sendMessageToDocsBot(input);
-      setMessages((msgs) => [...msgs, { role: 'bot', text: botReply }]);
-    } catch (err) {
-      setMessages((msgs) => [...msgs, { role: 'bot', text: 'Sorry, there was an error.' }]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRefresh = () => {
-    setMessages([{ role: 'bot', text: 'What can I help you with?' }]);
+    
+    await sendMessage(input);
     setInput('');
   };
 
   return (
-    <>
-      {/* Floating Chat Bubble */}
-      {!open && (
+    <div className="fixed bottom-4 right-4 z-50">
+      {!isOpen ? (
         <button
-          onClick={() => setOpen(true)}
-          style={{
-            position: 'fixed',
-            right: 24,
-            bottom: 24,
-            width: 64,
-            height: 64,
-            borderRadius: '50%',
-            background: AGENT_COLOR,
-            color: '#fff',
-            border: 'none',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-            cursor: 'pointer',
-            zIndex: 9999,
-            fontSize: 32,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-label="Open chat"
+          onClick={() => setIsOpen(true)}
+          className="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-colors"
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
         </button>
-      )}
-      {/* Chat Window */}
-      {open && (
-        <div
-          style={{
-            position: 'fixed',
-            right: 24,
-            bottom: 24,
-            width: 380,
-            maxWidth: '95vw',
-            height: 540,
-            background: '#fff',
-            borderRadius: 18,
-            boxShadow: '0 8px 32px rgba(79,106,251,0.18)',
-            zIndex: 10000,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            fontFamily: 'Inter, Arial, sans-serif',
-          }}
-        >
-          {/* Header */}
-          <div style={{
-            background: AGENT_COLOR,
-            color: '#fff',
-            padding: '16px 18px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            borderTopLeftRadius: 18,
-            borderTopRightRadius: 18,
-            fontWeight: 600,
-            fontSize: 18,
-            letterSpacing: 0.2,
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {AGENT_AVATAR}
-              <span>{AGENT_NAME}</span>
+      ) : (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-96 h-[600px] flex flex-col">
+          {/* Chat Header */}
+          <div className="border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Ask Adora AI</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Ask me anything</p>
+              </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <button onClick={handleRefresh} title="Restart chat" style={{ background: 'none', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer', marginRight: 4 }}>
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M4 4v5h.582M20 20v-5h-.581M5.21 17.89A9 9 0 1 1 12 21a9 9 0 0 1-6.79-3.11" /></svg>
-              </button>
-              <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer' }} aria-label="Close chat">×</button>
-            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: 18, background: '#f7f8fa', display: 'flex', flexDirection: 'column' }}>
-            {messages.map((msg, i) => (
-              <div key={i} style={{
-                marginBottom: 14,
-                display: 'flex',
-                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-                alignItems: 'flex-end',
-              }}>
-                {msg.role === 'bot' && AGENT_AVATAR}
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: msg.role === 'user' ? AGENT_COLOR : '#fff',
-                    color: msg.role === 'user' ? '#fff' : '#222',
-                    borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                    padding: '10px 16px',
-                    maxWidth: '75%',
-                    wordBreak: 'break-word',
-                    fontSize: 15,
-                    boxShadow: msg.role === 'user' ? '0 2px 8px rgba(79,106,251,0.10)' : '0 1px 4px rgba(0,0,0,0.04)',
-                    marginLeft: msg.role === 'bot' ? 0 : 8,
-                    marginRight: msg.role === 'user' ? 0 : 8,
-                  }}
+
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
+            {messages.length === 0 && (
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center text-gray-500 dark:text-gray-400">
+                  <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  </svg>
+                  <p className="text-lg font-medium">Welcome to Adora AI Assistant</p>
+                  <p className="mt-2">How can I help you today?</p>
+                </div>
+              </div>
+            )}
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-2xl p-4 shadow-sm ${
+                    message.role === 'user'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
+                  }`}
                 >
-                  {msg.text}
-                </span>
+                  {message.content}
+                </div>
               </div>
             ))}
-            <div ref={chatEndRef} />
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="flex justify-start">
+                <div className="bg-red-50 dark:bg-red-900/20 rounded-2xl p-4 border border-red-200 dark:border-red-800 shadow-sm">
+                  <p className="text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              </div>
+            )}
           </div>
-          {/* Input */}
-          <form onSubmit={handleSend} style={{ display: 'flex', alignItems: 'center', borderTop: '1px solid #ececec', padding: '14px 16px', background: '#fff', gap: 8 }}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Send a message..."
-              style={{
-                flex: 1,
-                border: 'none',
-                outline: 'none',
-                fontSize: 16,
-                padding: '10px 12px',
-                background: '#f7f8fa',
-                borderRadius: 12,
-                color: '#222',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
-              }}
-              disabled={loading}
-            />
-            <button type="submit" disabled={loading || !input.trim()} style={{ background: AGENT_COLOR, color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontWeight: 600, fontSize: 16, cursor: loading ? 'not-allowed' : 'pointer', transition: 'background 0.2s' }}>
-              {loading ? (
-                <span style={{ display: 'inline-block', width: 18, height: 18, border: '2px solid #fff', borderTop: '2px solid #4F6AFB', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-              ) : (
-                'Send'
-              )}
-            </button>
-          </form>
-          <style>{`
-            @keyframes spin { 100% { transform: rotate(360deg); } }
-          `}</style>
+
+          {/* Chat Input */}
+          <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type your message..."
+                className="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="rounded-xl bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 transition-colors duration-200"
+              >
+                <span className="flex items-center gap-2">
+                  <span>Send</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </span>
+              </button>
+            </form>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 } 

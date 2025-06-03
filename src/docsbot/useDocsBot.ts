@@ -19,9 +19,12 @@ export const useDocsBot = (botId: string) => {
     setError(null);
 
     try {
+      // Format history as array of arrays [role, content]
+      const formattedHistory = messages.map(msg => [msg.role, msg.content] as [string, string]);
+      
       const response = await docsBotService.chat({
         question: content,
-        history: messages,
+        history: formattedHistory,
       });
 
       if (response.error) {
