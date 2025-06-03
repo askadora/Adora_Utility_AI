@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Outfit } from 'next/font/google';
 import './globals.css';
+import Script from "next/script";
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
-import DocsBotWidget from '@/components/investor-dashboard/DocsBotWidget';
+import DocsBotChatBubble from '@/components/DocsBotChatBubble';
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -37,9 +38,10 @@ export default function RootLayout({
             <SidebarProvider>
               {children}
             </SidebarProvider>
-            <DocsBotWidget />
           </ThemeProvider>
         </AuthProvider>
+        <DocsBotChatBubble />
+        {/* DocsBot custom chat bubble will be added here in the next step */}
       </body>
     </html>
   );

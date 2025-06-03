@@ -20,18 +20,7 @@ export default function KnowledgeBase() {
       </header>
 
       {/* Chat Interface */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
-        <iframe
-          src="https://docsbot.ai/iframe/r5DFHTmBuQSdYrUAhqXk/vPCRFfIbGuVNMeJi08nt"
-          width="100%"
-          height="400"
-          frameBorder="0"
-          allowTransparency={true}
-          scrolling="no"
-          style={{ border: 'none', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}
-          title="DocsBot AI Chatbot"
-        />
-      </div>
+      {/* DocsBot iframe removed */}
 
       {/* Documentation Sections */}
       <div className="grid gap-6 md:grid-cols-2 2xl:grid-cols-3">
