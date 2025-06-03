@@ -25,38 +25,8 @@ export default function AuthCallback() {
           
           if (user) {
             console.log('User found in session:', user);
-            try {
-              console.log('Attempting to send welcome email from callback with payload:', {
-                email: user.email,
-                name: user.user_metadata?.full_name || user.email,
-              });
-              
-              const response = await fetch('https://tnbsoahieqhejtoewmbt.supabase.co/functions/v1/send-welcome-email', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${session.access_token}`,
-                },
-                body: JSON.stringify({
-                  email: user.email,
-                  name: user.user_metadata?.full_name || user.email,
-                }),
-              });
-              
-              console.log('Callback welcome email fetch response status:', response.status);
-              if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Callback failed to send welcome email:', errorText);
-              } else {
-                console.log('Callback welcome email sent successfully');
-              }
-            } catch (emailError) {
-              console.error('Error sending welcome email:', emailError);
-            }
+            router.push('/dashboard');
           }
-          
-          // Redirect to dashboard after handling email
-          router.push('/dashboard');
         } else {
           console.log('No session found in callback');
           router.push('/auth/signin?error=no_session');
