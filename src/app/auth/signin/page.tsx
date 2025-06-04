@@ -80,36 +80,6 @@ export default function SignIn() {
     if (error) {
       setError(error.message);
     } else {
-      // Login successful, now send welcome email
-      // Fetch the updated user object to ensure user_metadata is available
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        try {
-          console.log('Attempting to send welcome email with payload:', {
-            email: user.email,
-            name: user.user_metadata?.full_name || user.email,
-          });
-          const response = await fetch('https://tnbsoahieqhejtoewmbt.supabase.co/functions/v1/send-welcome-email', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: user.email,
-              name: user.user_metadata?.full_name || user.email,
-            }),
-          });
-          console.log('Welcome email fetch response status:', response.status);
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Failed to send welcome email:', errorText);
-          } else {
-            console.log('Welcome email sent successfully (hopefully)');
-          }
-        } catch (emailError) {
-          console.error('Failed to send welcome email:', emailError);
-        }
-      }
       // The useEffect will handle the redirect to /dashboard
     }
     setIsLoading(false);
