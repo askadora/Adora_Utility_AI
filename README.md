@@ -16,7 +16,7 @@ Adora AI provides a complete suite of business intelligence tools including:
 - **Responsive Design**: Mobile-first, modern UI/UX
 
 Built with modern technologies:
-- **Next.js 15** with App Router
+- **Next.js 15**  with App Router
 - **React 19** with TypeScript
 - **Tailwind CSS** for styling
 - **Prisma** for database management
