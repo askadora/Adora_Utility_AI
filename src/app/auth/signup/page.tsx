@@ -29,23 +29,29 @@ function SignUpContent() {
       if (token && type === 'email') {
         setIsLoading(true);
         setError(null);
-        const { error } = await supabase.auth.verifyOtp({
-          email: email,
-          token,
-          type: 'email',
-        });
+        try {
+          const { error } = await supabase.auth.verifyOtp({
+            token_hash: token,
+            type: 'email',
+          });
 
-        if (error) {
-          setError(error.message);
-        } else {
-          router.push('/dashboard');
+          if (error) {
+            setError(error.message);
+            router.push(`/auth/signin?error=${encodeURIComponent(error.message)}`);
+          } else {
+            router.push('/auth/signin?message=email_confirmed');
+          }
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+          setError(errorMessage);
+          router.push(`/auth/signin?error=${encodeURIComponent(errorMessage)}`);
         }
         setIsLoading(false);
       }
     }
 
     handleEmailConfirmation();
-  }, [token, type, router, email, setIsLoading, setError]);
+  }, [token, type, router, setIsLoading, setError]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -121,6 +127,7 @@ function SignUpContent() {
           full_name: `${firstName} ${lastName}`,
           name: `${firstName} ${lastName}`,
         },
+        emailRedirectTo: `${window.location.origin}/auth/callback?type=email`,
       },
     });
 
@@ -138,7 +145,7 @@ function SignUpContent() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/signup`,
+        redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
           prompt: 'select_account'
         },

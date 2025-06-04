@@ -18,6 +18,8 @@ function AuthCallbackForm() {
         const token = searchParams.get('token');
 
         if (type && token) {
+          console.log('Handling OTP verification:', { type, token });
+          
           // Handle OTP verification
           const { error: otpError } = await supabase.auth.verifyOtp({
             token_hash: token,
@@ -26,14 +28,17 @@ function AuthCallbackForm() {
 
           if (otpError) {
             console.error('Error verifying OTP:', otpError);
-            router.push(`/auth/signin?error=${otpError.message}`);
+            setError(otpError.message);
+            router.push(`/auth/signin?error=${encodeURIComponent(otpError.message)}`);
             return;
           }
 
           // After successful OTP verification, redirect based on type
           if (type === 'recovery') {
-            router.push('/auth/update-password?token=' + token);
+            console.log('Redirecting to update password page');
+            router.push(`/auth/update-password?token=${token}`);
           } else if (type === 'email') {
+            console.log('Email confirmed, redirecting to signin');
             router.push('/auth/signin?message=email_confirmed');
           }
           return;
@@ -44,7 +49,8 @@ function AuthCallbackForm() {
         
         if (sessionError) {
           console.error('Error getting session:', sessionError);
-          router.push('/auth/signin?error=session_error');
+          setError(sessionError.message);
+          router.push(`/auth/signin?error=${encodeURIComponent(sessionError.message)}`);
           return;
         }
 
@@ -62,6 +68,7 @@ function AuthCallbackForm() {
         }
       } catch (error) {
         console.error('Error in callback handler:', error);
+        setError(error instanceof Error ? error.message : 'An unexpected error occurred');
         router.push('/auth/signin?error=callback_error');
       }
     };
