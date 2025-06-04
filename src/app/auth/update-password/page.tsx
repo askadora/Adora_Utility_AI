@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import { getAdorahqUrl } from '@/utils/getBaseUrl';
 
 export default function UpdatePassword() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,15 +19,26 @@ export default function UpdatePassword() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Check if we have a session
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        router.push('/auth/signin?error=session_expired');
+    const token = searchParams.get('token');
+    if (!token) {
+      router.push('/auth/signin?error=invalid_token');
+      return;
+    }
+
+    // Verify the token
+    const verifyToken = async () => {
+      const { error } = await supabase.auth.verifyOtp({
+        token_hash: token,
+        type: 'recovery'
+      });
+
+      if (error) {
+        router.push('/auth/signin?error=invalid_token');
       }
     };
-    checkSession();
-  }, [router]);
+
+    verifyToken();
+  }, [router, searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
