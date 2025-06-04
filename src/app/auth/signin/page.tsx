@@ -1,28 +1,36 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
 import { getAdorahqUrl } from '@/utils/getBaseUrl';
 
-export default function SignIn() {
+function SignInForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, isLoading: authLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace('/dashboard'); // or your dashboard route
+      router.replace('/dashboard');
     }
-  }, [user, authLoading, router]);
+
+    // Check for success message
+    const message = searchParams.get('message');
+    if (message === 'password_updated') {
+      setSuccess('Your password has been updated successfully. Please sign in with your new password.');
+    }
+  }, [user, authLoading, router, searchParams]);
   console.log('User:', user);
 
   useEffect(() => {
@@ -153,6 +161,15 @@ export default function SignIn() {
             </div>
           </div>
         )}
+        {success && (
+          <div className="rounded-md bg-green-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-green-800">{success}</h3>
+              </div>
+            </div>
+          </div>
+        )}
         <form onSubmit={handleSignIn} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -202,6 +219,13 @@ export default function SignIn() {
               </button>
             </div>
           </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link href="/auth/reset-password" className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
+                Forgot your password?
+              </Link>
+            </div>
+          </div>
           <button
             type="submit"
             disabled={isLoading}
@@ -246,5 +270,13 @@ export default function SignIn() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInForm />
+    </Suspense>
   );
 } 

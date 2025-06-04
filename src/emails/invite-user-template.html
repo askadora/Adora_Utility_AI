@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You've Been Invited to Adora AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f4faff 0%, #eaf6ff 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 480px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 40px 32px;
+            text-align: center;
+        }
+        .logo {
+            width: 64px;
+            margin-bottom: 24px;
+        }
+        h1 {
+            color: #111;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #444;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+        }
+        .button {
+            display: inline-block;
+            background: #0084d4;
+            color: #fff;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,132,212,0.08);
+        }
+        .footer {
+            color: #888;
+            font-size: 0.95rem;
+            margin-top: 32px;
+        }
+        .highlight {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://www.adorahq.ai/images/logo/adora-ai-logo.png" alt="Adora Logo" class="logo">
+        <h1>You've Been Invited to Join Adora AI</h1>
+        
+        <p>
+            Hi there,
+            <br>
+            You've been invited to join <span class="highlight">Adora AI</span> by {{inviterName}}. Adora AI is your AI-powered business intelligence platform that helps you make data-driven decisions.
+        </p>
+        
+        <a href="{{inviteLink}}" class="button">Accept Invitation</a>
+        
+        <p>This invitation link will expire in 7 days. If you have any questions, please don't hesitate to contact us.</p>
+        
+        <div class="footer">
+            <p>© 2024 Adora AI. All rights reserved.</p>
+            <p>If you didn't request this invitation, you can safely ignore this email.</p>
+        </div>
+    </div>
+</body>
+</html> 
