@@ -7,32 +7,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getAdorahqUrl } from '@/utils/getBaseUrl';
 
-function UpdatePasswordForm() {
+function ConfirmEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
     const token = searchParams.get('token');
     if (!token) {
-      setError('Invalid reset link');
+      setError('Invalid confirmation link');
       setIsLoading(false);
       return;
     }
 
-    const verifyToken = async () => {
+    const confirmEmail = async () => {
       try {
         const { error } = await supabase.auth.verifyOtp({
           token_hash: token,
-          type: 'recovery'
+          type: 'email'
         });
 
         if (error) {
           setError(error.message);
+        } else {
+          // Redirect to sign in with success message
+          router.push('/auth/signin?message=email_confirmed');
         }
       } catch (err) {
         setError('An unexpected error occurred');
@@ -41,33 +41,8 @@ function UpdatePasswordForm() {
       }
     };
 
-    verifyToken();
-  }, [searchParams]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    setIsUpdating(true);
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      });
-
-      if (error) {
-        setError(error.message);
-      } else {
-        router.push('/auth/signin?message=password_updated');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-    } finally {
-      setIsUpdating(false);
-    }
-  };
+    confirmEmail();
+  }, [router, searchParams]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-100 to-white py-12 px-4 dark:from-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
@@ -90,14 +65,14 @@ function UpdatePasswordForm() {
             height={40}
           />
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Update Your Password
+            Confirm Your Email
           </h2>
         </div>
 
         {isLoading ? (
           <div className="text-center">
             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Verifying reset link...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Confirming your email...</p>
           </div>
         ) : error ? (
           <div className="rounded-md bg-red-50 p-4">
@@ -113,57 +88,15 @@ function UpdatePasswordForm() {
             </div>
           </div>
         ) : (
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  New Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm"
-                  placeholder="Enter your new password"
-                />
-              </div>
-              <div>
-                <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Confirm Password
-                </label>
-                <input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type="password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm"
-                  placeholder="Confirm your new password"
-                />
+          <div className="rounded-md bg-green-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-green-800">
+                  Email confirmed successfully! Redirecting to sign in...
+                </h3>
               </div>
             </div>
-
-            <div>
-              <button
-                type="submit"
-                disabled={isUpdating}
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isUpdating ? (
-                  <>
-                    <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-                    <span className="ml-2">Updating...</span>
-                  </>
-                ) : (
-                  'Update Password'
-                )}
-              </button>
-            </div>
-          </form>
+          </div>
         )}
 
         <div className="text-center text-sm">
@@ -179,7 +112,7 @@ function UpdatePasswordForm() {
   );
 }
 
-export default function UpdatePassword() {
+export default function ConfirmEmail() {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center">
@@ -189,7 +122,7 @@ export default function UpdatePassword() {
         </div>
       </div>
     }>
-      <UpdatePasswordForm />
+      <ConfirmEmailForm />
     </Suspense>
   );
 } 
