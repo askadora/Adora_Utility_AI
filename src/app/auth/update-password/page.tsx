@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
 import { getAdorahqUrl } from '@/utils/getBaseUrl';
 
-export default function UpdatePassword() {
+function UpdatePasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [password, setPassword] = useState('');
@@ -21,28 +21,44 @@ export default function UpdatePassword() {
 
   useEffect(() => {
     const verifyToken = async () => {
+      // Check if user is already authenticated
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        console.log('User already authenticated, redirecting to dashboard');
+        router.push('/dashboard');
+        return;
+      }
+
       const token = searchParams.get('token');
+      console.log('Token from URL:', token); // Debug log
+      
       if (!token) {
-        setError('No token provided');
+        console.error('No token provided');
+        setError('Invalid or expired password reset link');
         setIsVerifying(false);
         return;
       }
 
       try {
+        console.log('Verifying token...'); // Debug log
         const { error } = await supabase.auth.verifyOtp({
           token_hash: token,
           type: 'recovery'
         });
 
         if (error) {
+          console.error('Token verification error:', error); // Debug log
           setError(error.message);
-          router.push(`/auth/signin?error=${encodeURIComponent(error.message)}`);
+          // Don't redirect immediately, let user see the error
+          setIsVerifying(false);
+        } else {
+          console.log('Token verified successfully'); // Debug log
+          setIsVerifying(false);
         }
       } catch (err) {
+        console.error('Unexpected error during verification:', err); // Debug log
         const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
         setError(errorMessage);
-        router.push(`/auth/signin?error=${encodeURIComponent(errorMessage)}`);
-      } finally {
         setIsVerifying(false);
       }
     };
@@ -62,19 +78,35 @@ export default function UpdatePassword() {
       return;
     }
 
-    const { error } = await supabase.auth.updateUser({
-      password: password
-    });
-
-    if (error) {
-      setError(error.message);
-    } else {
-      setSuccess(true);
-      setTimeout(() => {
-        router.push('/auth/signin?message=password_updated');
-      }, 2000);
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setIsLoading(false);
+      return;
     }
-    setIsLoading(false);
+
+    try {
+      console.log('Updating password...'); // Debug log
+      const { error } = await supabase.auth.updateUser({
+        password: password
+      });
+
+      if (error) {
+        console.error('Password update error:', error); // Debug log
+        setError(error.message);
+      } else {
+        console.log('Password updated successfully'); // Debug log
+        setSuccess(true);
+        // Wait for success message to be shown before redirecting
+        setTimeout(() => {
+          router.push('/auth/signin?message=password_updated');
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Unexpected error during password update:', err); // Debug log
+      setError('An unexpected error occurred while updating your password');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isVerifying) {
@@ -226,5 +258,20 @@ export default function UpdatePassword() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function UpdatePassword() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <UpdatePasswordForm />
+    </Suspense>
   );
 } 

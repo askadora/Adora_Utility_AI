@@ -29,13 +29,14 @@ function AuthCallbackForm() {
           if (otpError) {
             console.error('Error verifying OTP:', otpError);
             setError(otpError.message);
-            router.push(`/auth/signin?error=${encodeURIComponent(otpError.message)}`);
+            // Show error on page instead of immediate redirect
             return;
           }
 
           // After successful OTP verification, redirect based on type
           if (type === 'recovery') {
             console.log('Redirecting to update password page');
+            // Pass the token_hash instead of raw token
             router.push(`/auth/update-password?token=${token}`);
           } else if (type === 'email') {
             console.log('Email confirmed, redirecting to signin');
@@ -50,7 +51,7 @@ function AuthCallbackForm() {
         if (sessionError) {
           console.error('Error getting session:', sessionError);
           setError(sessionError.message);
-          router.push(`/auth/signin?error=${encodeURIComponent(sessionError.message)}`);
+          // Show error on page instead of immediate redirect
           return;
         }
 
@@ -64,12 +65,11 @@ function AuthCallbackForm() {
           }
         } else {
           console.log('No session found in callback');
-          router.push('/auth/signin?error=no_session');
+          setError('No session found. Please try signing in again.');
         }
       } catch (error) {
         console.error('Error in callback handler:', error);
         setError(error instanceof Error ? error.message : 'An unexpected error occurred');
-        router.push('/auth/signin?error=callback_error');
       }
     };
 
@@ -82,7 +82,15 @@ function AuthCallbackForm() {
         <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
         <p className="mt-4 text-gray-600 dark:text-gray-400">Completing sign in...</p>
         {error && (
-          <p className="mt-2 text-sm text-red-600">{error}</p>
+          <div className="mt-4">
+            <p className="text-sm text-red-600">{error}</p>
+            <button
+              onClick={() => router.push('/auth/signin')}
+              className="mt-2 text-sm text-sky-600 hover:text-sky-500"
+            >
+              Return to sign in
+            </button>
+          </div>
         )}
       </div>
     </div>
