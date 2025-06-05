@@ -2,53 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/contexts/AuthContext";
-
-// Utility functions
-const clearAvatarUrl = async () => {
-  await supabase.auth.updateUser({
-    data: { avatar_url: null }
-  });
-};
-
-const updateAvatarUrl = async (signedUrl: string) => {
-  const { error } = await supabase.auth.updateUser({
-    data: { avatar_url: signedUrl }
-  });
-  if (error) throw error;
-};
-
-const getSignedUrl = async (userId: string, filePath: string) => {
-  const { data, error } = await supabase.storage
-    .from('user-profile-image')
-    .createSignedUrl(`${userId}/${filePath}`, 3600);
-
-  if (error) {
-    if (error.message.includes('not found') || error.message.includes('expired')) {
-      await clearAvatarUrl();
-      return null;
-    }
-    throw error;
-  }
-  return data.signedUrl;
-};
-
-const uploadImage = async (file: File, userId: string) => {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}.${fileExt}`;
-  const filePath = `${userId}/${fileName}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from('user-profile-image')
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: true
-    });
-
-  if (uploadError) throw uploadError;
-  return filePath;
-};
+import { uploadImage, getSignedUrl, updateAvatarUrl, refreshAvatarUrl } from "@/utils/avatarUtils";
 
 export default function UserMetaCard() {
   const { profile, loading, error } = useUserProfile();
@@ -62,24 +17,8 @@ export default function UserMetaCard() {
   React.useEffect(() => {
     const refreshSignedUrl = async () => {
       if (session?.user?.user_metadata?.avatar_url) {
-        try {
-          const url = new URL(session.user.user_metadata.avatar_url);
-          const filePath = url.pathname.split('/').pop();
-          
-          if (filePath) {
-            const signedUrl = await getSignedUrl(session.user.id, filePath);
-            if (signedUrl) {
-              await updateAvatarUrl(signedUrl);
-              setSignedImageUrl(signedUrl);
-            } else {
-              setSignedImageUrl(null);
-            }
-          }
-        } catch (err) {
-          console.error('Error getting signed URL:', err);
-          await clearAvatarUrl();
-          setSignedImageUrl(null);
-        }
+        const newSignedUrl = await refreshAvatarUrl(session.user.user_metadata.avatar_url, session.user.id);
+        setSignedImageUrl(newSignedUrl);
       }
     };
 

@@ -1,13 +1,32 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext"; // Adjust path if necessary
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { refreshAvatarUrl } from "@/utils/avatarUtils";
 
 export default function UserDropdown() {
   const { user, signOut, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string>("/images/user/blank_image.jpg");
+  const [imageKey, setImageKey] = useState<number>(0); // Add key to force image refresh
+
+  useEffect(() => {
+    const refreshAvatar = async () => {
+      if (user?.user_metadata?.avatar_url) {
+        const newSignedUrl = await refreshAvatarUrl(user.user_metadata.avatar_url, user.id);
+        if (newSignedUrl !== avatarUrl) {
+          setAvatarUrl(newSignedUrl || "/images/user/blank_image.jpg");
+          setImageKey(prev => prev + 1); // Force image refresh when URL changes
+        }
+      }
+    };
+
+    refreshAvatar();
+    const interval = setInterval(refreshAvatar, 50 * 60 * 1000); // Refresh every 50 minutes
+    return () => clearInterval(interval);
+  }, [user?.user_metadata?.avatar_url, user?.id, avatarUrl]);
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
@@ -36,7 +55,6 @@ export default function UserDropdown() {
   // Extract user display name and email
   const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || "User";
   const displayEmail = user.email || "No email provided";
-  const avatarUrl = user.user_metadata?.avatar_url || "/images/user/blank_image.jpg"; // Default avatar
 
   return (
     <div className="relative">
@@ -46,11 +64,23 @@ export default function UserDropdown() {
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
           <Image
+            key={imageKey} // Add key to force image refresh
             width={44}
             height={44}
-            src={avatarUrl} // Use Supabase avatar_url if available
+            src={avatarUrl}
             alt="User"
-            className="object-cover w-full h-full" // Added object-cover
+            className="object-cover w-full h-full"
+            onError={() => {
+              // If image fails to load, try to refresh the URL
+              if (user?.user_metadata?.avatar_url) {
+                refreshAvatarUrl(user.user_metadata.avatar_url, user.id).then(newUrl => {
+                  if (newUrl) {
+                    setAvatarUrl(newUrl);
+                    setImageKey(prev => prev + 1);
+                  }
+                });
+              }
+            }}
           />
         </span>
 
