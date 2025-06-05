@@ -148,7 +148,7 @@ export default function InvestorDataRoom() {
                 />
                 <button
                   type="submit"
-                  disabled={true}
+                  disabled={isLoading}
                   className="rounded-xl bg-[#5365FF] px-6 py-3 text-white hover:bg-[#4152cc] focus:outline-none focus:ring-2 focus:ring-[#5365FF] focus:ring-offset-2 disabled:opacity-50 transition-colors duration-200"
                 >
                   <span className="flex items-center gap-2">
