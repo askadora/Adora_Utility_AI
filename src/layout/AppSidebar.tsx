@@ -17,7 +17,9 @@ import {
   UserCircleIcon,
   PromptIcon,
   SettingsIcon,
+  EyeIcon,
 } from "../icons/index";
+import { HomeIcon } from "./icons/index";
 import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -50,6 +52,16 @@ const IntegrationsIcon = () => (
 );
 
 const navItems: NavItem[] = [
+  {
+    icon: <HomeIcon />,
+    name: "Home",
+    path: "/home",
+  },
+  {
+    icon: <EyeIcon />,
+    name: "Focus",
+    path: "/focus",
+  },
   {
     icon: <GridIcon />,
     name: "Dashboard",
