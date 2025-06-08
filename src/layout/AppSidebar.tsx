@@ -72,7 +72,7 @@ const navItems: NavItem[] = [
     name: "Prompt",
     subItems: [
       { name: "Focused Chat", path: "/prompt/chat", pro: false },
-      { name: "Multi-Chat", path: "/prompt/multi-chat", pro: false },
+      { name: "Synthesize", path: "/prompt/multi-chat", pro: false },
       { name: "Create Prompt", path: "/prompt/create", pro: false },
       { name: "My Prompts", path: "/prompt/list", pro: false },
       { name: "Prompt Library", path: "/prompt/library", pro: false },
