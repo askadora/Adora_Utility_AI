@@ -1,5 +1,6 @@
 "use client";
 import { ThemeToggleButton } from "@/components/common/ThemeToggleButton";
+import { FuelMeter } from "@/components/header/FuelMeter";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
 import { useSidebar } from "@/context/SidebarContext";
@@ -164,6 +165,10 @@ const AppHeader: React.FC = () => {
             {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
             {/* <!-- Dark Mode Toggler --> */}
+
+            {/* <!-- Fuel Meter --> */}
+            <FuelMeter usagePercent={93} />
+            {/* <!-- Fuel Meter --> */}
 
            <NotificationDropdown /> 
             {/* <!-- Notification Menu Area --> */}
