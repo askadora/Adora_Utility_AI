@@ -46,7 +46,7 @@ export default function SignUpContent() {
           setError(error.message);
         } else {
           // Email confirmed successfully, redirect user
-          router.push('/dashboard'); // Redirect to dashboard or a success page
+          router.push('/'); // Redirect to home page
         }
         setIsLoading(false);
       }

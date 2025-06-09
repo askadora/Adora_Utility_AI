@@ -22,7 +22,7 @@ function SignInForm() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace('/dashboard');
+      router.replace('/');
     }
 
     // Check for success message
@@ -71,7 +71,7 @@ function SignInForm() {
           }
           console.log('User table updated successfully');
         }
-        router.replace('/dashboard');
+        router.replace('/');
       }
     });
 

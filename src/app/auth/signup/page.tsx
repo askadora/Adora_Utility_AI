@@ -91,7 +91,7 @@ function SignUpContent() {
           }
           console.log('User table updated successfully');
         }
-        router.push('/dashboard');
+        router.push('/');
       }
     });
 
