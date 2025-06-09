@@ -821,6 +821,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                     <div>• <strong>Combines</strong> insights from all your selected models</div>
                     <div>• <strong>Eliminates</strong> redundant information</div>
                     <div>• <strong>Preserves</strong> unique perspectives from each AI</div>
+                    <div>• <strong>Highlights</strong> dissent where AI models disagree</div>
                     <div>• <strong>Creates</strong> one superior, comprehensive response</div>
                   </div>
                   <div className="mt-2 text-xs text-purple-200">

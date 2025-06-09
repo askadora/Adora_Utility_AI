@@ -51,6 +51,13 @@ const IntegrationsIcon = () => (
   </svg>
 );
 
+const LMSIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" fill="currentColor"/>
+    <path d="M5 13.18V17.18C5 19.84 8.24 22 12 22C15.76 22 19 19.84 19 17.18V13.18L12 17L5 13.18Z" fill="currentColor"/>
+  </svg>
+);
+
 const navItems: NavItem[] = [
   {
     icon: <HomeIcon />,
@@ -110,6 +117,11 @@ const navItems: NavItem[] = [
     name: "Integrations",
     icon: <IntegrationsIcon />,
     path: "/integrations",
+  },
+  {
+    name: "LMS",
+    icon: <LMSIcon />,
+    path: "/lms",
   },
   {
     name: "Projections",
@@ -490,7 +502,7 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link href="/">
+        <Link href="/home">
           {isExpanded || isHovered || isMobileOpen ? (
             <div className="flex items-center gap-3">
               <Image
