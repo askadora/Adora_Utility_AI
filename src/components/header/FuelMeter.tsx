@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import useSWR from "swr";
+import { useRouter } from "next/navigation";
 
 interface FuelMeterProps {
   usagePercent: number;
@@ -22,11 +23,17 @@ const fetcher = async (url: string): Promise<UsageData> => {
 
 export const FuelMeter: React.FC<FuelMeterProps> = ({ usagePercent: fallbackPercent }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const router = useRouter();
   
   // Fetch usage data with SWR, refresh every 60 seconds
   const { data, error } = useSWR('/api/usage', fetcher, {
     refreshInterval: 60000, // 60 seconds
   });
+
+  // Handle click to navigate to Usage & Billing settings
+  const handleClick = () => {
+    router.push('/settings?tab=usage-billing');
+  };
 
   // Calculate usage percentage
   let usagePercent = fallbackPercent;
@@ -73,8 +80,9 @@ export const FuelMeter: React.FC<FuelMeterProps> = ({ usagePercent: fallbackPerc
       onMouseLeave={() => setShowTooltip(false)}
       onFocus={() => setShowTooltip(true)}
       onBlur={() => setShowTooltip(false)}
-      role="status"
-      aria-label="AI usage meter"
+      onClick={handleClick}
+      role="button"
+      aria-label="View usage details and billing - AI usage meter"
       type="button"
     >
       {/* Background Circle */}
@@ -121,6 +129,9 @@ export const FuelMeter: React.FC<FuelMeterProps> = ({ usagePercent: fallbackPerc
             </div>
             <div className="text-gray-300 dark:text-gray-400">
               {usagePercent}% of monthly allowance
+            </div>
+            <div className="text-gray-400 dark:text-gray-500 text-xs mt-1 border-t border-gray-700 pt-1">
+              Click to view billing details
             </div>
             {/* Tooltip Arrow */}
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-b-4 border-transparent border-b-gray-900 dark:border-b-gray-800"></div>

@@ -42,19 +42,17 @@ export default function UserDropdown() {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
+        className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle hover:text-gray-900 dark:hover:text-white transition-colors"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
+        <span className="mr-2 overflow-hidden rounded-full h-11 w-11">
           <Image
             width={44}
             height={44}
             src={avatarUrl} // Use Supabase avatar_url if available
-            alt="User"
+            alt="User profile"
             className="object-cover w-full h-full" // Added object-cover
           />
         </span>
-
-        <span className="block mr-1 font-medium text-theme-sm">{displayName}</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
