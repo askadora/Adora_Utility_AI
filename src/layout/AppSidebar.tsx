@@ -17,7 +17,9 @@ import {
   UserCircleIcon,
   PromptIcon,
   SettingsIcon,
+  EyeIcon,
 } from "../icons/index";
+import { HomeIcon } from "./icons/index";
 import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -49,7 +51,24 @@ const IntegrationsIcon = () => (
   </svg>
 );
 
+const LMSIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" fill="currentColor"/>
+    <path d="M5 13.18V17.18C5 19.84 8.24 22 12 22C15.76 22 19 19.84 19 17.18V13.18L12 17L5 13.18Z" fill="currentColor"/>
+  </svg>
+);
+
 const navItems: NavItem[] = [
+  {
+    icon: <HomeIcon />,
+    name: "Home",
+    path: "/",
+  },
+  {
+    icon: <EyeIcon />,
+    name: "Focus",
+    path: "/focus",
+  },
   {
     icon: <GridIcon />,
     name: "Dashboard",
@@ -59,7 +78,8 @@ const navItems: NavItem[] = [
     icon: <PromptIcon />,
     name: "Prompt",
     subItems: [
-      { name: "Chat", path: "/prompt/chat", pro: false },
+      { name: "Focused Chat", path: "/prompt/chat", pro: false },
+      { name: "Synthesize", path: "/prompt/multi-chat", pro: false },
       { name: "Create Prompt", path: "/prompt/create", pro: false },
       { name: "My Prompts", path: "/prompt/list", pro: false },
       { name: "Prompt Library", path: "/prompt/library", pro: false },
@@ -97,6 +117,11 @@ const navItems: NavItem[] = [
     name: "Integrations",
     icon: <IntegrationsIcon />,
     path: "/integrations",
+  },
+  {
+    name: "LMS",
+    icon: <LMSIcon />,
+    path: "/lms",
   },
   {
     name: "Projections",

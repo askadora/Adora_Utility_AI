@@ -61,7 +61,7 @@ function AuthCallbackForm() {
           
           if (user) {
             console.log('User found in session:', user);
-            router.push('/dashboard');
+            router.push('/');
           }
         } else {
           console.log('No session found in callback');
