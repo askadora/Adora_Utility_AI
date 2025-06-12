@@ -5,6 +5,7 @@ import './globals.css';
 
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { TimerProvider } from '@/context/TimerContext';
 import DocsBotWidget from '@/components/investor-dashboard/DocsBotWidget';
 
 const outfit = Outfit({
@@ -35,7 +36,9 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <SidebarProvider>
-              {children}
+              <TimerProvider>
+                {children}
+              </TimerProvider>
             </SidebarProvider>
           </ThemeProvider>
         </AuthProvider>
