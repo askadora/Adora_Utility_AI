@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
 // import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
 import { singleChatCompletion } from '@/llm/grok/api';
+import { UNIFIED_MODELS, Model } from '@/llm/unified-models';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -16,20 +17,6 @@ interface Message {
   timestamp: Date;
 }
 
-interface ModelVersion {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Model {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  versions: ModelVersion[];
-}
-
 interface ChatHistory {
   id: string;
   title: string;
@@ -37,86 +24,6 @@ interface ChatHistory {
   timestamp: Date;
   modelResponses: { [key: string]: string };
 }
-
-const initialModels: Model[] = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'OpenAI\'s advanced language model',
-    icon: '🤖',
-    versions: [
-      { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Fast and efficient' },
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model' },
-      { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest version with improved capabilities' },
-      { id: 'gpt-4.1', name: 'GPT-4.1', description: 'Enhanced performance and accuracy' },
-    ],
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    description: 'Google\'s multimodal AI model',
-    icon: '🔍',
-    versions: [
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Advanced capabilities' },
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'claude',
-    name: 'Claude',
-    description: 'Anthropic\'s conversational AI',
-    icon: '🧠',
-    versions: [
-      { id: 'claude-3.5', name: 'Claude 3.5', description: 'Balanced performance' },
-      { id: 'claude-3.7', name: 'Claude 3.7', description: 'Latest version with improved capabilities' },
-    ],
-  },
-  {
-    id: 'grok',
-    name: 'Grok',
-    description: 'xAI\'s real-time AI model',
-    icon: '⚡',
-    versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
-    ],
-  },
-  {
-    id: 'perplexity',
-    name: 'Perplexity',
-    description: 'Advanced search and research AI',
-    icon: '🔎',
-    versions: [
-      { id: 'perplexity-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'llama',
-    name: 'Llama',
-    description: 'Meta\'s open-source model',
-    icon: '🦙',
-    versions: [
-      { id: 'llama-3', name: 'Llama 3', description: 'Latest version' },
-    ],
-  },
-  {
-    id: 'deepseek',
-    name: 'Deepseek',
-    description: 'Specialized in deep learning',
-    icon: '🎯',
-    versions: [
-      { id: 'deepseek-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    description: 'Alibaba\'s advanced AI model',
-    icon: '🌟',
-    versions: [
-      { id: 'qwen-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-];
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -138,7 +45,7 @@ export default function Chat() {
   ]);
   const [isRecording, setIsRecording] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState<string>('grok');
-  const [availableModels] = useState<Model[]>(initialModels);
+  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);

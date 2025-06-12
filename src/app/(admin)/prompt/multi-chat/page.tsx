@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
 import { singleChatCompletion } from '@/llm/grok/api';
+import { UNIFIED_MODELS, Model, ModelVersion } from '@/llm/unified-models';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -18,139 +19,6 @@ interface ModelConversation {
   messages: Message[];
   isLoading: boolean;
 }
-
-interface ModelVersion {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Model {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  versions: ModelVersion[];
-  capabilities?: string[];
-}
-
-const initialModels: Model[] = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'OpenAI\'s advanced language model',
-    icon: '🤖',
-    capabilities: ['💬', '🔍', '📊'],
-    versions: [
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model' },
-      { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest version with improved capabilities' },
-      { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'claude',
-    name: 'Claude',
-    description: 'Anthropic\'s conversational AI',
-    icon: '🧠',
-    capabilities: ['💬', '📝', '🔍'],
-    versions: [
-      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', description: 'Latest version with improved capabilities' },
-      { id: 'claude-3.5', name: 'Claude 3.5 Sonnet', description: 'Balanced performance' },
-    ],
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    description: 'Google\'s multimodal AI model',
-    icon: '🔍',
-    capabilities: ['💬', '🔍', '🌐', '📊'],
-    versions: [
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Advanced capabilities' },
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'grok',
-    name: 'Grok',
-    description: 'xAI\'s real-time AI model',
-    icon: '⚡',
-    capabilities: ['💬', '🌐', '📈'],
-    versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
-    ],
-  },
-  {
-    id: 'perplexity',
-    name: 'Perplexity',
-    description: 'Advanced search and research AI',
-    icon: '🔎',
-    capabilities: ['💬', '🔍', '🌐'],
-    versions: [
-      { id: 'perplexity-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'mistral',
-    name: 'Mistral',
-    description: 'European AI model',
-    icon: '🦅',
-    capabilities: ['💬', '📝'],
-    versions: [
-      { id: 'mistral-large', name: 'Mistral Large', description: 'Most capable version' },
-      { id: 'mistral-tiny', name: 'Mistral Tiny', description: 'Lightweight version' },
-    ],
-  },
-  {
-    id: 'deepseek',
-    name: 'DeepSeek',
-    description: 'Advanced reasoning and coding AI',
-    icon: '🎯',
-    capabilities: ['💬', '💻', '🧮'],
-    versions: [
-      { id: 'deepseek-v3', name: 'DeepSeek V3', description: 'Latest version with enhanced reasoning' },
-      { id: 'deepseek-coder-v2', name: 'DeepSeek Coder V2', description: 'Specialized for coding tasks' },
-      { id: 'deepseek-math', name: 'DeepSeek Math', description: 'Mathematical reasoning specialist' },
-    ],
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    description: 'Alibaba\'s multilingual AI model',
-    icon: '🌟',
-    capabilities: ['💬', '🌐', '📝', '🔍'],
-    versions: [
-      { id: 'qwen-2.5-72b', name: 'Qwen 2.5 72B', description: 'Most capable version' },
-      { id: 'qwen-2.5-32b', name: 'Qwen 2.5 32B', description: 'Balanced performance' },
-      { id: 'qwen-2.5-14b', name: 'Qwen 2.5 14B', description: 'Efficient version' },
-      { id: 'qwen-2.5-coder', name: 'Qwen 2.5 Coder', description: 'Code generation specialist' },
-    ],
-  },
-  {
-    id: 'llama',
-    name: 'Llama',
-    description: 'Meta\'s open-source language model',
-    icon: '🦙',
-    capabilities: ['💬', '📝', '🔍'],
-    versions: [
-      { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', description: 'Largest and most capable' },
-      { id: 'llama-3.1-70b', name: 'Llama 3.1 70B', description: 'High performance' },
-      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B', description: 'Fast and efficient' },
-      { id: 'llama-3.2-vision', name: 'Llama 3.2 Vision', description: 'Multimodal capabilities' },
-    ],
-  },
-  {
-    id: 'phi',
-    name: 'Phi',
-    description: 'Microsoft\'s small language model',
-    icon: '🔬',
-    capabilities: ['💬', '📊', '🧮'],
-    versions: [
-      { id: 'phi-3.5-mini', name: 'Phi-3.5 Mini', description: 'Latest compact model' },
-      { id: 'phi-3.5-medium', name: 'Phi-3.5 Medium', description: 'Balanced size and performance' },
-      { id: 'phi-3-vision', name: 'Phi-3 Vision', description: 'Multimodal small model' },
-    ],
-  },
-];
 
 export default function MultiChat() {
   const [input, setInput] = useState('');
@@ -172,6 +40,7 @@ export default function MultiChat() {
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [synthesizedResponse, setSynthesizedResponse] = useState<string | null>(null);
   const messagesEndRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
 
   // Initialize conversations for selected models
   useEffect(() => {
@@ -224,7 +93,7 @@ export default function MultiChat() {
     // Send to all selected models simultaneously
     const promises = selectedModels.map(async (modelId) => {
       try {
-        const model = initialModels.find(m => m.id === modelId);
+        const model = availableModels.find(m => m.id === modelId);
         const selectedVersion = modelVersions[modelId];
 
         if (modelId === 'grok') {
@@ -371,7 +240,7 @@ export default function MultiChat() {
           .find(msg => msg.role === 'assistant');
         
         if (lastAssistantMessage) {
-          const modelName = initialModels.find(m => m.id === modelId)?.name || modelId;
+          const modelName = availableModels.find(m => m.id === modelId)?.name || modelId;
           modelResponses[modelName] = lastAssistantMessage.content;
         }
       });
@@ -443,7 +312,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
 
   // Expanded model view
   if (expandedModel) {
-    const model = initialModels.find(m => m.id === expandedModel);
+    const model = availableModels.find(m => m.id === expandedModel);
     const conversation = conversations[expandedModel];
     
     return (
@@ -562,7 +431,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Models:</span>
               <div className="flex gap-1">
-                {initialModels.map((model) => (
+                {availableModels.map((model) => (
                   <button
                     key={model.id}
                     onClick={() => toggleModelSelection(model.id)}
@@ -619,7 +488,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
       <div className="flex-1 overflow-y-auto p-4">
         <div className={`grid ${getGridCols()} gap-4 h-full`}>
           {selectedModels.map((modelId) => {
-            const model = initialModels.find(m => m.id === modelId);
+            const model = availableModels.find(m => m.id === modelId);
             const conversation = conversations[modelId];
             
             return (
