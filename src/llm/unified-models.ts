@@ -23,10 +23,10 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🤖',
     capabilities: ['💬', '🔍', '📊'],
     versions: [
-      { id: 'gpt-4.1-mini', name: 'GPT-4.1 Mini', modelKey: 'gpt-4.1-mini', description: 'Most capable model', available: false },
-      { id: 'gpt-4.1-nano', name: 'GPT-4.1 Nano', modelKey: 'gpt-4.1-nano', description: 'Latest version with improved capabilities', available: true },
-      { id: 'gpt-4o', name: 'GPT-4o', modelKey: 'gpt-4o', description: 'Enhanced performance and accuracy', available: false },
-      { id: 'gpt-4o-mini', name: 'GPT-4o Mini', modelKey: 'gpt-4o-mini', description: 'Fast and efficient', available: true },
+      { id: 'gpt-4.1-mini', name: 'GPT-4.1 Mini', modelKey: 'gpt-4.1-mini', description: 'Compact GPT-4.1', available: false },
+      { id: 'gpt-4.1-nano', name: 'GPT-4.1 Nano', modelKey: 'gpt-4.1-nano', description: 'Fast lightweight version', available: true },
+      { id: 'gpt-4o', name: 'GPT-4o', modelKey: 'gpt-4o', description: 'Advanced reasoning model', available: false },
+      { id: 'gpt-4o-mini', name: 'GPT-4o Mini', modelKey: 'gpt-4o-mini', description: 'Streamlined GPT-4o', available: true },
       { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', modelKey: 'gpt-3.5-turbo', description: 'Fast and affordable', available: false },
     ],
   },
@@ -37,7 +37,7 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🧠',
     capabilities: ['💬', '📝', '🔍'],
     versions: [
-      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', modelKey: 'anthropic/claude-3-7-sonnet-latest', description: 'Latest version with improved capabilities', available: false }
+      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', modelKey: 'anthropic/claude-3-7-sonnet-latest', description: 'Latest Claude model', available: false }
     ],
   },
   {
@@ -47,9 +47,9 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🔍',
     capabilities: ['💬', '🔍', '🌐', '📊'],
     versions: [
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', modelKey: 'google/gemini-2.5-flash', description: 'Advanced capabilities', available: false },
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', modelKey: 'google/gemini-2.5-pro', description: 'Advanced capabilities', available: false },
-      { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', modelKey: 'google/gemini-2.0-flash-001', description: 'Fast and efficient', available: true },
+      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', modelKey: 'google/gemini-2.5-flash', description: 'Fast response version', available: false },
+      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', modelKey: 'google/gemini-2.5-pro', description: 'Full capabilities version', available: false },
+      { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', modelKey: 'google/gemini-2.0-flash-001', description: 'Balanced version', available: true },
     ],
   },
   {
@@ -59,7 +59,7 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '⚡',
     capabilities: ['💬', '🌐', '📈'],
     versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', modelKey: 'grok-3-mini', description: 'Lightweight and efficient version', available: true }
+      { id: 'grok-3-mini', name: 'Grok 3 Mini', modelKey: 'grok-3-mini', description: 'Fast efficient version', available: true }
     ],
   },
   {
@@ -69,11 +69,11 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🔎',
     capabilities: ['💬', '🔍', '🌐'],
     versions: [
-      { id: 'sonar', name: 'Sonar', modelKey: 'sonar', description: 'Most recent version', available: true },
-      { id: 'sonar-pro', name: 'Sonar Pro', modelKey: 'sonar-pro', description: 'Most recent version', available: false },
-      { id: 'sonar-reasoning', name: 'Sonar Reasoning', modelKey: 'sonar-reasoning', description: 'Most recent version', available: false },
-      { id: 'sonar-reasoning-pro', name: 'Sonar Reasoning Pro', modelKey: 'sonar-reasoning-pro', description: 'Most recent version', available: false },
-      { id: 'sonar-deep-research', name: 'Sonar Deep Research', modelKey: 'sonar-deep-research', description: 'Most recent version', available: false },
+      { id: 'sonar', name: 'Sonar', modelKey: 'sonar', description: 'Standard version', available: true },
+      { id: 'sonar-pro', name: 'Sonar Pro', modelKey: 'sonar-pro', description: 'Advanced research', available: false },
+      { id: 'sonar-reasoning', name: 'Sonar Reasoning', modelKey: 'sonar-reasoning', description: 'Reasoning focused', available: false },
+      { id: 'sonar-reasoning-pro', name: 'Sonar Reasoning Pro', modelKey: 'sonar-reasoning-pro', description: 'Advanced reasoning', available: false },
+      { id: 'sonar-deep-research', name: 'Sonar Deep Research', modelKey: 'sonar-deep-research', description: 'Deep research', available: false },
     ],
   },
   {
@@ -83,9 +83,9 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🦅',
     capabilities: ['💬', '📝'],
     versions: [
-      { id: 'mistral-small-24B', name: 'Mistral Small 24B Instruct', modelKey: 'mistralai/Mistral-Small-24B-Instruct-2501', description: 'Most capable version', available: true },
-      { id: 'mistral-small-3.124B', name: 'Mistral Small 3.1 24B Instruct', modelKey: 'mistralai/Mistral-Small-3.1-24B-Instruct-2503', description: 'Lightweight version', available: true },
-      { id: 'mistral-8x7b', name: 'Mistral 8x7B Instruct', modelKey: 'mistralai/Mixtral-8x7B-Instruct-v0.1', description: 'Most capable version', available: false },
+      { id: 'mistral-small-24B', name: 'Mistral Small 24B Instruct', modelKey: 'mistralai/Mistral-Small-24B-Instruct-2501', description: 'General purpose', available: true },
+      { id: 'mistral-small-3.124B', name: 'Mistral Small 3.1 24B Instruct', modelKey: 'mistralai/Mistral-Small-3.1-24B-Instruct-2503', description: 'Updated version', available: true },
+      { id: 'mistral-8x7b', name: 'Mistral 8x7B Instruct', modelKey: 'mistralai/Mixtral-8x7B-Instruct-v0.1', description: 'Advanced version', available: false },
     ],
   },
   {
@@ -95,9 +95,9 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🎯',
     capabilities: ['💬', '💻', '🧮'],
     versions: [
-      { id: 'deepseek-v3', name: 'DeepSeek V3', modelKey: 'deepseek-ai/deepseek-coder-33b-instruct', description: 'Latest version with enhanced reasoning', available: false },
-      { id: 'deepseek-coder-v2', name: 'DeepSeek Coder V2', modelKey: 'deepseek-ai/deepseek-coder-6.7b-instruct', description: 'Specialized for coding tasks', available: false },
-      { id: 'deepseek-math', name: 'DeepSeek Math', modelKey: 'deepseek-ai/deepseek-math-7b-instruct', description: 'Mathematical reasoning specialist', available: false },
+      { id: 'deepseek-r1-turbo', name: 'DeepSeek R1 Turbo', modelKey: 'deepseek-ai/DeepSeek-R1-Turbo', description: 'Fast version', available: false },
+      { id: 'deepseek-v3', name: 'DeepSeek V3', modelKey: 'deepseek-ai/DeepSeek-V3', description: 'Full version', available: false },
+      { id: 'deepseek-v3-0324', name: 'DeepSeek V3-0324', modelKey: 'deepseek-ai/DeepSeek-V3-0324', description: 'Latest version', available: true },
     ],
   },
   {
@@ -107,10 +107,10 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🌟',
     capabilities: ['💬', '🌐', '📝', '🔍'],
     versions: [
-      { id: 'qwen-2.5-72b', name: 'Qwen 2.5 72B', modelKey: 'Qwen/Qwen2.5-72B-Instruct', description: 'Most capable version', available: false },
-      { id: 'qwen-2.5-32b', name: 'Qwen 2.5 32B', modelKey: 'Qwen/Qwen2.5-32B-Instruct', description: 'Balanced performance', available: false },
-      { id: 'qwen-2.5-14b', name: 'Qwen 2.5 14B', modelKey: 'Qwen/Qwen2.5-14B-Instruct', description: 'Efficient version', available: false },
-      { id: 'qwen-2.5-coder', name: 'Qwen 2.5 Coder', modelKey: 'Qwen/Qwen2.5-Coder-32B-Instruct', description: 'Code generation specialist', available: false },
+      { id: 'qwen3-32B', name: 'Qwen 3 32B', modelKey: 'Qwen/Qwen3-32B', description: 'Large version', available: true },
+      { id: 'qwen2-14B', name: 'Qwen 3 14B', modelKey: 'Qwen/Qwen3-14B', description: 'Efficient version', available: true },
+      { id: 'qwen-qwq-32b', name: 'Qwen QwQ 32B', modelKey: 'Qwen/QwQ-32B', description: 'Specialized version', available: false },
+      { id: 'qwen-2.5-coder-32b', name: 'Qwen 2.5 Coder', modelKey: 'Qwen/Qwen2.5-Coder-32B-Instruct', description: 'Code focused', available: true },
     ],
   },
   {
@@ -120,10 +120,9 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🦙',
     capabilities: ['💬', '📝', '🔍'],
     versions: [
-      { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', modelKey: 'meta-llama/Meta-Llama-3.1-405B-Instruct', description: 'Largest and most capable', available: false },
-      { id: 'llama-3.1-70b', name: 'Llama 3.1 70B', modelKey: 'meta-llama/Meta-Llama-3.1-70B-Instruct', description: 'High performance', available: false },
-      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B Instruct', modelKey: 'meta-llama/Meta-Llama-3.1-8B-Instruct', description: 'Fast and efficient', available: true },
-      { id: 'llama-3.2-vision', name: 'Llama 3.2 Vision', modelKey: 'meta-llama/Meta-Llama-3.2-Vision-Instruct', description: 'Multimodal capabilities', available: false },
+      { id: 'llama-3.2-3b', name: 'Llama 3.2 3B', modelKey: 'meta-llama/Llama-3.2-3B-Instruct', description: 'Lightweight', available: true },
+      { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', modelKey: 'meta-llama/Meta-Llama-3.1-405B-Instruct', description: 'Large version', available: false },
+      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B Instruct', modelKey: 'meta-llama/Meta-Llama-3.1-8B-Instruct', description: 'Balanced version', available: true },
     ],
   },
   {
@@ -133,9 +132,8 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🔬',
     capabilities: ['💬', '📊', '🧮'],
     versions: [
-      { id: 'phi-3.5-mini', name: 'Phi-3.5 Mini', modelKey: 'microsoft/phi-3.5-mini', description: 'Latest compact model', available: false },
-      { id: 'phi-3.5-medium', name: 'Phi-3.5 Medium', modelKey: 'microsoft/phi-3.5-medium', description: 'Balanced size and performance', available: false },
-      { id: 'phi-3-vision', name: 'Phi-3 Vision', modelKey: 'microsoft/phi-3-vision', description: 'Multimodal small model', available: false },
+      { id: 'phi-4', name: 'Phi 4', modelKey: 'microsoft/phi-4', description: 'Latest version', available: true },
+      { id: 'phi-4-multimodal-instruct', name: 'Phi-4-multimodal-instruct', modelKey: 'microsoft/Phi-4-multimodal-instruct', description: 'Image capable', available: false },
     ],
   },
 ];
