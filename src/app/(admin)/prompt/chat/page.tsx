@@ -351,6 +351,49 @@ export default function Chat() {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-h-0 min-w-0">
+        {/* Focused Chat Header - First thing user sees */}
+        {messages.length === 0 && (
+          <div className="flex-none border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <div className="px-3 md:px-4 py-3 md:py-4">
+              {/* 
+                PAGE HEADER - FLEXBOX (1D) Layout
+                - Column direction for title and description stacking
+                - Responsive spacing and typography
+                - Compact for viewport efficiency
+              */}
+              <header className="flex flex-col gap-2 pb-4 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex flex-col gap-2 min-w-0 flex-1">
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-white/90 md:text-2xl">
+                      Focused Chat
+                    </h1>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 md:text-base max-w-2xl">
+                      Chat with a single AI model in a focused environment. For multi-model conversations and advanced synthesis, 
+                      use our{' '}
+                      <button 
+                        onClick={() => window.open('/synthesize', '_blank')}
+                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                      >
+                        Synthesize system
+                      </button>
+                      .
+                    </p>
+                  </div>
+                </div>
+              </header>
+
+              {/* Demo Warning Section - Compact */}
+              <div className="mt-3">
+                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                  <p className="text-xs text-amber-800 dark:text-amber-200 md:text-sm">
+                    ⚠️ This is a demo/test system. You have a 20 prompt limit for testing purposes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header - Compact and responsive */}
         <header className="flex-none flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-2 min-w-0">
@@ -585,15 +628,15 @@ export default function Chat() {
 
         {/* Input Area - Streamlined and contained */}
         <div className="flex-none border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-3">
+          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-2 md:py-3">
             <div className="relative">
-              <div className="relative flex items-center min-h-[44px] md:min-h-[48px]">
+              <div className="relative flex items-center min-h-[40px] md:min-h-[44px]">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Message Adora AI..."
-                  className="w-full min-h-[44px] md:min-h-[48px] max-h-32 md:max-h-40 px-3 md:px-4 py-2 md:py-3 pr-24 md:pr-28
+                  className="w-full min-h-[40px] md:min-h-[44px] max-h-24 md:max-h-32 px-3 md:px-4 py-2 md:py-2.5 pr-20 md:pr-24
                            border border-gray-300 dark:border-gray-600 rounded-xl 
                            focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
                            resize-none bg-white dark:bg-gray-800 
@@ -606,7 +649,7 @@ export default function Chat() {
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement;
                     target.style.height = 'auto';
-                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 160 : 128) + 'px';
+                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 128 : 96) + 'px';
                   }}
                 />
                 
@@ -620,7 +663,7 @@ export default function Chat() {
                       onChange={handleFileUpload}
                       multiple
                     />
-                    <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <div className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                       </svg>
@@ -630,7 +673,7 @@ export default function Chat() {
                   {/* Voice Recording */}
                   <button
                     onClick={toggleRecording}
-                    className={`p-1.5 rounded-lg transition-colors ${
+                    className={`p-1 rounded-lg transition-colors ${
                       isRecording 
                         ? 'text-red-500 bg-red-50 dark:bg-red-900/20' 
                         : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -645,18 +688,18 @@ export default function Chat() {
                   <button
                     onClick={handleSend}
                     disabled={!input.trim() || isLoading}
-                    className="ml-1 w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
+                    className="ml-1 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
                              flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
                              transition-all duration-200"
                   >
-                    <PaperPlaneIcon className="w-4 h-4 text-white" />
+                    <PaperPlaneIcon className="w-3 h-3 md:w-4 md:h-4 text-white" />
                   </button>
                 </div>
               </div>
               
-              {/* Character Counter and Help Text */}
-              <div className="flex justify-between items-center mt-1 px-1 h-4">
-                <div className="text-xs text-gray-500 dark:text-gray-400">
+              {/* Character Counter and Help Text - More compact */}
+              <div className="flex justify-between items-center mt-1 px-1 h-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
                   Press Enter to send, Shift + Enter for new line
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
