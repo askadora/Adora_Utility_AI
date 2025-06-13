@@ -7,6 +7,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -77,6 +79,11 @@ export default function MultiChat() {
   const [synthesizedResponse, setSynthesizedResponse] = useState<string | null>(null);
   const messagesEndRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
+  const { session } = useAuth();
+  const [llmUsage, setLlmUsage] = useState<number>(0);
+  const LLM_PROMPT_LIMIT = process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT ? parseInt(process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT) : 20;
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [allowedModels, setAllowedModels] = useState(0);
 
   // Initialize conversations for selected models
   useEffect(() => {
@@ -95,12 +102,31 @@ export default function MultiChat() {
     setConversations(newConversations);
   }, [selectedModels]);
 
+  useEffect(() => {
+    async function fetchLlmUsage() {
+      if (!session?.user) return;
+      const { data, error } = await supabase.rpc('get_llm_usage', { uid: session.user.id });
+      if (data && data[0] && data[0].llm_usage !== undefined && data[0].llm_usage !== null) {
+        setLlmUsage(data[0].llm_usage);
+      }
+    }
+    fetchLlmUsage();
+  }, [session]);
+
   const scrollToBottom = (modelId: string) => {
     messagesEndRefs.current[modelId]?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSend = async () => {
     if (!input.trim()) return;
+
+    // Check credits before sending
+    if (llmUsage + selectedModels.length > LLM_PROMPT_LIMIT) {
+      const allowed = LLM_PROMPT_LIMIT - llmUsage;
+      setAllowedModels(allowed);
+      setShowLimitModal(true);
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -232,6 +258,13 @@ export default function MultiChat() {
               ),
             }
           }));
+          // Update LLM usage after each model call
+          if (session?.user) {
+            const { data, error } = await supabase.rpc('update_llm_usage', { uid: session.user.id });
+            if (data && data[0] && data[0].new_usage !== undefined && data[0].new_usage !== null) {
+              setLlmUsage(data[0].new_usage);
+            }
+          }
         } catch (error) {
           console.error(`Error from ${modelId}:`, error);
           const errorMessage: Message = {
@@ -585,6 +618,26 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
 
   return (
     <div className="h-[calc(100vh-9rem)] flex flex-col bg-gray-50 dark:bg-gray-900">
+      {showLimitModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Transparent blurred overlay */}
+          <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
+          <div className="relative bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-sm w-full text-center border border-gray-200 dark:border-gray-700">
+            <div className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+              Model Selection Limit
+            </div>
+            <div className="mb-4 text-gray-700 dark:text-gray-300">
+              You can select only <span className="font-bold">{allowedModels}</span> model{allowedModels !== 1 ? 's' : ''} based on your remaining credits.
+            </div>
+            <button
+              onClick={() => setShowLimitModal(false)}
+              className="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
         <div className="flex items-center justify-between">
@@ -603,6 +656,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
               <PlusIcon className="w-4 h-4" />
               Clear All
             </button>
+            <span className="text-xs text-gray-500 ml-2">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
             
             {/* Model Selection */}
             <div className="flex items-center gap-2">
@@ -662,7 +716,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
       )}
 
       {/* Models Grid */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="relative flex-1 overflow-y-auto p-4">
         <div className={`grid ${getGridCols()} gap-4 h-full`}>
           {selectedModels.map((modelId) => {
             const model = availableModels.find(m => m.id === modelId);
@@ -893,7 +947,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
             
             <button
               onClick={handleSend}
-              disabled={!input.trim() || Object.values(conversations).some(c => c.isLoading)}
+              disabled={!input.trim() || Object.values(conversations).some(c => c.isLoading) || llmUsage >= LLM_PROMPT_LIMIT}
               className="absolute right-3 top-3 bottom-3 my-auto w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
                        flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
                        transition-all duration-200"
@@ -987,6 +1041,12 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
           </div>
         </div>
       </div>
+
+      {llmUsage >= LLM_PROMPT_LIMIT && (
+        <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
+          You have used up free credits
+        </div>
+      )}
     </div>
   );
 } 
