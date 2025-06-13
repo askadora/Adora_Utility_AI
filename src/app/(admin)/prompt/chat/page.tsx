@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-// import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
-import { singleChatCompletion } from '@/llm/grok/api';
-import { UNIFIED_MODELS, Model } from '@/llm/unified-models';
+import { UNIFIED_MODELS, Model, UnifiedMessage } from '@/llm/unified-models';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -70,6 +72,8 @@ export default function Chat() {
   const handleSend = async () => {
     if (!input.trim()) return;
 
+    console.log('Starting chat with input:', input);
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -77,61 +81,129 @@ export default function Chat() {
       timestamp: new Date(),
     };
 
+    console.log('Created user message:', userMessage);
+
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // Only handle the selected LLM
       const selectedModelId = selectedLLM;
       const selectedVersionId = selectedModels[selectedLLM];
+
+      console.log('Selected model:', {
+        modelId: selectedModelId,
+        versionId: selectedVersionId
+      });
 
       if (!selectedVersionId) {
         throw new Error('Please select a model version');
       }
 
-      // Handle Grok specifically
-      if (selectedModelId === 'grok') {
-        const tempMessageId = `${Date.now()}-grok`;
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: tempMessageId,
-            role: 'assistant',
-            content: '',
-            model: 'grok',
-            modelVersion: selectedVersionId,
-            timestamp: new Date(),
-          },
-        ]);
+      // Create a temporary message for the assistant's response
+      const tempMessageId = `${Date.now()}-${selectedModelId}`;
+      console.log('Created temporary message ID:', tempMessageId);
 
-        await singleChatCompletion(
-          input,
-          (chunk) => {
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === tempMessageId
-                  ? { ...msg, content: msg.content + chunk }
-                  : msg
-              )
-            );
-          },
-          selectedVersionId
-        );
-      } else {
-        // For other models, add a single response
-        const responseMessage: Message = {
-          id: `${Date.now()}-${selectedModelId}`,
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: tempMessageId,
           role: 'assistant',
-          content: `This is a sample response from ${selectedModelId} (${selectedVersionId})`,
+          content: '',
           model: selectedModelId,
           modelVersion: selectedVersionId,
           timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, responseMessage]);
+        },
+      ]);
+
+      // Convert the input into a message array
+      const messages: UnifiedMessage[] = [
+        {
+          role: 'user',
+          content: input
+        }
+      ];
+
+      console.log('Prepared messages for API:', messages);
+
+      const options = {
+        model: selectedModelId,
+        version: selectedVersionId,
+        temperature: 0.7,
+        maxTokens: 1000
+      };
+
+      console.log('API options:', options);
+
+      // Call the API route
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages, options }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from API');
       }
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+      let lastUpdate = Date.now();
+      const updateInterval = 50; // Update UI every 50ms for smoother streaming
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter(Boolean);
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            console.log('Received chunk:', data);
+            
+            if (data.content) {
+              accumulatedContent += data.content;
+              
+              // Update UI at regular intervals for smoother streaming
+              const now = Date.now();
+              if (now - lastUpdate >= updateInterval) {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === tempMessageId
+                      ? { ...msg, content: accumulatedContent }
+                      : msg
+                  )
+                );
+                lastUpdate = now;
+              }
+            }
+          } catch (e) {
+            console.error('Error parsing chunk:', e);
+          }
+        }
+      }
+
+      // Final update to ensure all content is displayed
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === tempMessageId
+            ? { ...msg, content: accumulatedContent }
+            : msg
+        )
+      );
+
+      console.log('Stream completed successfully');
     } catch (error) {
-      console.error('Error getting response:', error);
+      console.error('Error in chat flow:', error);
       const errorMessage: Message = {
         id: `${Date.now()}-error`,
         role: 'assistant',
@@ -141,10 +213,12 @@ export default function Chat() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      console.log('Chat flow completed');
     }
   };
 
   const handleLLMChange = (llmId: string) => {
+    console.log('Changing LLM to:', llmId);
     setSelectedLLM(llmId);
     // Clear the version selection when changing LLM
     setSelectedModels(prev => ({
@@ -154,6 +228,7 @@ export default function Chat() {
   };
 
   const handleVersionChange = (versionId: string) => {
+    console.log('Changing version to:', versionId);
     setSelectedModels(prev => ({
       ...prev,
       [selectedLLM]: versionId
@@ -345,6 +420,21 @@ export default function Chat() {
                 </div>
               )}
             </div>
+
+            {/* Refresh Button */}
+            <button
+              onClick={() => {
+                console.log('Clearing chat history');
+                setMessages([]);
+                setInput('');
+              }}
+              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              title="Clear chat"
+            >
+              <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
           </div>
 
           {/* Mobile Tools Toggle */}
@@ -457,8 +547,39 @@ export default function Chat() {
                             {message.modelVersion && ` (${message.modelVersion})`}
                           </div>
                         )}
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white">
-                          {message.content}
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-0.5 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_blockquote]:my-0.5">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code(props: any) {
+                                const { inline, className, children, ...rest } = props;
+                                const match = /language-(\w+)/.exec(className || '');
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    customStyle={{
+                                      borderRadius: '0.5em',
+                                      fontSize: '0.95em',
+                                      padding: '1em',
+                                      margin: '0.5em 0',
+                                      background: 'var(--tw-prose-pre-bg, #282c34)'
+                                    }}
+                                    {...rest}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className={className} {...rest}>
+                                    {children}
+                                  </code>
+                                );
+                              }
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     </div>

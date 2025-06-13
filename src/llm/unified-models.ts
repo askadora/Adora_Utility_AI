@@ -122,7 +122,7 @@ export const UNIFIED_MODELS: Model[] = [
     versions: [
       { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', modelKey: 'meta-llama/Meta-Llama-3.1-405B-Instruct', description: 'Largest and most capable', available: false },
       { id: 'llama-3.1-70b', name: 'Llama 3.1 70B', modelKey: 'meta-llama/Meta-Llama-3.1-70B-Instruct', description: 'High performance', available: false },
-      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B', modelKey: 'meta-llama/Meta-Llama-3.1-8B-Instruct', description: 'Fast and efficient', available: true },
+      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B Instruct', modelKey: 'meta-llama/Meta-Llama-3.1-8B-Instruct', description: 'Fast and efficient', available: true },
       { id: 'llama-3.2-vision', name: 'Llama 3.2 Vision', modelKey: 'meta-llama/Meta-Llama-3.2-Vision-Instruct', description: 'Multimodal capabilities', available: false },
     ],
   },
@@ -140,8 +140,8 @@ export const UNIFIED_MODELS: Model[] = [
   },
 ];
 
-// Helper function to get DeepInfra model ID from model and version IDs
-export function getModelKeyId(modelId: string, versionId: string): string {
+// Helper function to get model key to send to API from model and version IDs
+export function getModelKey(modelId: string, versionId: string): string {
   const model = UNIFIED_MODELS.find(m => m.id === modelId);
   if (!model) {
     throw new Error(`Model "${modelId}" not found`);
@@ -155,7 +155,9 @@ export function getModelKeyId(modelId: string, versionId: string): string {
   if (!version.modelKey) {
     throw new Error(`No DeepInfra model mapping for "${modelId}/${versionId}"`);
   }
-  
+  if (!version.available) {
+    return 'unavailable';
+  } 
   return version.modelKey;
 }
 
@@ -171,4 +173,42 @@ export function getModelVersions(modelId: string): ModelVersion[] {
     throw new Error(`Model "${modelId}" not found`);
   }
   return model.versions;
+}
+
+export interface UnifiedChatResponse {
+  id: string;
+  model: string;
+  created: number;
+  content: string;
+  usage?: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+}
+
+export interface UnifiedStreamingResponse {
+  content: string;
+  model: string;
+  usage?: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+}
+
+export interface UnifiedMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+export interface UnifiedChatOptions {
+  model: string;
+  version: string;
+  temperature?: number;
+  maxTokens?: number;
+  topP?: number;
+  frequencyPenalty?: number;
+  presencePenalty?: number;
+  stream?: boolean;
 } 

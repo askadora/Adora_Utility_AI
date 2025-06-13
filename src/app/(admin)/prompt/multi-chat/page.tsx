@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-import { singleChatCompletion } from '@/llm/grok/api';
+// import { singleChatCompletion } from '@/llm/grok/api';
 import { UNIFIED_MODELS, Model, ModelVersion } from '@/llm/unified-models';
 
 type MessageRole = 'user' | 'assistant';
@@ -116,23 +116,23 @@ export default function MultiChat() {
             }
           }));
 
-          await singleChatCompletion(
-            input,
-            (chunk) => {
-              setConversations(prev => ({
-                ...prev,
-                [modelId]: {
-                  ...prev[modelId],
-                  messages: prev[modelId].messages.map(msg =>
-                    msg.id === tempMessageId
-                      ? { ...msg, content: msg.content + chunk }
-                      : msg
-                  ),
-                }
-              }));
-            },
-            selectedVersion
-          );
+          // await singleChatCompletion(
+          //   input,
+          //   (chunk) => {
+          //     setConversations(prev => ({
+          //       ...prev,
+          //       [modelId]: {
+          //         ...prev[modelId],
+          //         messages: prev[modelId].messages.map(msg =>
+          //           msg.id === tempMessageId
+          //             ? { ...msg, content: msg.content + chunk }
+          //             : msg
+          //         ),
+          //       }
+          //     }));
+          //   },
+          //   selectedVersion
+          // );
         } else {
           // Simulate response for other models
           await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
