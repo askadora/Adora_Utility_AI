@@ -1,33 +1,33 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { useTimer } from "@/context/TimerContext";
 
-type TimerMode = "work" | "shortBreak" | "longBreak";
+type TimerMode = "shortWork" | "longWork" | "shortBreak" | "longBreak";
 
 interface TimerSettings {
-  work: number;
+  shortWork: number;
+  longWork: number;
   shortBreak: number;
   longBreak: number;
 }
 
 const PomodoroTimer: React.FC = () => {
-  const [mode, setMode] = useState<TimerMode>("work");
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
-  const [isActive, setIsActive] = useState(false);
-  const [sessions, setSessions] = useState(0);
+  const { timer, updateTimer } = useTimer();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const timerSettings: TimerSettings = {
-    work: 25 * 60, // 25 minutes
+    shortWork: 25 * 60, // 25 minutes
+    longWork: 90 * 60, // 90 minutes
     shortBreak: 5 * 60, // 5 minutes
     longBreak: 15 * 60, // 15 minutes
   };
 
   useEffect(() => {
-    if (isActive && timeLeft > 0) {
+    if (timer.isActive && timer.timeLeft > 0) {
       intervalRef.current = setInterval(() => {
-        setTimeLeft((timeLeft) => timeLeft - 1);
+        updateTimer({ timeLeft: timer.timeLeft - 1 });
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timer.timeLeft === 0) {
       handleTimerComplete();
     } else {
       if (intervalRef.current) {
@@ -40,24 +40,23 @@ const PomodoroTimer: React.FC = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isActive, timeLeft]);
+  }, [timer.isActive, timer.timeLeft, updateTimer]);
 
   const handleTimerComplete = () => {
-    setIsActive(false);
+    updateTimer({ isActive: false });
     
-    if (mode === "work") {
-      setSessions(sessions + 1);
+    if (timer.mode === "shortWork" || timer.mode === "longWork") {
+      const newSessions = timer.sessions + 1;
+      updateTimer({ sessions: newSessions });
       // After 4 work sessions, take a long break
-      if ((sessions + 1) % 4 === 0) {
-        setMode("longBreak");
-        setTimeLeft(timerSettings.longBreak);
+      if (newSessions % 4 === 0) {
+        updateTimer({ mode: "longBreak", timeLeft: timerSettings.longBreak });
       } else {
-        setMode("shortBreak");
-        setTimeLeft(timerSettings.shortBreak);
+        updateTimer({ mode: "shortBreak", timeLeft: timerSettings.shortBreak });
       }
     } else {
-      setMode("work");
-      setTimeLeft(timerSettings.work);
+      // After a break, default to short work
+      updateTimer({ mode: "shortWork", timeLeft: timerSettings.shortWork });
     }
 
     // Play notification sound (you could add actual audio here)
@@ -65,18 +64,19 @@ const PomodoroTimer: React.FC = () => {
   };
 
   const toggleTimer = () => {
-    setIsActive(!isActive);
+    updateTimer({ isActive: !timer.isActive });
   };
 
   const resetTimer = () => {
-    setIsActive(false);
-    setTimeLeft(timerSettings[mode]);
+    updateTimer({ isActive: false, timeLeft: timerSettings[timer.mode] });
   };
 
   const switchMode = (newMode: TimerMode) => {
-    setMode(newMode);
-    setTimeLeft(timerSettings[newMode]);
-    setIsActive(false);
+    updateTimer({ 
+      mode: newMode, 
+      timeLeft: timerSettings[newMode], 
+      isActive: false 
+    });
   };
 
   const formatTime = (seconds: number) => {
@@ -88,14 +88,16 @@ const PomodoroTimer: React.FC = () => {
   };
 
   const getProgress = () => {
-    const totalTime = timerSettings[mode];
-    return ((totalTime - timeLeft) / totalTime) * 100;
+    const totalTime = timerSettings[timer.mode];
+    return ((totalTime - timer.timeLeft) / totalTime) * 100;
   };
 
   const getModeColor = () => {
-    switch (mode) {
-      case "work":
+    switch (timer.mode) {
+      case "shortWork":
         return "text-red-500 border-red-500";
+      case "longWork":
+        return "text-purple-500 border-purple-500";
       case "shortBreak":
         return "text-green-500 border-green-500";
       case "longBreak":
@@ -106,9 +108,11 @@ const PomodoroTimer: React.FC = () => {
   };
 
   const getModeBackground = () => {
-    switch (mode) {
-      case "work":
+    switch (timer.mode) {
+      case "shortWork":
         return "bg-red-50 dark:bg-red-900/10";
+      case "longWork":
+        return "bg-purple-50 dark:bg-purple-900/10";
       case "shortBreak":
         return "bg-green-50 dark:bg-green-900/10";
       case "longBreak":
@@ -122,37 +126,54 @@ const PomodoroTimer: React.FC = () => {
     <div className={`w-full h-full p-4 lg:p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 ${getModeBackground()}`}>
       <div className="text-center h-full flex flex-col justify-center">
         {/* Mode Selector */}
-        <div className="flex justify-center gap-1 lg:gap-2 mb-4 lg:mb-6">
-          <button
-            onClick={() => switchMode("work")}
-            className={`px-2 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
-              mode === "work"
-                ? "bg-red-500 text-white"
-                : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-            }`}
-          >
-            Work
-          </button>
-          <button
-            onClick={() => switchMode("shortBreak")}
-            className={`px-2 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
-              mode === "shortBreak"
-                ? "bg-green-500 text-white"
-                : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-            }`}
-          >
-            Short Break
-          </button>
-          <button
-            onClick={() => switchMode("longBreak")}
-            className={`px-2 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
-              mode === "longBreak"
-                ? "bg-blue-500 text-white"
-                : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-            }`}
-          >
-            Long Break
-          </button>
+        <div className="flex flex-col gap-2 mb-4 lg:mb-6">
+          {/* Work Options Row */}
+          <div className="flex justify-center gap-1 lg:gap-2">
+            <button
+              onClick={() => switchMode("shortWork")}
+              className={`px-3 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
+                timer.mode === "shortWork"
+                  ? "bg-red-500 text-white"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              Quick Work
+            </button>
+            <button
+              onClick={() => switchMode("longWork")}
+              className={`px-3 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
+                timer.mode === "longWork"
+                  ? "bg-purple-500 text-white"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              Focus Work
+            </button>
+          </div>
+          
+          {/* Break Options Row */}
+          <div className="flex justify-center gap-1 lg:gap-2">
+            <button
+              onClick={() => switchMode("shortBreak")}
+              className={`px-3 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
+                timer.mode === "shortBreak"
+                  ? "bg-green-500 text-white"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              Short Break
+            </button>
+            <button
+              onClick={() => switchMode("longBreak")}
+              className={`px-3 lg:px-4 py-1 lg:py-2 rounded-lg text-xs lg:text-sm font-medium transition-colors ${
+                timer.mode === "longBreak"
+                  ? "bg-blue-500 text-white"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              Long Break
+            </button>
+          </div>
         </div>
 
         {/* Timer Display */}
@@ -167,16 +188,17 @@ const PomodoroTimer: React.FC = () => {
               }}
             />
             <div className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white z-10">
-              {formatTime(timeLeft)}
+              {formatTime(timer.timeLeft)}
             </div>
           </div>
         </div>
 
         {/* Current Mode Label */}
         <h3 className="text-lg lg:text-xl font-semibold text-gray-900 dark:text-white mb-4 lg:mb-6">
-          {mode === "work" && "Focus Time"}
-          {mode === "shortBreak" && "Short Break"}
-          {mode === "longBreak" && "Long Break"}
+          {timer.mode === "shortWork" && "Quick Work Session"}
+          {timer.mode === "longWork" && "Focus Work Session"}
+          {timer.mode === "shortBreak" && "Short Break"}
+          {timer.mode === "longBreak" && "Long Break"}
         </h3>
 
         {/* Control Buttons */}
@@ -184,12 +206,12 @@ const PomodoroTimer: React.FC = () => {
           <button
             onClick={toggleTimer}
             className={`px-4 lg:px-6 py-2 lg:py-3 rounded-lg text-sm lg:text-base font-medium text-white transition-colors ${
-              isActive
+              timer.isActive
                 ? "bg-orange-500 hover:bg-orange-600"
                 : "bg-green-500 hover:bg-green-600"
             }`}
           >
-            {isActive ? "Pause" : "Start"}
+            {timer.isActive ? "Pause" : "Start"}
           </button>
           <button
             onClick={resetTimer}
@@ -201,7 +223,7 @@ const PomodoroTimer: React.FC = () => {
 
         {/* Session Counter */}
         <div className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">
-          Completed Sessions: <span className="font-bold">{sessions}</span>
+          Completed Sessions: <span className="font-bold">{timer.sessions}</span>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import {
   EventInput,
@@ -17,6 +18,9 @@ interface CalendarEvent extends EventInput {
   extendedProps: {
     calendar: string;
     type: 'personal' | 'professional';
+    attendees?: string;
+    meetingType?: string;
+    relatedConversation?: string;
   };
 }
 
@@ -43,43 +47,80 @@ const Calendar: React.FC = () => {
   };
 
   useEffect(() => {
-    // Initialize with some personal and professional events
+    // Get today's date for "Today" events
+    const today = new Date();
+    const todayISO = today.toISOString().split('T')[0];
+    
+    // Get tomorrow's date for "Tomorrow" events  
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowISO = tomorrow.toISOString().split('T')[0];
+    
+    // Get day after tomorrow for "2 days out" events
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    const dayAfterTomorrowISO = dayAfterTomorrow.toISOString().split('T')[0];
+
+    // Initialize with AdoraLink meetings + additional events
     setEvents([
+      // AdoraLink Professional Meetings
       {
-        id: '1',
-        title: 'Doctor Appointment',
-        start: new Date().toISOString().split('T')[0],
-        extendedProps: { calendar: 'Danger', type: 'personal' },
+        id: 'adoralink-1',
+        title: 'Security Review Meeting',
+        start: `${todayISO}T14:00:00`, // Today 2:00 PM
+        end: `${todayISO}T15:00:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Danger', 
+          type: 'professional',
+          attendees: 'Brandon Philips, Security Team',
+          meetingType: 'urgent',
+          relatedConversation: '1'
+        },
       },
       {
-        id: '2',
-        title: 'Team Meeting',
-        start: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Success', type: 'professional' },
+        id: 'adoralink-2',
+        title: 'Q4 Budget Planning',
+        start: `${tomorrowISO}T10:00:00`, // Tomorrow 10:00 AM
+        end: `${tomorrowISO}T12:00:00`,   // 2 hours
+        extendedProps: { 
+          calendar: 'Primary', 
+          type: 'professional',
+          attendees: 'Terry Franci, Finance Team',
+          meetingType: 'business',
+          relatedConversation: '3'
+        },
       },
       {
-        id: '3',
-        title: 'Family Dinner',
-        start: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Primary', type: 'personal' },
+        id: 'adoralink-3',
+        title: 'Dev Team Standup',
+        start: `${dayAfterTomorrowISO}T09:00:00`, // 2 days out 9:00 AM
+        end: `${dayAfterTomorrowISO}T09:30:00`,   // 30 minutes
+        extendedProps: { 
+          calendar: 'Success', 
+          type: 'professional',
+          attendees: 'Alena Franci, Engineering',
+          meetingType: 'routine',
+          relatedConversation: '4'
+        },
       },
+      // Additional sample events
       {
         id: '4',
-        title: 'Project Deadline',
-        start: new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Warning', type: 'professional' },
+        title: 'Doctor Appointment',
+        start: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Warning', type: 'personal' },
       },
       {
         id: '5',
-        title: 'Yoga Class',
-        start: new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Success', type: 'personal' },
+        title: 'Family Dinner',
+        start: new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Primary', type: 'personal' },
       },
       {
         id: '6',
-        title: 'Client Call',
-        start: new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Danger', type: 'professional' },
+        title: 'Yoga Class',
+        start: new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0],
+        extendedProps: { calendar: 'Success', type: 'personal' },
       },
     ]);
   }, []);
@@ -171,12 +212,21 @@ const Calendar: React.FC = () => {
       <div className="custom-calendar">
         <FullCalendar
           ref={calendarRef}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
+          plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
+          initialView="listDay"
+          views={{
+            listDay: {
+              type: 'list',
+              duration: { days: 1 },
+              listDayFormat: false,
+              listDaySideFormat: false,
+              noEventsContent: 'No events scheduled for today'
+            }
+          }}
           headerToolbar={{
             left: 'prev,next',
             center: 'title',
-            right: 'addEventButton dayGridMonth,timeGridWeek,timeGridDay',
+            right: 'addEventButton listDay,timeGridWeek,dayGridMonth',
           }}
           events={filteredEvents}
           selectable={true}
@@ -189,6 +239,9 @@ const Calendar: React.FC = () => {
               click: openModal,
             },
           }}
+          dayMaxEvents={false}
+          height="auto"
+          contentHeight="auto"
         />
         {/* Toggle injected into the header via ref */}
         <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 16, verticalAlign: 'middle', height: '100%' }}>
@@ -220,6 +273,75 @@ const Calendar: React.FC = () => {
         }
         .fc-add-event-btn:hover, .fc-add-event-btn:focus {
           background: #4f46e5 !important;
+        }
+        
+        /* Custom Day List View Styling - App Theme Consistent */
+        .fc-list-day-cushion {
+          display: none !important;
+        }
+        .fc-list-event {
+          border: 1px solid #e5e7eb !important;
+          border-radius: 12px !important;
+          margin: 12px 0 !important;
+          padding: 16px !important;
+          background: #ffffff !important;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+          transition: all 0.2s ease !important;
+        }
+        .dark .fc-list-event {
+          border-color: #374151 !important;
+          background: #1f2937 !important;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.1) !important;
+        }
+        .fc-list-event:hover {
+          background: #f9fafb !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+          border-color: #d1d5db !important;
+        }
+        .dark .fc-list-event:hover {
+          background: #253548 !important;
+          border-color: #4b5563 !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+        }
+        .fc-list-event-time {
+          font-weight: 600 !important;
+          color: #3b82f6 !important;
+          font-size: 14px !important;
+          min-width: 70px !important;
+        }
+        .fc-list-event-title {
+          font-weight: 500 !important;
+          color: #1f2937 !important;
+          font-size: 16px !important;
+          margin-left: 12px !important;
+          flex: 1 !important;
+        }
+        .dark .fc-list-event-title {
+          color: #f9fafb !important;
+        }
+        .fc-list-event-title::after {
+          content: attr(data-attendees) !important;
+          display: block !important;
+          font-size: 12px !important;
+          font-weight: 400 !important;
+          color: #6b7280 !important;
+          margin-top: 2px !important;
+        }
+        .dark .fc-list-event-title::after {
+          color: #9ca3af !important;
+        }
+        .fc-list-empty {
+          text-align: center !important;
+          padding: 40px !important;
+          color: #6b7280 !important;
+          font-style: italic !important;
+        }
+        .fc-list-table {
+          border: none !important;
+        }
+        .fc-list-day-text {
+          display: none !important;
         }
       `}</style>
       <Modal
@@ -346,6 +468,51 @@ const Calendar: React.FC = () => {
 
 const renderEventContent = (eventInfo: EventContentArg) => {
   const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`;
+  const isListView = eventInfo.view.type === 'listDay';
+  
+  if (isListView) {
+    return (
+      <div className="flex items-start justify-between w-full">
+        <div className="flex-1">
+          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+            {eventInfo.event.title}
+          </h4>
+          {eventInfo.event.extendedProps.attendees && (
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+              {eventInfo.event.extendedProps.attendees}
+            </p>
+          )}
+          <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+            <span className="flex items-center gap-1">
+              📅 {eventInfo.timeText}
+            </span>
+            {eventInfo.event.start && eventInfo.event.end && (
+              <span className="flex items-center gap-1">
+                ⏱️ {Math.round((eventInfo.event.end.getTime() - eventInfo.event.start.getTime()) / (1000 * 60 * 60))} hour{Math.round((eventInfo.event.end.getTime() - eventInfo.event.start.getTime()) / (1000 * 60 * 60)) !== 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 items-end">
+          {eventInfo.event.extendedProps.meetingType && (
+            <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+              eventInfo.event.extendedProps.meetingType === 'urgent' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
+              eventInfo.event.extendedProps.meetingType === 'business' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+              'bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400'
+            }`}>
+              {eventInfo.event.extendedProps.meetingType}
+            </span>
+          )}
+          {eventInfo.event.extendedProps.relatedConversation && (
+            <button className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors">
+              💬 View Chat
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`event-fc-color flex fc-event-main ${colorClass} p-1 rounded-sm`}
