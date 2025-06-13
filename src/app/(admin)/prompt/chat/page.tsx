@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-// import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
-import { singleChatCompletion } from '@/llm/grok/api';
+import { UNIFIED_MODELS, Model, UnifiedMessage } from '@/llm/unified-models';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -16,20 +19,6 @@ interface Message {
   timestamp: Date;
 }
 
-interface ModelVersion {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Model {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  versions: ModelVersion[];
-}
-
 interface ChatHistory {
   id: string;
   title: string;
@@ -38,85 +27,38 @@ interface ChatHistory {
   modelResponses: { [key: string]: string };
 }
 
-const initialModels: Model[] = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'OpenAI\'s advanced language model',
-    icon: '🤖',
-    versions: [
-      { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Fast and efficient' },
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model' },
-      { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest version with improved capabilities' },
-      { id: 'gpt-4.1', name: 'GPT-4.1', description: 'Enhanced performance and accuracy' },
-    ],
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    description: 'Google\'s multimodal AI model',
-    icon: '🔍',
-    versions: [
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Advanced capabilities' },
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'claude',
-    name: 'Claude',
-    description: 'Anthropic\'s conversational AI',
-    icon: '🧠',
-    versions: [
-      { id: 'claude-3.5', name: 'Claude 3.5', description: 'Balanced performance' },
-      { id: 'claude-3.7', name: 'Claude 3.7', description: 'Latest version with improved capabilities' },
-    ],
-  },
-  {
-    id: 'grok',
-    name: 'Grok',
-    description: 'xAI\'s real-time AI model',
-    icon: '⚡',
-    versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
-    ],
-  },
-  {
-    id: 'perplexity',
-    name: 'Perplexity',
-    description: 'Advanced search and research AI',
-    icon: '🔎',
-    versions: [
-      { id: 'perplexity-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'llama',
-    name: 'Llama',
-    description: 'Meta\'s open-source model',
-    icon: '🦙',
-    versions: [
-      { id: 'llama-3', name: 'Llama 3', description: 'Latest version' },
-    ],
-  },
-  {
-    id: 'deepseek',
-    name: 'Deepseek',
-    description: 'Specialized in deep learning',
-    icon: '🎯',
-    versions: [
-      { id: 'deepseek-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    description: 'Alibaba\'s advanced AI model',
-    icon: '🌟',
-    versions: [
-      { id: 'qwen-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-];
+// Add markdown preprocessing function
+const preprocessMarkdown = (content: string): string => {
+  if (!content) return '';
+  
+  let processed = content;
+  
+  // Remove trailing whitespace from all lines
+  processed = processed.replace(/[ \t]+$/gm, '');
+  
+  // Collapse multiple blank lines into single blank lines
+  processed = processed.replace(/\n{3,}/g, '\n\n');
+  
+  // Ensure exactly one blank line before and after headings
+  processed = processed.replace(/\n*(#{1,6}[^\n]*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line before and after tables
+  processed = processed.replace(/\n*(\|[^\n]*\|[^\n]*\n(?:\|[^\n]*\|[^\n]*\n)*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line between paragraphs and other block elements
+  // This handles cases where there are no blank lines between paragraphs
+  processed = processed.replace(/([^\n])\n([^\n#\-\*\+\d\s\|])/g, '$1\n\n$2');
+  
+  // Clean up any leading/trailing whitespace
+  processed = processed.trim();
+  
+  // Ensure content ends with single newline if it had content
+  if (processed) {
+    processed = processed + '\n';
+  }
+  
+  return processed;
+};
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -138,10 +80,11 @@ export default function Chat() {
   ]);
   const [isRecording, setIsRecording] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState<string>('grok');
-  const [availableModels] = useState<Model[]>(initialModels);
+  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);
+  const modelSelectorRef = useRef<HTMLDivElement>(null);
 
   // Set default model and version on component mount
   useEffect(() => {
@@ -150,6 +93,19 @@ export default function Chat() {
       ...prev,
       grok: 'grok-3-mini'
     }));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modelSelectorRef.current && !modelSelectorRef.current.contains(event.target as Node)) {
+        setShowModelSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -163,6 +119,8 @@ export default function Chat() {
   const handleSend = async () => {
     if (!input.trim()) return;
 
+    console.log('Starting chat with input:', input);
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
@@ -170,61 +128,129 @@ export default function Chat() {
       timestamp: new Date(),
     };
 
+    console.log('Created user message:', userMessage);
+
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // Only handle the selected LLM
       const selectedModelId = selectedLLM;
       const selectedVersionId = selectedModels[selectedLLM];
+
+      console.log('Selected model:', {
+        modelId: selectedModelId,
+        versionId: selectedVersionId
+      });
 
       if (!selectedVersionId) {
         throw new Error('Please select a model version');
       }
 
-      // Handle Grok specifically
-      if (selectedModelId === 'grok') {
-        const tempMessageId = `${Date.now()}-grok`;
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: tempMessageId,
-            role: 'assistant',
-            content: '',
-            model: 'grok',
-            modelVersion: selectedVersionId,
-            timestamp: new Date(),
-          },
-        ]);
+      // Create a temporary message for the assistant's response
+      const tempMessageId = `${Date.now()}-${selectedModelId}`;
+      console.log('Created temporary message ID:', tempMessageId);
 
-        await singleChatCompletion(
-          input,
-          (chunk) => {
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === tempMessageId
-                  ? { ...msg, content: msg.content + chunk }
-                  : msg
-              )
-            );
-          },
-          selectedVersionId
-        );
-      } else {
-        // For other models, add a single response
-        const responseMessage: Message = {
-          id: `${Date.now()}-${selectedModelId}`,
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: tempMessageId,
           role: 'assistant',
-          content: `This is a sample response from ${selectedModelId} (${selectedVersionId})`,
+          content: '',
           model: selectedModelId,
           modelVersion: selectedVersionId,
           timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, responseMessage]);
+        },
+      ]);
+
+      // Convert the input into a message array
+      const messages: UnifiedMessage[] = [
+        {
+          role: 'user',
+          content: input
+        }
+      ];
+
+      console.log('Prepared messages for API:', messages);
+
+      const options = {
+        model: selectedModelId,
+        version: selectedVersionId,
+        temperature: 0.7,
+        maxTokens: 1000
+      };
+
+      console.log('API options:', options);
+
+      // Call the API route
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages, options }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from API');
       }
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+      let lastUpdate = Date.now();
+      const updateInterval = 50; // Update UI every 50ms for smoother streaming
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter(Boolean);
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            console.log('Received chunk:', data);
+            
+            if (data.content) {
+              accumulatedContent += data.content;
+              
+              // Update UI at regular intervals for smoother streaming
+              const now = Date.now();
+              if (now - lastUpdate >= updateInterval) {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === tempMessageId
+                      ? { ...msg, content: accumulatedContent }
+                      : msg
+                  )
+                );
+                lastUpdate = now;
+              }
+            }
+          } catch (e) {
+            console.error('Error parsing chunk:', e);
+          }
+        }
+      }
+
+      // Final update to ensure all content is displayed
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === tempMessageId
+            ? { ...msg, content: accumulatedContent }
+            : msg
+        )
+      );
+
+      console.log('Stream completed successfully');
     } catch (error) {
-      console.error('Error getting response:', error);
+      console.error('Error in chat flow:', error);
       const errorMessage: Message = {
         id: `${Date.now()}-error`,
         role: 'assistant',
@@ -234,10 +260,12 @@ export default function Chat() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      console.log('Chat flow completed');
     }
   };
 
   const handleLLMChange = (llmId: string) => {
+    console.log('Changing LLM to:', llmId);
     setSelectedLLM(llmId);
     // Clear the version selection when changing LLM
     setSelectedModels(prev => ({
@@ -247,6 +275,7 @@ export default function Chat() {
   };
 
   const handleVersionChange = (versionId: string) => {
+    console.log('Changing version to:', versionId);
     setSelectedModels(prev => ({
       ...prev,
       [selectedLLM]: versionId
@@ -407,7 +436,7 @@ export default function Chat() {
             </button>
             
             {/* Model Selector */}
-            <div className="relative">
+            <div className="relative" ref={modelSelectorRef}>
               <button
                 onClick={() => setShowModelSelector(!showModelSelector)}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -429,7 +458,7 @@ export default function Chat() {
               </button>
               
               {showModelSelector && (
-                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50 max-h-[400px] overflow-y-auto">
                   {availableModels.map((model) => (
                     <div key={model.id}>
                       <button
@@ -481,6 +510,21 @@ export default function Chat() {
                 </div>
               )}
             </div>
+
+            {/* Refresh Button */}
+            <button
+              onClick={() => {
+                console.log('Clearing chat history');
+                setMessages([]);
+                setInput('');
+              }}
+              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              title="Clear chat"
+            >
+              <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
           </div>
 
           {/* Mobile Tools Toggle */}
@@ -593,8 +637,116 @@ export default function Chat() {
                             {message.modelVersion && ` (${message.modelVersion})`}
                           </div>
                         )}
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white">
-                          {message.content}
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-1 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-0.5 [&_table]:my-0.5 [&_hr]:my-0.5 [&_li]:my-0">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code(props: any) {
+                                const { inline, className, children, ...rest } = props;
+                                const match = /language-(\w+)/.exec(className || '');
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    customStyle={{
+                                      borderRadius: '0.5em',
+                                      fontSize: '0.95em',
+                                      padding: '1em',
+                                      margin: '0.5em 0',
+                                      background: 'var(--tw-prose-pre-bg, #282c34)'
+                                    }}
+                                    {...rest}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className={className} {...rest}>
+                                    {children}
+                                  </code>
+                                );
+                              },
+                              table: ({ children, ...props }) => (
+                                <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              thead: ({ children, ...props }) => (
+                                <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </thead>
+                              ),
+                              tbody: ({ children, ...props }) => (
+                                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                  {children}
+                                </tbody>
+                              ),
+                              tr: ({ children, ...props }) => (
+                                <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                  {children}
+                                </tr>
+                              ),
+                              th: ({ children, ...props }) => (
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children, ...props }) => (
+                                <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                  {children}
+                                </td>
+                              ),
+                              p: ({ children, ...props }) => (
+                                <p className="my-0.5 leading-relaxed" {...props}>
+                                  {children}
+                                </p>
+                              ),
+                              h1: ({ children, ...props }) => (
+                                <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                  {children}
+                                </h1>
+                              ),
+                              h2: ({ children, ...props }) => (
+                                <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children, ...props }) => (
+                                <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children, ...props }) => (
+                                <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                  {children}
+                                </h4>
+                              ),
+                              ul: ({ children, ...props }) => (
+                                <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                  {children}
+                                </ul>
+                              ),
+                              ol: ({ children, ...props }) => (
+                                <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                  {children}
+                                </ol>
+                              ),
+                              li: ({ children, ...props }) => (
+                                <li className="my-0 leading-relaxed" {...props}>
+                                  {children}
+                                </li>
+                              ),
+                              blockquote: ({ children, ...props }) => (
+                                <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                  {children}
+                                </blockquote>
+                              )
+                            }}
+                          >
+                            {preprocessMarkdown(message.content)}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     </div>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getModelKey, UnifiedChatResponse, UnifiedStreamingResponse, UnifiedMessage, UnifiedChatOptions } from '../unified-models';
 
 // Types
 export interface GrokModel {
@@ -7,16 +8,6 @@ export interface GrokModel {
   description: string;
   capabilities: string[];
   maxTokens: number;
-}
-
-export interface GrokResponse {
-  answer: string;
-  model: string;
-  usage: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-  };
 }
 
 // API Configuration
@@ -70,26 +61,34 @@ export const listGrokModels = async (): Promise<GrokModel[]> => {
 
 /**
  * Get an answer from Grok
- * @param prompt The user's question or prompt
- * @param modelId Optional model ID to use (defaults to grok-3-mini)
- * @param options Optional parameters for the request
- * @returns Promise<GrokResponse> The model's response
+ * @param messages The conversation messages
+ * @param options The chat options
+ * @returns Promise<UnifiedChatResponse> The model's response
  */
 export const chatCompletion = async (
-  prompt: string,
-  modelId: string = 'grok-3-mini',
-  options: {
-    temperature?: number;
-    maxTokens?: number;
-    topP?: number;
-    frequencyPenalty?: number;
-    presencePenalty?: number;
-  } = {}
-): Promise<GrokResponse> => {
+  messages: UnifiedMessage[],
+  options: UnifiedChatOptions
+): Promise<UnifiedChatResponse> => {
   try {
+    if (!options.model) {
+      throw new Error("Model is required");
+    }
+
+    const modelKey = getModelKey(options.model, options.version);
+    
+    if (modelKey === 'unavailable') {
+      // Return sample response for unavailable models
+      return {
+        id: Date.now().toString(),
+        model: options.model,
+        created: Date.now(),
+        content: `This is a sample message from ${options.model}`
+      };
+    }
+
     const response = await xaiClient.post('/chat/completions', {
-      model: modelId,
-      prompt: prompt,
+      model: modelKey,
+      messages,
       temperature: options.temperature ?? 0.7,
       max_tokens: options.maxTokens ?? 1000,
       top_p: options.topP ?? 1,
@@ -105,13 +104,15 @@ export const chatCompletion = async (
     }
 
     return {
-      answer: response.data.choices[0].text,
-      model: modelId,
-      usage: {
-        promptTokens: response.data.usage?.prompt_tokens ?? 0,
-        completionTokens: response.data.usage?.completion_tokens ?? 0,
-        totalTokens: response.data.usage?.total_tokens ?? 0
-      }
+      id: response.data.id || Date.now().toString(),
+      model: options.model,
+      created: response.data.created || Date.now(),
+      content: response.data.choices[0].text,
+      usage: response.data.usage ? {
+        promptTokens: response.data.usage.prompt_tokens,
+        completionTokens: response.data.usage.completion_tokens,
+        totalTokens: response.data.usage.total_tokens
+      } : undefined
     };
   } catch (error) {
     console.error('Error getting Grok answer:', error);
@@ -121,32 +122,34 @@ export const chatCompletion = async (
 
 /**
  * Stream an answer from Grok
- * @param prompt The user's question or prompt
+ * @param messages The conversation messages
  * @param onChunk Callback function for each chunk of the response
- * @param modelId Optional model ID to use (defaults to grok-3-mini)
- * @param options Optional parameters for the request
+ * @param options The chat options
  */
-export const singleChatCompletion = async (
-  prompt: string,
-  onChunk: (chunk: string) => void,
-  modelId: string = 'grok-3-mini',
-  options: {
-    temperature?: number;
-    maxTokens?: number;
-    topP?: number;
-    frequencyPenalty?: number;
-    presencePenalty?: number;
-  } = {}
+export const streamChatCompletion = async (
+  messages: UnifiedMessage[],
+  onChunk: (chunk: UnifiedStreamingResponse) => void,
+  options: UnifiedChatOptions
 ): Promise<void> => {
   try {
+    if (!options.model) {
+      throw new Error("Model is required");
+    }
+
+    const modelKey = getModelKey(options.model, options.version);
+    
+    if (modelKey === 'unavailable') {
+      // Send sample response for unavailable models
+      onChunk({
+        content: `This is a sample message from ${options.model}`,
+        model: options.model
+      });
+      return;
+    }
+
     const response = await xaiClient.post('/messages', {
-      model: modelId,
-      messages: [
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
+      model: modelKey,
+      messages,
       temperature: options.temperature ?? 0.7,
       max_tokens: options.maxTokens ?? 1000,
       top_p: options.topP ?? 1,
@@ -178,7 +181,15 @@ export const singleChatCompletion = async (
           if (parsed.type === 'content_block_delta' && 
               parsed.delta?.type === 'text_delta' && 
               parsed.delta?.text) {
-            onChunk(parsed.delta.text);
+            onChunk({
+              content: parsed.delta.text,
+              model: options.model,
+              usage: parsed.usage ? {
+                promptTokens: parsed.usage.prompt_tokens,
+                completionTokens: parsed.usage.completion_tokens,
+                totalTokens: parsed.usage.total_tokens
+              } : undefined
+            });
           }
         } catch (e) {
           console.error('Error parsing stream chunk:', e);
