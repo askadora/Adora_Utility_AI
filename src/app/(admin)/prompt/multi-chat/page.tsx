@@ -23,6 +23,39 @@ interface ModelConversation {
   isLoading: boolean;
 }
 
+// Add markdown preprocessing function
+const preprocessMarkdown = (content: string): string => {
+  if (!content) return '';
+  
+  let processed = content;
+  
+  // Remove trailing whitespace from all lines
+  processed = processed.replace(/[ \t]+$/gm, '');
+  
+  // Collapse multiple blank lines into single blank lines
+  processed = processed.replace(/\n{3,}/g, '\n\n');
+  
+  // Ensure exactly one blank line before and after headings
+  processed = processed.replace(/\n*(#{1,6}[^\n]*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line before and after tables
+  processed = processed.replace(/\n*(\|[^\n]*\|[^\n]*\n(?:\|[^\n]*\|[^\n]*\n)*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line between paragraphs and other block elements
+  // This handles cases where there are no blank lines between paragraphs
+  processed = processed.replace(/([^\n])\n([^\n#\-\*\+\d\s\|])/g, '$1\n\n$2');
+  
+  // Clean up any leading/trailing whitespace
+  processed = processed.trim();
+  
+  // Ensure content ends with single newline if it had content
+  if (processed) {
+    processed = processed + '\n';
+  }
+  
+  return processed;
+};
+
 export default function MultiChat() {
   const [input, setInput] = useState('');
   const [selectedModels, setSelectedModels] = useState<string[]>(['chatgpt', 'claude', 'gemini', 'grok']);
@@ -408,7 +441,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                           ? 'bg-blue-500 text-white' 
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                       } rounded-2xl px-4 py-3 max-w-3xl`}>
-                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-0.5 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_blockquote]:my-0.5">
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-2 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-1 [&_table]:my-1.5 [&_hr]:my-1.5 [&_li]:my-0">
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
@@ -436,10 +469,87 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                                     {children}
                                   </code>
                                 );
-                              }
+                              },
+                              table: ({ children, ...props }) => (
+                                <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              thead: ({ children, ...props }) => (
+                                <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </thead>
+                              ),
+                              tbody: ({ children, ...props }) => (
+                                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                  {children}
+                                </tbody>
+                              ),
+                              tr: ({ children, ...props }) => (
+                                <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                  {children}
+                                </tr>
+                              ),
+                              th: ({ children, ...props }) => (
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children, ...props }) => (
+                                <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                  {children}
+                                </td>
+                              ),
+                              p: ({ children, ...props }) => (
+                                <p className="my-0.5 leading-relaxed" {...props}>
+                                  {children}
+                                </p>
+                              ),
+                              h1: ({ children, ...props }) => (
+                                <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                  {children}
+                                </h1>
+                              ),
+                              h2: ({ children, ...props }) => (
+                                <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children, ...props }) => (
+                                <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children, ...props }) => (
+                                <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                  {children}
+                                </h4>
+                              ),
+                              ul: ({ children, ...props }) => (
+                                <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                  {children}
+                                </ul>
+                              ),
+                              ol: ({ children, ...props }) => (
+                                <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                  {children}
+                                </ol>
+                              ),
+                              li: ({ children, ...props }) => (
+                                <li className="my-0 leading-relaxed" {...props}>
+                                  {children}
+                                </li>
+                              ),
+                              blockquote: ({ children, ...props }) => (
+                                <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                  {children}
+                                </blockquote>
+                              )
                             }}
                           >
-                          {message.content}
+                          {preprocessMarkdown(message.content)}
                           </ReactMarkdown>
                         </div>
                       </div>
@@ -619,7 +729,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                               ? 'bg-blue-500 text-white' 
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
                           }`}>
-                            <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-0.5 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_blockquote]:my-0.5">
+                            <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-2 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-1 [&_table]:my-1.5 [&_hr]:my-1.5 [&_li]:my-0">
                               <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
                                 components={{
@@ -647,10 +757,87 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                                         {children}
                                       </code>
                                     );
-                                  }
+                                  },
+                                  table: ({ children, ...props }) => (
+                                    <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                        {children}
+                                      </table>
+                                    </div>
+                                  ),
+                                  thead: ({ children, ...props }) => (
+                                    <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                      {children}
+                                    </thead>
+                                  ),
+                                  tbody: ({ children, ...props }) => (
+                                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                      {children}
+                                    </tbody>
+                                  ),
+                                  tr: ({ children, ...props }) => (
+                                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                      {children}
+                                    </tr>
+                                  ),
+                                  th: ({ children, ...props }) => (
+                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                      {children}
+                                    </th>
+                                  ),
+                                  td: ({ children, ...props }) => (
+                                    <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                      {children}
+                                    </td>
+                                  ),
+                                  p: ({ children, ...props }) => (
+                                    <p className="my-0.5 leading-relaxed" {...props}>
+                                      {children}
+                                    </p>
+                                  ),
+                                  h1: ({ children, ...props }) => (
+                                    <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                      {children}
+                                    </h1>
+                                  ),
+                                  h2: ({ children, ...props }) => (
+                                    <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                      {children}
+                                    </h2>
+                                  ),
+                                  h3: ({ children, ...props }) => (
+                                    <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                      {children}
+                                    </h3>
+                                  ),
+                                  h4: ({ children, ...props }) => (
+                                    <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                      {children}
+                                    </h4>
+                                  ),
+                                  ul: ({ children, ...props }) => (
+                                    <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                      {children}
+                                    </ul>
+                                  ),
+                                  ol: ({ children, ...props }) => (
+                                    <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                      {children}
+                                    </ol>
+                                  ),
+                                  li: ({ children, ...props }) => (
+                                    <li className="my-0 leading-relaxed" {...props}>
+                                      {children}
+                                    </li>
+                                  ),
+                                  blockquote: ({ children, ...props }) => (
+                                    <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                      {children}
+                                    </blockquote>
+                                  )
                                 }}
                               >
-                              {message.content}
+                              {preprocessMarkdown(message.content)}
                               </ReactMarkdown>
                             </div>
                           </div>
