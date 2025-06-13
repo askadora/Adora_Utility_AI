@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import ComponentCard from '@/components/common/ComponentCard';
 import Calendar from '@/components/calendar/Calendar';
 import AttentionBar from './components/AttentionBar';
@@ -8,7 +9,6 @@ import ConversationPane from './components/ConversationPane';
 import DetailPane from './components/DetailPane';
 import LiveTicker from './components/LiveTicker';
 import ComposerBar from './components/ComposerBar';
-import SettingsModal from './components/SettingsModal';
 import InsightsDrawer from './components/InsightsDrawer';
 
 // Alert levels
@@ -400,11 +400,11 @@ const QuickBooking = ({ conversationId, onSendBookingLink }: { conversationId: s
 };
 
 export default function AdoraLinkPage() {
+  const router = useRouter();
   const [currentView, setCurrentView] = useState<SideRailView>('inbox');
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [selectedContact, setSelectedContact] = useState<string | null>(null);
   const [showInsights, setShowInsights] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [liveMessages, setLiveMessages] = useState<Message[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -730,7 +730,7 @@ export default function AdoraLinkPage() {
           {/* Action Buttons */}
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             <button 
-              onClick={() => setShowSettings(true)}
+              onClick={() => router.push('/settings?tab=adoralink')}
               className="flex items-center justify-center px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors duration-200"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -890,239 +890,235 @@ export default function AdoraLinkPage() {
         </section>
       )}
 
-      {/* 
-        MAIN COMMUNICATION INTERFACE - CSS Grid Layout
-        - Mobile: 1 column (stacked)
-        - Desktop: 2 columns (conversation list + detail view)
-      */}
+      {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Conversation/Live Feed Pane */}
-                 <div className="lg:col-span-1">
-           <ComponentCard 
-             title={
-               currentView === 'live' ? 'Live Message Feed' : 
-               currentView === 'recent' ? 'Recent Contacts' : 
-               currentView === 'analytics' ? 'Performance Metrics' :
-               currentView === 'calendar' ? 'Calendar & Scheduling' :
-               'Conversations'
-             } 
-             desc={
-               currentView === 'live' ? 'Real-time message stream across all channels' : 
-               currentView === 'recent' ? 'People who have recently contacted you' :
-               currentView === 'analytics' ? 'Track your communication performance and response metrics' :
-               currentView === 'calendar' ? 'Manage meetings and send booking links from conversations' :
-               'Your organized conversation threads'
-             }
-             className="h-[700px] overflow-hidden"
-           >
-             <div className="h-full overflow-y-auto -mx-4 px-4 -mb-6 pb-6">
-               {currentView === 'live' ? (
-                 <LiveTicker 
-                   messages={liveMessages}
-                   onClaimMessage={(messageId: string) => {
-                     console.log('Claiming message:', messageId);
-                   }}
-                 />
-               ) : currentView === 'recent' ? (
-                 <div className="space-y-2">
-                   {contacts.map((contact) => {
-                     const isSelected = selectedContact === contact.id;
-                     
-                     return (
-                       <div
-                         key={contact.id}
-                         onClick={() => setSelectedContact(contact.id)}
-                         className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                           isSelected 
-                             ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800' 
-                             : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                         }`}
-                       >
-                         <div className="flex items-center space-x-3">
-                           {/* Avatar */}
-                           <div className="relative flex-shrink-0">
-                             <img
-                               src={contact.avatar}
-                               alt={contact.name}
-                               className="w-10 h-10 rounded-full"
-                             />
-                           </div>
+        <div className="lg:col-span-1">
+          <ComponentCard 
+            title={
+              currentView === 'live' ? 'Live Message Feed' : 
+              currentView === 'recent' ? 'Recent Contacts' : 
+              currentView === 'analytics' ? 'Performance Metrics' :
+              currentView === 'calendar' ? 'Calendar & Scheduling' :
+              'Conversations'
+            } 
+            desc={
+              currentView === 'live' ? 'Real-time message stream across all channels' : 
+              currentView === 'recent' ? 'People who have recently contacted you' :
+              currentView === 'analytics' ? 'Track your communication performance and response metrics' :
+              currentView === 'calendar' ? 'Manage meetings and send booking links from conversations' :
+              'Your organized conversation threads'
+            }
+            className="h-[700px] overflow-hidden"
+          >
+            <div className="h-full overflow-y-auto -mx-4 px-4 -mb-6 pb-6">
+              {currentView === 'live' ? (
+                <LiveTicker 
+                  messages={liveMessages}
+                  onClaimMessage={(messageId: string) => {
+                    console.log('Claiming message:', messageId);
+                  }}
+                />
+              ) : currentView === 'recent' ? (
+                <div className="space-y-2">
+                  {contacts.map((contact) => {
+                    const isSelected = selectedContact === contact.id;
+                    
+                    return (
+                      <div
+                        key={contact.id}
+                        onClick={() => setSelectedContact(contact.id)}
+                        className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                          isSelected 
+                            ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800' 
+                            : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          {/* Avatar */}
+                          <div className="relative flex-shrink-0">
+                            <img
+                              src={contact.avatar}
+                              alt={contact.name}
+                              className="w-10 h-10 rounded-full"
+                            />
+                          </div>
 
-                           {/* Contact Info */}
-                           <div className="flex-1 min-w-0">
-                             <div className="flex items-center justify-between">
-                               <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                 {contact.name}
-                               </h4>
-                               <div className="flex items-center space-x-2 ml-2">
-                                 <span className="text-lg">{getChannelIcon(contact.lastContactChannel)}</span>
-                                 <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                                   {formatTimeAgo(contact.lastContactTime)}
-                                 </span>
-                               </div>
-                             </div>
-                             <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">
-                               {contact.title} at {contact.company}
-                             </p>
-                           </div>
-                         </div>
-                       </div>
-                     );
-                   })}
-                 </div>
-               ) : currentView === 'analytics' ? (
-                 <AnalyticsMetrics />
-               ) : currentView === 'calendar' ? (
-                 <CalendarView />
-               ) : (
-                 <ConversationPane
-                   conversations={conversations}
-                   selectedId={selectedConversation}
-                   onSelectConversation={setSelectedConversation}
-                   currentView={currentView}
-                 />
-               )}
-             </div>
-           </ComponentCard>
-         </div>
+                          {/* Contact Info */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                {contact.name}
+                              </h4>
+                              <div className="flex items-center space-x-2 ml-2">
+                                <span className="text-lg">{getChannelIcon(contact.lastContactChannel)}</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                                  {formatTimeAgo(contact.lastContactTime)}
+                                </span>
+                              </div>
+                            </div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">
+                              {contact.title} at {contact.company}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : currentView === 'analytics' ? (
+                <AnalyticsMetrics />
+              ) : currentView === 'calendar' ? (
+                <CalendarView />
+              ) : (
+                <ConversationPane
+                  conversations={conversations}
+                  selectedId={selectedConversation}
+                  onSelectConversation={setSelectedConversation}
+                  currentView={currentView}
+                />
+              )}
+            </div>
+          </ComponentCard>
+        </div>
 
         {/* Detail Pane */}
-                 <div className="lg:col-span-2">
-           <ComponentCard 
-             title={
-               currentView === 'recent' ? 'Contact Details' : 
-               currentView === 'analytics' ? 'Analytics Dashboard' : 
-               currentView === 'calendar' ? 'Booking & Scheduling' :
-               'Message Details'
-             } 
-             desc={
-               currentView === 'recent' ? 'Contact history and information' : 
-               currentView === 'analytics' ? 'Detailed performance analytics and insights' :
-               currentView === 'calendar' ? 'Quick booking links and meeting management' :
-               'Full conversation thread and message details'
-             }
-             className="h-[700px] overflow-hidden relative"
-           >
-             <div className="h-full flex flex-col">
-               {currentView === 'recent' && selectedContactData ? (
-                 <div className="p-6 space-y-6 overflow-y-auto">
-                   {/* Contact Header */}
-                   <div className="flex items-start space-x-4 pb-6 border-b border-gray-200 dark:border-gray-700">
-                     <img
-                       src={selectedContactData.avatar}
-                       alt={selectedContactData.name}
-                       className="w-16 h-16 rounded-full"
-                     />
-                     <div className="flex-1">
-                       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                         {selectedContactData.name}
-                       </h2>
-                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                         {selectedContactData.title}
-                       </p>
-                       <p className="text-sm text-gray-500 dark:text-gray-500">
-                         {selectedContactData.company}
-                       </p>
-                       <div className="flex items-center space-x-4 mt-3 text-sm">
-                         <span className="text-gray-600 dark:text-gray-400">
-                           📧 {selectedContactData.email}
-                         </span>
-                         {selectedContactData.phone && (
-                           <span className="text-gray-600 dark:text-gray-400">
-                             📞 {selectedContactData.phone}
-                           </span>
-                         )}
-                       </div>
-                     </div>
-                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                       </svg>
-                       View in CRM
-                     </button>
-                   </div>
+        <div className="lg:col-span-2">
+          <ComponentCard 
+            title={
+              currentView === 'recent' ? 'Contact Details' : 
+              currentView === 'analytics' ? 'Analytics Dashboard' : 
+              currentView === 'calendar' ? 'Booking & Scheduling' :
+              'Message Details'
+            } 
+            desc={
+              currentView === 'recent' ? 'Contact history and information' : 
+              currentView === 'analytics' ? 'Detailed performance analytics and insights' :
+              currentView === 'calendar' ? 'Quick booking links and meeting management' :
+              'Full conversation thread and message details'
+            }
+            className="h-[700px] overflow-hidden relative"
+          >
+            <div className="h-full flex flex-col">
+              {currentView === 'recent' && selectedContactData ? (
+                <div className="p-6 space-y-6 overflow-y-auto">
+                  {/* Contact Header */}
+                  <div className="flex items-start space-x-4 pb-6 border-b border-gray-200 dark:border-gray-700">
+                    <img
+                      src={selectedContactData.avatar}
+                      alt={selectedContactData.name}
+                      className="w-16 h-16 rounded-full"
+                    />
+                    <div className="flex-1">
+                      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        {selectedContactData.name}
+                      </h2>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {selectedContactData.title}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-500">
+                        {selectedContactData.company}
+                      </p>
+                      <div className="flex items-center space-x-4 mt-3 text-sm">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          📧 {selectedContactData.email}
+                        </span>
+                        {selectedContactData.phone && (
+                          <span className="text-gray-600 dark:text-gray-400">
+                            📞 {selectedContactData.phone}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      View in CRM
+                    </button>
+                  </div>
 
-                   {/* Contact History */}
-                   <div>
-                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                       Recent Interactions
-                     </h3>
-                     <div className="space-y-3">
-                       {selectedContactData.interactions.map((interaction) => (
-                         <div key={interaction.id} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center border border-gray-200 dark:border-gray-600">
-                             <span className="text-sm">{getChannelIcon(interaction.channel)}</span>
-                           </div>
-                           <div className="flex-1 min-w-0">
-                             <div className="flex items-center justify-between">
-                               <p className="text-sm font-medium text-gray-900 dark:text-white capitalize">
-                                 {interaction.channel}
-                                 {interaction.subject && (
-                                   <span className="font-normal text-gray-600 dark:text-gray-400 ml-2">
-                                     • {interaction.subject}
-                                   </span>
-                                 )}
-                               </p>
-                               <span className="text-xs text-gray-500 dark:text-gray-400">
-                                 {formatTimeAgo(interaction.timestamp)}
-                               </span>
-                             </div>
-                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                               {interaction.preview}
-                             </p>
-                           </div>
-                         </div>
-                       ))}
-                     </div>
-                   </div>
+                  {/* Contact History */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                      Recent Interactions
+                    </h3>
+                    <div className="space-y-3">
+                      {selectedContactData.interactions.map((interaction) => (
+                        <div key={interaction.id} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center border border-gray-200 dark:border-gray-600">
+                            <span className="text-sm">{getChannelIcon(interaction.channel)}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-medium text-gray-900 dark:text-white capitalize">
+                                {interaction.channel}
+                                {interaction.subject && (
+                                  <span className="font-normal text-gray-600 dark:text-gray-400 ml-2">
+                                    • {interaction.subject}
+                                  </span>
+                                )}
+                              </p>
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
+                                {formatTimeAgo(interaction.timestamp)}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              {interaction.preview}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                   {/* Context Section */}
-                   <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                     <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">
-                       Contact Context
-                     </h4>
-                     <p className="text-sm text-blue-800 dark:text-blue-300">
-                       {selectedContactData.name} has been in contact {selectedContactData.interactions.length} times across {new Set(selectedContactData.interactions.map(i => i.channel)).size} different channels. 
-                       Last contacted {formatTimeAgo(selectedContactData.lastContactTime)} via {selectedContactData.lastContactChannel}.
-                     </p>
-                     {selectedContactData.crmId && (
-                       <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
-                         CRM ID: {selectedContactData.crmId}
-                       </p>
-                     )}
-                   </div>
-                 </div>
-               ) : currentView === 'analytics' ? (
-                 <AnalyticsDashboard />
-               ) : currentView === 'calendar' ? (
-                 <CalendarDetail />
-               ) : (
-                 <>
-                   <DetailPane
-                     conversation={selectedConv}
-                     onShowInsights={() => setShowInsights(true)}
-                     showInsights={showInsights}
-                   />
-                   
-                   {/* Quick Booking Integration */}
-                   {selectedConv && currentView === 'inbox' && (
-                     <QuickBooking 
-                       conversationId={selectedConv.id}
-                       onSendBookingLink={handleSendBookingLink}
-                     />
-                   )}
-                   
-                   {/* Insights Drawer */}
-                   <InsightsDrawer
-                     isOpen={showInsights}
-                     onClose={() => setShowInsights(false)}
-                     conversation={selectedConv}
-                   />
-                 </>
-               )}
-             </div>
-           </ComponentCard>
-         </div>
+                  {/* Context Section */}
+                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-400 mb-2">
+                      Contact Context
+                    </h4>
+                    <p className="text-sm text-blue-800 dark:text-blue-300">
+                      {selectedContactData.name} has been in contact {selectedContactData.interactions.length} times across {new Set(selectedContactData.interactions.map(i => i.channel)).size} different channels. 
+                      Last contacted {formatTimeAgo(selectedContactData.lastContactTime)} via {selectedContactData.lastContactChannel}.
+                    </p>
+                    {selectedContactData.crmId && (
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+                        CRM ID: {selectedContactData.crmId}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : currentView === 'analytics' ? (
+                <AnalyticsDashboard />
+              ) : currentView === 'calendar' ? (
+                <CalendarDetail />
+              ) : (
+                <>
+                  <DetailPane
+                    conversation={selectedConv}
+                    onShowInsights={() => setShowInsights(true)}
+                    showInsights={showInsights}
+                  />
+                  
+                  {/* Quick Booking Integration */}
+                  {selectedConv && currentView === 'inbox' && (
+                    <QuickBooking 
+                      conversationId={selectedConv.id}
+                      onSendBookingLink={handleSendBookingLink}
+                    />
+                  )}
+                  
+                  {/* Insights Drawer */}
+                  <InsightsDrawer
+                    isOpen={showInsights}
+                    onClose={() => setShowInsights(false)}
+                    conversation={selectedConv}
+                  />
+                </>
+              )}
+            </div>
+          </ComponentCard>
+        </div>
       </div>
 
       {/* Message Composer */}
@@ -1132,12 +1128,6 @@ export default function AdoraLinkPage() {
       >
         <ComposerBar />
       </ComponentCard>
-
-      {/* Settings Modal */}
-      <SettingsModal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-      />
     </div>
   );
 } 
