@@ -1,9 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const GreetingBar: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [userName] = useState("Kyle"); // Mock user name - would come from auth context in real app
+  const { user } = useAuth();
+  const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || "User";
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,7 +27,7 @@ export const GreetingBar: React.FC = () => {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-2">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white/90">
-            {getGreeting()}, {userName}! 👋
+            {getGreeting()}, {displayName.split(' ')[0]}! 👋
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Ready to explore your data? Try typing a command like "Show me sales trends" or "Create workflow"
