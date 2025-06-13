@@ -58,6 +58,37 @@ const LMSIcon = () => (
   </svg>
 );
 
+const LegalIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3L20 8V21H4V8L12 3Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M9 12H15M9 16H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const FinanceIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" fill="none"/>
+  </svg>
+);
+
+const DevToolsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M21 12C21 16.97 16.97 21 12 21S3 16.97 3 12S7.03 3 12 3S21 7.03 21 12Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M8 12L10 10M16 10L14 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+
+const RealEstateIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 21H21M5 21V7L12 3L19 7V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M9 12H15V18H9V12Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M9 12V9H15V12" stroke="currentColor" strokeWidth="2" fill="none"/>
+  </svg>
+);
+
 const navItems: NavItem[] = [
   {
     icon: <HomeIcon />,
@@ -91,14 +122,9 @@ const navItems: NavItem[] = [
     path: "/calendar",
   },
   {
-    name: "Chat",
-    icon: <ListIcon />,
-    path: "/chat",
-  },
-  {
+    name: "AdoraLink",
     icon: <PlugInIcon />,
-    name: "Email",
-    path: "/email/inbox",
+    path: "/adoralink",
   },
   {
     name: "Task",
@@ -124,44 +150,9 @@ const navItems: NavItem[] = [
     path: "/lms",
   },
   {
-    name: "Projections",
-    icon: <PieChartIcon />,
-    path: "/projections",
-  },
-  {
-    icon: <PieChartIcon />,
-    name: "KPI's",
-    path: "/kpi",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Marketing",
-    path: "/marketing",
-  },
-  {
     icon: <UserCircleIcon />,
     name: "CRM",
     path: "/crm",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Investor",
-    path: "/investor",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Startup",
-    path: "/startup",
-  },
-  {
-    icon: <TableIcon />,
-    name: "Stocks",
-    path: "/stocks",
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "SaaS",
-    path: "/saas",
   },
   {
     icon: <ListIcon />,
@@ -177,6 +168,35 @@ const navItems: NavItem[] = [
     name: "Settings",
     icon: <SettingsIcon />,
     path: "/settings",
+  },
+];
+
+const dashboardExampleItems: NavItem[] = [
+  {
+    icon: <PieChartIcon />,
+    name: "Dashboard Examples",
+    subItems: [
+      { name: "Projections", path: "/projections", pro: false },
+      { name: "KPI's", path: "/kpi", pro: false },
+      { name: "Stocks", path: "/stocks", pro: false },
+      { name: "SaaS", path: "/saas", pro: false },
+    ],
+  },
+];
+
+const useCaseItems: NavItem[] = [
+  {
+    icon: <BoxCubeIcon />,
+    name: "Use Cases",
+    subItems: [
+      { name: "Marketing", path: "/marketing", pro: false },
+      { name: "Legal", path: "/legal", pro: false },
+      { name: "Finance", path: "/finance", pro: false },
+      { name: "Dev Tools", path: "/dev-tools", pro: false },
+      { name: "Real Estate", path: "/real-estate", pro: false },
+      { name: "Investor", path: "/investor", pro: false },
+      { name: "Startup", path: "/startup", pro: false },
+    ],
   },
 ];
 
@@ -251,7 +271,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others" | "company"
+    menuType: "main" | "others" | "company" | "usecases" | "dashboards"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -412,7 +432,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "company";
+    type: "main" | "others" | "company" | "usecases" | "dashboards";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -426,8 +446,8 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
-    ["main", "others", "company"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : companyItems;
+    ["main", "others", "company", "usecases", "dashboards"].forEach((menuType) => {
+      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : menuType === "company" ? companyItems : menuType === "usecases" ? useCaseItems : dashboardExampleItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           // Check both direct subItems and nested subItems
@@ -441,7 +461,7 @@ const AppSidebar: React.FC = () => {
 
           if (hasMatch) {
             setOpenSubmenu({
-              type: menuType as "main" | "others" | "company",
+              type: menuType as "main" | "others" | "company" | "usecases" | "dashboards",
               index,
             });
             submenuMatched = true;
@@ -469,7 +489,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -565,6 +585,40 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(navItems, "main")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Dashboard Examples"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(dashboardExampleItems, "dashboards")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Use Cases"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(useCaseItems, "usecases")}
             </div>
 
             <div className="">

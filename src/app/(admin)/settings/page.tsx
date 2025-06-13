@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { useSearchParams } from 'next/navigation';
 
-type SettingsTab = 'general' | 'company' | 'ai-models' | 'usage-billing' | 'security' | 'integrations' | 'team';
+type SettingsTab = 'general' | 'adoralink' | 'company' | 'ai-models' | 'usage-billing' | 'security' | 'integrations' | 'team';
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
@@ -14,7 +14,7 @@ export default function Settings() {
   // Handle URL parameters for direct tab navigation
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['general', 'company', 'ai-models', 'usage-billing', 'security', 'integrations', 'team'].includes(tabParam)) {
+    if (tabParam && ['general', 'adoralink', 'company', 'ai-models', 'usage-billing', 'security', 'integrations', 'team'].includes(tabParam)) {
       setActiveTab(tabParam as SettingsTab);
     }
   }, [searchParams]);
@@ -23,6 +23,22 @@ export default function Settings() {
   const [twoFactor, setTwoFactor] = useState(false);
   const [sessionTimeout, setSessionTimeout] = useState('30');
   const [cuAccordionOpen, setCuAccordionOpen] = useState(false);
+
+  // AdoraLink Settings State
+  const [adoraLinkActiveTab, setAdoraLinkActiveTab] = useState<'alerts' | 'channels' | 'preferences'>('alerts');
+  const [alertSettings, setAlertSettings] = useState([
+    { level: 'L3', enabled: true, channels: ['email', 'sms', 'push'], threshold: 80 },
+    { level: 'L2', enabled: true, channels: ['email', 'push'], threshold: 60 },
+    { level: 'L1', enabled: true, channels: ['push'], threshold: 40 },
+    { level: 'L0', enabled: false, channels: [], threshold: 0 }
+  ]);
+  const [adoraLinkPreferences, setAdoraLinkPreferences] = useState({
+    autoMarkAsRead: false,
+    groupSimilarMessages: true,
+    showPreviewInTicker: true,
+    enableKeyboardShortcuts: true,
+    theme: 'system' as 'light' | 'dark' | 'system'
+  });
 
   // Handle plan upgrades
   const handleUpgrade = async (targetTier: string) => {
@@ -83,8 +99,16 @@ export default function Settings() {
     // Could redirect to Play dashboard or toggle the navbar mode
   };
 
+  // AdoraLink helper function
+  const handleAlertSettingChange = (level: string, field: string, value: any) => {
+    setAlertSettings(prev => prev.map(setting => 
+      setting.level === level ? { ...setting, [field]: value } : setting
+    ));
+  };
+
   const tabs = [
     { id: 'general', label: 'General', icon: '⚙️' },
+    { id: 'adoralink', label: 'AdoraLink', icon: '🔗' },
     { id: 'company', label: 'Company Access', icon: '🏢' },
     { id: 'ai-models', label: 'AI & Models', icon: '🤖' },
     { id: 'usage-billing', label: 'Usage & Billing', icon: '🔋' },
@@ -96,109 +120,322 @@ export default function Settings() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'general':
-        return (
-          <div className="space-y-8">
-            {/* Notifications */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Notifications</h3>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email Notifications</h4>
-                    <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive email updates</p>
-                  </div>
-                  <button
-                    onClick={() => setEmailNotifications(!emailNotifications)}
-                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                      emailNotifications ? 'bg-indigo-600' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span className="sr-only">Enable email notifications</span>
-                    <span
-                      className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                        emailNotifications ? 'translate-x-7' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="text-lg font-medium text-gray-900 dark:text-white">Push Notifications</h4>
-                    <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive push notifications</p>
-                  </div>
-                  <button
-                    onClick={() => setPushNotifications(!pushNotifications)}
-                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                      pushNotifications ? 'bg-indigo-600' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span className="sr-only">Enable push notifications</span>
-                    <span
-                      className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                        pushNotifications ? 'translate-x-7' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Timezone */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Timezone</h3>
-              <div>
-                <select className="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                  <option value="UTC">UTC (Coordinated Universal Time)</option>
-                  <option value="EST">EST (Eastern Standard Time)</option>
-                  <option value="CST">CST (Central Standard Time)</option>
-                  <option value="MST">MST (Mountain Standard Time)</option>
-                  <option value="PST">PST (Pacific Standard Time)</option>
-                  <option value="GMT">GMT (Greenwich Mean Time)</option>
-                  <option value="IST">IST (Indian Standard Time)</option>
-                  <option value="JST">JST (Japan Standard Time)</option>
-                  <option value="AEST">AEST (Australian Eastern Standard Time)</option>
-                </select>
-                <p className="text-base text-gray-500 dark:text-gray-400 mt-2">Select your local timezone for accurate time display</p>
-              </div>
-            </div>
-
-            {/* Appearance */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Appearance</h3>
+  return (
+        <div className="space-y-8">
+          {/* Notifications */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Notifications</h3>
+            <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-lg font-medium text-gray-900 dark:text-white">Dark Mode</h4>
-                  <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Toggle dark mode appearance</p>
+                  <h4 className="text-lg font-medium text-gray-900 dark:text-white">Email Notifications</h4>
+                  <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive email updates</p>
                 </div>
                 <button
-                  onClick={toggleTheme}
+                  onClick={() => setEmailNotifications(!emailNotifications)}
                   className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                    theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200'
+                      emailNotifications ? 'bg-indigo-600' : 'bg-gray-200'
                   }`}
                 >
-                  <span className="sr-only">Toggle dark mode</span>
+                  <span className="sr-only">Enable email notifications</span>
                   <span
                     className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                      theme === 'dark' ? 'translate-x-7' : 'translate-x-1'
+                      emailNotifications ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-lg font-medium text-gray-900 dark:text-white">Push Notifications</h4>
+                  <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Receive push notifications</p>
+                </div>
+                <button
+                  onClick={() => setPushNotifications(!pushNotifications)}
+                  className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                      pushNotifications ? 'bg-indigo-600' : 'bg-gray-200'
+                  }`}
+                >
+                  <span className="sr-only">Enable push notifications</span>
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                      pushNotifications ? 'translate-x-7' : 'translate-x-1'
                     }`}
                   />
                 </button>
               </div>
             </div>
+          </div>
 
-            {/* Language */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Language</h3>
-              <div>
+          {/* Timezone */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Timezone</h3>
+            <div>
                 <select className="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                  <option value="en">English</option>
-                  <option value="es">Spanish</option>
+                <option value="UTC">UTC (Coordinated Universal Time)</option>
+                <option value="EST">EST (Eastern Standard Time)</option>
+                <option value="CST">CST (Central Standard Time)</option>
+                <option value="MST">MST (Mountain Standard Time)</option>
+                <option value="PST">PST (Pacific Standard Time)</option>
+                <option value="GMT">GMT (Greenwich Mean Time)</option>
+                <option value="IST">IST (Indian Standard Time)</option>
+                <option value="JST">JST (Japan Standard Time)</option>
+                <option value="AEST">AEST (Australian Eastern Standard Time)</option>
+              </select>
+              <p className="text-base text-gray-500 dark:text-gray-400 mt-2">Select your local timezone for accurate time display</p>
+            </div>
+          </div>
+
+          {/* Appearance */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Appearance</h3>
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-lg font-medium text-gray-900 dark:text-white">Dark Mode</h4>
+                <p className="text-base text-gray-500 dark:text-gray-400 mt-1">Toggle dark mode appearance</p>
+              </div>
+              <button
+                onClick={toggleTheme}
+                className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                    theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200'
+                }`}
+              >
+                <span className="sr-only">Toggle dark mode</span>
+                <span
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                    theme === 'dark' ? 'translate-x-7' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Language */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Language</h3>
+            <div>
+                <select className="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
                   <option value="fr">French</option>
                   <option value="de">German</option>
                   <option value="ja">Japanese</option>
                   <option value="zh">Chinese</option>
                 </select>
               </div>
+            </div>
+          </div>
+        );
+
+      case 'adoralink':
+        return (
+          <div className="space-y-8">
+            {/* Sub Navigation */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">AdoraLink Settings</h3>
+              <div className="flex space-x-1 mb-6">
+                {[
+                  { key: 'alerts', label: 'Alert Levels' },
+                  { key: 'channels', label: 'Channels' },
+                  { key: 'preferences', label: 'Preferences' }
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setAdoraLinkActiveTab(tab.key as any)}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                      adoraLinkActiveTab === tab.key
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Alert Levels Tab */}
+              {adoraLinkActiveTab === 'alerts' && (
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                      Configure Alert Levels
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                      Set thresholds and notification preferences for each alert level.
+                    </p>
+                  </div>
+
+                  {alertSettings.map((setting) => (
+                    <div key={setting.level} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-4 h-4 rounded-full ${
+                            setting.level === 'L0' ? 'bg-gray-400' :
+                            setting.level === 'L1' ? 'bg-blue-500' :
+                            setting.level === 'L2' ? 'bg-amber-500' :
+                            'bg-red-500'
+                          }`} />
+                          <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                            Level {setting.level}
+                          </h5>
+                        </div>
+                        <button
+                          onClick={() => handleAlertSettingChange(setting.level, 'enabled', !setting.enabled)}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                            setting.enabled ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+                          }`}
+                        >
+                          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            setting.enabled ? 'translate-x-6' : 'translate-x-1'
+                          }`} />
+                        </button>
+                      </div>
+
+                      {setting.enabled && (
+                        <div className="space-y-4">
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2">
+                              Temperature Threshold: {setting.threshold}°
+                            </label>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={setting.threshold}
+                              onChange={(e) => handleAlertSettingChange(setting.level, 'threshold', parseInt(e.target.value))}
+                              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2">
+                              Notification Channels
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                              {['email', 'sms', 'push', 'desktop'].map((channel) => (
+                                <label key={channel} className="flex items-center space-x-2 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={setting.channels.includes(channel)}
+                                    onChange={(e) => {
+                                      const newChannels = e.target.checked
+                                        ? [...setting.channels, channel]
+                                        : setting.channels.filter(c => c !== channel);
+                                      handleAlertSettingChange(setting.level, 'channels', newChannels);
+                                    }}
+                                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                  />
+                                  <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">{channel}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Channels Tab */}
+              {adoraLinkActiveTab === 'channels' && (
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                      Channel Configuration
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                      Configure how different communication channels are handled.
+                    </p>
+                  </div>
+
+                  {[
+                    { channel: 'Email', icon: '✉️', description: 'Configure email processing and filters' },
+                    { channel: 'Chat', icon: '💬', description: 'Set up chat integrations and rules' },
+                    { channel: 'SMS', icon: '📱', description: 'Manage SMS routing and preferences' },
+                    { channel: 'Voice', icon: '🎤', description: 'Configure voice message handling' }
+                  ].map((item) => (
+                    <div key={item.channel} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <span className="text-2xl">{item.icon}</span>
+                        <div>
+                          <h5 className="text-sm font-medium text-gray-900 dark:text-white">{item.channel}</h5>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">{item.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Active</span>
+                        <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-blue-600">
+                          <span className="inline-block h-4 w-4 transform rounded-full bg-white translate-x-6" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Preferences Tab */}
+              {adoraLinkActiveTab === 'preferences' && (
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                      General Preferences
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                      Customize your AdoraLink experience.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      { key: 'autoMarkAsRead', label: 'Auto-mark messages as read', description: 'Automatically mark messages as read when viewed' },
+                      { key: 'groupSimilarMessages', label: 'Group similar messages', description: 'Combine related messages into conversation threads' },
+                      { key: 'showPreviewInTicker', label: 'Show previews in live ticker', description: 'Display message previews in the live ticker view' },
+                      { key: 'enableKeyboardShortcuts', label: 'Enable keyboard shortcuts', description: 'Use keyboard shortcuts for faster navigation' }
+                    ].map((pref) => (
+                      <div key={pref.key} className="flex items-start justify-between py-3">
+                        <div className="flex-1">
+                          <h5 className="text-sm font-medium text-gray-900 dark:text-white">{pref.label}</h5>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{pref.description}</p>
+                        </div>
+                        <button
+                          onClick={() => setAdoraLinkPreferences(prev => ({ ...prev, [pref.key]: !prev[pref.key as keyof typeof prev] }))}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ml-4 ${
+                            adoraLinkPreferences[pref.key as keyof typeof adoraLinkPreferences] ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+                          }`}
+                        >
+                          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            adoraLinkPreferences[pref.key as keyof typeof adoraLinkPreferences] ? 'translate-x-6' : 'translate-x-1'
+                          }`} />
+                        </button>
+                      </div>
+                    ))}
+
+                    <div className="py-3 border-t border-gray-200 dark:border-gray-600">
+                      <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Theme</h5>
+                      <div className="flex space-x-3">
+                        {[
+                          { value: 'light', label: 'Light' },
+                          { value: 'dark', label: 'Dark' },
+                          { value: 'system', label: 'System' }
+                        ].map((themeOption) => (
+                          <label key={themeOption.value} className="flex items-center space-x-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="adoralink-theme"
+                              value={themeOption.value}
+                              checked={adoraLinkPreferences.theme === themeOption.value}
+                              onChange={(e) => setAdoraLinkPreferences(prev => ({ ...prev, theme: e.target.value as any }))}
+                              className="text-blue-600 focus:ring-blue-500"
+                            />
+                            <span className="text-sm text-gray-700 dark:text-gray-300">{themeOption.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -717,7 +954,7 @@ export default function Settings() {
                     <option value="60">1 hour</option>
                     <option value="240">4 hours</option>
                     <option value="never">Never</option>
-                  </select>
+              </select>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Automatically log out after inactivity</p>
                 </div>
 

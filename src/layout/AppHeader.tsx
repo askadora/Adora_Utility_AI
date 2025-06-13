@@ -5,6 +5,7 @@ import { ProPlayToggleVertical } from "@/components/header/ProPlayToggleVertical
 import { CompanySwitcher } from "@/components/header/CompanySwitcher";
 import NotificationDropdown from "@/components/header/NotificationDropdown";
 import UserDropdown from "@/components/header/UserDropdown";
+import NavTimer from "@/components/header/NavTimer";
 import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -165,6 +166,10 @@ const AppHeader: React.FC = () => {
           } items-center justify-between w-full gap-4 px-5 py-2.5 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
         >
           <div className="flex items-center gap-1.5 2xsm:gap-2">
+            {/* <!-- Timer Display - Shows when active --> */}
+            <NavTimer />
+            {/* <!-- Timer Display --> */}
+
             {/* <!-- Fuel Meter - Business Critical First --> */}
             <FuelMeter usagePercent={93} />
             {/* <!-- Fuel Meter --> */}
@@ -182,8 +187,8 @@ const AppHeader: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            {/* <!-- User Area --> */}
-            <UserDropdown />
+          {/* <!-- User Area --> */}
+          <UserDropdown /> 
             
             {/* <!-- Vertical Pro/Play Mode Toggle - Rightmost --> */}
             <ProPlayToggleVertical 

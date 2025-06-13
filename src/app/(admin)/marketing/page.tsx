@@ -1,17 +1,18 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import KpiSummaryCard from "@/components/kpi/KpiSummaryCard";
+import ComponentCard from '@/components/common/ComponentCard';
 import NetRevenueChart from "@/components/kpi/NetRevenueChart";
 import TopChannelsChart from "@/components/marketing/TopChannelsChart";
 import TrafficSourcesChart from "@/components/marketing/TrafficSourcesChart";
 import RecentCampaignsTable from "@/components/marketing/RecentCampaignsTable";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Marketing Dashboard | Adora AI - Marketing Analytics Platform",
-  description: "Comprehensive marketing dashboard for tracking campaigns, traffic sources, and conversion metrics.",
-};
+type MarketingTab = 'content-creation' | 'campaign-optimization' | 'analytics-insights';
 
 export default function MarketingDashboard() {
+  const [activeTab, setActiveTab] = useState<MarketingTab>('content-creation');
+
   return (
     <div className="space-y-6 md:space-y-8">
       {/* 
@@ -83,6 +84,352 @@ export default function MarketingDashboard() {
           }
         />
       </section>
+
+      {/* AI-Powered Marketing Tools with Tabs */}
+      <ComponentCard title="AI-Powered Marketing Tools" desc="Advanced content creation, campaign optimization, and analytics insights">
+        {/* Tab Navigation */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
+            {[
+              { id: 'content-creation', label: 'Content Creation', icon: '✏️' },
+              { id: 'campaign-optimization', label: 'Campaign Optimization', icon: '🎯' },
+              { id: 'analytics-insights', label: 'Analytics Insights', icon: '📊' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as MarketingTab)}
+                className={`flex items-center gap-2 px-4 py-3 font-medium text-sm rounded-t-lg transition-colors ${
+                  activeTab === tab.id
+                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400'
+                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'content-creation' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">AI Content Creation</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Generate compelling marketing content, social media posts, email campaigns, and ad copy using advanced AI algorithms.</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Content Type:</h4>
+                <select className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                  <option value="">Select content type...</option>
+                  <option value="social-media">Social Media Post</option>
+                  <option value="email-campaign">Email Campaign</option>
+                  <option value="blog-post">Blog Post</option>
+                  <option value="ad-copy">Ad Copy</option>
+                  <option value="product-description">Product Description</option>
+                  <option value="landing-page">Landing Page Copy</option>
+                </select>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Target Audience:</h4>
+                <input
+                  type="text"
+                  placeholder="e.g., Young professionals, parents, tech enthusiasts..."
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Key Message:</h4>
+                <textarea
+                  placeholder="Describe your main message, product benefits, or campaign goals..."
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white resize-none"
+                />
+              </div>
+              
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Tone & Style:</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3">
+                    <input type="radio" name="tone" className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Professional</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="radio" name="tone" className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Casual & Friendly</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="radio" name="tone" className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Persuasive & Sales-focused</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="radio" name="tone" className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Educational & Informative</span>
+                  </label>
+                </div>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Content Length:</h4>
+                <select className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                  <option value="short">Short (50-100 words)</option>
+                  <option value="medium">Medium (100-300 words)</option>
+                  <option value="long">Long (300+ words)</option>
+                </select>
+                
+                <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                  <h5 className="font-medium text-blue-900 dark:text-blue-400 mb-2">AI Enhancement</h5>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">Our AI analyzes top-performing content in your industry to optimize engagement and conversion rates.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-3">
+              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Generate Content
+              </button>
+              <button className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                Save Template
+              </button>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'campaign-optimization' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Campaign Optimization</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Optimize your marketing campaigns with AI-powered recommendations for budget allocation, audience targeting, and creative variations.</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Campaign Details:</h4>
+                <input
+                  type="text"
+                  placeholder="Campaign name"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Budget ($)"
+                    className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <select className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <option value="">Campaign Type</option>
+                    <option value="search">Search Ads</option>
+                    <option value="display">Display Ads</option>
+                    <option value="social">Social Media</option>
+                    <option value="email">Email Marketing</option>
+                    <option value="video">Video Ads</option>
+                  </select>
+                </div>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Target Audience:</h4>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Age range (e.g., 25-45)"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Geographic location"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Interests & behaviors"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Optimization Goals:</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Maximize conversions</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Reduce cost per acquisition</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Increase brand awareness</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Improve click-through rate</span>
+                  </label>
+                </div>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Performance Metrics:</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+                    <div className="text-lg font-bold text-green-600 dark:text-green-400">2.4x</div>
+                    <div className="text-xs text-green-700 dark:text-green-300">ROAS Improvement</div>
+                  </div>
+                  <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+                    <div className="text-lg font-bold text-green-600 dark:text-green-400">-32%</div>
+                    <div className="text-xs text-green-700 dark:text-green-300">CPA Reduction</div>
+                  </div>
+                </div>
+                
+                <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <h5 className="font-medium text-green-900 dark:text-green-400 mb-2">AI Recommendations</h5>
+                  <ul className="text-sm text-green-700 dark:text-green-300 space-y-1">
+                    <li>• Increase mobile ad spend by 25%</li>
+                    <li>• Test video creative variations</li>
+                    <li>• Expand to similar audiences</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-3">
+              <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                Optimize Campaign
+              </button>
+              <button className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                View Insights
+              </button>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'analytics-insights' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <svg className="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Analytics Insights</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Get deep insights into your marketing performance with AI-powered analytics, predictive modeling, and actionable recommendations.</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Analysis Type:</h4>
+                <select className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                  <option value="">Select analysis type...</option>
+                  <option value="performance">Campaign Performance</option>
+                  <option value="audience">Audience Analysis</option>
+                  <option value="attribution">Attribution Modeling</option>
+                  <option value="forecasting">Revenue Forecasting</option>
+                  <option value="competitive">Competitive Analysis</option>
+                  <option value="customer-journey">Customer Journey</option>
+                </select>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Time Period:</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="date"
+                    className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <input
+                    type="date"
+                    className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                </div>
+                
+                <h4 className="font-semibold text-gray-900 dark:text-white mt-6">Data Sources:</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Google Analytics</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Facebook Ads</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" defaultChecked />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Google Ads</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Email Platform</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">CRM Data</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <h4 className="font-semibold text-gray-900 dark:text-white">Key Insights:</h4>
+                <div className="space-y-4">
+                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <h5 className="font-medium text-purple-900 dark:text-purple-400 mb-2">Performance Trends</h5>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <div className="text-purple-600 dark:text-purple-400 font-bold text-lg">+24%</div>
+                        <div className="text-purple-700 dark:text-purple-300">Conversion Rate</div>
+                      </div>
+                      <div>
+                        <div className="text-purple-600 dark:text-purple-400 font-bold text-lg">-18%</div>
+                        <div className="text-purple-700 dark:text-purple-300">Bounce Rate</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <h5 className="font-medium text-purple-900 dark:text-purple-400 mb-2">Audience Segments</h5>
+                    <div className="space-y-2 text-sm text-purple-700 dark:text-purple-300">
+                      <div className="flex justify-between">
+                        <span>Mobile Users</span>
+                        <span className="font-medium">68%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Returning Visitors</span>
+                        <span className="font-medium">42%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Organic Traffic</span>
+                        <span className="font-medium">35%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <h5 className="font-medium text-purple-900 dark:text-purple-400 mb-2">Predictions</h5>
+                    <ul className="text-sm text-purple-700 dark:text-purple-300 space-y-1">
+                      <li>• Revenue growth of 15% next month</li>
+                      <li>• Peak traffic on weekday afternoons</li>
+                      <li>• Email campaigns show 2.3x ROI</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-3">
+              <button className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                Generate Report
+              </button>
+              <button className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                Export Data
+              </button>
+            </div>
+          </div>
+        )}
+      </ComponentCard>
 
       {/* 
         MAIN REVENUE CHART - Full width container
