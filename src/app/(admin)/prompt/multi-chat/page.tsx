@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-// import { singleChatCompletion } from '@/llm/grok/api';
-import { UNIFIED_MODELS, Model, ModelVersion } from '@/llm/unified-models';
+import { UNIFIED_MODELS, Model, UnifiedMessage, UnifiedChatOptions } from '@/llm/unified-models';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -91,68 +94,117 @@ export default function MultiChat() {
     setInput('');
 
     // Send to all selected models simultaneously
-    const promises = selectedModels.map(async (modelId) => {
-      try {
-        const model = availableModels.find(m => m.id === modelId);
-        const selectedVersion = modelVersions[modelId];
+    const promises = selectedModels.map((modelId) => {
+      return (async () => {
+        try {
+          // const model = availableModels.find(m => m.id === modelId);
+          const selectedVersion = modelVersions[modelId];
 
-        if (modelId === 'grok') {
-          // Handle Grok streaming
-          const tempMessageId = `${Date.now()}-${modelId}`;
-          
+          // Prepare messages and options
+          const messages: UnifiedMessage[] = [
+            {
+              role: 'user',
+              content: input
+            }
+          ];
+          const options: UnifiedChatOptions = {
+            model: modelId,
+            version: selectedVersion,
+            temperature: 0.7,
+            maxTokens: 1000
+          };
+
+          // Streaming logic
+            const tempMessageId = `${Date.now()}-${modelId}`;
+            setConversations(prev => ({
+              ...prev,
+              [modelId]: {
+                ...prev[modelId],
+                messages: [
+                  ...prev[modelId].messages,
+                  {
+                    id: tempMessageId,
+                    role: 'assistant',
+                    content: '',
+                    timestamp: new Date(),
+                  }
+                ],
+              }
+            }));
+
+          let accumulatedContent = '';
+          let lastUpdate = Date.now();
+          const updateInterval = 50;
+
+          // --- Use /api/chat route for streaming ---
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ messages, options }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to get response from API');
+          }
+
+          if (!response.body) {
+            throw new Error('No response body');
+          }
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n').filter(Boolean);
+            for (const line of lines) {
+              try {
+                const data = JSON.parse(line);
+                if (data.content) {
+                  accumulatedContent += data.content;
+                  const now = Date.now();
+                  if (now - lastUpdate >= updateInterval) {
+            setConversations(prev => ({
+              ...prev,
+              [modelId]: {
+                ...prev[modelId],
+                        messages: prev[modelId].messages.map(msg =>
+                          msg.id === tempMessageId
+                            ? { ...msg, content: accumulatedContent }
+                            : msg
+                        ),
+                      }
+                    }));
+                    lastUpdate = now;
+                  }
+                }
+              } catch (e) {
+                console.error('Error parsing chunk:', e);
+              }
+            }
+          }
+          // Final update to ensure all content is displayed
           setConversations(prev => ({
             ...prev,
             [modelId]: {
               ...prev[modelId],
-              messages: [
-                ...prev[modelId].messages,
-                {
-                  id: tempMessageId,
-                  role: 'assistant',
-                  content: '',
-                  timestamp: new Date(),
-                }
-              ],
+              messages: prev[modelId].messages.map(msg =>
+                msg.id === tempMessageId
+                  ? { ...msg, content: accumulatedContent }
+                  : msg
+              ),
             }
           }));
-
-          // await singleChatCompletion(
-          //   input,
-          //   (chunk) => {
-          //     setConversations(prev => ({
-          //       ...prev,
-          //       [modelId]: {
-          //         ...prev[modelId],
-          //         messages: prev[modelId].messages.map(msg =>
-          //           msg.id === tempMessageId
-          //             ? { ...msg, content: msg.content + chunk }
-          //             : msg
-          //         ),
-          //       }
-          //     }));
-          //   },
-          //   selectedVersion
-          // );
-        } else {
-          // Simulate response for other models
-          await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-          
-          const responses = {
-            chatgpt: "I'm ChatGPT! Here's my response to your question. I can help with a wide variety of tasks including analysis, writing, coding, and creative work.",
-            claude: "Hello! I'm Claude from Anthropic. I'm designed to be helpful, harmless, and honest. I'd be happy to assist you with your query.",
-            gemini: "Hi there! I'm Gemini, Google's AI assistant. I can help with research, analysis, and providing information from across the web.",
-            perplexity: "I'm Perplexity, specialized in search and research. I can provide detailed, well-sourced answers to your questions.",
-            mistral: "Bonjour! I'm Mistral, a European AI model. I'm here to help with your questions and tasks.",
-            deepseek: "Hello! I'm DeepSeek, specialized in advanced reasoning and coding. I excel at mathematical problems, logical thinking, and programming tasks.",
-            qwen: "你好！I'm Qwen from Alibaba Cloud. I can assist you in multiple languages and help with various tasks including analysis, writing, and research.",
-            llama: "Hi! I'm Llama from Meta. As an open-source model, I'm designed to be helpful, accurate, and transparent in my responses.",
-            phi: "Hello! I'm Phi from Microsoft. Despite my compact size, I'm optimized for efficiency and can help with reasoning, analysis, and problem-solving."
-          };
-
-          const responseMessage: Message = {
-            id: `${Date.now()}-${modelId}`,
+        } catch (error) {
+          console.error(`Error from ${modelId}:`, error);
+          const errorMessage: Message = {
+            id: `${Date.now()}-${modelId}-error`,
             role: 'assistant',
-            content: responses[modelId as keyof typeof responses] || `Response from ${model?.name}`,
+            content: 'Sorry, there was an error getting the response. Please try again.',
             timestamp: new Date(),
           };
 
@@ -160,35 +212,19 @@ export default function MultiChat() {
             ...prev,
             [modelId]: {
               ...prev[modelId],
-              messages: [...prev[modelId].messages, responseMessage],
+              messages: [...prev[modelId].messages, errorMessage],
+            }
+          }));
+        } finally {
+          setConversations(prev => ({
+            ...prev,
+            [modelId]: {
+              ...prev[modelId],
+              isLoading: false,
             }
           }));
         }
-      } catch (error) {
-        console.error(`Error from ${modelId}:`, error);
-        const errorMessage: Message = {
-          id: `${Date.now()}-${modelId}-error`,
-          role: 'assistant',
-          content: 'Sorry, there was an error getting the response. Please try again.',
-          timestamp: new Date(),
-        };
-
-        setConversations(prev => ({
-          ...prev,
-          [modelId]: {
-            ...prev[modelId],
-            messages: [...prev[modelId].messages, errorMessage],
-          }
-        }));
-      } finally {
-        setConversations(prev => ({
-          ...prev,
-          [modelId]: {
-            ...prev[modelId],
-            isLoading: false,
-          }
-        }));
-      }
+      })();
     });
 
     await Promise.all(promises);
@@ -372,8 +408,39 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                           ? 'bg-blue-500 text-white' 
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                       } rounded-2xl px-4 py-3 max-w-3xl`}>
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-0.5 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_blockquote]:my-0.5">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code(props: any) {
+                                const { inline, className, children, ...rest } = props;
+                                const match = /language-(\w+)/.exec(className || '');
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    customStyle={{
+                                      borderRadius: '0.5em',
+                                      fontSize: '0.95em',
+                                      padding: '1em',
+                                      margin: '0.5em 0',
+                                      background: 'var(--tw-prose-pre-bg, #282c34)'
+                                    }}
+                                    {...rest}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className={className} {...rest}>
+                                    {children}
+                                  </code>
+                                );
+                              }
+                            }}
+                          >
                           {message.content}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     </div>
@@ -552,8 +619,39 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                               ? 'bg-blue-500 text-white' 
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
                           }`}>
-                            <div className="whitespace-pre-wrap break-words leading-relaxed">
+                            <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-0.5 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_blockquote]:my-0.5">
+                              <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                  code(props: any) {
+                                    const { inline, className, children, ...rest } = props;
+                                    const match = /language-(\w+)/.exec(className || '');
+                                    return !inline && match ? (
+                                      <SyntaxHighlighter
+                                        style={oneDark}
+                                        language={match[1]}
+                                        PreTag="div"
+                                        customStyle={{
+                                          borderRadius: '0.5em',
+                                          fontSize: '0.95em',
+                                          padding: '1em',
+                                          margin: '0.5em 0',
+                                          background: 'var(--tw-prose-pre-bg, #282c34)'
+                                        }}
+                                        {...rest}
+                                      >
+                                        {String(children).replace(/\n$/, '')}
+                                      </SyntaxHighlighter>
+                                    ) : (
+                                      <code className={className} {...rest}>
+                                        {children}
+                                      </code>
+                                    );
+                                  }
+                                }}
+                              >
                               {message.content}
+                              </ReactMarkdown>
                             </div>
                           </div>
                         </div>
