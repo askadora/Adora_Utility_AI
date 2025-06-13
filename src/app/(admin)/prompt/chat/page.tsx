@@ -51,6 +51,7 @@ export default function Chat() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);
+  const modelSelectorRef = useRef<HTMLDivElement>(null);
 
   // Set default model and version on component mount
   useEffect(() => {
@@ -59,6 +60,19 @@ export default function Chat() {
       ...prev,
       grok: 'grok-3-mini'
     }));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modelSelectorRef.current && !modelSelectorRef.current.contains(event.target as Node)) {
+        setShowModelSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -346,7 +360,7 @@ export default function Chat() {
             </button>
             
             {/* Model Selector */}
-            <div className="relative">
+            <div className="relative" ref={modelSelectorRef}>
               <button
                 onClick={() => setShowModelSelector(!showModelSelector)}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -368,7 +382,7 @@ export default function Chat() {
               </button>
               
               {showModelSelector && (
-                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50 max-h-[400px] overflow-y-auto">
                   {availableModels.map((model) => (
                     <div key={model.id}>
                       <button
