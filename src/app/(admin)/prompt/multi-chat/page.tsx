@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-import { singleChatCompletion } from '@/llm/grok/api';
+import { UNIFIED_MODELS, Model, UnifiedMessage, UnifiedChatOptions } from '@/llm/unified-models';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -19,138 +23,38 @@ interface ModelConversation {
   isLoading: boolean;
 }
 
-interface ModelVersion {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Model {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  versions: ModelVersion[];
-  capabilities?: string[];
-}
-
-const initialModels: Model[] = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'OpenAI\'s advanced language model',
-    icon: '🤖',
-    capabilities: ['💬', '🔍', '📊'],
-    versions: [
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model' },
-      { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest version with improved capabilities' },
-      { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'claude',
-    name: 'Claude',
-    description: 'Anthropic\'s conversational AI',
-    icon: '🧠',
-    capabilities: ['💬', '📝', '🔍'],
-    versions: [
-      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', description: 'Latest version with improved capabilities' },
-      { id: 'claude-3.5', name: 'Claude 3.5 Sonnet', description: 'Balanced performance' },
-    ],
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    description: 'Google\'s multimodal AI model',
-    icon: '🔍',
-    capabilities: ['💬', '🔍', '🌐', '📊'],
-    versions: [
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Advanced capabilities' },
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'grok',
-    name: 'Grok',
-    description: 'xAI\'s real-time AI model',
-    icon: '⚡',
-    capabilities: ['💬', '🌐', '📈'],
-    versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
-    ],
-  },
-  {
-    id: 'perplexity',
-    name: 'Perplexity',
-    description: 'Advanced search and research AI',
-    icon: '🔎',
-    capabilities: ['💬', '🔍', '🌐'],
-    versions: [
-      { id: 'perplexity-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'mistral',
-    name: 'Mistral',
-    description: 'European AI model',
-    icon: '🦅',
-    capabilities: ['💬', '📝'],
-    versions: [
-      { id: 'mistral-large', name: 'Mistral Large', description: 'Most capable version' },
-      { id: 'mistral-tiny', name: 'Mistral Tiny', description: 'Lightweight version' },
-    ],
-  },
-  {
-    id: 'deepseek',
-    name: 'DeepSeek',
-    description: 'Advanced reasoning and coding AI',
-    icon: '🎯',
-    capabilities: ['💬', '💻', '🧮'],
-    versions: [
-      { id: 'deepseek-v3', name: 'DeepSeek V3', description: 'Latest version with enhanced reasoning' },
-      { id: 'deepseek-coder-v2', name: 'DeepSeek Coder V2', description: 'Specialized for coding tasks' },
-      { id: 'deepseek-math', name: 'DeepSeek Math', description: 'Mathematical reasoning specialist' },
-    ],
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    description: 'Alibaba\'s multilingual AI model',
-    icon: '🌟',
-    capabilities: ['💬', '🌐', '📝', '🔍'],
-    versions: [
-      { id: 'qwen-2.5-72b', name: 'Qwen 2.5 72B', description: 'Most capable version' },
-      { id: 'qwen-2.5-32b', name: 'Qwen 2.5 32B', description: 'Balanced performance' },
-      { id: 'qwen-2.5-14b', name: 'Qwen 2.5 14B', description: 'Efficient version' },
-      { id: 'qwen-2.5-coder', name: 'Qwen 2.5 Coder', description: 'Code generation specialist' },
-    ],
-  },
-  {
-    id: 'llama',
-    name: 'Llama',
-    description: 'Meta\'s open-source language model',
-    icon: '🦙',
-    capabilities: ['💬', '📝', '🔍'],
-    versions: [
-      { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', description: 'Largest and most capable' },
-      { id: 'llama-3.1-70b', name: 'Llama 3.1 70B', description: 'High performance' },
-      { id: 'llama-3.1-8b', name: 'Llama 3.1 8B', description: 'Fast and efficient' },
-      { id: 'llama-3.2-vision', name: 'Llama 3.2 Vision', description: 'Multimodal capabilities' },
-    ],
-  },
-  {
-    id: 'phi',
-    name: 'Phi',
-    description: 'Microsoft\'s small language model',
-    icon: '🔬',
-    capabilities: ['💬', '📊', '🧮'],
-    versions: [
-      { id: 'phi-3.5-mini', name: 'Phi-3.5 Mini', description: 'Latest compact model' },
-      { id: 'phi-3.5-medium', name: 'Phi-3.5 Medium', description: 'Balanced size and performance' },
-      { id: 'phi-3-vision', name: 'Phi-3 Vision', description: 'Multimodal small model' },
-    ],
-  },
-];
+// Add markdown preprocessing function
+const preprocessMarkdown = (content: string): string => {
+  if (!content) return '';
+  
+  let processed = content;
+  
+  // Remove trailing whitespace from all lines
+  processed = processed.replace(/[ \t]+$/gm, '');
+  
+  // Collapse multiple blank lines into single blank lines
+  processed = processed.replace(/\n{3,}/g, '\n\n');
+  
+  // Ensure exactly one blank line before and after headings
+  processed = processed.replace(/\n*(#{1,6}[^\n]*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line before and after tables
+  processed = processed.replace(/\n*(\|[^\n]*\|[^\n]*\n(?:\|[^\n]*\|[^\n]*\n)*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line between paragraphs and other block elements
+  // This handles cases where there are no blank lines between paragraphs
+  processed = processed.replace(/([^\n])\n([^\n#\-\*\+\d\s\|])/g, '$1\n\n$2');
+  
+  // Clean up any leading/trailing whitespace
+  processed = processed.trim();
+  
+  // Ensure content ends with single newline if it had content
+  if (processed) {
+    processed = processed + '\n';
+  }
+  
+  return processed;
+};
 
 export default function MultiChat() {
   const [input, setInput] = useState('');
@@ -172,6 +76,7 @@ export default function MultiChat() {
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [synthesizedResponse, setSynthesizedResponse] = useState<string | null>(null);
   const messagesEndRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
 
   // Initialize conversations for selected models
   useEffect(() => {
@@ -222,68 +127,117 @@ export default function MultiChat() {
     setInput('');
 
     // Send to all selected models simultaneously
-    const promises = selectedModels.map(async (modelId) => {
-      try {
-        const model = initialModels.find(m => m.id === modelId);
-        const selectedVersion = modelVersions[modelId];
+    const promises = selectedModels.map((modelId) => {
+      return (async () => {
+        try {
+          // const model = availableModels.find(m => m.id === modelId);
+          const selectedVersion = modelVersions[modelId];
 
-        if (modelId === 'grok') {
-          // Handle Grok streaming
-          const tempMessageId = `${Date.now()}-${modelId}`;
-          
+          // Prepare messages and options
+          const messages: UnifiedMessage[] = [
+            {
+              role: 'user',
+              content: input
+            }
+          ];
+          const options: UnifiedChatOptions = {
+            model: modelId,
+            version: selectedVersion,
+            temperature: 0.7,
+            maxTokens: 1000
+          };
+
+          // Streaming logic
+            const tempMessageId = `${Date.now()}-${modelId}`;
+            setConversations(prev => ({
+              ...prev,
+              [modelId]: {
+                ...prev[modelId],
+                messages: [
+                  ...prev[modelId].messages,
+                  {
+                    id: tempMessageId,
+                    role: 'assistant',
+                    content: '',
+                    timestamp: new Date(),
+                  }
+                ],
+              }
+            }));
+
+          let accumulatedContent = '';
+          let lastUpdate = Date.now();
+          const updateInterval = 50;
+
+          // --- Use /api/chat route for streaming ---
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ messages, options }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to get response from API');
+          }
+
+          if (!response.body) {
+            throw new Error('No response body');
+          }
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n').filter(Boolean);
+            for (const line of lines) {
+              try {
+                const data = JSON.parse(line);
+                if (data.content) {
+                  accumulatedContent += data.content;
+                  const now = Date.now();
+                  if (now - lastUpdate >= updateInterval) {
+            setConversations(prev => ({
+              ...prev,
+              [modelId]: {
+                ...prev[modelId],
+                        messages: prev[modelId].messages.map(msg =>
+                          msg.id === tempMessageId
+                            ? { ...msg, content: accumulatedContent }
+                            : msg
+                        ),
+                      }
+                    }));
+                    lastUpdate = now;
+                  }
+                }
+              } catch (e) {
+                console.error('Error parsing chunk:', e);
+              }
+            }
+          }
+          // Final update to ensure all content is displayed
           setConversations(prev => ({
             ...prev,
             [modelId]: {
               ...prev[modelId],
-              messages: [
-                ...prev[modelId].messages,
-                {
-                  id: tempMessageId,
-                  role: 'assistant',
-                  content: '',
-                  timestamp: new Date(),
-                }
-              ],
+              messages: prev[modelId].messages.map(msg =>
+                msg.id === tempMessageId
+                  ? { ...msg, content: accumulatedContent }
+                  : msg
+              ),
             }
           }));
-
-          await singleChatCompletion(
-            input,
-            (chunk) => {
-              setConversations(prev => ({
-                ...prev,
-                [modelId]: {
-                  ...prev[modelId],
-                  messages: prev[modelId].messages.map(msg =>
-                    msg.id === tempMessageId
-                      ? { ...msg, content: msg.content + chunk }
-                      : msg
-                  ),
-                }
-              }));
-            },
-            selectedVersion
-          );
-        } else {
-          // Simulate response for other models
-          await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-          
-          const responses = {
-            chatgpt: "I'm ChatGPT! Here's my response to your question. I can help with a wide variety of tasks including analysis, writing, coding, and creative work.",
-            claude: "Hello! I'm Claude from Anthropic. I'm designed to be helpful, harmless, and honest. I'd be happy to assist you with your query.",
-            gemini: "Hi there! I'm Gemini, Google's AI assistant. I can help with research, analysis, and providing information from across the web.",
-            perplexity: "I'm Perplexity, specialized in search and research. I can provide detailed, well-sourced answers to your questions.",
-            mistral: "Bonjour! I'm Mistral, a European AI model. I'm here to help with your questions and tasks.",
-            deepseek: "Hello! I'm DeepSeek, specialized in advanced reasoning and coding. I excel at mathematical problems, logical thinking, and programming tasks.",
-            qwen: "你好！I'm Qwen from Alibaba Cloud. I can assist you in multiple languages and help with various tasks including analysis, writing, and research.",
-            llama: "Hi! I'm Llama from Meta. As an open-source model, I'm designed to be helpful, accurate, and transparent in my responses.",
-            phi: "Hello! I'm Phi from Microsoft. Despite my compact size, I'm optimized for efficiency and can help with reasoning, analysis, and problem-solving."
-          };
-
-          const responseMessage: Message = {
-            id: `${Date.now()}-${modelId}`,
+        } catch (error) {
+          console.error(`Error from ${modelId}:`, error);
+          const errorMessage: Message = {
+            id: `${Date.now()}-${modelId}-error`,
             role: 'assistant',
-            content: responses[modelId as keyof typeof responses] || `Response from ${model?.name}`,
+            content: 'Sorry, there was an error getting the response. Please try again.',
             timestamp: new Date(),
           };
 
@@ -291,35 +245,19 @@ export default function MultiChat() {
             ...prev,
             [modelId]: {
               ...prev[modelId],
-              messages: [...prev[modelId].messages, responseMessage],
+              messages: [...prev[modelId].messages, errorMessage],
+            }
+          }));
+        } finally {
+          setConversations(prev => ({
+            ...prev,
+            [modelId]: {
+              ...prev[modelId],
+              isLoading: false,
             }
           }));
         }
-      } catch (error) {
-        console.error(`Error from ${modelId}:`, error);
-        const errorMessage: Message = {
-          id: `${Date.now()}-${modelId}-error`,
-          role: 'assistant',
-          content: 'Sorry, there was an error getting the response. Please try again.',
-          timestamp: new Date(),
-        };
-
-        setConversations(prev => ({
-          ...prev,
-          [modelId]: {
-            ...prev[modelId],
-            messages: [...prev[modelId].messages, errorMessage],
-          }
-        }));
-      } finally {
-        setConversations(prev => ({
-          ...prev,
-          [modelId]: {
-            ...prev[modelId],
-            isLoading: false,
-          }
-        }));
-      }
+      })();
     });
 
     await Promise.all(promises);
@@ -371,7 +309,7 @@ export default function MultiChat() {
           .find(msg => msg.role === 'assistant');
         
         if (lastAssistantMessage) {
-          const modelName = initialModels.find(m => m.id === modelId)?.name || modelId;
+          const modelName = availableModels.find(m => m.id === modelId)?.name || modelId;
           modelResponses[modelName] = lastAssistantMessage.content;
         }
       });
@@ -443,7 +381,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
 
   // Expanded model view
   if (expandedModel) {
-    const model = initialModels.find(m => m.id === expandedModel);
+    const model = availableModels.find(m => m.id === expandedModel);
     const conversation = conversations[expandedModel];
     
     return (
@@ -503,8 +441,116 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                           ? 'bg-blue-500 text-white' 
                           : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
                       } rounded-2xl px-4 py-3 max-w-3xl`}>
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words">
-                          {message.content}
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-2 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-1 [&_table]:my-1.5 [&_hr]:my-1.5 [&_li]:my-0">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code(props: any) {
+                                const { inline, className, children, ...rest } = props;
+                                const match = /language-(\w+)/.exec(className || '');
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    customStyle={{
+                                      borderRadius: '0.5em',
+                                      fontSize: '0.95em',
+                                      padding: '1em',
+                                      margin: '0.5em 0',
+                                      background: 'var(--tw-prose-pre-bg, #282c34)'
+                                    }}
+                                    {...rest}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className={className} {...rest}>
+                                    {children}
+                                  </code>
+                                );
+                              },
+                              table: ({ children, ...props }) => (
+                                <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              thead: ({ children, ...props }) => (
+                                <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </thead>
+                              ),
+                              tbody: ({ children, ...props }) => (
+                                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                  {children}
+                                </tbody>
+                              ),
+                              tr: ({ children, ...props }) => (
+                                <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                  {children}
+                                </tr>
+                              ),
+                              th: ({ children, ...props }) => (
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children, ...props }) => (
+                                <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                  {children}
+                                </td>
+                              ),
+                              p: ({ children, ...props }) => (
+                                <p className="my-0.5 leading-relaxed" {...props}>
+                                  {children}
+                                </p>
+                              ),
+                              h1: ({ children, ...props }) => (
+                                <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                  {children}
+                                </h1>
+                              ),
+                              h2: ({ children, ...props }) => (
+                                <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children, ...props }) => (
+                                <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children, ...props }) => (
+                                <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                  {children}
+                                </h4>
+                              ),
+                              ul: ({ children, ...props }) => (
+                                <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                  {children}
+                                </ul>
+                              ),
+                              ol: ({ children, ...props }) => (
+                                <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                  {children}
+                                </ol>
+                              ),
+                              li: ({ children, ...props }) => (
+                                <li className="my-0 leading-relaxed" {...props}>
+                                  {children}
+                                </li>
+                              ),
+                              blockquote: ({ children, ...props }) => (
+                                <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                  {children}
+                                </blockquote>
+                              )
+                            }}
+                          >
+                          {preprocessMarkdown(message.content)}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     </div>
@@ -562,7 +608,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Models:</span>
               <div className="flex gap-1">
-                {initialModels.map((model) => (
+                {availableModels.map((model) => (
                   <button
                     key={model.id}
                     onClick={() => toggleModelSelection(model.id)}
@@ -619,7 +665,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
       <div className="flex-1 overflow-y-auto p-4">
         <div className={`grid ${getGridCols()} gap-4 h-full`}>
           {selectedModels.map((modelId) => {
-            const model = initialModels.find(m => m.id === modelId);
+            const model = availableModels.find(m => m.id === modelId);
             const conversation = conversations[modelId];
             
             return (
@@ -683,8 +729,116 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                               ? 'bg-blue-500 text-white' 
                               : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
                           }`}>
-                            <div className="whitespace-pre-wrap break-words leading-relaxed">
-                              {message.content}
+                            <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-2 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-1 [&_table]:my-1.5 [&_hr]:my-1.5 [&_li]:my-0">
+                              <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                  code(props: any) {
+                                    const { inline, className, children, ...rest } = props;
+                                    const match = /language-(\w+)/.exec(className || '');
+                                    return !inline && match ? (
+                                      <SyntaxHighlighter
+                                        style={oneDark}
+                                        language={match[1]}
+                                        PreTag="div"
+                                        customStyle={{
+                                          borderRadius: '0.5em',
+                                          fontSize: '0.95em',
+                                          padding: '1em',
+                                          margin: '0.5em 0',
+                                          background: 'var(--tw-prose-pre-bg, #282c34)'
+                                        }}
+                                        {...rest}
+                                      >
+                                        {String(children).replace(/\n$/, '')}
+                                      </SyntaxHighlighter>
+                                    ) : (
+                                      <code className={className} {...rest}>
+                                        {children}
+                                      </code>
+                                    );
+                                  },
+                                  table: ({ children, ...props }) => (
+                                    <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                        {children}
+                                      </table>
+                                    </div>
+                                  ),
+                                  thead: ({ children, ...props }) => (
+                                    <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                      {children}
+                                    </thead>
+                                  ),
+                                  tbody: ({ children, ...props }) => (
+                                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                      {children}
+                                    </tbody>
+                                  ),
+                                  tr: ({ children, ...props }) => (
+                                    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                      {children}
+                                    </tr>
+                                  ),
+                                  th: ({ children, ...props }) => (
+                                    <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                      {children}
+                                    </th>
+                                  ),
+                                  td: ({ children, ...props }) => (
+                                    <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                      {children}
+                                    </td>
+                                  ),
+                                  p: ({ children, ...props }) => (
+                                    <p className="my-0.5 leading-relaxed" {...props}>
+                                      {children}
+                                    </p>
+                                  ),
+                                  h1: ({ children, ...props }) => (
+                                    <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                      {children}
+                                    </h1>
+                                  ),
+                                  h2: ({ children, ...props }) => (
+                                    <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                      {children}
+                                    </h2>
+                                  ),
+                                  h3: ({ children, ...props }) => (
+                                    <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                      {children}
+                                    </h3>
+                                  ),
+                                  h4: ({ children, ...props }) => (
+                                    <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                      {children}
+                                    </h4>
+                                  ),
+                                  ul: ({ children, ...props }) => (
+                                    <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                      {children}
+                                    </ul>
+                                  ),
+                                  ol: ({ children, ...props }) => (
+                                    <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                      {children}
+                                    </ol>
+                                  ),
+                                  li: ({ children, ...props }) => (
+                                    <li className="my-0 leading-relaxed" {...props}>
+                                      {children}
+                                    </li>
+                                  ),
+                                  blockquote: ({ children, ...props }) => (
+                                    <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                      {children}
+                                    </blockquote>
+                                  )
+                                }}
+                              >
+                              {preprocessMarkdown(message.content)}
+                              </ReactMarkdown>
                             </div>
                           </div>
                         </div>
