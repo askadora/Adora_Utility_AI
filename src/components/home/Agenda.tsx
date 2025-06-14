@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 interface Meeting {
   id: number;
@@ -102,9 +103,9 @@ export const Agenda: React.FC = () => {
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-        <button className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+        <Link href="/adoralink?view=calendar" className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
           View full calendar →
-        </button>
+        </Link>
       </div>
     </div>
   );

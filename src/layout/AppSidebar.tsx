@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
@@ -18,6 +17,9 @@ import {
   PromptIcon,
   SettingsIcon,
   EyeIcon,
+  FileIcon,
+  FolderIcon,
+  DocsIcon,
 } from "../icons/index";
 import { HomeIcon } from "./icons/index";
 import SidebarWidget from "./SidebarWidget";
@@ -97,13 +99,13 @@ const navItems: NavItem[] = [
   },
   {
     icon: <EyeIcon />,
-    name: "Focus",
+    name: "Deep Focus",
     path: "/focus",
   },
   {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    path: "/dashboard",
+    name: "AdoraLink",
+    icon: <PlugInIcon />,
+    path: "/adoralink",
   },
   {
     icon: <PromptIcon />,
@@ -116,24 +118,7 @@ const navItems: NavItem[] = [
       { name: "Prompt Library", path: "/prompt/library", pro: false },
     ],
   },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    name: "AdoraLink",
-    icon: <PlugInIcon />,
-    path: "/adoralink",
-  },
-  {
-    name: "Task",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "List", path: "/task/list", pro: false },
-      { name: "Kanban", path: "/task/kanban", pro: false },
-    ],
-  },
+
   {
     name: "Workflow",
     icon: <WorkflowIcon />,
@@ -143,6 +128,11 @@ const navItems: NavItem[] = [
     name: "Integrations",
     icon: <IntegrationsIcon />,
     path: "/integrations",
+  },
+  {
+    icon: <GridIcon />,
+    name: "Dashboard System",
+    path: "/dashboard",
   },
   {
     name: "LMS",
@@ -155,14 +145,16 @@ const navItems: NavItem[] = [
     path: "/crm",
   },
   {
-    icon: <ListIcon />,
-    name: "Invoice",
-    path: "/invoice",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    name: "Living Docs",
+    icon: <FolderIcon />,
+    path: "/living-docs",
+    subItems: [
+      { name: "My Drive", path: "/living-docs/my-drive" },
+      { name: "Living Docs", path: "/living-docs/living-docs" },
+      { name: "DataRain", path: "/living-docs/data-rain" },
+      { name: "Storytelling", path: "/living-docs/storytelling" },
+      { name: "Whiteboard", path: "/living-docs/whiteboard" },
+    ],
   },
   {
     name: "Settings",

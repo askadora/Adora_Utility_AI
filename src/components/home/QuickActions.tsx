@@ -224,7 +224,7 @@ export const QuickActions: React.FC = () => {
                     </div>
                     
                     <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-                      <Link href="/calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                      <Link href="/adoralink?view=calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
                         View full calendar →
                       </Link>
                     </div>
@@ -383,7 +383,7 @@ export const QuickActions: React.FC = () => {
                       </div>
                       
                       <div className="mt-3 pt-2 border-t border-gray-100 dark:border-gray-700">
-                        <Link href="/calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                        <Link href="/adoralink?view=calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
                           View full calendar →
                         </Link>
                       </div>

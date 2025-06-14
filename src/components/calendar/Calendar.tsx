@@ -35,7 +35,8 @@ const Calendar: React.FC = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const calendarRef = useRef<FullCalendar>(null);
   const { isOpen, openModal, closeModal } = useModal();
-  const [calendarType, setCalendarType] = useState<'play' | 'pro'>('play');
+  const [calendarType, setCalendarType] = useState<'play' | 'pro'>('pro');
+  const [currentView, setCurrentView] = useState('listDay');
   // Ref for the toggle container
   const toggleRef = useRef<HTMLDivElement>(null);
 
@@ -61,25 +62,91 @@ const Calendar: React.FC = () => {
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
     const dayAfterTomorrowISO = dayAfterTomorrow.toISOString().split('T')[0];
 
-    // Initialize with AdoraLink meetings + additional events
+    // Get dates for additional events
+    const threeDaysOut = new Date(today);
+    threeDaysOut.setDate(threeDaysOut.getDate() + 3);
+    const threeDaysOutISO = threeDaysOut.toISOString().split('T')[0];
+
+    const fourDaysOut = new Date(today);
+    fourDaysOut.setDate(fourDaysOut.getDate() + 4);
+    const fourDaysOutISO = fourDaysOut.toISOString().split('T')[0];
+
+    const fiveDaysOut = new Date(today);
+    fiveDaysOut.setDate(fiveDaysOut.getDate() + 5);
+    const fiveDaysOutISO = fiveDaysOut.toISOString().split('T')[0];
+
+    // Initialize with demo events for both Pro and Play sides
     setEvents([
-      // AdoraLink Professional Meetings
+      // Professional Events (Pro side) - Notification Response Meetings
       {
-        id: 'adoralink-1',
-        title: 'Security Review Meeting',
-        start: `${todayISO}T14:00:00`, // Today 2:00 PM
-        end: `${todayISO}T15:00:00`,   // 1 hour
+        id: '1',
+        title: 'URGENT: Security Breach Response',
+        start: `${todayISO}T09:00:00`, // Today 9:00 AM - Immediate response to L3 alert
+        end: `${todayISO}T10:00:00`,   // 1 hour
         extendedProps: { 
           calendar: 'Danger', 
           type: 'professional',
-          attendees: 'Brandon Philips, Security Team',
+          attendees: 'Brandon Philips, Security Team, IT Director',
           meetingType: 'urgent',
           relatedConversation: '1'
         },
       },
       {
-        id: 'adoralink-2',
-        title: 'Q4 Budget Planning',
+        id: '2',
+        title: 'Database Performance Crisis Meeting',
+        start: `${todayISO}T10:30:00`, // Today 10:30 AM - Response to L2 alert
+        end: `${todayISO}T11:30:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Warning', 
+          type: 'professional',
+          attendees: 'Sarah Chen, Database Team, DevOps',
+          meetingType: 'urgent',
+          relatedConversation: '2'
+        },
+      },
+      {
+        id: '3',
+        title: 'Q4 Budget Review Discussion',
+        start: `${todayISO}T13:00:00`, // Today 1:00 PM - Response to L1 alert
+        end: `${todayISO}T14:00:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Primary', 
+          type: 'professional',
+          attendees: 'Terry Franci, Finance Team, Leadership',
+          meetingType: 'business',
+          relatedConversation: '3'
+        },
+      },
+      {
+        id: '4',
+        title: 'Development Pipeline Review',
+        start: `${todayISO}T15:00:00`, // Today 3:00 PM - Response to L1 alert
+        end: `${todayISO}T15:30:00`,   // 30 minutes
+        extendedProps: { 
+          calendar: 'Success', 
+          type: 'professional',
+          attendees: 'Alena Franci, Engineering Team',
+          meetingType: 'routine',
+          relatedConversation: '4'
+        },
+      },
+      {
+        id: '5',
+        title: 'Security Follow-up & Action Items',
+        start: `${todayISO}T16:00:00`, // Today 4:00 PM - Follow-up to security breach
+        end: `${todayISO}T17:00:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Danger', 
+          type: 'professional',
+          attendees: 'Brandon Philips, CISO, Incident Response Team',
+          meetingType: 'urgent',
+          relatedConversation: '1'
+        },
+      },
+      // Future Professional Events
+      {
+        id: '6',
+        title: 'Q4 Budget Planning Session',
         start: `${tomorrowISO}T10:00:00`, // Tomorrow 10:00 AM
         end: `${tomorrowISO}T12:00:00`,   // 2 hours
         extendedProps: { 
@@ -91,7 +158,7 @@ const Calendar: React.FC = () => {
         },
       },
       {
-        id: 'adoralink-3',
+        id: '7',
         title: 'Dev Team Standup',
         start: `${dayAfterTomorrowISO}T09:00:00`, // 2 days out 9:00 AM
         end: `${dayAfterTomorrowISO}T09:30:00`,   // 30 minutes
@@ -103,24 +170,42 @@ const Calendar: React.FC = () => {
           relatedConversation: '4'
         },
       },
-      // Additional sample events
+      // Personal Events (Play side)
       {
-        id: '4',
+        id: '8',
         title: 'Doctor Appointment',
-        start: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Warning', type: 'personal' },
+        start: `${threeDaysOutISO}T11:00:00`, // 3 days out 11:00 AM
+        end: `${threeDaysOutISO}T12:00:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Warning', 
+          type: 'personal',
+          attendees: 'Dr. Sarah Johnson',
+          meetingType: 'health'
+        },
       },
       {
-        id: '5',
+        id: '9',
         title: 'Family Dinner',
-        start: new Date(Date.now() + 3 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Primary', type: 'personal' },
+        start: `${fourDaysOutISO}T18:30:00`, // 4 days out 6:30 PM
+        end: `${fourDaysOutISO}T20:00:00`,   // 1.5 hours
+        extendedProps: { 
+          calendar: 'Primary', 
+          type: 'personal',
+          attendees: 'Family Members',
+          meetingType: 'social'
+        },
       },
       {
-        id: '6',
+        id: '10',
         title: 'Yoga Class',
-        start: new Date(Date.now() + 4 * 86400000).toISOString().split('T')[0],
-        extendedProps: { calendar: 'Success', type: 'personal' },
+        start: `${fiveDaysOutISO}T08:00:00`, // 5 days out 8:00 AM
+        end: `${fiveDaysOutISO}T09:00:00`,   // 1 hour
+        extendedProps: { 
+          calendar: 'Success', 
+          type: 'personal',
+          attendees: 'Instructor Maya',
+          meetingType: 'wellness'
+        },
       },
     ]);
   }, []);
@@ -131,6 +216,44 @@ const Calendar: React.FC = () => {
       ? event.extendedProps.type === 'personal'
       : event.extendedProps.type === 'professional'
   );
+
+  // Handle view changes to adjust height dynamically
+  const handleViewChange = (view: any) => {
+    setCurrentView(view.type);
+  };
+
+  // Calculate dynamic height based on view and content
+  const getCalendarHeight = () => {
+    if (currentView === 'listDay') {
+      // For list view, use auto height with minimum
+      const eventCount = filteredEvents.filter(event => {
+        const eventDate = new Date(event.start as string);
+        const today = new Date();
+        return eventDate.toDateString() === today.toDateString();
+      }).length;
+      
+      // Base height + (events * estimated height per event) + padding
+      const baseHeight = 200; // Header and padding
+      const eventHeight = 120; // Estimated height per event in list view
+      const calculatedHeight = baseHeight + (eventCount * eventHeight);
+      
+      // Min 300px, max 600px for list view
+      return Math.min(Math.max(calculatedHeight, 300), 600);
+    }
+    // Fixed height for time grid views
+    return 600;
+  };
+
+  // Effect to update calendar height when view or events change
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (calendarApi) {
+      // Force calendar to update its height
+      setTimeout(() => {
+        calendarApi.setOption('height', getCalendarHeight());
+      }, 100);
+    }
+  }, [currentView, filteredEvents.length, calendarType]);
 
   // Effect to inject the toggle into the FullCalendar header
   useEffect(() => {
@@ -221,27 +344,78 @@ const Calendar: React.FC = () => {
               listDayFormat: false,
               listDaySideFormat: false,
               noEventsContent: 'No events scheduled for today'
+            },
+            timeGridWeek: {
+              type: 'timeGrid',
+              duration: { weeks: 1 },
+              slotMinTime: '00:00:00',
+              slotMaxTime: '24:00:00',
+              scrollTime: '08:00:00'
+            },
+            timeGridDay: {
+              type: 'timeGrid',
+              duration: { days: 1 },
+              slotMinTime: '00:00:00',
+              slotMaxTime: '24:00:00',
+              scrollTime: '08:00:00'
             }
           }}
           headerToolbar={{
             left: 'prev,next',
             center: 'title',
-            right: 'addEventButton listDay,timeGridWeek,dayGridMonth',
+            right: 'addEventButton dayButton,weekButton,monthButton',
           }}
           events={filteredEvents}
           selectable={true}
           select={handleDateSelect}
           eventClick={handleEventClick}
           eventContent={renderEventContent}
+          viewDidMount={handleViewChange}
           customButtons={{
             addEventButton: {
               text: 'Add Event +',
               click: openModal,
             },
+            dayButton: {
+              text: 'Day',
+              click: () => {
+                const calendarApi = calendarRef.current?.getApi();
+                if (calendarApi) {
+                  calendarApi.changeView('listDay');
+                  setCurrentView('listDay');
+                }
+              },
+            },
+            weekButton: {
+              text: 'Week',
+              click: () => {
+                const calendarApi = calendarRef.current?.getApi();
+                if (calendarApi) {
+                  calendarApi.changeView('timeGridWeek');
+                  setCurrentView('timeGridWeek');
+                }
+              },
+            },
+            monthButton: {
+              text: 'Month',
+              click: () => {
+                const calendarApi = calendarRef.current?.getApi();
+                if (calendarApi) {
+                  calendarApi.changeView('dayGridMonth');
+                  setCurrentView('dayGridMonth');
+                }
+              },
+            },
           }}
           dayMaxEvents={false}
-          height="auto"
-          contentHeight="auto"
+          height={getCalendarHeight()}
+          slotMinTime="00:00:00"
+          slotMaxTime="24:00:00"
+          scrollTime="08:00:00"
+          allDaySlot={true}
+          slotDuration="00:30:00"
+          slotLabelInterval="01:00:00"
+          scrollTimeReset={false}
         />
         {/* Toggle injected into the header via ref */}
         <div ref={toggleRef} style={{ display: 'inline-flex', alignItems: 'center', marginLeft: 16, verticalAlign: 'middle', height: '100%' }}>
