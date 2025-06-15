@@ -12,19 +12,18 @@ const COLORS = [
   "#fbbf24", // yellow
 ];
 
-export default function LivingDocsPage() {
+export default function ClassicDocsPage() {
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState("#111827");
   const [bold, setBold] = useState(false);
   const [italic, setItalic] = useState(false);
   const [underline, setUnderline] = useState(false);
-
   const router = useRouter();
   const pathname = usePathname();
   const mode = pathname === '/living-docs/classic-docs' ? 'Classic' : 'Living';
 
   return (
-    <div className="relative w-full h-full min-h-[600px] bg-white dark:bg-gray-900 overflow-hidden flex flex-col">
+    <div className="relative w-full h-[calc(100vh-120px)] min-h-[600px] bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col">
       {/* Floating Toolbar */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-white/90 dark:bg-gray-900/90 rounded-lg px-4 py-2 shadow border border-gray-200 dark:border-gray-700">
         {/* Mode Toggle */}
@@ -99,25 +98,25 @@ export default function LivingDocsPage() {
           <span role="img" aria-label="Insert Shape">⬛</span>
         </button>
       </div>
-      {/* Full-viewport editable area */}
-      <div className="flex-1 flex flex-col pt-24 pb-8 px-8 bg-gray-100 dark:bg-gray-900">
-        <div
-          className="flex-1 w-full h-full text-gray-900 dark:text-white outline-none rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-8"
-          style={{
-            fontSize: fontSize,
-            color: color,
-            fontWeight: bold ? 'bold' : 'normal',
-            fontStyle: italic ? 'italic' : 'normal',
-            textDecoration: underline ? 'underline' : 'none',
-            minHeight: 0,
-            minWidth: 0,
-            resize: 'none',
-            overflow: 'auto',
-          }}
-          contentEditable
-          suppressContentEditableWarning
-        >
-          Start writing your Living Doc here... (This is a mockup. Drag and drop, visual editing, and multimedia coming soon!)
+      {/* Document Canvas Area */}
+      <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-8 px-8 bg-gray-100 dark:bg-gray-900">
+        <div className="relative flex flex-col items-center">
+          <div className="mx-auto bg-white dark:bg-gray-800 shadow-2xl border border-gray-300 dark:border-gray-700 rounded-[18px]" style={{ width: 800, minHeight: 1100, aspectRatio: '8.5/11', margin: '0 auto', padding: 48, boxShadow: '0 8px 32px rgba(0,0,0,0.10)' }}>
+            <div
+              className="w-full min-h-[900px] text-gray-900 dark:text-white outline-none"
+              style={{
+                fontSize: fontSize,
+                color: color,
+                fontWeight: bold ? 'bold' : 'normal',
+                fontStyle: italic ? 'italic' : 'normal',
+                textDecoration: underline ? 'underline' : 'none',
+              }}
+              contentEditable
+              suppressContentEditableWarning
+            >
+              Start writing your Classic Doc here... (This is a mockup. Drag and drop, visual editing, and multimedia coming soon!)
+            </div>
+          </div>
         </div>
       </div>
     </div>
