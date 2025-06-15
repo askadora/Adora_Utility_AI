@@ -37,7 +37,9 @@ export const UNIFIED_MODELS: Model[] = [
     icon: '🧠',
     capabilities: ['💬', '📝', '🔍'],
     versions: [
-      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', modelKey: 'anthropic/claude-3-7-sonnet-latest', description: 'Latest Claude model', available: false }
+      { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', modelKey: 'anthropic/claude-3-7-sonnet-latest', description: 'Latest Claude model', available: false },
+      { id: 'claude-4-opus', name: 'Claude 4 Opus', modelKey: 'anthropic/claude-4-opus', description: 'Most powerful model', available: false },
+      { id: 'claude-4-sonnet', name: 'Claude 4 Sonnet', modelKey: 'anthropic/claude-4-sonnet', description: 'Mid size model', available: false },
     ],
   },
   {
@@ -121,6 +123,7 @@ export const UNIFIED_MODELS: Model[] = [
     capabilities: ['💬', '📝', '🔍'],
     versions: [
       { id: 'llama-3.2-3b', name: 'Llama 3.2 3B', modelKey: 'meta-llama/Llama-3.2-3B-Instruct', description: 'Lightweight', available: true },
+      { id: 'llama-3.2-1b', name: 'Llama 3.2 1B', modelKey: 'meta-llama/Llama-3.2-1B-Instruct', description: 'Lightweight', available: true },
       { id: 'llama-3.1-405b', name: 'Llama 3.1 405B', modelKey: 'meta-llama/Meta-Llama-3.1-405B-Instruct', description: 'Large version', available: false },
       { id: 'llama-3.1-8b', name: 'Llama 3.1 8B Instruct', modelKey: 'meta-llama/Meta-Llama-3.1-8B-Instruct', description: 'Balanced version', available: true },
     ],

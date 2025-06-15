@@ -1,5 +1,8 @@
 'use client';
 
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
+
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
 import { UNIFIED_MODELS, Model, UnifiedMessage } from '@/llm/unified-models';
@@ -85,6 +88,8 @@ export default function Chat() {
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);
   const modelSelectorRef = useRef<HTMLDivElement>(null);
+  const { session } = useAuth();
+  const [llmUsage, setLlmUsage] = useState<number>(0);
 
   // Set default model and version on component mount
   useEffect(() => {
@@ -115,6 +120,17 @@ export default function Chat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    async function fetchLlmUsage() {
+      if (!session?.user) return;
+      const { data, error } = await supabase.rpc('get_llm_usage', { uid: session.user.id });
+      if (data && data[0] && data[0].llm_usage !== undefined && data[0].llm_usage !== null) {
+        setLlmUsage(data[0].llm_usage);
+      }
+    }
+    fetchLlmUsage();
+  }, [session]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -248,6 +264,13 @@ export default function Chat() {
         )
       );
 
+      // Update LLM usage after successful send
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('update_llm_usage', { uid: session.user.id });
+        if (data && data[0] && data[0].new_usage !== undefined && data[0].new_usage !== null) {
+          setLlmUsage(data[0].new_usage);
+        }
+      }
       console.log('Stream completed successfully');
     } catch (error) {
       console.error('Error in chat flow:', error);
@@ -512,19 +535,22 @@ export default function Chat() {
             </div>
 
             {/* Refresh Button */}
-            <button
-              onClick={() => {
-                console.log('Clearing chat history');
-                setMessages([]);
-                setInput('');
-              }}
-              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              title="Clear chat"
-            >
-              <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  console.log('Clearing chat history');
+                  setMessages([]);
+                  setInput('');
+                }}
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                title="Clear chat"
+              >
+                <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+              <span className="text-xs text-gray-500">Prompts used: {llmUsage}/20</span>
+            </div>
           </div>
 
           {/* Mobile Tools Toggle */}
@@ -637,7 +663,7 @@ export default function Chat() {
                             {message.modelVersion && ` (${message.modelVersion})`}
                           </div>
                         )}
-                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-1 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-0.5 [&_table]:my-0.5 [&_hr]:my-0.5 [&_li]:my-0">
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-1 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-0.5 [&_table]:my-0.5 [&_hr]:my-0.5 [&_li]:my-0.5">
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
@@ -839,7 +865,7 @@ export default function Chat() {
                   {/* Send Button */}
                   <button
                     onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
+                    disabled={!input.trim() || isLoading || llmUsage >= 20}
                     className="ml-1 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
                              flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
                              transition-all duration-200"
@@ -861,6 +887,13 @@ export default function Chat() {
             </div>
           </div>
         </div>
+
+        {/* Additional UI Elements */}
+        {llmUsage >= 20 && (
+          <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
+            You have used up free credits
+          </div>
+        )}
       </div>
     </div>
   );

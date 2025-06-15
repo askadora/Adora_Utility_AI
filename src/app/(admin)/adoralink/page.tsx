@@ -68,7 +68,7 @@ export interface Contact {
 }
 
 // Side rail views
-export type SideRailView = 'inbox' | 'live' | 'recent' | 'analytics' | 'calendar' | 'settings';
+export type SideRailView = 'inbox' | 'live' | 'recent' | 'tasks' | 'analytics' | 'calendar' | 'settings';
 
 // Mock alert level calculation
 const calculateAlertLevel = (): { alertLevel: AlertLevel; temperature: number; color: AlertColor } => {
@@ -368,6 +368,263 @@ const CalendarDetail = () => {
 };
 
 // Quick Booking Component for Conversations
+const TasksView = () => {
+  const [currentTaskView, setCurrentTaskView] = useState<'list' | 'kanban' | 'gantt'>('list');
+  const [draggedTask, setDraggedTask] = useState<string | null>(null);
+
+  // Sample tasks data connected to AdoraLink
+  const [tasks, setTasks] = useState([
+    {
+      id: '1',
+      title: 'Investigate Security Breach',
+      description: 'Follow up on Brandon Philips security alert and implement emergency protocols',
+      priority: 'urgent',
+      status: 'in-progress',
+      dueDate: new Date(),
+      assignee: 'Security Team',
+      linkedMessage: 'Brandon Philips - Security Alert',
+      linkedMeeting: 'Today 9:00 AM - Security Response',
+      tags: ['security', 'urgent', 'L3-alert']
+    },
+    {
+      id: '2',
+      title: 'Database Performance Review',
+      description: 'Analyze and optimize database performance issues detected by monitoring',
+      priority: 'high',
+      status: 'todo',
+      dueDate: new Date(Date.now() + 86400000), // Tomorrow
+      assignee: 'Dev Team',
+      linkedMessage: 'System Alert - Database Performance',
+      linkedMeeting: 'Today 11:00 AM - Database Review',
+      tags: ['database', 'performance', 'L2-alert']
+    },
+    {
+      id: '3',
+      title: 'Update Team on Progress',
+      description: 'Provide status update on current security and performance initiatives',
+      priority: 'normal',
+      status: 'todo',
+      dueDate: new Date(Date.now() + 172800000), // Day after tomorrow
+      assignee: 'Project Manager',
+      linkedMessage: 'Calendar Reminder',
+      linkedMeeting: 'Today 2:00 PM - Team Standup',
+      tags: ['communication', 'standup']
+    },
+    {
+      id: '4',
+      title: 'Q4 Budget Planning',
+      description: 'Prepare quarterly budget review and resource allocation',
+      priority: 'normal',
+      status: 'completed',
+      dueDate: new Date(Date.now() - 86400000), // Yesterday
+      assignee: 'Finance Team',
+      linkedMessage: 'Terry Franci - Budget Request',
+      linkedMeeting: 'Tomorrow 10:00 AM - Budget Review',
+      tags: ['finance', 'planning']
+    }
+  ]);
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, taskId: string) => {
+    setDraggedTask(taskId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e: React.DragEvent, newStatus: string) => {
+    e.preventDefault();
+    if (draggedTask) {
+      setTasks(prevTasks => 
+        prevTasks.map(task => 
+          task.id === draggedTask 
+            ? { ...task, status: newStatus }
+            : task
+        )
+      );
+      setDraggedTask(null);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggedTask(null);
+  };
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'urgent': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
+      case 'high': return 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400';
+      case 'normal': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+      case 'in-progress': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+      case 'todo': return 'bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400';
+      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400';
+    }
+  };
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Task View Tabs */}
+      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg mb-4">
+        {[
+          { key: 'list', label: 'List', icon: '📋' },
+          { key: 'kanban', label: 'Kanban', icon: '📊' },
+          { key: 'gantt', label: 'Gantt', icon: '📈' }
+        ].map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setCurrentTaskView(tab.key as 'list' | 'kanban' | 'gantt')}
+            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+              currentTaskView === tab.key
+                ? 'bg-white text-blue-600 shadow-sm dark:bg-gray-900 dark:text-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+            }`}
+          >
+            <span>{tab.icon}</span>
+            {tab.label}
+            {tab.key === 'gantt' && (
+              <span className="px-1.5 py-0.5 text-xs bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded-full ml-1">
+                Soon
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Task Content */}
+      <div className="flex-1 overflow-y-auto">
+        {currentTaskView === 'list' ? (
+          <div className="space-y-3">
+            {tasks.map((task) => (
+              <div key={task.id} className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900 dark:text-white mb-1">
+                      {task.title}
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      {task.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 ml-4">
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(task.priority)}`}>
+                      {task.priority}
+                    </span>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(task.status)}`}>
+                      {task.status}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-4">
+                    <span>👤 {task.assignee}</span>
+                    <span>📅 {task.dueDate.toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {task.linkedMessage && (
+                      <span className="text-xs bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-1 rounded">
+                        💬 {task.linkedMessage}
+                      </span>
+                    )}
+                    {task.linkedMeeting && (
+                      <span className="text-xs bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded">
+                        📅 {task.linkedMeeting}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : currentTaskView === 'kanban' ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+            {['todo', 'in-progress', 'completed'].map((status) => (
+              <div 
+                key={status} 
+                className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 min-h-[400px]"
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, status)}
+              >
+                <h3 className="font-medium text-gray-900 dark:text-white mb-4 capitalize">
+                  {status.replace('-', ' ')} ({tasks.filter(t => t.status === status).length})
+                </h3>
+                <div className="space-y-3">
+                  {tasks.filter(task => task.status === status).map((task) => (
+                    <div 
+                      key={task.id} 
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, task.id)}
+                      onDragEnd={handleDragEnd}
+                      className={`p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg cursor-move transition-all duration-200 hover:shadow-md ${
+                        draggedTask === task.id ? 'opacity-50 scale-95' : 'hover:scale-105'
+                      }`}
+                    >
+                      <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-2">
+                        {task.title}
+                      </h4>
+                      <div className="flex items-center justify-between">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(task.priority)}`}>
+                          {task.priority}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {task.assignee}
+                        </span>
+                      </div>
+                      {/* Drag indicator */}
+                      <div className="flex items-center justify-center mt-2 opacity-30">
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                        </svg>
+                      </div>
+                    </div>
+                  ))}
+                  {/* Drop zone indicator */}
+                  {tasks.filter(task => task.status === status).length === 0 && (
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Drop tasks here
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-64 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+            <div className="text-center">
+              <div className="text-4xl mb-4">🚧</div>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                Gantt View Coming Soon
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Timeline and dependency management features are in development
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Integration Notice */}
+      <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <p className="text-sm text-blue-800 dark:text-blue-300">
+          🔗 <strong>AdoraLink Integration:</strong> Tasks automatically sync with conversations and calendar events
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const QuickBooking = ({ conversationId, onSendBookingLink }: { conversationId: string, onSendBookingLink: (link: string, type: string) => void }) => {
   const bookingOptions = [
     { type: '15-min Quick Chat', duration: '15 min', icon: '⚡', color: 'bg-green-100 text-green-700 dark:bg-green-900/30' },
@@ -415,10 +672,17 @@ export default function AdoraLinkPage() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const conversationParam = urlParams.get('conversation');
+    const viewParam = urlParams.get('view');
+    
     if (conversationParam && conversations.length > 0) {
       console.log('Setting conversation from URL:', conversationParam);
       setCurrentView('inbox');
       setSelectedConversation(conversationParam);
+      // Clean up URL
+      window.history.replaceState({}, '', '/adoralink');
+    } else if (viewParam && ['inbox', 'live', 'recent', 'analytics', 'calendar', 'tasks'].includes(viewParam)) {
+      console.log('Setting view from URL:', viewParam);
+      setCurrentView(viewParam as SideRailView);
       // Clean up URL
       window.history.replaceState({}, '', '/adoralink');
     }
@@ -448,9 +712,9 @@ export default function AdoraLinkPage() {
           id: 'm1',
           channel: 'email',
           sender: { name: 'Brandon Philips', avatar: '/images/user/user-05.jpg' },
-          subject: 'URGENT: Security Breach Detected',
-          preview: 'CRITICAL: We have detected unauthorized access attempts on our main servers...',
-          body: 'CRITICAL: We have detected unauthorized access attempts on our main servers. Immediate action required. Please escalate to security team and implement emergency protocols. Multiple failed login attempts detected from suspicious IP addresses.',
+          subject: 'URGENT: Security Breach Attempt',
+          preview: 'CRITICAL: Honeypot activated. We have detected unauthorized access attempts on our main servers...',
+          body: 'CRITICAL: Honeypot activated. We have detected unauthorized access attempts on our main servers. Immediate action required. Please escalate to security team and implement emergency protocols. Multiple failed login attempts detected from suspicious IP addresses.',
           timestamp: new Date(Date.now() - 1000 * 60 * 5), // 5 minutes ago
           alertLevel: 'L3',
           temperature: 95,
@@ -637,8 +901,8 @@ export default function AdoraLinkPage() {
             id: 'i8',
             channel: 'email',
             timestamp: new Date(Date.now() - 1000 * 60 * 5),
-            subject: 'URGENT: Security Breach Detected',
-            preview: 'CRITICAL: We have detected unauthorized access attempts...'
+            subject: 'URGENT: Security Breach Attempt',
+            preview: 'CRITICAL: Honeypot activated. We have detected unauthorized access attempts...'
           },
           {
             id: 'i9',
@@ -810,6 +1074,7 @@ export default function AdoraLinkPage() {
           { key: 'inbox', label: 'Inbox', icon: '📥' },
           { key: 'live', label: 'Live Feed', icon: '⚡' },
           { key: 'recent', label: 'Recent', icon: '👥' },
+          { key: 'tasks', label: 'Tasks', icon: '✅' },
           { key: 'analytics', label: 'Analytics', icon: '📊' },
           { key: 'calendar', label: 'Calendar', icon: '📅' }
         ].map((tab) => (
@@ -890,27 +1155,100 @@ export default function AdoraLinkPage() {
         </section>
       )}
 
+      {/* Meeting KPIs Row - Only show for calendar view */}
+      {currentView === 'calendar' && (
+        <section className="mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+            {/* Booking Statistics */}
+            <div className="lg:col-span-3">
+              <div className="flex flex-col rounded-2xl border border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/20 p-5 md:p-6 transition-all duration-200 hover:shadow-lg">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Booking Statistics
+                </h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">24</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Meetings This Month</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">96%</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Show-up Rate</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">4.8★</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Average Rating</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Meeting Insights */}
+            <div className="lg:col-span-2">
+              <div className="flex flex-col rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-5 md:p-6 transition-all duration-200 hover:shadow-lg">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Meeting Insights
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">12</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Meetings This Week</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">94%</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Attendance Rate</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Full Tasks View - First Priority for Tasks Tab */}
+      {currentView === 'tasks' && (
+        <section className="mb-6">
+          <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
+                  Task Management
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Unified task management connected to your conversations and calendar
+                </p>
+              </div>
+              <button className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border bg-blue-600 hover:bg-blue-700 text-white border-blue-600 hover:border-blue-700 transition-all duration-200">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Task
+              </button>
+            </div>
+            <TasksView />
+          </div>
+        </section>
+      )}
+
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Conversation/Live Feed Pane */}
-        <div className="lg:col-span-1">
-          <ComponentCard 
-            title={
-              currentView === 'live' ? 'Live Message Feed' : 
-              currentView === 'recent' ? 'Recent Contacts' : 
-              currentView === 'analytics' ? 'Performance Metrics' :
-              currentView === 'calendar' ? 'Calendar & Scheduling' :
-              'Conversations'
-            } 
-            desc={
-              currentView === 'live' ? 'Real-time message stream across all channels' : 
-              currentView === 'recent' ? 'People who have recently contacted you' :
-              currentView === 'analytics' ? 'Track your communication performance and response metrics' :
-              currentView === 'calendar' ? 'Manage meetings and send booking links from conversations' :
-              'Your organized conversation threads'
-            }
-            className="h-[700px] overflow-hidden"
-          >
+      <div className={`grid gap-6 ${currentView === 'calendar' || currentView === 'tasks' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 lg:grid-cols-3'}`}>
+        {/* Conversation/Live Feed Pane - Hide for calendar and tasks view */}
+        {currentView !== 'calendar' && currentView !== 'tasks' && (
+          <div className="lg:col-span-1">
+            <ComponentCard 
+              title={
+                currentView === 'live' ? 'Live Message Feed' : 
+                currentView === 'recent' ? 'Recent Contacts' : 
+                currentView === 'analytics' ? 'Performance Metrics' :
+                'Conversations'
+              } 
+              desc={
+                currentView === 'live' ? 'Real-time message stream across all channels' : 
+                currentView === 'recent' ? 'People who have recently contacted you' :
+                currentView === 'analytics' ? 'Track your communication performance and response metrics' :
+                'Your organized conversation threads'
+              }
+              className="h-[700px] overflow-hidden"
+            >
             <div className="h-full overflow-y-auto -mx-4 px-4 -mb-6 pb-6">
               {currentView === 'live' ? (
                 <LiveTicker 
@@ -968,8 +1306,6 @@ export default function AdoraLinkPage() {
                 </div>
               ) : currentView === 'analytics' ? (
                 <AnalyticsMetrics />
-              ) : currentView === 'calendar' ? (
-                <CalendarView />
               ) : (
                 <ConversationPane
                   conversations={conversations}
@@ -981,24 +1317,24 @@ export default function AdoraLinkPage() {
             </div>
           </ComponentCard>
         </div>
+        )}
 
-        {/* Detail Pane */}
-        <div className="lg:col-span-2">
-          <ComponentCard 
-            title={
-              currentView === 'recent' ? 'Contact Details' : 
-              currentView === 'analytics' ? 'Analytics Dashboard' : 
-              currentView === 'calendar' ? 'Booking & Scheduling' :
-              'Message Details'
-            } 
-            desc={
-              currentView === 'recent' ? 'Contact history and information' : 
-              currentView === 'analytics' ? 'Detailed performance analytics and insights' :
-              currentView === 'calendar' ? 'Quick booking links and meeting management' :
-              'Full conversation thread and message details'
-            }
-            className="h-[700px] overflow-hidden relative"
-          >
+        {/* Detail Pane - Hide for calendar and tasks view */}
+        {currentView !== 'calendar' && currentView !== 'tasks' && (
+          <div className="lg:col-span-2">
+            <ComponentCard 
+              title={
+                currentView === 'recent' ? 'Contact Details' : 
+                currentView === 'analytics' ? 'Analytics Dashboard' : 
+                'Message Details'
+              } 
+              desc={
+                currentView === 'recent' ? 'Contact history and information' : 
+                currentView === 'analytics' ? 'Detailed performance analytics and insights' :
+                'Full conversation thread and message details'
+              }
+              className="h-[700px] overflow-hidden relative"
+            >
             <div className="h-full flex flex-col">
               {currentView === 'recent' && selectedContactData ? (
                 <div className="p-6 space-y-6 overflow-y-auto">
@@ -1090,8 +1426,6 @@ export default function AdoraLinkPage() {
                 </div>
               ) : currentView === 'analytics' ? (
                 <AnalyticsDashboard />
-              ) : currentView === 'calendar' ? (
-                <CalendarDetail />
               ) : (
                 <>
                   <DetailPane
@@ -1119,7 +1453,140 @@ export default function AdoraLinkPage() {
             </div>
           </ComponentCard>
         </div>
+        )}
       </div>
+
+      {/* Task Integration Section - Only show for tasks view */}
+      {currentView === 'tasks' && (
+        <section className="mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Integration Overview */}
+            <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Integration Overview
+              </h3>
+              
+              <div className="grid grid-cols-1 gap-4">
+                {/* From Messages */}
+                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                      <span className="text-sm">📥</span>
+                    </div>
+                    <h4 className="font-medium text-gray-900 dark:text-white">From Messages</h4>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Create tasks directly from conversations and notifications
+                  </p>
+                  <div className="space-y-2">
+                    <div className="text-xs text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-900/30 p-2 rounded">
+                      "Follow up on security breach" → Task created
+                    </div>
+                    <div className="text-xs text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-900/30 p-2 rounded">
+                      "Schedule budget review" → Task + Calendar event
+                    </div>
+                  </div>
+                </div>
+
+                {/* To Calendar */}
+                <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                      <span className="text-sm">📅</span>
+                    </div>
+                    <h4 className="font-medium text-gray-900 dark:text-white">To Calendar</h4>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    Convert tasks into scheduled meetings and time blocks
+                  </p>
+                  <div className="space-y-2">
+                    <div className="text-xs text-green-700 dark:text-green-300 bg-white dark:bg-green-900/30 p-2 rounded">
+                      Task: "Security Review" → Meeting scheduled
+                    </div>
+                    <div className="text-xs text-green-700 dark:text-green-300 bg-white dark:bg-green-900/30 p-2 rounded">
+                      Task: "Database Optimization" → Time blocked
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Connected Tasks Demo */}
+            <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Connected Workflow
+              </h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        Investigate Security Breach
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        From: Brandon Philips message • Meeting: Today 9:00 AM
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full">
+                    Urgent
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        Database Performance Review
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        From: System alert • Meeting: Today 11:00 AM
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full">
+                    High
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        Update Team on Progress
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        From: Calendar reminder • Meeting: Today 2:00 PM
+                      </p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400 rounded-full">
+                    Normal
+                  </span>
+                </div>
+              </div>
+
+              {/* Integration Benefits */}
+              <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                  🚀 Integration Benefits
+                </h4>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• Tasks automatically created from urgent messages</li>
+                  <li>• Calendar meetings linked to task completion</li>
+                  <li>• Context preserved across conversations and tasks</li>
+                  <li>• Progress tracking with communication history</li>
+                  <li>• Unified view of all work and communications</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Message Composer */}
       <ComponentCard 

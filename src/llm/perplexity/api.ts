@@ -50,6 +50,7 @@ export const streamChatCompletion = async (
       });
       return;
     }
+    console.log('modelKey', modelKey);
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
@@ -71,6 +72,7 @@ export const streamChatCompletion = async (
         stream: true
       })
     });
+    console.log('response', response);
 
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
@@ -106,7 +108,7 @@ export const streamChatCompletion = async (
                 .replace(/^[#*]+\s*/gm, '') // Remove markdown headers and asterisks
                 .replace(/\n{3,}/g, '\n\n') // Replace multiple newlines with double newlines
                 .trim();
-
+              console.log('content', content);
               if (content) {
                 onChunk({
                   content,

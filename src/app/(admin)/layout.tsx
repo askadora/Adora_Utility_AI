@@ -5,7 +5,7 @@ import AppHeader from "@/layout/AppHeader";
 import AppSidebar from "@/layout/AppSidebar";
 import Backdrop from "@/layout/Backdrop";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminLayout({
@@ -16,6 +16,7 @@ export default function AdminLayout({
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
   const router = useRouter();
   const { user, isLoading } = useAuth();
+  const pathname = usePathname();
 
   useEffect(() => {
     console.log("[Admin Layout Debug] Auth State:", {
@@ -53,6 +54,9 @@ export default function AdminLayout({
     ? "lg:ml-[290px]"
     : "lg:ml-[90px]";
 
+  // Determine if we're in a Living Docs section
+  const isLivingDocs = pathname?.startsWith("/living-docs");
+
   return (
     <div className="min-h-screen">
       {/* 
@@ -89,17 +93,12 @@ export default function AdminLayout({
           - Max-width constraint prevents content from becoming too wide
           - Overflow-x-hidden prevents horizontal scroll issues
         */}
-        <main className="p-4 md:p-6 lg:p-8 max-w-full overflow-x-hidden">
-          {/* 
-            CONTENT WRAPPER - Centered container with max width
-            - Max-w-7xl (1280px) prevents content from becoming too wide on large screens
-            - Mx-auto centers the content horizontally
-            - W-full ensures content takes full available width up to max-width
-            - This creates optimal reading width while maintaining responsiveness
-          */}
-          <div className="max-w-7xl mx-auto w-full">
-            {children}
-          </div>
+        <main className={isLivingDocs ? "p-0 max-w-none h-[calc(100vh-64px)] overflow-hidden" : "p-4 md:p-6 lg:p-8 max-w-full overflow-x-hidden"}>
+          {isLivingDocs ? (
+            <div className="w-full h-full">{children}</div>
+          ) : (
+            <div className="max-w-7xl mx-auto w-full">{children}</div>
+          )}
         </main>
       </div>
     </div>

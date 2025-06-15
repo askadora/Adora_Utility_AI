@@ -263,7 +263,7 @@ export const CompanySwitcher: React.FC<CompanySwitcherProps> = ({
             {/* Footer */}
             <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-800">
               <a 
-                href="/settings?tab=company" 
+                href="/settings?tab=access-permissions&subtab=companies" 
                 className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
                 onClick={closeDropdown}
               >
