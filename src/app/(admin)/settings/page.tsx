@@ -3,18 +3,31 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { useSearchParams } from 'next/navigation';
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabaseClient';
+import UserInfoCard from '@/components/user-profile/UserInfoCard';
+import UserMetaCard from '@/components/user-profile/UserMetaCard';
+import UserAddressCard from '@/components/user-profile/UserAddressCard';
+import { useModal } from '@/hooks/useModal';
+import { Modal } from '@/components/ui/modal';
+import Button from '@/components/ui/button/Button';
+import Input from '@/components/form/input/InputField';
+import Label from '@/components/form/Label';
+import Link from 'next/link';
 
-type SettingsTab = 'general' | 'adoralink' | 'company' | 'ai-models' | 'usage-billing' | 'security' | 'integrations' | 'team';
+type SettingsTab = 'general' | 'profile' | 'adoralink' | 'access-permissions' | 'ai-models' | 'usage-billing' | 'security' | 'integrations' | 'team';
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<SettingsTab>('general');
+  const [accessPermissionsTab, setAccessPermissionsTab] = useState<'team' | 'companies' | 'roles'>('team');
 
   // Handle URL parameters for direct tab navigation
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['general', 'adoralink', 'company', 'ai-models', 'usage-billing', 'security', 'integrations', 'team'].includes(tabParam)) {
+    if (tabParam && ['general', 'profile', 'adoralink', 'access-permissions', 'ai-models', 'usage-billing', 'security', 'integrations', 'team'].includes(tabParam)) {
       setActiveTab(tabParam as SettingsTab);
     }
   }, [searchParams]);
@@ -23,6 +36,117 @@ export default function Settings() {
   const [twoFactor, setTwoFactor] = useState(false);
   const [sessionTimeout, setSessionTimeout] = useState('30');
   const [cuAccordionOpen, setCuAccordionOpen] = useState(false);
+
+  // Profile-related state
+  const { profile, loading: profileLoading, error: profileError } = useUserProfile();
+  const { session } = useAuth();
+  const { isOpen: isProfileModalOpen, openModal: openProfileModal, closeModal: closeProfileModal } = useModal();
+  const [profileFormData, setProfileFormData] = useState({
+    bio: "",
+    city: "",
+    state: "",
+    country: "",
+    zipCode: "",
+    address: "",
+    facebook: "",
+    x: "",
+    linkedin: "",
+    instagram: "",
+  });
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [profileSaveError, setProfileSaveError] = useState<string | null>(null);
+
+  // Initialize profile form data when profile loads
+  useEffect(() => {
+    if (profile) {
+      setProfileFormData({
+        bio: profile.bio || "",
+        city: profile.city || "",
+        state: profile.state || "",
+        country: profile.country || "",
+        zipCode: profile.zipCode || "",
+        address: profile.address || "",
+        facebook: profile.facebook || "",
+        x: profile.x || "",
+        linkedin: profile.linkedin || "",
+        instagram: profile.instagram || "",
+      });
+    }
+  }, [profile]);
+
+  // Profile form handlers
+  const handleProfileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setProfileFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleProfileSave = async () => {
+    try {
+      console.log('Saving profile...');
+      setIsSavingProfile(true);
+      setProfileSaveError(null);
+
+      if (!session?.user) {
+        throw new Error("Please sign in to update your profile");
+      }
+
+      // Format social media URLs
+      const formatUrl = (url: string) => {
+        if (!url) return "";
+        if (url.startsWith('http://') || url.startsWith('https://')) return url;
+        return `https://${url}`;
+      };
+
+      const formattedData = {
+        auth_user_id: session.user.id,
+        bio: profileFormData.bio,
+        city: profileFormData.city,
+        state: profileFormData.state,
+        country: profileFormData.country,
+        zip_code: profileFormData.zipCode,
+        address: profileFormData.address,
+        facebook: formatUrl(profileFormData.facebook),
+        x: formatUrl(profileFormData.x),
+        linkedin: formatUrl(profileFormData.linkedin),
+        instagram: formatUrl(profileFormData.instagram)
+      };
+
+      console.log('Updating profile with data:', formattedData);
+
+      // Call the update_user_profile function
+      const { data, error } = await supabase
+        .rpc('update_user_profile', formattedData);
+
+      if (error) {
+        console.error('Supabase error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw error;
+      }
+
+      console.log('Profile updated successfully:', data);
+      closeProfileModal();
+      // Add a small delay before reloading to ensure the user sees the success state
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (err) {
+      console.error("Error saving profile:", {
+        error: err,
+        message: err instanceof Error ? err.message : "Unknown error",
+        stack: err instanceof Error ? err.stack : undefined
+      });
+      setProfileSaveError(err instanceof Error ? err.message : "Failed to save profile changes. Please check your internet connection and try again.");
+    } finally {
+      setIsSavingProfile(false);
+    }
+  };
 
   // AdoraLink Settings State
   const [adoraLinkActiveTab, setAdoraLinkActiveTab] = useState<'alerts' | 'channels' | 'preferences'>('alerts');
@@ -108,13 +232,13 @@ export default function Settings() {
 
   const tabs = [
     { id: 'general', label: 'General', icon: '⚙️' },
+    { id: 'profile', label: 'Profile', icon: '👤' },
     { id: 'adoralink', label: 'AdoraLink', icon: '🔗' },
-    { id: 'company', label: 'Company Access', icon: '🏢' },
+    { id: 'access-permissions', label: 'Access & Permissions', icon: '🔐' },
     { id: 'ai-models', label: 'AI & Models', icon: '🤖' },
     { id: 'usage-billing', label: 'Usage & Billing', icon: '🔋' },
-    { id: 'security', label: 'Security', icon: '🔐' },
+    { id: 'security', label: 'Security', icon: '🔒' },
     { id: 'integrations', label: 'Integrations', icon: '🔌' },
-    { id: 'team', label: 'Team', icon: '👥' },
   ];
 
   const renderTabContent = () => {
@@ -224,6 +348,297 @@ export default function Settings() {
                 </select>
               </div>
             </div>
+          </div>
+        );
+
+      case 'profile':
+        if (profileLoading) {
+          return (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-lg text-gray-600 dark:text-gray-400">Loading profile...</div>
+            </div>
+          );
+        }
+
+        if (profileError) {
+          return (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-lg text-red-600 dark:text-red-400">Error: {profileError}</div>
+            </div>
+          );
+        }
+
+        if (!profile) {
+          return (
+            <div className="flex flex-col items-center justify-center min-h-[600px] px-4 py-12 bg-gradient-to-br from-sky-50 to-white dark:from-gray-900 dark:to-gray-800">
+              <div className="w-full max-w-md text-center space-y-6">
+                <div className="relative w-24 h-24 mx-auto mb-4">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 animate-pulse"></div>
+                  <div className="absolute inset-2 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
+                    <svg className="w-12 h-12 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                </div>
+                
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Welcome to Your Profile
+                </h2>
+                
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                  Sign in to access your personalized profile and manage your account settings.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                  <Link
+                    href="/auth/signin"
+                    className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-sky-600 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-sky-600 bg-white border border-sky-600 rounded-lg hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors dark:bg-gray-800 dark:text-sky-400 dark:border-sky-500 dark:hover:bg-gray-700"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+                
+                <div className="pt-8">
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                        Or continue with
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6">
+                    <button
+                      onClick={() => window.location.href = '/auth/signin?provider=google'}
+                      className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-base font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors"
+                    >
+                      <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      </svg>
+                      Continue with Google
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <div className="space-y-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                  Profile Settings
+                </h3>
+                <button
+                  onClick={openProfileModal}
+                  className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 hover:text-gray-800 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-gray-200"
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M15.0911 2.78206C14.2125 1.90338 12.7878 1.90338 11.9092 2.78206L4.57524 10.116C4.26682 10.4244 4.0547 10.8158 3.96468 11.2426L3.31231 14.3352C3.25997 14.5833 3.33653 14.841 3.51583 15.0203C3.69512 15.1996 3.95286 15.2761 4.20096 15.2238L7.29355 14.5714C7.72031 14.4814 8.11172 14.2693 8.42013 13.9609L15.7541 6.62695C16.6327 5.74827 16.6327 4.32365 15.7541 3.44497L15.0911 2.78206ZM12.9698 3.84272C13.2627 3.54982 13.7376 3.54982 14.0305 3.84272L14.6934 4.50563C14.9863 4.79852 14.9863 5.2734 14.6934 5.56629L14.044 6.21573L12.3204 4.49215L12.9698 3.84272ZM11.2597 5.55281L5.6359 11.1766C5.53309 11.2794 5.46238 11.4099 5.43238 11.5522L5.01758 13.5185L6.98394 13.1037C7.1262 13.0737 7.25666 13.003 7.35947 12.9002L12.9833 7.27639L11.2597 5.55281Z"
+                      fill=""
+                    />
+                  </svg>
+                  Edit Profile
+                </button>
+              </div>
+              
+              <div className="space-y-6">
+                <UserMetaCard />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <UserInfoCard />
+                  <UserAddressCard />
+                </div>
+              </div>
+            </div>
+
+            {/* Profile Edit Modal */}
+            <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal} className="max-w-[700px] m-4">
+              <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
+                <div className="px-2 pr-14">
+                  <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                    Edit Profile Information
+                  </h4>
+                  <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+                    Update your details to keep your profile up-to-date.
+                  </p>
+                </div>
+                <form className="flex flex-col">
+                  <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
+                    <div>
+                      <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                        Social Links
+                      </h5>
+
+                      <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                        <div>
+                          <Label>Facebook</Label>
+                          <Input
+                            type="text"
+                            name="facebook"
+                            value={profileFormData.facebook}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+
+                        <div>
+                          <Label>X.com</Label>
+                          <Input
+                            type="text"
+                            name="x"
+                            value={profileFormData.x}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+
+                        <div>
+                          <Label>Linkedin</Label>
+                          <Input
+                            type="text"
+                            name="linkedin"
+                            value={profileFormData.linkedin}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+
+                        <div>
+                          <Label>Instagram</Label>
+                          <Input
+                            type="text"
+                            name="instagram"
+                            value={profileFormData.instagram}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-7">
+                      <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                        Personal Information
+                      </h5>
+
+                      <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>Email Address</Label>
+                          <div className="flex h-11 w-full items-center rounded-lg border border-gray-300 bg-gray-300 px-4 text-sm font-medium text-gray-600 dark:border-gray-500 dark:bg-gray-600 dark:text-gray-300">
+                            {profile.email}
+                          </div>
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>Bio</Label>
+                          <Input
+                            type="text"
+                            name="bio"
+                            value={profileFormData.bio}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-7">
+                      <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                        Address Information
+                      </h5>
+
+                      <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                        <div className="col-span-2">
+                          <Label>Street Address</Label>
+                          <Input
+                            type="text"
+                            name="address"
+                            value={profileFormData.address}
+                            onChange={handleProfileInputChange}
+                            placeholder="Enter your street address"
+                          />
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>City</Label>
+                          <Input
+                            type="text"
+                            name="city"
+                            value={profileFormData.city}
+                            onChange={handleProfileInputChange}
+                            placeholder="Enter your city"
+                          />
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>State</Label>
+                          <Input
+                            type="text"
+                            name="state"
+                            value={profileFormData.state}
+                            onChange={handleProfileInputChange}
+                            placeholder="Enter your state"
+                          />
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>Zip Code</Label>
+                          <Input
+                            type="text"
+                            name="zipCode"
+                            value={profileFormData.zipCode}
+                            onChange={handleProfileInputChange}
+                            placeholder="Enter your zip code"
+                          />
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>Country</Label>
+                          <Input
+                            type="text"
+                            name="country"
+                            value={profileFormData.country}
+                            onChange={handleProfileInputChange}
+                            placeholder="Enter your country"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
+                    <Button size="sm" variant="outline" onClick={closeProfileModal} disabled={isSavingProfile}>
+                      Close
+                    </Button>
+                    <Button size="sm" onClick={handleProfileSave} disabled={isSavingProfile}>
+                      {isSavingProfile ? 'Saving...' : 'Save Changes'}
+                    </Button>
+                  </div>
+                  {profileSaveError && (
+                    <div className="mt-4 px-2 text-sm text-red-600 dark:text-red-400">
+                      {profileSaveError}
+                    </div>
+                  )}
+                </form>
+              </div>
+            </Modal>
           </div>
         );
 
@@ -440,52 +855,155 @@ export default function Settings() {
           </div>
         );
 
-      case 'company':
+      case 'access-permissions':
         return (
           <div className="space-y-8">
-            {/* Company Management */}
+            {/* Access & Permissions Management */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-sm">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Company Access Management</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">Manage which companies you have access to and your role within each organization.</p>
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">Access & Permissions Management</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">Manage team members, roles, and company access in one place.</p>
               
-              {/* Current Companies */}
-              <div className="space-y-4">
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white">Your Companies</h4>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Adora AI', role: 'Admin', color: '#6366F1' },
-                    { name: 'Law Firm Demo', role: 'Manager', color: '#1F2937' },
-                    { name: 'Financial Firm Demo', role: 'Admin', color: '#059669' },
-                  ].map((company, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-                          style={{ backgroundColor: company.color }}
-                        >
-                          {company.name.split(' ').map(word => word[0]).join('').slice(0, 2)}
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">{company.name}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">{company.role}</p>
-                        </div>
-                      </div>
-                      <button className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 text-sm font-medium">
-                        Manage
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              {/* Sub Navigation */}
+              <div className="flex space-x-1 mb-6">
+                {[
+                  { key: 'team', label: 'Team Members' },
+                  { key: 'companies', label: 'Company Access' },
+                  { key: 'roles', label: 'Role Management' }
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setAccessPermissionsTab(tab.key as any)}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                      accessPermissionsTab === tab.key
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
               </div>
 
-              {/* Request Access */}
-              <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Request Company Access</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Need access to a new company? Request access from an administrator.</p>
-                <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-                  Request Access
-                </button>
-              </div>
+              {/* Team Members Tab */}
+              {accessPermissionsTab === 'team' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white">Team Members</h4>
+                    <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                      Invite Member
+                    </button>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { name: 'John Doe', email: 'john@adoraai.com', role: 'Admin', avatar: 'JD' },
+                      { name: 'Sarah Smith', email: 'sarah@adoraai.com', role: 'Manager', avatar: 'SS' },
+                      { name: 'Mike Johnson', email: 'mike@adoraai.com', role: 'View Only User', avatar: 'MJ' },
+                    ].map((member, index) => (
+                      <div key={index} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-medium">
+                            {member.avatar}
+                          </div>
+                          <div>
+                            <h5 className="font-medium text-gray-900 dark:text-white">{member.name}</h5>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{member.email}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{member.role}</span>
+                          <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Company Access Tab */}
+              {accessPermissionsTab === 'companies' && (
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white">Your Companies</h4>
+                    <div className="space-y-3">
+                      {[
+                        { name: 'Adora AI', role: 'Admin', color: '#6366F1' },
+                        { name: 'Law Firm Demo', role: 'Manager', color: '#1F2937' },
+                        { name: 'Financial Firm Demo', role: 'Admin', color: '#059669' },
+                      ].map((company, index) => (
+                        <div key={index} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <div 
+                              className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
+                              style={{ backgroundColor: company.color }}
+                            >
+                              {company.name.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900 dark:text-white">{company.name}</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">{company.role}</p>
+                            </div>
+                          </div>
+                          <button className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 text-sm font-medium">
+                            Manage
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Request Company Access</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Need access to a new company? Request access from an administrator.</p>
+                    <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                      Request Access
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Role Management Tab */}
+              {accessPermissionsTab === 'roles' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-medium text-gray-900 dark:text-white">Role Definitions</h4>
+                    <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                      Create Role
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      { name: 'Admin', description: 'Full access to all features and settings', permissions: ['All permissions'] },
+                      { name: 'Manager', description: 'Can manage team members and access', permissions: ['Invite members', 'Assign roles', 'View analytics'] },
+                      { name: 'View Only User', description: 'Can view but not modify settings', permissions: ['View settings', 'View analytics'] },
+                    ].map((role, index) => (
+                      <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="flex items-center justify-between mb-3">
+                          <div>
+                            <h5 className="font-medium text-gray-900 dark:text-white">{role.name}</h5>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{role.description}</p>
+                          </div>
+                          <button className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 text-sm font-medium">
+                            Edit
+                          </button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {role.permissions.map((permission, pIndex) => (
+                            <span key={pIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full">
+                              {permission}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -909,6 +1427,107 @@ export default function Settings() {
                   >
                     Update Payment Method
                   </button>
+                </div>
+              </div>
+
+              {/* Invoice Section */}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-8">
+                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Current Invoice</h4>
+                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6">
+                  {/* Invoice Header */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <h5 className="text-base font-medium text-gray-900 dark:text-white mb-2">From</h5>
+                      <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                        <p className="font-medium text-gray-800 dark:text-white/90">Adora AI</p>
+                        <p>1280, Clair Street</p>
+                        <p>Massachusetts, New York - 02543</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="text-base font-medium text-gray-900 dark:text-white mb-2">To</h5>
+                      <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                        <p className="font-medium text-gray-800 dark:text-white/90">Albert Ward</p>
+                        <p>355, Shobe Lane</p>
+                        <p>Colorado, Fort Collins - 80543</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Invoice Dates */}
+                  <div className="flex flex-col gap-2 mb-6 sm:flex-row sm:gap-8">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">Issued On:</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">11 March, 2027</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">Due On:</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">16 March, 2027</span>
+                    </div>
+                  </div>
+
+                  {/* Invoice Table */}
+                  <div className="overflow-x-auto mb-6">
+                    <table className="w-full min-w-[500px]">
+                      <thead>
+                        <tr className="border-b border-gray-200 dark:border-gray-600">
+                          <th className="text-left py-3 px-4 text-sm font-medium text-gray-900 dark:text-white">Product</th>
+                          <th className="text-left py-3 px-4 text-sm font-medium text-gray-900 dark:text-white">Quantity</th>
+                          <th className="text-left py-3 px-4 text-sm font-medium text-gray-900 dark:text-white">Unit Cost</th>
+                          <th className="text-left py-3 px-4 text-sm font-medium text-gray-900 dark:text-white">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-gray-100 dark:border-gray-700">
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90">PRO Plan</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">1</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">$200</td>
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90 font-medium">$200</td>
+                        </tr>
+                        <tr className="border-b border-gray-100 dark:border-gray-700">
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90">Pro Boost Add-on</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">2</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">$75</td>
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90 font-medium">$150</td>
+                        </tr>
+                        <tr className="border-b border-gray-100 dark:border-gray-700">
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90">Fun Pack Add-on</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">1</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">$15</td>
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90 font-medium">$15</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Invoice Totals */}
+                  <div className="flex flex-col gap-2 items-end mb-6">
+                    <div className="flex justify-between w-full max-w-xs gap-8">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Sub Total:</span>
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$365</span>
+                    </div>
+                    <div className="flex justify-between w-full max-w-xs gap-8">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">VAT (10%):</span>
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$36.50</span>
+                    </div>
+                    <div className="flex justify-between w-full max-w-xs gap-8 pt-2 border-t border-gray-200 dark:border-gray-600">
+                      <span className="text-base font-semibold text-gray-800 dark:text-white/90">Total:</span>
+                      <span className="text-base font-semibold text-gray-800 dark:text-white/90">$401.50</span>
+                    </div>
+                  </div>
+
+                  {/* Invoice Actions */}
+                  <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                    <button className="flex items-center justify-center px-6 py-3 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                      Download PDF
+                    </button>
+                    <button className="flex items-center justify-center px-6 py-3 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                      Print Invoice
+                    </button>
+                    <button className="flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      Email Invoice
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
