@@ -89,15 +89,26 @@ export default function LivingDocsPage() {
           U
         </button>
         {/* Insert buttons (mock) */}
-        <button className="ml-4 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Image">
+        <button className="ml-4 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Image (coming soon)">
           <span role="img" aria-label="Insert Image">🖼️</span>
         </button>
-        <button className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Table">
+        <button className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Table (coming soon)">
           <span role="img" aria-label="Insert Table">📊</span>
         </button>
-        <button className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Shape">
+        <button className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800" title="Insert Shape (coming soon)">
           <span role="img" aria-label="Insert Shape">⬛</span>
         </button>
+        {/* Formatting dropdown placeholder */}
+        <select
+          className="ml-4 rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+          title="Formatting options (coming soon)"
+        >
+          <option>Classic Doc</option>
+          <option>Legal Formatting</option>
+          <option>Letter formatting</option>
+          <option>Presentation Slide (4:3)</option>
+          <option>Presentation Slide (16:9)</option>
+        </select>
       </div>
       {/* Full-viewport editable area */}
       <div className="flex-1 flex flex-col pt-24 pb-8 px-8 bg-gray-100 dark:bg-gray-900">
