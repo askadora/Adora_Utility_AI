@@ -340,46 +340,81 @@ export default function MultiChat() {
           .slice()
           .reverse()
           .find(msg => msg.role === 'assistant');
-        
         if (lastAssistantMessage) {
           const modelName = availableModels.find(m => m.id === modelId)?.name || modelId;
           modelResponses[modelName] = lastAssistantMessage.content;
         }
       });
+      console.log('[SYNTH] modelResponses:', modelResponses);
 
-      // Simulate our fine-tuned synthesis model processing
-      await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 2000));
+      // Build the synthesis prompt
+      const systemPrompt = `
+        You are an expert synthesis engine. Your job is to:
+        - Combine insights from all provided AI model responses
+        - Eliminate redundant information
+        - Preserve unique perspectives from each AI
+        - Highlight dissent where AI models disagree
+        - Create one superior, comprehensive response
 
-      // Create a synthesized response that combines unique insights
-      const synthesized = `## 🧠 Synthesized Multi-Model Response
+        Format the response using ONLY bold text for section titles and bullet points (•) for lists. Do NOT use any markdown headings (#, ##, ###, etc.) or asterisks (*). Example:
 
-**Consolidating insights from ${Object.keys(modelResponses).length} AI models:**
+        **Section Title**
+        • First point
+        • Second point
 
-### 🎯 **Core Consensus**
-All models agree on the fundamental approach and main concepts. The shared understanding emphasizes the importance of structured thinking and comprehensive analysis.
+        Respond in this style for all sections.
+        `.trim();
 
-### 💎 **Unique Insights by Model**
+      const userPrompt = `\nHere are the responses from different AI models:\n\n${Object.entries(modelResponses).map(([model, response]) => `### ${model}\n${response}`).join('\n\n')}`.trim();
 
-${Object.entries(modelResponses).map(([model, response]) => {
-  // Extract unique portions (simplified simulation)
-  const uniquePart = response.split('.')[0] + '...';
-  return `**${model}**: ${uniquePart}`;
-}).join('\n\n')}
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ];
+      console.log('[SYNTH] messages:', messages);
 
-### ⚡ **Synthesized Recommendation**
-Based on the collective intelligence of multiple AI systems, the optimal approach combines:
+      // Call /api/chat
+      const options = {
+        model: 'chatgpt',
+        version: 'gpt-4.1-nano',
+        temperature: 0.7,
+        maxTokens: 1000
+      };
+      console.log('[SYNTH] options:', options);
 
-1. **Structured Analysis** - Apply systematic thinking to break down complex problems
-2. **Multiple Perspectives** - Consider various viewpoints before reaching conclusions  
-3. **Practical Implementation** - Focus on actionable steps and real-world applicability
-4. **Continuous Validation** - Cross-verify insights against different knowledge bases
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, options })
+      });
+      console.log('[SYNTH] response.ok:', response.ok);
 
-### 🔮 **Meta-Insight**
-The convergence of multiple AI models suggests high confidence in this synthesized approach. Areas where models diverged have been noted as opportunities for further exploration.
+      if (!response.ok) throw new Error('Failed to get synthesized response');
 
----
-*This response was synthesized from ${Object.keys(modelResponses).length} AI models using Adora AI's proprietary synthesis engine.*`;
-
+      // Read the streamed response
+      let synthesized = '';
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n').filter(Boolean);
+          for (const line of lines) {
+            try {
+              const data = JSON.parse(line);
+              if (data.content) {
+                synthesized += data.content;
+                console.log('[SYNTH] chunk:', data.content);
+              }
+            } catch (err) {
+              console.log('[SYNTH] JSON parse error:', err, line);
+            }
+          }
+        }
+      }
+      console.log('[SYNTH] synthesized:', synthesized);
       setSynthesizedResponse(synthesized);
 
     } catch (error) {
