@@ -16,13 +16,15 @@ function AuthCallbackForm() {
         // Check for OTP verification first
         const type = searchParams.get('type');
         const token = searchParams.get('token');
+        const email = searchParams.get('email');
 
         if (type && token) {
           console.log('Handling OTP verification:', { type, token });
           
           // Handle OTP verification
           const { error: otpError } = await supabase.auth.verifyOtp({
-            token_hash: token,
+            email: email || '',
+            token: token,
             type: type as any
           });
 
