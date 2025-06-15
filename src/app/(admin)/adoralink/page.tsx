@@ -680,7 +680,7 @@ export default function AdoraLinkPage() {
       setSelectedConversation(conversationParam);
       // Clean up URL
       window.history.replaceState({}, '', '/adoralink');
-    } else if (viewParam && ['inbox', 'live', 'recent', 'analytics', 'calendar'].includes(viewParam)) {
+    } else if (viewParam && ['inbox', 'live', 'recent', 'analytics', 'calendar', 'tasks'].includes(viewParam)) {
       console.log('Setting view from URL:', viewParam);
       setCurrentView(viewParam as SideRailView);
       // Clean up URL
@@ -1422,132 +1422,6 @@ export default function AdoraLinkPage() {
                         CRM ID: {selectedContactData.crmId}
                       </p>
                     )}
-                  </div>
-                </div>
-              ) : currentView === 'tasks' ? (
-                <div className="p-6 space-y-6 overflow-y-auto">
-                  {/* Task Integration Overview */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Unified Task Management
-                    </h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* From Messages */}
-                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                            <span className="text-sm">📥</span>
-                          </div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">From Messages</h4>
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          Create tasks directly from conversations and notifications
-                        </p>
-                        <div className="space-y-2">
-                          <div className="text-xs text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-900/30 p-2 rounded">
-                            "Follow up on security breach" → Task created
-                          </div>
-                          <div className="text-xs text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-900/30 p-2 rounded">
-                            "Schedule budget review" → Task + Calendar event
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* To Calendar */}
-                      <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                            <span className="text-sm">📅</span>
-                          </div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">To Calendar</h4>
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          Convert tasks into scheduled meetings and time blocks
-                        </p>
-                        <div className="space-y-2">
-                          <div className="text-xs text-green-700 dark:text-green-300 bg-white dark:bg-green-900/30 p-2 rounded">
-                            Task: "Security Review" → Meeting scheduled
-                          </div>
-                          <div className="text-xs text-green-700 dark:text-green-300 bg-white dark:bg-green-900/30 p-2 rounded">
-                            Task: "Database Optimization" → Time blocked
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Sample Connected Tasks */}
-                    <div className="mt-6">
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-4">
-                        Connected Tasks (Demo)
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                            <div>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white">
-                                Investigate Security Breach
-                              </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                From: Brandon Philips message • Meeting: Today 9:00 AM
-                              </p>
-                            </div>
-                          </div>
-                          <span className="px-2 py-1 text-xs bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full">
-                            Urgent
-                          </span>
-                        </div>
-
-                        <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <div>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white">
-                                Database Performance Review
-                              </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                From: System alert • Meeting: Today 11:00 AM
-                              </p>
-                            </div>
-                          </div>
-                          <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full">
-                            High
-                          </span>
-                        </div>
-
-                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                            <div>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white">
-                                Update Team on Progress
-                              </p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                From: Calendar reminder • Meeting: Today 2:00 PM
-                              </p>
-                            </div>
-                          </div>
-                          <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 dark:bg-gray-700/30 dark:text-gray-400 rounded-full">
-                            Normal
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Integration Benefits */}
-                    <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-2">
-                        🚀 Integration Benefits
-                      </h4>
-                      <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                        <li>• Tasks automatically created from urgent messages</li>
-                        <li>• Calendar meetings linked to task completion</li>
-                        <li>• Context preserved across conversations and tasks</li>
-                        <li>• Progress tracking with communication history</li>
-                        <li>• Unified view of all work and communications</li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               ) : currentView === 'analytics' ? (
