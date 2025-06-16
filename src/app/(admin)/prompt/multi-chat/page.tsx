@@ -677,7 +677,7 @@ export default function MultiChat() {
       {showLimitModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* Transparent blurred overlay */}
-          <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
+          <div className="absolute inset-0 bg-black/10"></div>
           <div className="relative bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 max-w-sm w-full text-center border border-gray-200 dark:border-gray-700">
             <div className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
               Model Selection Limit
@@ -1159,7 +1159,8 @@ export default function MultiChat() {
                   </button>
                   
                   <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <span className="font-medium">Combine all responses</span> into one intelligent answer
+                    <span className="font-medium">Combine all responses</span> into one intelligent answer. 
+                    <span className="font-medium">Select atleast 2 models to synthesize.</span>
                     <span className="text-xs text-purple-700 dark:text-purple-300 ml-2">Synthesizes used: {synthesizeUsage}/{SYNTHESIZE_LIMIT}</span>
                   </div>
                 </div>
