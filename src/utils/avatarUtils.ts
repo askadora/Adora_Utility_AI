@@ -17,7 +17,7 @@ export const getSignedUrl = async (userId: string, filePath: string) => {
   const { data, error } = await supabase.storage
     .from('user-profile-image')
     .createSignedUrl(`${userId}/${filePath}`, 3600);
-
+  console.log('error', error);
   if (error) {
     if (error.message.includes('not found') || error.message.includes('expired')) {
       await clearAvatarUrl();
@@ -41,7 +41,7 @@ export const uploadImage = async (file: File, userId: string) => {
     });
 
   if (uploadError) throw uploadError;
-  return filePath;
+  return fileName;
 };
 
 export const refreshAvatarUrl = async (avatarUrl: string | null, userId: string) => {
