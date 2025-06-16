@@ -52,6 +52,7 @@ export default function Settings() {
     x: "",
     linkedin: "",
     instagram: "",
+    phone: "",
   });
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [profileSaveError, setProfileSaveError] = useState<string | null>(null);
@@ -70,6 +71,7 @@ export default function Settings() {
         x: profile.x || "",
         linkedin: profile.linkedin || "",
         instagram: profile.instagram || "",
+        phone: profile.phone || "",
       });
     }
   }, [profile]);
@@ -111,7 +113,8 @@ export default function Settings() {
         facebook: formatUrl(profileFormData.facebook),
         x: formatUrl(profileFormData.x),
         linkedin: formatUrl(profileFormData.linkedin),
-        instagram: formatUrl(profileFormData.instagram)
+        instagram: formatUrl(profileFormData.instagram),
+        phone: profileFormData.phone
       };
 
       console.log('Updating profile with data:', formattedData);
@@ -554,6 +557,16 @@ export default function Settings() {
                             type="text"
                             name="bio"
                             value={profileFormData.bio}
+                            onChange={handleProfileInputChange}
+                          />
+                        </div>
+
+                        <div className="col-span-2 lg:col-span-1">
+                          <Label>Phone</Label>
+                          <Input
+                            type="text"
+                            name="phone"
+                            value={profileFormData.phone}
                             onChange={handleProfileInputChange}
                           />
                         </div>
