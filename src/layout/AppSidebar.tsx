@@ -442,6 +442,11 @@ const AppSidebar: React.FC = () => {
       const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : menuType === "company" ? companyItems : menuType === "usecases" ? useCaseItems : dashboardExampleItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
+          // Special case: keep Living Docs open for any /living-docs route
+          if (nav.name === "Living Docs" && pathname.startsWith("/living-docs")) {
+            setOpenSubmenu({ type: menuType as "main" | "others" | "company" | "usecases" | "dashboards", index });
+            submenuMatched = true;
+          }
           // Check both direct subItems and nested subItems
           const hasMatch = nav.subItems.some(subItem => {
             if (isActive(subItem.path)) return true;
