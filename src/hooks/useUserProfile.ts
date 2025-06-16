@@ -9,6 +9,7 @@ interface UserProfile {
   bio: string;
   image: string;
   email: string;
+  phone: string;
   address: string;
   city: string;
   state: string;
