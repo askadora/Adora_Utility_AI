@@ -78,6 +78,7 @@ export default function UserMetaCard() {
 
       // Upload image and get file path
       const filePath = await uploadImage(file, session.user.id);
+      console.log('filePath', filePath);
 
       // Get signed URL
       const signedUrl = await getSignedUrl(session.user.id, filePath);
