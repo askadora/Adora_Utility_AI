@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-import { UNIFIED_MODELS, Model, UnifiedMessage, UnifiedChatOptions } from '@/llm/unified-models';
+import { UNIFIED_MODELS, getModelKey, type Model, type ModelVersion, type UnifiedMessage, type UnifiedChatOptions } from '@/llm/unified-models';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -58,27 +58,66 @@ const preprocessMarkdown = (content: string): string => {
   return processed;
 };
 
+// Add StatusIndicator component
+const StatusIndicator = ({ available }: { available: boolean }) => {
+  if (available) {
+    return (
+      <span className="inline-flex items-center ml-2">
+        <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
+        <span className="text-xs text-green-600 ml-1">Live Testing</span>
+      </span>
+    );
+  }
+  
+  return (
+    <span className="inline-flex items-center ml-2">
+      <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-1"></span>
+      <span className="text-xs text-red-600">Paid Access</span>
+    </span>
+  );
+};
+
+// Helper function to get models with available versions
+const getModelsWithAvailableVersions = () => {
+  return UNIFIED_MODELS.filter(model => 
+    model.versions.some(version => version.available === true)
+  );
+};
+
+// Helper function to get first available version for a model
+const getFirstAvailableVersion = (modelId: string): string => {
+  const model = UNIFIED_MODELS.find(m => m.id === modelId);
+  if (!model) return '';
+  
+  const availableVersion = model.versions.find(v => v.available === true);
+  return availableVersion ? availableVersion.id : model.versions[0]?.id || '';
+};
+
 export default function MultiChat() {
   const [input, setInput] = useState('');
-  const [selectedModels, setSelectedModels] = useState<string[]>(['chatgpt', 'claude', 'gemini', 'grok']);
-  const [modelVersions, setModelVersions] = useState<{ [key: string]: string }>({
-    chatgpt: 'gpt-4',
-    claude: 'claude-3.7',
-    gemini: 'gemini-2.5-pro',
-    grok: 'grok-3-mini',
-    perplexity: 'perplexity-latest',
-    mistral: 'mistral-large',
-    deepseek: 'deepseek-v3',
-    qwen: 'qwen-2.5-72b',
-    llama: 'llama-3.1-70b',
-    phi: 'phi-3.5-mini',
-  });
+  
+  // Get only models that have at least one available version
+  const availableModels = getModelsWithAvailableVersions();
+  const defaultSelectedModels = availableModels.slice(0, 4).map(model => model.id);
+  
+  // Create default model versions object with first available version for each model
+  const createDefaultModelVersions = () => {
+    const defaultVersions: { [key: string]: string } = {};
+    UNIFIED_MODELS.forEach(model => {
+      defaultVersions[model.id] = getFirstAvailableVersion(model.id);
+    });
+    return defaultVersions;
+  };
+  
+  const [selectedModels, setSelectedModels] = useState<string[]>(defaultSelectedModels);
+  const [modelVersions, setModelVersions] = useState<{ [key: string]: string }>(createDefaultModelVersions());
   const [conversations, setConversations] = useState<{ [key: string]: ModelConversation }>({});
   const [expandedModel, setExpandedModel] = useState<string | null>(null);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [synthesizedResponse, setSynthesizedResponse] = useState<string | null>(null);
   const messagesEndRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
   const { session } = useAuth();
   const [llmUsage, setLlmUsage] = useState<number>(0);
   const LLM_PROMPT_LIMIT = process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT ? parseInt(process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT) : 20;
@@ -905,8 +944,11 @@ export default function MultiChat() {
                             </option>
                           ))}
                         </select>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                          {model?.description}
+                        <div className="flex items-center">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {model?.description}
+                          </div>
+                          <StatusIndicator available={model?.versions.find(v => v.id === modelVersions[modelId])?.available ?? false} />
                         </div>
                       </div>
                     </div>

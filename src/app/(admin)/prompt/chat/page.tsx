@@ -63,6 +63,27 @@ const preprocessMarkdown = (content: string): string => {
   return processed;
 };
 
+// Add StatusIndicator component
+const StatusIndicator = ({ available }: { available: boolean }) => {
+  if (available) {
+    return (
+      <span className="inline-flex items-center ml-2">
+        <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
+        <span className="text-xs text-green-600 ml-1">Live Testing</span>
+      </span>
+    );
+  }
+  
+  return (
+    <span className="inline-flex items-center ml-2">
+      <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-1"></span>
+      <span className="text-xs text-red-600">Paid Access</span>
+    </span>
+  );
+};
+
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -516,7 +537,10 @@ export default function Chat() {
                               }`}
                             >
                               <div className="flex-1 text-left">
-                                <div className="font-medium text-gray-900 dark:text-white">{version.name}</div>
+                                <div className="flex items-center">
+                                  <div className="font-medium text-gray-900 dark:text-white">{version.name}</div>
+                                  <StatusIndicator available={version.available ?? false} />
+                                </div>
                                 <div className="text-gray-500 dark:text-gray-400">{version.description}</div>
                               </div>
                               {selectedModels[model.id] === version.id && (
