@@ -84,6 +84,8 @@ export default function MultiChat() {
   const LLM_PROMPT_LIMIT = process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT ? parseInt(process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT) : 20;
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [allowedModels, setAllowedModels] = useState(0);
+  const [synthesizeUsage, setSynthesizeUsage] = useState<number>(0);
+  const SYNTHESIZE_LIMIT = process.env.NEXT_PUBLIC_SYNTHESIZE_LIMIT ? parseInt(process.env.NEXT_PUBLIC_SYNTHESIZE_LIMIT) : 3;
 
   // Initialize conversations for selected models
   useEffect(() => {
@@ -103,14 +105,19 @@ export default function MultiChat() {
   }, [selectedModels]);
 
   useEffect(() => {
-    async function fetchLlmUsage() {
+    async function fetchUsage() {
       if (!session?.user) return;
       const { data, error } = await supabase.rpc('get_llm_usage', { uid: session.user.id });
-      if (data && data[0] && data[0].llm_usage !== undefined && data[0].llm_usage !== null) {
-        setLlmUsage(data[0].llm_usage);
+      if (data && data[0]) {
+        if (data[0].llm_usage !== undefined && data[0].llm_usage !== null) {
+          setLlmUsage(data[0].llm_usage);
+        }
+        if (data[0].synthesize_usage !== undefined && data[0].synthesize_usage !== null) {
+          setSynthesizeUsage(data[0].synthesize_usage);
+        }
       }
     }
-    fetchLlmUsage();
+    fetchUsage();
   }, [session]);
 
   const scrollToBottom = (modelId: string) => {
@@ -319,6 +326,12 @@ export default function MultiChat() {
   };
 
   const handleSynthesize = async () => {
+    // Check synthesize usage limit
+    if (synthesizeUsage >= SYNTHESIZE_LIMIT) {
+      alert(`You have reached the synthesize limit of ${SYNTHESIZE_LIMIT} per user.`);
+      return;
+    }
+
     // Check if we have responses from multiple models
     const conversationsWithResponses = selectedModels.filter(modelId => 
       conversations[modelId]?.messages.some(msg => msg.role === 'assistant')
@@ -340,47 +353,90 @@ export default function MultiChat() {
           .slice()
           .reverse()
           .find(msg => msg.role === 'assistant');
-        
         if (lastAssistantMessage) {
           const modelName = availableModels.find(m => m.id === modelId)?.name || modelId;
           modelResponses[modelName] = lastAssistantMessage.content;
         }
       });
+      console.log('[SYNTH] modelResponses:', modelResponses);
 
-      // Simulate our fine-tuned synthesis model processing
-      await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 2000));
+      // Build the synthesis prompt
+      const systemPrompt = `
+        You are an expert synthesis engine. Your job is to:
+        - Combine insights from all provided AI model responses
+        - Eliminate redundant information
+        - Preserve unique perspectives from each AI
+        - Highlight dissent where AI models disagree
+        - Create one superior, comprehensive response
 
-      // Create a synthesized response that combines unique insights
-      const synthesized = `## 🧠 Synthesized Multi-Model Response
+        Format the response using ONLY bold text for section titles and bullet points (•) for lists. Do NOT use any markdown headings (#, ##, ###, etc.) or asterisks (*). Example:
 
-**Consolidating insights from ${Object.keys(modelResponses).length} AI models:**
+        **Section Title**
+        • First point
+        • Second point
 
-### 🎯 **Core Consensus**
-All models agree on the fundamental approach and main concepts. The shared understanding emphasizes the importance of structured thinking and comprehensive analysis.
+        Respond in this style for all sections.
+        `.trim();
 
-### 💎 **Unique Insights by Model**
+      const userPrompt = `\nHere are the responses from different AI models:\n\n${Object.entries(modelResponses).map(([model, response]) => `### ${model}\n${response}`).join('\n\n')}`.trim();
 
-${Object.entries(modelResponses).map(([model, response]) => {
-  // Extract unique portions (simplified simulation)
-  const uniquePart = response.split('.')[0] + '...';
-  return `**${model}**: ${uniquePart}`;
-}).join('\n\n')}
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ];
+      console.log('[SYNTH] messages:', messages);
 
-### ⚡ **Synthesized Recommendation**
-Based on the collective intelligence of multiple AI systems, the optimal approach combines:
+      // Call /api/chat
+      const options = {
+        model: 'chatgpt',
+        version: 'gpt-4.1-nano',
+        temperature: 0.7,
+        maxTokens: 1000
+      };
+      console.log('[SYNTH] options:', options);
 
-1. **Structured Analysis** - Apply systematic thinking to break down complex problems
-2. **Multiple Perspectives** - Consider various viewpoints before reaching conclusions  
-3. **Practical Implementation** - Focus on actionable steps and real-world applicability
-4. **Continuous Validation** - Cross-verify insights against different knowledge bases
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, options })
+      });
+      console.log('[SYNTH] response.ok:', response.ok);
 
-### 🔮 **Meta-Insight**
-The convergence of multiple AI models suggests high confidence in this synthesized approach. Areas where models diverged have been noted as opportunities for further exploration.
+      if (!response.ok) throw new Error('Failed to get synthesized response');
 
----
-*This response was synthesized from ${Object.keys(modelResponses).length} AI models using Adora AI's proprietary synthesis engine.*`;
-
+      // Read the streamed response
+      let synthesized = '';
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n').filter(Boolean);
+          for (const line of lines) {
+            try {
+              const data = JSON.parse(line);
+              if (data.content) {
+                synthesized += data.content;
+                console.log('[SYNTH] chunk:', data.content);
+              }
+            } catch (err) {
+              console.log('[SYNTH] JSON parse error:', err, line);
+            }
+          }
+        }
+      }
+      console.log('[SYNTH] synthesized:', synthesized);
       setSynthesizedResponse(synthesized);
+
+      // Update synthesize usage after successful synthesize
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('update_synthesize_usage', { uid: session.user.id });
+        if (data && data[0] && data[0].new_usage !== undefined && data[0].new_usage !== null) {
+          setSynthesizeUsage(data[0].new_usage);
+        }
+      }
 
     } catch (error) {
       console.error('Error synthesizing responses:', error);
@@ -681,7 +737,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
         </div>
       </header>
 
-      {/* Synthesized Response Section */}
+      {/** Synthesized Response Section */}
       {synthesizedResponse && (
         <div className="flex-none bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border-b border-purple-200 dark:border-purple-800 p-4">
           <div className="max-w-6xl mx-auto">
@@ -708,7 +764,115 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-purple-200 dark:border-purple-700 p-4 shadow-sm">
               <div className="prose dark:prose-invert max-w-none text-sm">
-                <div className="whitespace-pre-wrap">{synthesizedResponse}</div>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code(props: any) {
+                      const { inline, className, children, ...rest } = props;
+                      const match = /language-(\w+)/.exec(className || '');
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          style={oneDark}
+                          language={match[1]}
+                          PreTag="div"
+                          customStyle={{
+                            borderRadius: '0.5em',
+                            fontSize: '0.95em',
+                            padding: '1em',
+                            margin: '0.5em 0',
+                            background: 'var(--tw-prose-pre-bg, #282c34)'
+                          }}
+                          {...rest}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className={className} {...rest}>
+                          {children}
+                        </code>
+                      );
+                    },
+                    table: ({ children, ...props }) => (
+                      <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                          {children}
+                        </table>
+                      </div>
+                    ),
+                    thead: ({ children, ...props }) => (
+                      <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                        {children}
+                      </thead>
+                    ),
+                    tbody: ({ children, ...props }) => (
+                      <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                        {children}
+                      </tbody>
+                    ),
+                    tr: ({ children, ...props }) => (
+                      <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                        {children}
+                      </tr>
+                    ),
+                    th: ({ children, ...props }) => (
+                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                        {children}
+                      </th>
+                    ),
+                    td: ({ children, ...props }) => (
+                      <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                        {children}
+                      </td>
+                    ),
+                    p: ({ children, ...props }) => (
+                      <p className="my-0.5 leading-relaxed" {...props}>
+                        {children}
+                      </p>
+                    ),
+                    h1: ({ children, ...props }) => (
+                      <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                        {children}
+                      </h1>
+                    ),
+                    h2: ({ children, ...props }) => (
+                      <h2 className="my-0.5 text-xl font-bold" {...props}>
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ children, ...props }) => (
+                      <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                        {children}
+                      </h3>
+                    ),
+                    h4: ({ children, ...props }) => (
+                      <h4 className="my-0.5 text-base font-semibold" {...props}>
+                        {children}
+                      </h4>
+                    ),
+                    ul: ({ children, ...props }) => (
+                      <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                        {children}
+                      </ul>
+                    ),
+                    ol: ({ children, ...props }) => (
+                      <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                        {children}
+                      </ol>
+                    ),
+                    li: ({ children, ...props }) => (
+                      <li className="my-0 leading-relaxed" {...props}>
+                        {children}
+                      </li>
+                    ),
+                    blockquote: ({ children, ...props }) => (
+                      <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                        {children}
+                      </blockquote>
+                    )
+                  }}
+                >
+                  {preprocessMarkdown(synthesizedResponse)}
+                </ReactMarkdown>
               </div>
             </div>
           </div>
@@ -974,7 +1138,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                     onClick={handleSynthesize}
                     disabled={isSynthesizing || selectedModels.filter(modelId => 
                       conversations[modelId]?.messages.some(msg => msg.role === 'assistant')
-                    ).length < 2}
+                    ).length < 2 || synthesizeUsage >= SYNTHESIZE_LIMIT}
                     className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 
                              disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium
                              transition-all duration-200 shadow-sm hover:shadow-md disabled:hover:shadow-sm"
@@ -996,19 +1160,18 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
                   
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-medium">Combine all responses</span> into one intelligent answer
+                    <span className="text-xs text-purple-700 dark:text-purple-300 ml-2">Synthesizes used: {synthesizeUsage}/{SYNTHESIZE_LIMIT}</span>
                   </div>
                 </div>
                 
                 {/* Educational tooltip for when button is disabled */}
-                {selectedModels.filter(modelId => 
-                  conversations[modelId]?.messages.some(msg => msg.role === 'assistant')
-                ).length < 2 && (
-                  <div className="mt-2 text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg border border-amber-200 dark:border-amber-800">
+                {synthesizeUsage >= SYNTHESIZE_LIMIT && (
+                  <div className="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg border border-red-200 dark:border-red-800">
                     <div className="flex items-center gap-2">
                       <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span>Get responses from at least 2 models to unlock synthesis</span>
+                      <span>You have reached your synthesize limit ({SYNTHESIZE_LIMIT}).</span>
                     </div>
                   </div>
                 )}
@@ -1044,7 +1207,7 @@ The convergence of multiple AI models suggests high confidence in this synthesiz
 
       {llmUsage >= LLM_PROMPT_LIMIT && (
         <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
-          You have used up free credits
+          You have used up free prompt credits
         </div>
       )}
     </div>

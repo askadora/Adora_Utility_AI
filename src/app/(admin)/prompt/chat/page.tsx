@@ -891,7 +891,7 @@ export default function Chat() {
         {/* Additional UI Elements */}
         {llmUsage >= 20 && (
           <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
-            You have used up free credits
+            You have used up free prompt credits
           </div>
         )}
       </div>
