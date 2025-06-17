@@ -21,6 +21,17 @@ function SignInForm() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   useEffect(() => {
+    // Sign out any existing session when landing on the sign-in page
+    const checkAndSignOut = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        await supabase.auth.signOut();
+      }
+    };
+    checkAndSignOut();
+  }, []);
+
+  useEffect(() => {
     if (!authLoading && user) {
       router.replace('/');
     }
@@ -99,10 +110,11 @@ function SignInForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         queryParams: {
           prompt: 'select_account'
-        }
+        },
+        skipBrowserRedirect: true
       },
     });
 
