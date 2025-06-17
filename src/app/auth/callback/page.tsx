@@ -13,10 +13,6 @@ function AuthCallbackForm() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-<<<<<<< HEAD
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-=======
         // Check for OTP verification first
         const type = searchParams.get('type');
         const token = searchParams.get('token');
@@ -61,12 +57,10 @@ function AuthCallbackForm() {
           return;
         }
 
->>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
         if (session) {
           const { user } = session;
           
           if (user) {
-<<<<<<< HEAD
             try {
               console.log('Attempting to send welcome email from callback with payload:', {
                 email: user.email,
@@ -95,18 +89,7 @@ function AuthCallbackForm() {
             } catch (emailError) {
               console.error('Error sending welcome email:', emailError);
             }
-          }
-          
-          // Redirect to dashboard after handling email
-          window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`;
-        } else {
-          console.log('No session found in callback');
-          window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/signin?error=no_session`;
-        }
-      } catch (error) {
-        console.error('Error in callback handler:', error);
-        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/signin?error=callback_error`;
-=======
+            
             console.log('User found in session:', user);
             router.push('/');
           }
@@ -117,16 +100,11 @@ function AuthCallbackForm() {
       } catch (error) {
         console.error('Error in callback handler:', error);
         setError(error instanceof Error ? error.message : 'An unexpected error occurred');
->>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
       }
     };
 
     handleCallback();
-<<<<<<< HEAD
-  }, []);
-=======
   }, [router, searchParams]);
->>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
 
   return (
     <div className="flex min-h-screen items-center justify-center">
