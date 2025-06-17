@@ -22,10 +22,12 @@ function UpdatePasswordForm() {
   useEffect(() => {
     const verifyToken = async () => {
       const token = searchParams.get('token');
+      const email = searchParams.get('email');
       console.log('Token from URL:', token); // Debug log
+      console.log('Email from URL:', email); // Debug log
       
-      if (!token) {
-        console.error('No token provided');
+      if (!token || !email) {
+        console.error('No token or email provided');
         setError('Invalid or expired password reset link');
         setIsVerifying(false);
         return;
@@ -34,6 +36,7 @@ function UpdatePasswordForm() {
       try {
         console.log('Verifying token...'); // Debug log
         const { error } = await supabase.auth.verifyOtp({
+          email,
           token_hash: token,
           type: 'recovery'
         });

@@ -38,8 +38,8 @@ function AuthCallbackForm() {
           // After successful OTP verification, redirect based on type
           if (type === 'recovery') {
             console.log('Redirecting to update password page');
-            // Pass the token_hash instead of raw token
-            router.push(`/auth/update-password?token=${token}`);
+            // Pass the token and email to the update-password page
+            router.push(`/auth/update-password?token=${token}&email=${email}`);
           } else if (type === 'email') {
             console.log('Email confirmed, redirecting to signin');
             router.push('/auth/signin?message=email_confirmed');
