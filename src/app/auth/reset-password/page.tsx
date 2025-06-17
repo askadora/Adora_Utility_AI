@@ -1,0 +1,122 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { supabase } from '@/lib/supabaseClient';
+import Image from 'next/image';
+import { getAdorahqUrl } from '@/utils/getBaseUrl';
+
+export default function ResetPassword() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setSuccess(true);
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-sky-100 to-white py-12 px-4 dark:from-gray-800 dark:to-gray-900 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-xl dark:bg-gray-800/50">
+        <div>
+          <Link 
+            href={getAdorahqUrl()} 
+            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors mb-4"
+          >
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to home
+          </Link>
+          <Image
+            className="mx-auto h-12 w-auto"
+            src="/images/logo/adora-ai-logo.png"
+            alt="Adora AI"
+            width={150}
+            height={40}
+          />
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Reset your password
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+            Enter your email address and we'll send you a link to reset your password.
+          </p>
+        </div>
+
+        {error && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {success ? (
+          <div className="rounded-md bg-green-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-green-800">
+                  Password reset link sent! Please check your email.
+                </h3>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-3 px-4 text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-offset-gray-800"
+            >
+              {isLoading ? 'Sending reset link...' : 'Send reset link'}
+            </button>
+          </form>
+        )}
+
+        <div className="text-center text-sm">
+          <p className="text-gray-600 dark:text-gray-400">
+            Remember your password?{' '}
+            <Link href="/auth/signin" className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+} 

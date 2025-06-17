@@ -7,6 +7,10 @@ import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import DocsBotChatBubble from '@/components/DocsBotChatBubble';
 
+import { TimerProvider } from '@/context/TimerContext';
+// import DocsBotWidget from '@/components/investor-dashboard/DocsBotWidget';
+
+
 const outfit = Outfit({
   subsets: ["latin"],
 });
@@ -35,7 +39,9 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider>
             <SidebarProvider>
-              {children}
+              <TimerProvider>
+                {children}
+              </TimerProvider>
             </SidebarProvider>
           </ThemeProvider>
         </AuthProvider>

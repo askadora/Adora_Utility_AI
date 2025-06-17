@@ -6,6 +6,7 @@ export interface Message {
 export interface ChatRequest {
   question: string;
   history: [string, string][]; // Array of [role, content] pairs
+  full_source?: boolean;
 }
 
 export interface ChatResponse {

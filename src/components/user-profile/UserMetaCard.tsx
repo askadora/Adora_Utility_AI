@@ -2,11 +2,30 @@
 import React from "react";
 import Image from "next/image";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import Button from "@/components/ui/button/Button";
+import { useAuth } from "@/contexts/AuthContext";
+import { uploadImage, getSignedUrl, updateAvatarUrl, refreshAvatarUrl } from "@/utils/avatarUtils";
 
 export default function UserMetaCard() {
   const { profile, loading, error } = useUserProfile();
+  const { session } = useAuth();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
+  const [isUploading, setIsUploading] = React.useState(false);
+  const [uploadError, setUploadError] = React.useState<string | null>(null);
+  const [signedImageUrl, setSignedImageUrl] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const refreshSignedUrl = async () => {
+      if (session?.user?.user_metadata?.avatar_url) {
+        const newSignedUrl = await refreshAvatarUrl(session.user.user_metadata.avatar_url, session.user.id);
+        setSignedImageUrl(newSignedUrl);
+      }
+    };
+
+    refreshSignedUrl();
+    const interval = setInterval(refreshSignedUrl, 50 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [session?.user?.user_metadata?.avatar_url]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -20,53 +39,111 @@ export default function UserMetaCard() {
     return <div>No profile data found</div>;
   }
 
-  const imageUrl = "/images/user/blank_image.jpg";
+  const imageUrl = (previewUrl || profile.image || signedImageUrl || "/images/user/blank_image.jpg") === "NULL" 
+    ? "/images/user/blank_image.jpg" 
+    : (previewUrl || profile.image || signedImageUrl || "/images/user/blank_image.jpg");
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    // TODO: Add upload logic here (e.g., upload to Supabase Storage)
-    // Example: uploadProfileImage(file)
-    alert("Selected file: " + file.name);
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/svg+xml'];
+    if (!validTypes.includes(file.type)) {
+      setUploadError('Please select a valid image file (JPEG, PNG, GIF, WebP, BMP, or SVG)');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('Image size should be less than 5MB');
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      setUploadError(null);
+
+      // Show preview
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+
+      if (!session?.user) {
+        throw new Error('Please sign in to upload an image');
+      }
+
+      // Upload image and get file path
+      const filePath = await uploadImage(file, session.user.id);
+      console.log('filePath', filePath);
+
+      // Get signed URL
+      const signedUrl = await getSignedUrl(session.user.id, filePath);
+      if (!signedUrl) throw new Error('Failed to get signed URL');
+
+      // Update user's avatar URL
+      await updateAvatarUrl(signedUrl);
+
+      // Reload the page to show the new image
+      window.location.reload();
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      setUploadError(err instanceof Error ? err.message : 'Failed to upload image');
+      setPreviewUrl(null);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
-          <div className="relative w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-            <Image
-              width={80}
-              height={80}
-              src={imageUrl}
-              alt={`${profile.firstName} ${profile.lastName}`}
-              className="object-cover"
-            />
-            {/* Upload Button Overlay */}
+          <div className="relative flex items-end" style={{ height: 80 }}>
+            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 bg-white">
+              <Image
+                width={80}
+                height={80}
+                src={imageUrl}
+                alt={`${profile.firstName} ${profile.lastName}`}
+                className="object-cover"
+              />
+            </div>
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.svg"
               ref={fileInputRef}
               className="hidden"
               onChange={handleFileChange}
+              disabled={isUploading}
             />
-            <Button
-              size="sm"
-              variant="outline"
-              className="absolute bottom-1 right-1 p-1 rounded-full bg-white/80 hover:bg-white shadow-md"
+            <button
+              type="button"
               onClick={handleUploadClick}
+              disabled={isUploading}
+              className="absolute right-0 bottom-0 translate-x-1/3 translate-y-1/3 w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={isUploading ? "Uploading..." : "Edit profile image"}
             >
-              {/* Camera Icon SVG */}
-              <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                <circle cx="12" cy="13" r="3" />
-              </svg>
-            </Button>
+              {isUploading ? (
+                <svg className="w-4 h-4 text-gray-700 animate-spin" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              )}
+            </button>
           </div>
+          {uploadError && (
+            <div className="text-sm text-red-600 dark:text-red-400 mt-2">
+              {uploadError}
+            </div>
+          )}
           <div className="order-3 xl:order-2">
             <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
               {profile.firstName} {profile.lastName}

@@ -61,6 +61,15 @@ export default function UserInfoCard() {
                 {profile.bio || 'NA'}
               </p>
             </div>
+
+            <div>
+              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                Phone Number
+              </p>
+              <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                {profile.phone || 'NA'}
+              </p>
+            </div>
           </div>
         </div>
       </div>

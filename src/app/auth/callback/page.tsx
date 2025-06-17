@@ -1,21 +1,72 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import { Suspense } from 'react';
 
-export default function AuthCallback() {
+function AuthCallbackForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
+<<<<<<< HEAD
         const { data: { session }, error } = await supabase.auth.getSession();
         
+=======
+        // Check for OTP verification first
+        const type = searchParams.get('type');
+        const token = searchParams.get('token');
+        const email = searchParams.get('email');
+
+        if (type && token) {
+          console.log('Handling OTP verification:', { type, token });
+          
+          // Handle OTP verification
+          const { error: otpError } = await supabase.auth.verifyOtp({
+            email: email || '',
+            token: token,
+            type: type as any
+          });
+
+          if (otpError) {
+            console.error('Error verifying OTP:', otpError);
+            setError(otpError.message);
+            // Show error on page instead of immediate redirect
+            return;
+          }
+
+          // After successful OTP verification, redirect based on type
+          if (type === 'recovery') {
+            console.log('Redirecting to update password page');
+            // Pass the token_hash instead of raw token
+            router.push(`/auth/update-password?token=${token}`);
+          } else if (type === 'email') {
+            console.log('Email confirmed, redirecting to signin');
+            router.push('/auth/signin?message=email_confirmed');
+          }
+          return;
+        }
+
+        // If no OTP, handle regular session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Error getting session:', sessionError);
+          setError(sessionError.message);
+          // Show error on page instead of immediate redirect
+          return;
+        }
+
+>>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
         if (session) {
           const { user } = session;
           
           if (user) {
+<<<<<<< HEAD
             try {
               console.log('Attempting to send welcome email from callback with payload:', {
                 email: user.email,
@@ -55,15 +106,60 @@ export default function AuthCallback() {
       } catch (error) {
         console.error('Error in callback handler:', error);
         window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/signin?error=callback_error`;
+=======
+            console.log('User found in session:', user);
+            router.push('/');
+          }
+        } else {
+          console.log('No session found in callback');
+          setError('No session found. Please try signing in again.');
+        }
+      } catch (error) {
+        console.error('Error in callback handler:', error);
+        setError(error instanceof Error ? error.message : 'An unexpected error occurred');
+>>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
       }
     };
 
     handleCallback();
+<<<<<<< HEAD
   }, []);
+=======
+  }, [router, searchParams]);
+>>>>>>> e5f919d9673cbeb06d3a4fecc689a9b1952eaf61
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p>Completing sign in...</p>
+      <div className="text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+        <p className="mt-4 text-gray-600 dark:text-gray-400">Completing sign in...</p>
+        {error && (
+          <div className="mt-4">
+            <p className="text-sm text-red-600">{error}</p>
+            <button
+              onClick={() => router.push('/auth/signin')}
+              className="mt-2 text-sm text-sky-600 hover:text-sky-500"
+            >
+              Return to sign in
+            </button>
+          </div>
+        )}
+      </div>
     </div>
+  );
+}
+
+export default function AuthCallback() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-sky-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <AuthCallbackForm />
+    </Suspense>
   );
 } 

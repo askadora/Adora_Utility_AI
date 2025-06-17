@@ -21,14 +21,16 @@ export const useDocsBot = (botId: string) => {
     try {
       // Format history as array of arrays [role, content]
       const formattedHistory = messages.map(msg => [msg.role, msg.content] as [string, string]);
+      console.log('Formatted history:', formattedHistory);
       
       const response = await docsBotService.chat({
         question: content,
         history: formattedHistory,
+        full_source: false
       });
 
       if (response.error) {
-        console.error('❌ Error in response:', response.error);
+        console.error('Error in response:', response.error);
         setError(response.error);
       }
 
@@ -36,13 +38,13 @@ export const useDocsBot = (botId: string) => {
         role: 'assistant',
         content: response.answer,
       };
-      console.log('🤖 Assistant response:', { 
+      console.log('Assistant response:', { 
         answer: response.answer,
         sources: response.sources,
       });
       setMessages(prev => [...prev, assistantMessage]);
     } catch (err) {
-      console.error('❌ Error sending message:', err);
+      console.error('Error sending message:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
       const errorMessage: Message = {
         role: 'assistant',
@@ -55,7 +57,7 @@ export const useDocsBot = (botId: string) => {
   };
 
   const clearMessages = () => {
-    console.log('🧹 Clearing messages');
+    console.log('Clearing messages');
     setMessages([]);
     setError(null);
   };

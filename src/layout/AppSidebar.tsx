@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
@@ -17,7 +16,12 @@ import {
   UserCircleIcon,
   PromptIcon,
   SettingsIcon,
+  EyeIcon,
+  FileIcon,
+  FolderIcon,
+  DocsIcon,
 } from "../icons/index";
+import { HomeIcon } from "./icons/index";
 import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
@@ -49,45 +53,72 @@ const IntegrationsIcon = () => (
   </svg>
 );
 
+const LMSIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3Z" fill="currentColor"/>
+    <path d="M5 13.18V17.18C5 19.84 8.24 22 12 22C15.76 22 19 19.84 19 17.18V13.18L12 17L5 13.18Z" fill="currentColor"/>
+  </svg>
+);
+
+const LegalIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3L20 8V21H4V8L12 3Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M9 12H15M9 16H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const FinanceIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
+    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" fill="none"/>
+  </svg>
+);
+
+const DevToolsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M21 12C21 16.97 16.97 21 12 21S3 16.97 3 12S7.03 3 12 3S21 7.03 21 12Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M8 12L10 10M16 10L14 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+
+const RealEstateIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 21H21M5 21V7L12 3L19 7V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M9 12H15V18H9V12Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M9 12V9H15V12" stroke="currentColor" strokeWidth="2" fill="none"/>
+  </svg>
+);
+
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    path: "/dashboard",
+    icon: <HomeIcon />,
+    name: "Home",
+    path: "/",
+  },
+  {
+    icon: <EyeIcon />,
+    name: "Deep Focus",
+    path: "/focus",
+  },
+  {
+    name: "AdoraLink",
+    icon: <PlugInIcon />,
+    path: "/adoralink",
   },
   {
     icon: <PromptIcon />,
     name: "Prompt",
     subItems: [
-      { name: "Chat", path: "/prompt/chat", pro: false },
+      { name: "Focused Chat", path: "/prompt/chat", pro: false },
+      { name: "Synthesize", path: "/prompt/multi-chat", pro: false },
       { name: "Create Prompt", path: "/prompt/create", pro: false },
       { name: "My Prompts", path: "/prompt/list", pro: false },
       { name: "Prompt Library", path: "/prompt/library", pro: false },
     ],
   },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    name: "Chat",
-    icon: <ListIcon />,
-    path: "/chat",
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Email",
-    path: "/email/inbox",
-  },
-  {
-    name: "Task",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "List", path: "/task/list", pro: false },
-      { name: "Kanban", path: "/task/kanban", pro: false },
-    ],
-  },
+
   {
     name: "Workflow",
     icon: <WorkflowIcon />,
@@ -99,19 +130,14 @@ const navItems: NavItem[] = [
     path: "/integrations",
   },
   {
-    name: "Projections",
-    icon: <PieChartIcon />,
-    path: "/projections",
+    icon: <GridIcon />,
+    name: "Dashboard System",
+    path: "/dashboard",
   },
   {
-    icon: <PieChartIcon />,
-    name: "KPI's",
-    path: "/kpi",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Marketing",
-    path: "/marketing",
+    name: "LMS",
+    icon: <LMSIcon />,
+    path: "/lms",
   },
   {
     icon: <UserCircleIcon />,
@@ -119,39 +145,50 @@ const navItems: NavItem[] = [
     path: "/crm",
   },
   {
-    icon: <UserCircleIcon />,
-    name: "Investor",
-    path: "/investor",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Startup",
-    path: "/startup",
-  },
-  {
-    icon: <TableIcon />,
-    name: "Stocks",
-    path: "/stocks",
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "SaaS",
-    path: "/saas",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Invoice",
-    path: "/invoice",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    name: "Living Docs",
+    icon: <FolderIcon />,
+    path: "/living-docs",
+    subItems: [
+      { name: "My Drive", path: "/living-docs/my-drive" },
+      { name: "Living Docs", path: "/living-docs/living-docs" },
+      { name: "DataRain", path: "/living-docs/data-rain" },
+      { name: "Storytelling", path: "/living-docs/storytelling" },
+      { name: "Whiteboard", path: "/living-docs/whiteboard" },
+    ],
   },
   {
     name: "Settings",
     icon: <SettingsIcon />,
     path: "/settings",
+  },
+];
+
+const dashboardExampleItems: NavItem[] = [
+  {
+    icon: <PieChartIcon />,
+    name: "Dashboard Examples",
+    subItems: [
+      { name: "Projections", path: "/projections", pro: false },
+      { name: "KPI's", path: "/kpi", pro: false },
+      { name: "Stocks", path: "/stocks", pro: false },
+      { name: "SaaS", path: "/saas", pro: false },
+    ],
+  },
+];
+
+const useCaseItems: NavItem[] = [
+  {
+    icon: <BoxCubeIcon />,
+    name: "Use Cases",
+    subItems: [
+      { name: "Marketing", path: "/marketing", pro: false },
+      { name: "Legal", path: "/legal", pro: false },
+      { name: "Finance", path: "/finance", pro: false },
+      { name: "Dev Tools", path: "/dev-tools", pro: false },
+      { name: "Real Estate", path: "/real-estate", pro: false },
+      { name: "Investor", path: "/investor", pro: false },
+      { name: "Startup", path: "/startup", pro: false },
+    ],
   },
 ];
 
@@ -226,7 +263,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others" | "company"
+    menuType: "main" | "others" | "company" | "usecases" | "dashboards"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -387,7 +424,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "company";
+    type: "main" | "others" | "company" | "usecases" | "dashboards";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -401,10 +438,15 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
-    ["main", "others", "company"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : companyItems;
+    ["main", "others", "company", "usecases", "dashboards"].forEach((menuType) => {
+      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : menuType === "company" ? companyItems : menuType === "usecases" ? useCaseItems : dashboardExampleItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
+          // Special case: keep Living Docs open for any /living-docs route
+          if (nav.name === "Living Docs" && pathname.startsWith("/living-docs")) {
+            setOpenSubmenu({ type: menuType as "main" | "others" | "company" | "usecases" | "dashboards", index });
+            submenuMatched = true;
+          }
           // Check both direct subItems and nested subItems
           const hasMatch = nav.subItems.some(subItem => {
             if (isActive(subItem.path)) return true;
@@ -416,7 +458,7 @@ const AppSidebar: React.FC = () => {
 
           if (hasMatch) {
             setOpenSubmenu({
-              type: menuType as "main" | "others" | "company",
+              type: menuType as "main" | "others" | "company" | "usecases" | "dashboards",
               index,
             });
             submenuMatched = true;
@@ -444,7 +486,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -540,6 +582,40 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(navItems, "main")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Dashboard Examples"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(dashboardExampleItems, "dashboards")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Use Cases"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(useCaseItems, "usecases")}
             </div>
 
             <div className="">

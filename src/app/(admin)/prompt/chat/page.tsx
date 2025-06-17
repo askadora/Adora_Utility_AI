@@ -1,9 +1,15 @@
 'use client';
 
+import { supabase } from '@/lib/supabaseClient';
+import { useAuth } from '@/contexts/AuthContext';
+
 import { useState, useEffect, useRef } from 'react';
 import { PaperPlaneIcon, PlusIcon } from '@/icons';
-// import { GrokModelSelector } from '@/components/llm/GrokModelSelector';
-import { singleChatCompletion } from '@/llm/grok/api';
+import { UNIFIED_MODELS, Model, UnifiedMessage } from '@/llm/unified-models';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -16,20 +22,6 @@ interface Message {
   timestamp: Date;
 }
 
-interface ModelVersion {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Model {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  versions: ModelVersion[];
-}
-
 interface ChatHistory {
   id: string;
   title: string;
@@ -38,85 +30,59 @@ interface ChatHistory {
   modelResponses: { [key: string]: string };
 }
 
-const initialModels: Model[] = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    description: 'OpenAI\'s advanced language model',
-    icon: '🤖',
-    versions: [
-      { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Fast and efficient' },
-      { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model' },
-      { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest version with improved capabilities' },
-      { id: 'gpt-4.1', name: 'GPT-4.1', description: 'Enhanced performance and accuracy' },
-    ],
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    description: 'Google\'s multimodal AI model',
-    icon: '🔍',
-    versions: [
-      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', description: 'Advanced capabilities' },
-      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', description: 'Fast and efficient' },
-    ],
-  },
-  {
-    id: 'claude',
-    name: 'Claude',
-    description: 'Anthropic\'s conversational AI',
-    icon: '🧠',
-    versions: [
-      { id: 'claude-3.5', name: 'Claude 3.5', description: 'Balanced performance' },
-      { id: 'claude-3.7', name: 'Claude 3.7', description: 'Latest version with improved capabilities' },
-    ],
-  },
-  {
-    id: 'grok',
-    name: 'Grok',
-    description: 'xAI\'s real-time AI model',
-    icon: '⚡',
-    versions: [
-      { id: 'grok-3-mini', name: 'Grok 3 Mini', description: 'Lightweight and efficient version' }
-    ],
-  },
-  {
-    id: 'perplexity',
-    name: 'Perplexity',
-    description: 'Advanced search and research AI',
-    icon: '🔎',
-    versions: [
-      { id: 'perplexity-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'llama',
-    name: 'Llama',
-    description: 'Meta\'s open-source model',
-    icon: '🦙',
-    versions: [
-      { id: 'llama-3', name: 'Llama 3', description: 'Latest version' },
-    ],
-  },
-  {
-    id: 'deepseek',
-    name: 'Deepseek',
-    description: 'Specialized in deep learning',
-    icon: '🎯',
-    versions: [
-      { id: 'deepseek-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-  {
-    id: 'qwen',
-    name: 'Qwen',
-    description: 'Alibaba\'s advanced AI model',
-    icon: '🌟',
-    versions: [
-      { id: 'qwen-latest', name: 'Latest', description: 'Most recent version' },
-    ],
-  },
-];
+// Add markdown preprocessing function
+const preprocessMarkdown = (content: string): string => {
+  if (!content) return '';
+  
+  let processed = content;
+  
+  // Remove trailing whitespace from all lines
+  processed = processed.replace(/[ \t]+$/gm, '');
+  
+  // Collapse multiple blank lines into single blank lines
+  processed = processed.replace(/\n{3,}/g, '\n\n');
+  
+  // Ensure exactly one blank line before and after headings
+  processed = processed.replace(/\n*(#{1,6}[^\n]*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line before and after tables
+  processed = processed.replace(/\n*(\|[^\n]*\|[^\n]*\n(?:\|[^\n]*\|[^\n]*\n)*)\n*/g, '\n\n$1\n\n');
+  
+  // Ensure exactly one blank line between paragraphs and other block elements
+  // This handles cases where there are no blank lines between paragraphs
+  processed = processed.replace(/([^\n])\n([^\n#\-\*\+\d\s\|])/g, '$1\n\n$2');
+  
+  // Clean up any leading/trailing whitespace
+  processed = processed.trim();
+  
+  // Ensure content ends with single newline if it had content
+  if (processed) {
+    processed = processed + '\n';
+  }
+  
+  return processed;
+};
+
+// Add StatusIndicator component
+const StatusIndicator = ({ available }: { available: boolean }) => {
+  if (available) {
+    return (
+      <span className="inline-flex items-center ml-2">
+        <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
+        <span className="text-xs text-green-600 ml-1">Live Testing</span>
+      </span>
+    );
+  }
+  
+  return (
+    <span className="inline-flex items-center ml-2">
+      <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-1"></span>
+      <span className="text-xs text-red-600">Paid Access</span>
+    </span>
+  );
+};
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -138,10 +104,13 @@ export default function Chat() {
   ]);
   const [isRecording, setIsRecording] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState<string>('grok');
-  const [availableModels] = useState<Model[]>(initialModels);
+  const [availableModels] = useState<Model[]>(UNIFIED_MODELS);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
   const [showModelSelector, setShowModelSelector] = useState(false);
   const [showMobileTools, setShowMobileTools] = useState(false);
+  const modelSelectorRef = useRef<HTMLDivElement>(null);
+  const { session } = useAuth();
+  const [llmUsage, setLlmUsage] = useState<number>(0);
 
   // Set default model and version on component mount
   useEffect(() => {
@@ -152,6 +121,19 @@ export default function Chat() {
     }));
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modelSelectorRef.current && !modelSelectorRef.current.contains(event.target as Node)) {
+        setShowModelSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -160,8 +142,21 @@ export default function Chat() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    async function fetchLlmUsage() {
+      if (!session?.user) return;
+      const { data, error } = await supabase.rpc('get_llm_usage', { uid: session.user.id });
+      if (data && data[0] && data[0].llm_usage !== undefined && data[0].llm_usage !== null) {
+        setLlmUsage(data[0].llm_usage);
+      }
+    }
+    fetchLlmUsage();
+  }, [session]);
+
   const handleSend = async () => {
     if (!input.trim()) return;
+
+    console.log('Starting chat with input:', input);
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -170,61 +165,136 @@ export default function Chat() {
       timestamp: new Date(),
     };
 
+    console.log('Created user message:', userMessage);
+
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // Only handle the selected LLM
       const selectedModelId = selectedLLM;
       const selectedVersionId = selectedModels[selectedLLM];
+
+      console.log('Selected model:', {
+        modelId: selectedModelId,
+        versionId: selectedVersionId
+      });
 
       if (!selectedVersionId) {
         throw new Error('Please select a model version');
       }
 
-      // Handle Grok specifically
-      if (selectedModelId === 'grok') {
-        const tempMessageId = `${Date.now()}-grok`;
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: tempMessageId,
-            role: 'assistant',
-            content: '',
-            model: 'grok',
-            modelVersion: selectedVersionId,
-            timestamp: new Date(),
-          },
-        ]);
+      // Create a temporary message for the assistant's response
+      const tempMessageId = `${Date.now()}-${selectedModelId}`;
+      console.log('Created temporary message ID:', tempMessageId);
 
-        await singleChatCompletion(
-          input,
-          (chunk) => {
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === tempMessageId
-                  ? { ...msg, content: msg.content + chunk }
-                  : msg
-              )
-            );
-          },
-          selectedVersionId
-        );
-      } else {
-        // For other models, add a single response
-        const responseMessage: Message = {
-          id: `${Date.now()}-${selectedModelId}`,
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: tempMessageId,
           role: 'assistant',
-          content: `This is a sample response from ${selectedModelId} (${selectedVersionId})`,
+          content: '',
           model: selectedModelId,
           modelVersion: selectedVersionId,
           timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, responseMessage]);
+        },
+      ]);
+
+      // Convert the input into a message array
+      const messages: UnifiedMessage[] = [
+        {
+          role: 'user',
+          content: input
+        }
+      ];
+
+      console.log('Prepared messages for API:', messages);
+
+      const options = {
+        model: selectedModelId,
+        version: selectedVersionId,
+        temperature: 0.7,
+        maxTokens: 1000
+      };
+
+      console.log('API options:', options);
+
+      // Call the API route
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages, options }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from API');
       }
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = '';
+      let lastUpdate = Date.now();
+      const updateInterval = 50; // Update UI every 50ms for smoother streaming
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter(Boolean);
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            console.log('Received chunk:', data);
+            
+            if (data.content) {
+              accumulatedContent += data.content;
+              
+              // Update UI at regular intervals for smoother streaming
+              const now = Date.now();
+              if (now - lastUpdate >= updateInterval) {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === tempMessageId
+                      ? { ...msg, content: accumulatedContent }
+                      : msg
+                  )
+                );
+                lastUpdate = now;
+              }
+            }
+          } catch (e) {
+            console.error('Error parsing chunk:', e);
+          }
+        }
+      }
+
+      // Final update to ensure all content is displayed
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === tempMessageId
+            ? { ...msg, content: accumulatedContent }
+            : msg
+        )
+      );
+
+      // Update LLM usage after successful send
+      if (session?.user) {
+        const { data, error } = await supabase.rpc('update_llm_usage', { uid: session.user.id });
+        if (data && data[0] && data[0].new_usage !== undefined && data[0].new_usage !== null) {
+          setLlmUsage(data[0].new_usage);
+        }
+      }
+      console.log('Stream completed successfully');
     } catch (error) {
-      console.error('Error getting response:', error);
+      console.error('Error in chat flow:', error);
       const errorMessage: Message = {
         id: `${Date.now()}-error`,
         role: 'assistant',
@@ -234,10 +304,12 @@ export default function Chat() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      console.log('Chat flow completed');
     }
   };
 
   const handleLLMChange = (llmId: string) => {
+    console.log('Changing LLM to:', llmId);
     setSelectedLLM(llmId);
     // Clear the version selection when changing LLM
     setSelectedModels(prev => ({
@@ -247,6 +319,7 @@ export default function Chat() {
   };
 
   const handleVersionChange = (versionId: string) => {
+    console.log('Changing version to:', versionId);
     setSelectedModels(prev => ({
       ...prev,
       [selectedLLM]: versionId
@@ -351,6 +424,49 @@ export default function Chat() {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-h-0 min-w-0">
+        {/* Focused Chat Header - First thing user sees */}
+        {messages.length === 0 && (
+          <div className="flex-none border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <div className="px-3 md:px-4 py-3 md:py-4">
+              {/* 
+                PAGE HEADER - FLEXBOX (1D) Layout
+                - Column direction for title and description stacking
+                - Responsive spacing and typography
+                - Compact for viewport efficiency
+              */}
+              <header className="flex flex-col gap-2 pb-4 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex flex-col gap-2 min-w-0 flex-1">
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-white/90 md:text-2xl">
+                      Focused Chat
+                    </h1>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 md:text-base max-w-2xl">
+                      Chat with a single AI model in a focused environment. For multi-model conversations and advanced synthesis, 
+                      use our{' '}
+                      <button 
+                        onClick={() => window.open('/synthesize', '_blank')}
+                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                      >
+                        Synthesize system
+                      </button>
+                      .
+                    </p>
+                  </div>
+                </div>
+              </header>
+
+              {/* Demo Warning Section - Compact */}
+              <div className="mt-3">
+                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                  <p className="text-xs text-amber-800 dark:text-amber-200 md:text-sm">
+                    ⚠️ This is a demo/test system. You have a 20 prompt limit for testing purposes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header - Compact and responsive */}
         <header className="flex-none flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="flex items-center gap-2 min-w-0">
@@ -364,7 +480,7 @@ export default function Chat() {
             </button>
             
             {/* Model Selector */}
-            <div className="relative">
+            <div className="relative" ref={modelSelectorRef}>
               <button
                 onClick={() => setShowModelSelector(!showModelSelector)}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -386,7 +502,7 @@ export default function Chat() {
               </button>
               
               {showModelSelector && (
-                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                <div className="absolute top-full left-0 mt-1 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50 max-h-[400px] overflow-y-auto">
                   {availableModels.map((model) => (
                     <div key={model.id}>
                       <button
@@ -421,7 +537,10 @@ export default function Chat() {
                               }`}
                             >
                               <div className="flex-1 text-left">
-                                <div className="font-medium text-gray-900 dark:text-white">{version.name}</div>
+                                <div className="flex items-center">
+                                  <div className="font-medium text-gray-900 dark:text-white">{version.name}</div>
+                                  <StatusIndicator available={version.available ?? false} />
+                                </div>
                                 <div className="text-gray-500 dark:text-gray-400">{version.description}</div>
                               </div>
                               {selectedModels[model.id] === version.id && (
@@ -437,6 +556,24 @@ export default function Chat() {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* Refresh Button */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  console.log('Clearing chat history');
+                  setMessages([]);
+                  setInput('');
+                }}
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                title="Clear chat"
+              >
+                <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+              <span className="text-xs text-gray-500">Prompts used: {llmUsage}/20</span>
             </div>
           </div>
 
@@ -550,8 +687,116 @@ export default function Chat() {
                             {message.modelVersion && ` (${message.modelVersion})`}
                           </div>
                         )}
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white">
-                          {message.content}
+                        <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed break-words text-gray-900 dark:text-white [&_p]:my-0.5 [&_ul]:my-0.5 [&_ol]:my-0.5 [&_pre]:my-1 [&_h1]:my-0.5 [&_h2]:my-0.5 [&_h3]:my-0.5 [&_h4]:my-0.5 [&_h5]:my-0.5 [&_h6]:my-0.5 [&_blockquote]:my-0.5 [&_table]:my-0.5 [&_hr]:my-0.5 [&_li]:my-0.5">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              code(props: any) {
+                                const { inline, className, children, ...rest } = props;
+                                const match = /language-(\w+)/.exec(className || '');
+                                return !inline && match ? (
+                                  <SyntaxHighlighter
+                                    style={oneDark}
+                                    language={match[1]}
+                                    PreTag="div"
+                                    customStyle={{
+                                      borderRadius: '0.5em',
+                                      fontSize: '0.95em',
+                                      padding: '1em',
+                                      margin: '0.5em 0',
+                                      background: 'var(--tw-prose-pre-bg, #282c34)'
+                                    }}
+                                    {...rest}
+                                  >
+                                    {String(children).replace(/\n$/, '')}
+                                  </SyntaxHighlighter>
+                                ) : (
+                                  <code className={className} {...rest}>
+                                    {children}
+                                  </code>
+                                );
+                              },
+                              table: ({ children, ...props }) => (
+                                <div className="my-1.5 overflow-x-auto rounded-md border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+                                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                    {children}
+                                  </table>
+                                </div>
+                              ),
+                              thead: ({ children, ...props }) => (
+                                <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </thead>
+                              ),
+                              tbody: ({ children, ...props }) => (
+                                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props}>
+                                  {children}
+                                </tbody>
+                              ),
+                              tr: ({ children, ...props }) => (
+                                <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" {...props}>
+                                  {children}
+                                </tr>
+                              ),
+                              th: ({ children, ...props }) => (
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide bg-gray-50 dark:bg-gray-800" {...props}>
+                                  {children}
+                                </th>
+                              ),
+                              td: ({ children, ...props }) => (
+                                <td className="px-3 py-2 text-sm text-gray-900 dark:text-gray-100 whitespace-normal" {...props}>
+                                  {children}
+                                </td>
+                              ),
+                              p: ({ children, ...props }) => (
+                                <p className="my-0.5 leading-relaxed" {...props}>
+                                  {children}
+                                </p>
+                              ),
+                              h1: ({ children, ...props }) => (
+                                <h1 className="my-0.5 text-2xl font-bold" {...props}>
+                                  {children}
+                                </h1>
+                              ),
+                              h2: ({ children, ...props }) => (
+                                <h2 className="my-0.5 text-xl font-bold" {...props}>
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children, ...props }) => (
+                                <h3 className="my-0.5 text-lg font-semibold" {...props}>
+                                  {children}
+                                </h3>
+                              ),
+                              h4: ({ children, ...props }) => (
+                                <h4 className="my-0.5 text-base font-semibold" {...props}>
+                                  {children}
+                                </h4>
+                              ),
+                              ul: ({ children, ...props }) => (
+                                <ul className="my-0.5 pl-5 list-disc space-y-0" {...props}>
+                                  {children}
+                                </ul>
+                              ),
+                              ol: ({ children, ...props }) => (
+                                <ol className="my-0.5 pl-5 list-decimal space-y-0" {...props}>
+                                  {children}
+                                </ol>
+                              ),
+                              li: ({ children, ...props }) => (
+                                <li className="my-0 leading-relaxed" {...props}>
+                                  {children}
+                                </li>
+                              ),
+                              blockquote: ({ children, ...props }) => (
+                                <blockquote className="my-1 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic" {...props}>
+                                  {children}
+                                </blockquote>
+                              )
+                            }}
+                          >
+                            {preprocessMarkdown(message.content)}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     </div>
@@ -585,15 +830,15 @@ export default function Chat() {
 
         {/* Input Area - Streamlined and contained */}
         <div className="flex-none border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-3">
+          <div className="w-full max-w-4xl mx-auto px-3 md:px-4 py-2 md:py-3">
             <div className="relative">
-              <div className="relative flex items-center min-h-[44px] md:min-h-[48px]">
+              <div className="relative flex items-center min-h-[40px] md:min-h-[44px]">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Message Adora AI..."
-                  className="w-full min-h-[44px] md:min-h-[48px] max-h-32 md:max-h-40 px-3 md:px-4 py-2 md:py-3 pr-24 md:pr-28
+                  className="w-full min-h-[40px] md:min-h-[44px] max-h-24 md:max-h-32 px-3 md:px-4 py-2 md:py-2.5 pr-20 md:pr-24
                            border border-gray-300 dark:border-gray-600 rounded-xl 
                            focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
                            resize-none bg-white dark:bg-gray-800 
@@ -606,7 +851,7 @@ export default function Chat() {
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement;
                     target.style.height = 'auto';
-                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 160 : 128) + 'px';
+                    target.style.height = Math.min(target.scrollHeight, window.innerWidth >= 768 ? 128 : 96) + 'px';
                   }}
                 />
                 
@@ -620,7 +865,7 @@ export default function Chat() {
                       onChange={handleFileUpload}
                       multiple
                     />
-                    <div className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <div className="p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                       </svg>
@@ -630,7 +875,7 @@ export default function Chat() {
                   {/* Voice Recording */}
                   <button
                     onClick={toggleRecording}
-                    className={`p-1.5 rounded-lg transition-colors ${
+                    className={`p-1 rounded-lg transition-colors ${
                       isRecording 
                         ? 'text-red-500 bg-red-50 dark:bg-red-900/20' 
                         : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -644,19 +889,19 @@ export default function Chat() {
                   {/* Send Button */}
                   <button
                     onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    className="ml-1 w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
+                    disabled={!input.trim() || isLoading || llmUsage >= 20}
+                    className="ml-1 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
                              flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
                              transition-all duration-200"
                   >
-                    <PaperPlaneIcon className="w-4 h-4 text-white" />
+                    <PaperPlaneIcon className="w-3 h-3 md:w-4 md:h-4 text-white" />
                   </button>
                 </div>
               </div>
               
-              {/* Character Counter and Help Text */}
-              <div className="flex justify-between items-center mt-1 px-1 h-4">
-                <div className="text-xs text-gray-500 dark:text-gray-400">
+              {/* Character Counter and Help Text - More compact */}
+              <div className="flex justify-between items-center mt-1 px-1 h-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
                   Press Enter to send, Shift + Enter for new line
                 </div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -666,6 +911,13 @@ export default function Chat() {
             </div>
           </div>
         </div>
+
+        {/* Additional UI Elements */}
+        {llmUsage >= 20 && (
+          <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
+            You have used up free prompt credits
+          </div>
+        )}
       </div>
     </div>
   );

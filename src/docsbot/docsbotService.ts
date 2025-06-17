@@ -16,7 +16,7 @@ export class DocsBotService {
   }
 
   async chat(request: ChatRequest): Promise<ChatResponse> {
-    console.log('📤 DocsBot API Request:', {
+    console.log('DocsBot API Request:', {
       url: `${DOCSBOT_CONFIG.baseUrl}/teams/${DOCSBOT_CONFIG.teamId}/bots/${this.botId}/chat`,
       request: {
         question: request.question,
@@ -48,7 +48,7 @@ export class DocsBotService {
           errorDetails = await response.text();
         }
 
-        console.error('❌ DocsBot API Error:', {
+        console.error('DocsBot API Error:', {
           status: response.status,
           statusText: response.statusText,
           errorDetails,
@@ -79,7 +79,7 @@ export class DocsBotService {
       });
       return data;
     } catch (error) {
-      console.error('❌ DocsBot API Error:', error);
+      console.error('DocsBot API Error:', error);
       return {
         answer: 'Sorry, I encountered an error. Please try again.',
         error: error instanceof Error ? error.message : 'Unknown error occurred',
