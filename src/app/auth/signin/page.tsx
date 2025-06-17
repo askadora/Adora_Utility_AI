@@ -107,22 +107,22 @@ function SignInForm() {
   const handleGoogleSignIn = async () => {
     setError(null);
     setIsGoogleLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         queryParams: {
           prompt: 'select_account'
-        },
-        skipBrowserRedirect: true
+        }
       },
     });
 
     if (error) {
       setError(error.message);
       setIsGoogleLoading(false);
-    } else {
-      // Keep loading until redirected by OAuth flow
+    } else if (data?.url) {
+      // Redirect to Google's OAuth page
+      window.location.href = data.url;
     }
   };
 
