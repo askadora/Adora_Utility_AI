@@ -111,6 +111,7 @@ export default function Chat() {
   const modelSelectorRef = useRef<HTMLDivElement>(null);
   const { session } = useAuth();
   const [llmUsage, setLlmUsage] = useState<number>(0);
+  const LLM_PROMPT_LIMIT = process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT ? parseInt(process.env.NEXT_PUBLIC_LLM_PROMPT_LIMIT) : 20;
 
   // Set default model and version on component mount
   useEffect(() => {
@@ -573,7 +574,7 @@ export default function Chat() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               </button>
-              <span className="text-xs text-gray-500">Prompts used: {llmUsage}/20</span>
+              <span className="text-xs text-gray-500">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
             </div>
           </div>
 
