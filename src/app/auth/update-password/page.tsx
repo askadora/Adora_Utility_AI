@@ -21,14 +21,6 @@ function UpdatePasswordForm() {
 
   useEffect(() => {
     const verifyToken = async () => {
-      // Check if user is already authenticated
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        console.log('User already authenticated, redirecting to dashboard');
-        router.push('/');
-        return;
-      }
-
       const token = searchParams.get('token');
       console.log('Token from URL:', token); // Debug log
       
@@ -49,7 +41,6 @@ function UpdatePasswordForm() {
         if (error) {
           console.error('Token verification error:', error); // Debug log
           setError(error.message);
-          // Don't redirect immediately, let user see the error
           setIsVerifying(false);
         } else {
           console.log('Token verified successfully'); // Debug log
