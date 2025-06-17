@@ -10,21 +10,12 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the session from the URL hash
         const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error('Error getting session:', error);
-          router.push('/auth/signin?error=session_error');
-          return;
-        }
-
         if (session) {
-          console.log('Session found in callback:', session);
-          const user = session.user;
+          const { user } = session;
           
           if (user) {
-            console.log('User found in session:', user);
             try {
               console.log('Attempting to send welcome email from callback with payload:', {
                 email: user.email,
@@ -56,19 +47,19 @@ export default function AuthCallback() {
           }
           
           // Redirect to dashboard after handling email
-          router.push('/dashboard');
+          window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`;
         } else {
           console.log('No session found in callback');
-          router.push('/auth/signin?error=no_session');
+          window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/signin?error=no_session`;
         }
       } catch (error) {
         console.error('Error in callback handler:', error);
-        router.push('/auth/signin?error=callback_error');
+        window.location.href = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/signin?error=callback_error`;
       }
     };
 
     handleCallback();
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center">
