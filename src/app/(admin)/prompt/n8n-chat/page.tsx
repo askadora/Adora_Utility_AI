@@ -56,7 +56,7 @@ export default function N8NChatPage() {
       content: input,
       timestamp: new Date(),
     };
-    const n8nWebhookUrl = process.env.NEXT_PUBLIC_N8N_DOMAIN + '/webhook/chats' || 'https://adoraai.app.n8n.cloud/webhook/chats';
+    const n8nWebhookUrl = process.env.NEXT_PUBLIC_N8N_DOMAIN + 'webhook/chats' || 'https://adoraai.app.n8n.cloud/webhook/chats';
 
     setMessages(prev => [...prev, userMessage]);
     setInput(''); // Clear input immediately after sending
