@@ -21,19 +21,15 @@ function UpdatePasswordForm() {
 
   useEffect(() => {
     const verifyToken = async () => {
-      // Check if user is already authenticated
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        console.log('User already authenticated, redirecting to dashboard');
-        router.push('/');
-        return;
-      }
-
       const token = searchParams.get('token');
+      const email = searchParams.get('email');
+      const type = searchParams.get('type') || 'recovery'; // Default to 'recovery' for this page
       console.log('Token from URL:', token); // Debug log
+      console.log('Email from URL:', email); // Debug log
+      console.log('Type from URL:', type); // Debug log
       
-      if (!token) {
-        console.error('No token provided');
+      if (!token || (type === 'email' && !email)) {
+        console.error('No token or email provided');
         setError('Invalid or expired password reset link');
         setIsVerifying(false);
         return;
@@ -41,15 +37,23 @@ function UpdatePasswordForm() {
 
       try {
         console.log('Verifying token...'); // Debug log
-        const { error } = await supabase.auth.verifyOtp({
-          token_hash: token,
-          type: 'recovery'
-        });
+        let error;
+        if (type === 'recovery') {
+          ({ error } = await supabase.auth.verifyOtp({
+            token_hash: token,
+            type: 'recovery'
+          }));
+        } else if (type === 'email') {
+          ({ error } = await supabase.auth.verifyOtp({
+            email: email || '',
+            token_hash: token,
+            type: 'email'
+          }));
+        }
 
         if (error) {
           console.error('Token verification error:', error); // Debug log
           setError(error.message);
-          // Don't redirect immediately, let user see the error
           setIsVerifying(false);
         } else {
           console.log('Token verified successfully'); // Debug log
