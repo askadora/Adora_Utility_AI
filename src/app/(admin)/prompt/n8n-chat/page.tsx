@@ -56,6 +56,7 @@ export default function N8NChatPage() {
       content: input,
       timestamp: new Date(),
     };
+    const n8nWebhookUrl = process.env.NEXT_PUBLIC_N8N_DOMAIN + '/webhook/chats' || 'https://sridurgal.app.n8n.cloud/webhook/chats';
 
     setMessages(prev => [...prev, userMessage]);
     setInput(''); // Clear input immediately after sending
@@ -63,7 +64,7 @@ export default function N8NChatPage() {
 
     try {
       // Send message to N8N webhook
-      const response = await fetch('https://sridurgal.app.n8n.cloud/webhook/chats', {
+      const response = await fetch(n8nWebhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
