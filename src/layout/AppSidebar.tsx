@@ -125,6 +125,7 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Workflow Builder", path: "/workflow", pro: false },
       { name: "N8N Chat", path: "/workflow/n8n-chat", pro: false },
+      { name: "N8N Workflow", path: "/workflow/n8n-workflow", pro: false },
     ],
   },
   {
