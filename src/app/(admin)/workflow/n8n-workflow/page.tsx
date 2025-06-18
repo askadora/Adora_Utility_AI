@@ -16,7 +16,7 @@ import ReactFlow, {
   Position
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import ragWorkflowData from './Rag.json';
+import ragWorkflowData from './Chatbot.json';
 
 // Custom node component with handles and icons
 const getNodeIcon = (nodeType: string) => {

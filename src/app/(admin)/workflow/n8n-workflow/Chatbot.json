@@ -1,21 +1,21 @@
 {
-  "name": "Rag",
+  "name": "Chatbot",
   "nodes": [
     {
       "parameters": {
         "options": {}
       },
-      "id": "1595b402-7e5e-4124-8497-e4cd28a2e6f2",
+      "id": "83364ba9-49ed-45f0-bc7a-3213c35b8b86",
       "name": "OpenAI Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1,
       "position": [
-        440,
+        380,
         320
       ],
       "credentials": {
         "openAiApi": {
-          "id": "azp9ackryWUpf0QR",
+          "id": "xA2mQudGesRwx2LS",
           "name": "OpenAi account"
         }
       }
@@ -40,7 +40,7 @@
         },
         "options": {}
       },
-      "id": "6b20bc62-54cd-4c0e-8f0e-907b89eee0f1",
+      "id": "c6b31581-8338-48a9-81fc-e16e3eb0bf0a",
       "name": "Edit Fields",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -54,7 +54,7 @@
         "public": true,
         "options": {}
       },
-      "id": "3b9c52d0-ef6f-4f93-85f6-b344cc14e457",
+      "id": "0c017760-97ee-4818-8da1-117c9fa5646f",
       "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
@@ -70,12 +70,12 @@
         "text": "={{ $json.chatInput }}",
         "options": {}
       },
-      "id": "b9d6d7b2-8fc6-4568-9620-cdd5562560f3",
+      "id": "81abaf44-3369-4503-990f-1dfd940f00d6",
       "name": "RAG AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        472,
+        480,
         100
       ]
     },
@@ -86,14 +86,14 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        768,
+        780,
         520
       ],
-      "id": "a426bff4-60c6-42fb-800f-837292834f44",
+      "id": "1fbe3831-0d17-4f64-a6f8-7c150b1cad30",
       "name": "Embeddings OpenAI2",
       "credentials": {
         "openAiApi": {
-          "id": "HnBCSzmAq2JAsllC",
+          "id": "xA2mQudGesRwx2LS",
           "name": "OpenAi account"
         }
       }
@@ -105,25 +105,25 @@
         "toolDescription": "Retrieve context from our internal document store in Pinecone for answering user queries.\n",
         "pineconeIndex": {
           "__rl": true,
-          "value": "demo",
+          "value": "n8nchatbot",
           "mode": "list",
-          "cachedResultName": "demo"
+          "cachedResultName": "n8nchatbot"
         },
         "options": {
-          "pineconeNamespace": "Course Outlines"
+          "pineconeNamespace": "Knowledge room"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.2,
       "position": [
         680,
-        322.5
+        340
       ],
-      "id": "187af72e-5a92-4759-b2b6-dc47e8861c18",
+      "id": "723bfc82-1a04-48db-8143-265d09000d8d",
       "name": "Pinecone Vector Store1",
       "credentials": {
         "pineconeApi": {
-          "id": "QUljPSURQdtZRfTX",
+          "id": "La8mAtGrYW3peMGY",
           "name": "PineconeApi account"
         }
       }
@@ -141,7 +141,7 @@
         0,
         200
       ],
-      "id": "f8f23f0c-fb13-4a52-ac7b-23be36c677d7",
+      "id": "4d22e544-c90b-42c1-ae3e-119a3a1c99f9",
       "name": "Webhook1",
       "webhookId": "5b15f90d-fff7-4515-b5fc-62af59c2f3c1"
     },
@@ -155,7 +155,7 @@
         1060,
         100
       ],
-      "id": "eb3c4709-526f-42d8-9a56-1a3ebd94a00e",
+      "id": "1783c9b8-e6bf-4962-8649-07e5c3b8d967",
       "name": "Respond to Webhook"
     },
     {
@@ -168,7 +168,7 @@
         560,
         320
       ],
-      "id": "848394b3-3300-4074-8360-9dacb3e851d8",
+      "id": "320ddb0f-c62e-41c8-b3f3-a31e9f1148e6",
       "name": "Simple Memory"
     }
   ],
@@ -267,11 +267,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "db843e1f-29ca-468e-8308-7b4bfe0eeb3d",
+  "versionId": "00ed581d-181b-48da-96d3-47e036b0849a",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "5f858c9f98c80b4cb332a22d99a499ed3abbd8ec4f6f19ed9687ce83ea83f600"
+    "instanceId": "8ac40ea2baf3062b980bcb9d53a1d3812f4b06c28a7bf0b095d8ed7e32116e1a"
   },
-  "id": "NJoE14mkrUeor2Fj",
+  "id": "fkbmXTiqLA67aV4V",
   "tags": []
 }
