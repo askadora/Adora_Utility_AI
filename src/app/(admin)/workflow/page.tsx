@@ -108,6 +108,358 @@ export default function WorkflowPage() {
         </div>
       </section>
 
+
+
+      {/* 
+        GMAIL AI EMAIL MANAGER WORKFLOW MOCKUP - Featured Workflow
+        - Detailed representation of the n8n Gmail AI Email Manager workflow
+      */}
+      <section className="w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-white/90">
+            Featured Workflow: Gmail AI Email Manager
+          </h2>
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full dark:bg-green-900/30 dark:text-green-400">
+              AI-Powered
+            </span>
+            <button className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+              Use This Template →
+            </button>
+          </div>
+        </div>
+
+        {/* Workflow Overview Card */}
+        <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden mb-8">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-800">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-2">
+                  Gmail AI Email Manager - Intelligent Email Classification
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  Automatically monitor incoming Gmail messages, analyze their content and context using AI, 
+                  and intelligently classify them with appropriate labels for better email organization and prioritization.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded dark:bg-blue-900/30 dark:text-blue-400">Gmail</span>
+                  <span className="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded dark:bg-purple-900/30 dark:text-purple-400">Claude Sonnet 4</span>
+                  <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded dark:bg-green-900/30 dark:text-green-400">Auto-Classification</span>
+                  <span className="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded dark:bg-orange-900/30 dark:text-orange-400">Context-Aware</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Workflow Visual Representation */}
+          <div className="p-6 bg-gray-50 dark:bg-gray-900/30">
+            <h4 className="text-sm font-semibold text-gray-800 dark:text-white/90 mb-4">
+              Workflow Steps
+            </h4>
+            
+            {/* Workflow Diagram */}
+            <div className="relative overflow-x-auto">
+              <div className="flex items-center gap-4 min-w-max pb-4">
+                {/* Step 1: Gmail Monitoring */}
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center shadow-lg mb-2">
+                    <span className="text-white font-bold text-lg">G</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Gmail Trigger</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Monitor Inbox</div>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <svg className="w-8 h-2 text-gray-400">
+                  <line x1="0" y1="1" x2="32" y2="1" stroke="currentColor" strokeWidth="2" markerEnd="url(#arrow1)" />
+                  <defs>
+                    <marker id="arrow1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                      <polygon points="0 0, 8 3, 0 6" fill="currentColor" />
+                    </marker>
+                  </defs>
+                </svg>
+
+                {/* Step 2: Content Extraction */}
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center shadow-lg mb-2">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Extract Content</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Headers & Body</div>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <svg className="w-8 h-2 text-gray-400">
+                  <line x1="0" y1="1" x2="32" y2="1" stroke="currentColor" strokeWidth="2" markerEnd="url(#arrow2)" />
+                  <defs>
+                    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                      <polygon points="0 0, 8 3, 0 6" fill="currentColor" />
+                    </marker>
+                  </defs>
+                </svg>
+
+                {/* Step 3: History Analysis */}
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg mb-2">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-gray-700 dark:text-gray-300">History Check</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Context Analysis</div>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <svg className="w-8 h-2 text-gray-400">
+                  <line x1="0" y1="1" x2="32" y2="1" stroke="currentColor" strokeWidth="2" markerEnd="url(#arrow3)" />
+                  <defs>
+                    <marker id="arrow3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                      <polygon points="0 0, 8 3, 0 6" fill="currentColor" />
+                    </marker>
+                  </defs>
+                </svg>
+
+                {/* Step 4: AI Classification */}
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center shadow-lg mb-2">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-gray-700 dark:text-gray-300">AI Agent</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Claude Sonnet 4</div>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <svg className="w-8 h-2 text-gray-400">
+                  <line x1="0" y1="1" x2="32" y2="1" stroke="currentColor" strokeWidth="2" markerEnd="url(#arrow4)" />
+                  <defs>
+                    <marker id="arrow4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                      <polygon points="0 0, 8 3, 0 6" fill="currentColor" />
+                    </marker>
+                  </defs>
+                </svg>
+
+                {/* Step 5: Label Assignment */}
+                <div className="flex flex-col items-center">
+                  <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg mb-2">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs font-medium text-gray-700 dark:text-gray-300">Apply Labels</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Auto-Organize</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Implementation Details */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* How It Works */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90 mb-4">
+              ⚙️ How It Works (Step-by-Step)
+            </h4>
+            <div className="space-y-4 text-sm">
+              <div>
+                <div className="font-medium text-gray-800 dark:text-white/90 mb-1">📧 Gmail Monitoring (Trigger)</div>
+                <div className="text-gray-600 dark:text-gray-400 text-xs">
+                  Continuously monitors your Gmail inbox:
+                  <ul className="list-disc list-inside mt-1 ml-2 space-y-0.5">
+                    <li>Polls for new emails every minute</li>
+                    <li>Captures all incoming messages automatically</li>
+                    <li>Triggers workflow for each new email received</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <div className="font-medium text-gray-800 dark:text-white/90 mb-1">📖 Email Content Extraction</div>
+                <div className="text-gray-600 dark:text-gray-400 text-xs">
+                  Retrieves complete email details:
+                  <ul className="list-disc list-inside mt-1 ml-2 space-y-0.5">
+                    <li>Full email body and headers</li>
+                    <li>Sender information and recipient lists</li>
+                    <li>Subject line and metadata</li>
+                    <li>Email threading information (replies/forwards)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <div className="font-medium text-gray-800 dark:text-white/90 mb-1">🔍 Email History Analysis</div>
+                <div className="text-gray-600 dark:text-gray-400 text-xs">
+                  AI agent checks relationship context:
+                  <ul className="list-disc list-inside mt-1 ml-2 space-y-0.5">
+                    <li>Searches for previous emails from the same sender</li>
+                    <li>Checks sent folder for prior outbound correspondence</li>
+                    <li>Determines if this is a first-time contact (cold email)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* AI Classification & Labels */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90 mb-4">
+              🤖 AI Classification & Smart Labels
+            </h4>
+            <div className="space-y-4 text-sm">
+              <div>
+                <div className="font-medium text-gray-800 dark:text-white/90 mb-2">Intelligent Classification Agent</div>
+                <div className="text-gray-600 dark:text-gray-400 text-xs mb-3">
+                  Advanced AI categorization using Claude Sonnet 4 for sophisticated email analysis, 
+                  context-aware classification, and automated vs. human-sent email detection.
+                </div>
+              </div>
+
+              <div>
+                <div className="font-medium text-gray-800 dark:text-white/90 mb-2">🏷️ Automatic Label Assignment</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex items-center gap-2 p-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">To Respond</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">FYI</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Notification</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Marketing</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Meeting Update</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Comment</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tools & Features */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Tools Used */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90 mb-4">
+              🛠️ Tools Used
+            </h4>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400">n8n</span>
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800 dark:text-white/90">n8n</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Workflow automation platform</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-xs font-bold text-red-600 dark:text-red-400">G</span>
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800 dark:text-white/90">Gmail API</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Email monitoring and label management</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-xs font-bold text-purple-600 dark:text-purple-400">AI</span>
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-800 dark:text-white/90">Anthropic Claude</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Advanced email content analysis</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Features */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90 mb-4">
+              📦 Key Features
+            </h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Real-time email monitoring and classification</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Context-aware analysis using email history</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Intelligent cold vs. warm email detection</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Automatic Gmail label application</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Thread-aware conversation tracking</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Use Cases */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h4 className="text-base font-semibold text-gray-800 dark:text-white/90 mb-4">
+              🚀 Ideal Use Cases
+            </h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Busy executives managing high email volumes</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Sales professionals prioritizing prospect communications</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Support teams organizing customer inquiries</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-600 dark:text-gray-400">Anyone wanting automated email organization</span>
+              </div>
+            </div>
+          </div>
+                 </div>
+       </section>
+
       {/* 
         MAIN WORKFLOW EDITOR SECTION - Full width embedded interface
         - This represents the white-labeled n8n interface
