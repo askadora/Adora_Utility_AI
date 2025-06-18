@@ -890,7 +890,7 @@ export default function Chat() {
                   {/* Send Button */}
                   <button
                     onClick={handleSend}
-                    disabled={!input.trim() || isLoading || llmUsage >= 20}
+                    disabled={!input.trim() || isLoading || llmUsage >= LLM_PROMPT_LIMIT}
                     className="ml-1 w-7 h-7 md:w-8 md:h-8 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed 
                              flex items-center justify-center dark:bg-blue-600 dark:hover:bg-blue-700 
                              transition-all duration-200"
