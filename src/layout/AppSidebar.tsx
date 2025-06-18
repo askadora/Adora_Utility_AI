@@ -111,6 +111,7 @@ const navItems: NavItem[] = [
     icon: <PromptIcon />,
     name: "Prompt",
     subItems: [
+      { name: "Adora Chat", path: "/prompt/n8n-chat", pro: false },
       { name: "Focused Chat", path: "/prompt/chat", pro: false },
       { name: "Synthesize", path: "/prompt/multi-chat", pro: false },
       { name: "Create Prompt", path: "/prompt/create", pro: false },
@@ -122,7 +123,10 @@ const navItems: NavItem[] = [
   {
     name: "Workflow",
     icon: <WorkflowIcon />,
-    path: "/workflow",
+    subItems: [
+      { name: "Workflow Builder", path: "/workflow", pro: false },
+      { name: "N8N Workflow Viewer", path: "/workflow/n8n-workflow", pro: false },
+    ],
   },
   {
     name: "Integrations",
