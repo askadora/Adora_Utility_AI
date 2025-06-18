@@ -914,7 +914,7 @@ export default function Chat() {
         </div>
 
         {/* Additional UI Elements */}
-        {llmUsage >= 20 && (
+        {llmUsage >= LLM_PROMPT_LIMIT && (
           <div className="text-xs text-red-600 dark:text-red-400 mt-2 text-center">
             You have used up free prompt credits
           </div>
