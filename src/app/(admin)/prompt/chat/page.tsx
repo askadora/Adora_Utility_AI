@@ -460,7 +460,7 @@ export default function Chat() {
               <div className="mt-3">
                 <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
                   <p className="text-xs text-amber-800 dark:text-amber-200 md:text-sm">
-                    ⚠️ This is a demo/test system. You have a 20 prompt limit for testing purposes.
+                    ⚠️ This is a demo/test system. You have a {LLM_PROMPT_LIMIT} prompt limit for testing purposes.
                   </p>
                 </div>
               </div>
