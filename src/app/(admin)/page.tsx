@@ -11,7 +11,7 @@ import { Agenda } from "@/components/home/Agenda";
 import { CommunityFeed } from "@/components/home/CommunityFeed";
 import { QuickActions } from "@/components/home/QuickActions";
 import { Events } from "@/components/home/Events";
-import { News } from "@/components/home/News";
+import News from "@/components/home/News";
 
 export const metadata: Metadata = {
   title: "Home | Adora AI - AI-Powered Business Intelligence Platform",
