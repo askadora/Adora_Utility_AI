@@ -34,9 +34,10 @@
     "ai": "^4.3.16",
     "apexcharts": "^4.3.0",
     "autoprefixer": "^10.4.20",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "chart.js": "^4.4.9",
+    "express": "^5.1.0",
     "flatpickr": "^4.6.13",
     "jsonwebtoken": "^9.0.2",
     "next": "^15.3.3",
@@ -90,5 +91,18 @@
       "react": "^16.8.0 || ^17 || ^18 || ^19",
       "react-dom": "^16.8.0 || ^17 || ^18 || ^19"
     }
-  }
+  },
+  "description": "Adora AI is a comprehensive business intelligence platform that leverages artificial intelligence to provide powerful insights, analytics, and automation tools for modern businesses.",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/askadora/adora_ai_private_frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/askadora/adora_ai_private_frontend/issues"
+  },
+  "homepage": "https://github.com/askadora/adora_ai_private_frontend#readme"
 }

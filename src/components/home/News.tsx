@@ -1,240 +1,89 @@
 "use client";
-import React, { useState } from "react";
-import { ChevronRightIcon } from "@/icons";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
-interface NewsItem {
-  id: number;
-  title: string;
-  source: string;
-  timeAgo: string;
-  category: string;
-  excerpt?: string;
-  trending?: boolean;
+interface NewsArticle {
   image?: string;
-  featured?: boolean;
+  title: string;
+  description?: string;
+  url: string;
 }
 
-export const News: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"ai" | "adora" | "tech">("ai");
+export default function News() {
+  const [newsData, setNewsData] = useState<NewsArticle[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const aiNews: NewsItem[] = [
-    {
-      id: 1,
-      title: "OpenAI Unveils GPT-5: The Most Advanced AI Model Yet",
-      source: "TechCrunch",
-      timeAgo: "2 hours ago",
-      category: "AI",
-      excerpt: "Revolutionary breakthrough in artificial intelligence with enhanced reasoning capabilities and multimodal understanding that surpasses human performance in complex tasks.",
-      trending: true,
-      featured: true,
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop&crop=center",
-    },
-    {
-      id: 2,
-      title: "Google DeepMind's AlphaFold 3 Predicts Protein Structures with 95% Accuracy",
-      source: "Nature",
-      timeAgo: "4 hours ago",
-      category: "Research",
-      excerpt: "Breakthrough in protein folding prediction could revolutionize drug discovery.",
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 3,
-      title: "Meta's LLaMA 3 Outperforms GPT-4 in Coding Benchmarks",
-      source: "AI Research",
-      timeAgo: "6 hours ago",
-      category: "Benchmarks",
-      excerpt: "Open-source model achieves state-of-the-art results across programming languages.",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 4,
-      title: "Microsoft Copilot AI Assistant Gets Major Update",
-      source: "Microsoft",
-      timeAgo: "8 hours ago",
-      category: "Product",
-      excerpt: "Enhanced productivity features and better integration across Office suite.",
-    },
-    {
-      id: 5,
-      title: "AI Safety Summit Announces New Global Guidelines",
-      source: "Reuters",
-      timeAgo: "1 day ago",
-      category: "Policy",
-      excerpt: "International cooperation on AI regulation and safety standards.",
-    },
-  ];
-
-  const adoraNews: NewsItem[] = [
-    {
-      id: 1,
-      title: "Adora AI Raises $50M Series B for Enterprise AI Platform Expansion",
-      source: "Adora AI",
-      timeAgo: "2 hours ago",
-      category: "Funding",
-      excerpt: "Major funding round will accelerate development of industry-specific AI solutions and drive global expansion into new markets across healthcare, finance, and manufacturing sectors.",
-      trending: true,
-      featured: true,
-      image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop&crop=center",
-    },
-    {
-      id: 2,
-      title: "New Partnership: Adora AI Integrates with Microsoft Azure OpenAI",
-      source: "Business Wire",
-      timeAgo: "1 day ago",
-      category: "Partnership",
-      excerpt: "Strategic integration brings enterprise-grade AI capabilities to Azure customers.",
-      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 3,
-      title: "Adora AI Launches Industry-First Ethical AI Governance Framework",
-      source: "Adora AI",
-      timeAgo: "2 days ago",
-      category: "Innovation",
-      excerpt: "Comprehensive framework ensures responsible AI deployment across enterprises.",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 4,
-      title: "Adora AI CEO Named to Fortune's AI Leaders List",
-      source: "Fortune",
-      timeAgo: "3 days ago",
-      category: "Recognition",
-      excerpt: "Recognition for pioneering work in enterprise AI transformation.",
-    },
-    {
-      id: 5,
-      title: "New Adora AI Regional Hub Opens in Singapore",
-      source: "Adora AI",
-      timeAgo: "1 week ago",
-      category: "Expansion",
-      excerpt: "Strategic expansion into Asian markets with new development center.",
-    },
-  ];
-
-  const techNews: NewsItem[] = [
-    {
-      id: 1,
-      title: "Apple Vision Pro 2 Rumored with Revolutionary Neural Processing Chip",
-      source: "Bloomberg",
-      timeAgo: "1 hour ago",
-      category: "Hardware",
-      excerpt: "Next-generation mixed reality headset expected to feature groundbreaking AI chip architecture that enables real-time neural processing and advanced spatial computing capabilities.",
-      trending: true,
-      featured: true,
-      image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=600&fit=crop&crop=center",
-    },
-    {
-      id: 2,
-      title: "Tesla's FSD Beta Achieves 99.8% Safety Rating in Independent Study",
-      source: "Reuters",
-      timeAgo: "3 hours ago",
-      category: "Autonomous",
-      excerpt: "Comprehensive analysis shows significant improvement in real-world scenarios.",
-      image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 3,
-      title: "IBM Unveils 1000-Qubit Quantum Processor Breakthrough",
-      source: "MIT Technology Review",
-      timeAgo: "5 hours ago",
-      category: "Quantum",
-      excerpt: "Major milestone toward practical quantum computing applications.",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop&crop=center",
-    },
-    {
-      id: 4,
-      title: "NVIDIA's Next-Gen AI Chips Deliver 10x Performance Boost",
-      source: "TechCrunch",
-      timeAgo: "8 hours ago",
-      category: "Hardware",
-      excerpt: "Revolutionary architecture promises unprecedented AI training speeds.",
-    },
-    {
-      id: 5,
-      title: "SpaceX Starlink Satellites Get AI-Powered Internet Optimization",
-      source: "Space News",
-      timeAgo: "12 hours ago",
-      category: "Space Tech",
-      excerpt: "Machine learning algorithms improve global internet coverage efficiency.",
-    },
-  ];
-
-  const getCurrentNews = () => {
-    switch (activeTab) {
-      case "ai": return aiNews;
-      case "adora": return adoraNews;
-      case "tech": return techNews;
-      default: return aiNews;
-    }
-  };
-
-  const getTabLabel = (tab: string) => {
-    switch (tab) {
-      case "ai": return "General AI";
-      case "adora": return "Adora AI";
-      case "tech": return "Tech Trends";
-      default: return "General AI";
-    }
-  };
-
-  const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      "Research": "bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-400",
-      "Product Launch": "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400",
-      "Benchmarks": "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400",
-      "Company News": "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-400",
-      "Partnerships": "bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400",
-      "Innovation": "bg-pink-100 text-pink-700 dark:bg-pink-500/15 dark:text-pink-400",
-      "Hardware": "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/15 dark:text-cyan-400",
-      "Autonomous Vehicles": "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400",
-      "Quantum Computing": "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400",
+  useEffect(() => {
+    const fetchNews = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("/api/news");
+        const data = await response.json();
+        setNewsData(data.news || []);
+      } catch (err) {
+        setError("Failed to load news.");
+      } finally {
+        setIsLoading(false);
+      }
     };
-    return colors[category] || "bg-gray-100 text-gray-700 dark:bg-gray-500/15 dark:text-gray-400";
-  };
+    fetchNews();
+  }, []);
 
-  const currentNews = getCurrentNews();
-  const featuredStory = currentNews.find(item => item.featured);
-  const trendingStories = currentNews.slice(0, 5);
-  const secondaryStories = currentNews.filter(item => !item.featured && item.image).slice(0, 3);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!newsData.length) return <div>No news available.</div>;
+
+  const featured = newsData[0];
+  const highlights = newsData.slice(1, 6);
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white px-6 py-5 dark:border-gray-800 dark:bg-white/[0.03] transition-all duration-200 hover:shadow-lg">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Latest News
-          </h3>
+    <div className="news-section">
+      {/* Featured Story */}
+      <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+          <Image
+            src={featured.image || '/placeholder-news.jpg'}
+            alt={featured.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+            priority
+          />
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-          <span className="text-xs text-gray-500 dark:text-gray-400">Live</span>
+        <div className="flex-1 p-8 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-purple-700 mb-4 leading-tight">{featured.title}</h2>
+          <p className="text-gray-700 mb-4 text-lg line-clamp-3">{featured.description}</p>
+          <a href={featured.url} target="_blank" rel="noopener noreferrer" className="font-bold text-gray-800 hover:underline">Read More »</a>
         </div>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex items-center gap-1 rounded-lg bg-gray-100 p-1 dark:bg-gray-900 mb-6">
-        {["ai", "adora", "tech"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab as "ai" | "adora" | "tech")}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-              activeTab === tab
-                ? "bg-white text-gray-900 shadow-sm dark:bg-gray-800 dark:text-white"
-                : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-            }`}
+      {/* Grid of Smaller Stories */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+        {highlights.map((story, idx) => (
+          <a
+            key={idx}
+            href={story.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white rounded-lg shadow p-3 flex flex-col hover:bg-blue-50 transition-colors"
           >
-            {getTabLabel(tab)}
-          </button>
+            <div className="h-24 w-full relative mb-2 rounded overflow-hidden">
+              <Image
+                src={story.image || '/placeholder-news.jpg'}
+                alt={story.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 20vw"
+              />
+            </div>
+            <h3 className="font-semibold text-sm mb-1 line-clamp-2">{story.title}</h3>
+            <p className="text-xs text-gray-600 line-clamp-2">{story.description}</p>
+          </a>
         ))}
       </div>
+<<<<<<< HEAD
 
       {/* Main News Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
@@ -372,6 +221,8 @@ export const News: React.FC = () => {
           </button>
         </div>
       </div>
+=======
+>>>>>>> feature/news-integration
     </div>
   );
-}; 
+} 
