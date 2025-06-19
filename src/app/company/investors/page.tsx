@@ -4,11 +4,16 @@ import React, { useState } from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
 import { useDocsBot } from '@/docsbot/useDocsBot';
 import { DOCSBOT_BOTS } from '@/docsbot/config';
+import { useSidebar } from '@/context/SidebarContext';
 
 export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showSafeModal, setShowSafeModal] = useState(false);
+  const [showClientSafeModal, setShowClientSafeModal] = useState(false);
+  const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
   const { messages, isLoading, sendMessage, error, clearMessages } = useDocsBot(DOCSBOT_BOTS.INVESTOR as string);
+  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Accordion state management
   const [openSections, setOpenSections] = useState({
@@ -75,18 +80,45 @@ export default function InvestorDataRoom() {
               We're seeking $2.5-3.2M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-6">
-              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm">
+              <button 
+                onClick={() => setShowMinimumSafeModal(true)}
+                className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-[#5365FF]/20"
+              >
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Minimum Investment</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">$250K</p>
-              </div>
-              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm">
+                <div className="mt-2 flex items-center justify-center gap-1 text-xs text-[#5365FF] dark:text-blue-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View Document
+                </div>
+              </button>
+              <button 
+                onClick={() => setShowClientSafeModal(true)}
+                className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-[#5365FF]/20"
+              >
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Client Investor</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">$322K</p>
-              </div>
-              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm">
+                <div className="mt-2 flex items-center justify-center gap-1 text-xs text-[#5365FF] dark:text-blue-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View Document
+                </div>
+              </button>
+              <button 
+                onClick={() => setShowSafeModal(true)}
+                className="rounded-lg bg-gray-50 dark:bg-gray-800 p-6 text-center shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-[#5365FF]/20"
+              >
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Hybrid SAFE</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">$1M</p>
-              </div>
+                <div className="mt-2 flex items-center justify-center gap-1 text-xs text-[#5365FF] dark:text-blue-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View Document
+                </div>
+              </button>
             </div>
           </div>
         </section>
@@ -754,84 +786,437 @@ export default function InvestorDataRoom() {
       {/* Video Modal Lightbox */}
       {showVideoModal && (
         <>
-          {/* Backdrop */}
+          {/* Overlay for lightbox - covers entire viewport */}
           <div 
             className="fixed inset-0 bg-black/60 z-40 transition-opacity"
             onClick={() => setShowVideoModal(false)}
           />
-          {/* Centered modal within content area */}
+          
+          {/* Modal positioned to account for sidebar and header */}
           <div 
-            className="fixed z-50 flex items-center justify-center"
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
             style={{
-              top: '80px', // Below header
+              top: '80px', // Account for header height
               left: '0',
               right: '0', 
               bottom: '0',
-              marginLeft: 'var(--sidebar-width, 0px)', // Dynamic sidebar width
-              padding: '1rem'
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
             }}
           >
-            <div className="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-lg shadow-2xl">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                How to Use the Data Room
-              </h3>
-              <button
-                onClick={() => setShowVideoModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            {/* Video Container */}
-            <div className="p-4">
-              <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
-                {/* Placeholder for video - replace with actual video URL */}
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowVideoModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     How to Use the Data Room
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Learn how to navigate and use our investor data room effectively
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     {/* Placeholder for video - replace with actual video URL */}
+                     <div className="w-full h-full flex items-center justify-center">
+                       <div className="text-center">
+                         <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
+                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                           </svg>
+                         </div>
+                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                           Data Room Tutorial Video
+                         </h4>
+                         <p className="text-gray-600 dark:text-gray-400 mb-4">
+                           Learn how to navigate and use our investor data room effectively.
+                         </p>
+                         <p className="text-sm text-gray-500 dark:text-gray-400">
+                           Video coming soon - Replace this placeholder with your actual video embed
+                         </p>
+                       </div>
+                     </div>
+                     
+                     {/* Uncomment and replace VIDEO_ID with actual video when ready */}
+                     {/* 
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/VIDEO_ID"
+                       title="How to Use the Data Room"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                     */}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </>
+       )}
+
+      {/* SAFE Document PDF Modal */}
+      {showSafeModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowSafeModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+                         {/* Scrollable container with max height */}
+             <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowSafeModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Dynamic SAFE Note
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        $1,000,000 Investment Agreement • Post-Money Valuation Cap & Discount - 1 yr of Adora AI OS included
+                      </p>
+                      <div className="flex items-center gap-4 mt-3 text-sm flex-wrap">
+                        <span className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-2 py-1 rounded">
+                          $100M Valuation Cap
+                        </span>
+                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 px-2 py-1 rounded">
+                          20% Discount Rate
+                        </span>
+                        <span className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 px-2 py-1 rounded">
+                          1yr of Adora AI OS Included
+                        </span>
+                      </div>
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                      Data Room Tutorial Video
-                    </h4>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Learn how to navigate and use our investor data room effectively.
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Video coming soon - Replace this placeholder with your actual video embed
-                    </p>
                   </div>
                 </div>
                 
-                {/* Uncomment and replace VIDEO_ID with actual video when ready */}
-                {/* 
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/VIDEO_ID"
-                  title="How to Use the Data Room"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-                */}
+                                 {/* PDF Viewer Container */}
+                 <div className="p-2 pb-3">
+                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                     <iframe
+                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$1m.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMW0ucGRmIiwiaWF0IjoxNzUwMjgwMDM4LCJleHAiOjE3ODE4MTYwMzh9.rcy8tlyTbJZ0-3UCiEREXq9mJv696dsCMZygo1IHovU#view=FitH&zoom=110"
+                       title="Adora AI Dynamic SAFE Note - $1M Investment Agreement"
+                       className="w-full h-[65vh] rounded-lg"
+                       style={{ minHeight: '500px' }}
+                     />
+                   </div>
+                 </div>
+                 
+                 {/* Action Buttons */}
+                 <div className="px-2 pb-3">
+                   <div className="flex flex-col sm:flex-row gap-3">
+                     <a
+                       href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$1m.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMW0ucGRmIiwiaWF0IjoxNzUwMjgwMDM4LCJleHAiOjE3ODE4MTYwMzh9.rcy8tlyTbJZ0-3UCiEREXq9mJv696dsCMZygo1IHovU"
+                       download="Adora_AI_Dynamic_SAFE_Note_$1M.pdf"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                     >
+                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                       </svg>
+                       Download PDF
+                     </a>
+                     <a
+                       href="mailto:investors@adorahq.com?subject=SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $1M SAFE investment opportunity."
+                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                     >
+                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                       </svg>
+                       Contact About Investment
+                     </a>
+                   </div>
+                 </div>
               </div>
             </div>
-            
-            {/* Modal Footer */}
-            <div className="flex justify-end p-4 border-t border-gray-200 dark:border-gray-700">
-              <button
-                onClick={() => setShowVideoModal(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
-              >
-                Close
-              </button>
+          </div>
+        </>
+      )}
+
+      {/* Client SAFE Document PDF Modal ($322K) */}
+      {showClientSafeModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowClientSafeModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowClientSafeModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Client SAFE Note
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        $322,000 Investment Agreement • Post-Money Valuation Cap & Discount - Investor get's investment credit for adding their first year of Adora AI to the $250k minimum investment
+                      </p>
+                      <div className="flex items-center gap-4 mt-3 text-sm flex-wrap">
+                        <span className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-2 py-1 rounded">
+                          $100M Valuation Cap
+                        </span>
+                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 px-2 py-1 rounded">
+                          20% Discount Rate
+                        </span>
+                        <span className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 px-2 py-1 rounded">
+                          1yr of Adora AI OS Included
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* PDF Viewer Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$322k%20Client.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMzIyayBDbGllbnQucGRmIiwiaWF0IjoxNzUwMjgyMjQ2LCJleHAiOjE3ODE4MTgyNDZ9.2Le6WTGQNFtx_doB8cUK6bshEJ6jIxj6VMzLZQ1Fjuw#view=FitH&zoom=110"
+                      title="Adora AI Client SAFE Note - $322K Investment Agreement"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$322k%20Client.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMzIyayBDbGllbnQucGRmIiwiaWF0IjoxNzUwMjgyMjQ2LCJleHAiOjE3ODE4MTgyNDZ9.2Le6WTGQNFtx_doB8cUK6bshEJ6jIxj6VMzLZQ1Fjuw"
+                      download="Adora_AI_Client_SAFE_Note_$322K.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=Client SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $322K Client investment opportunity."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Investment
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        </>
+      )}
+
+      {/* Minimum SAFE Document PDF Modal ($250K) */}
+      {showMinimumSafeModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowMinimumSafeModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowMinimumSafeModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Minimum SAFE Note
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        $250,000 Investment Agreement • Post-Money Valuation Cap & Discount
+                      </p>
+                      <div className="flex items-center gap-4 mt-3 text-sm flex-wrap">
+                        <span className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-2 py-1 rounded">
+                          $100M Valuation Cap
+                        </span>
+                        <span className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 px-2 py-1 rounded">
+                          20% Discount Rate
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* PDF Viewer Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$250k.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMjUway5wZGYiLCJpYXQiOjE3NTAyODI0MjksImV4cCI6MTc4MTgxODQyOX0.XA9bFdsO30pZ4Rs62qBvxCC3-gniLuE4d97b0jS_54M#view=FitH&zoom=110"
+                      title="Adora AI Minimum SAFE Note - $250K Investment Agreement"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$250k.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMjUway5wZGYiLCJpYXQiOjE3NTAyODI0MjksImV4cCI6MTc4MTgxODQyOX0.XA9bFdsO30pZ4Rs62qBvxCC3-gniLuE4d97b0jS_54M"
+                      download="Adora_AI_Minimum_SAFE_Note_$250K.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=Minimum SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $250K minimum investment opportunity."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Investment
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </>
