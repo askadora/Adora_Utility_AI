@@ -308,10 +308,9 @@ export const News: React.FC = () => {
         </div>
       </div>
 
-      {/* Secondary Stories and Events */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        {/* Secondary Stories - First 2 columns */}
-        {secondaryStories.slice(0, 2).map((story) => (
+      {/* Secondary Stories */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {secondaryStories.slice(0, 3).map((story) => (
           <div key={story.id} className="group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg mb-3">
               <div className="aspect-[4/3] bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700">
@@ -350,123 +349,6 @@ export const News: React.FC = () => {
             </div>
           </div>
         ))}
-
-        {/* Events Section - Last 2 columns */}
-        <div className="md:col-span-2">
-          <div className="bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-500/5 dark:to-purple-500/5 rounded-lg border border-blue-100 dark:border-blue-800/50 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-md flex items-center justify-center">
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h4 className="text-sm font-semibold text-gray-800 dark:text-white/90">
-                  Upcoming Events
-                </h4>
-              </div>
-              <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full dark:bg-blue-500/15 dark:text-blue-400 font-medium">
-                12 spots left
-              </span>
-            </div>
-            
-            <div className="mb-4 space-y-3">
-              {/* First Event */}
-              <div className="p-3 bg-white/80 dark:bg-gray-800/40 rounded-lg border border-blue-200/50 dark:border-blue-800/30">
-                <div className="flex items-start gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-md flex-shrink-0">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full dark:bg-purple-500/20 dark:text-purple-400 font-medium">
-                        Workshop
-                      </span>
-                    </div>
-                    
-                    <h5 className="text-sm font-semibold text-gray-900 dark:text-white/90 mb-2">
-                      Adora AI Workshop: Advanced Prompt Engineering
-                    </h5>
-                    
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
-                      Learn advanced techniques for crafting effective prompts and optimizing AI workflows.
-                    </p>
-                    
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        December 28, 2024 • 2:00 PM - 5:00 PM PST
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Tech Hub Downtown, San Francisco, CA
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Second Event */}
-              <div className="p-3 bg-white/80 dark:bg-gray-800/40 rounded-lg border border-green-200/50 dark:border-green-800/30">
-                <div className="flex items-start gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-md flex-shrink-0">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full dark:bg-green-500/20 dark:text-green-400 font-medium">
-                        Webinar
-                      </span>
-                    </div>
-                    
-                    <h5 className="text-sm font-semibold text-gray-900 dark:text-white/90 mb-2">
-                      AI Integration for Enterprise Teams
-                    </h5>
-                    
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
-                      Strategic insights on implementing AI solutions in large organizations.
-                    </p>
-                    
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        January 5, 2025 • 11:00 AM - 12:00 PM PST
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
-                        </svg>
-                        Virtual Event • Online
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <button className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-                View all events →
-              </button>
-              <button className="px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-md hover:from-blue-600 hover:to-purple-700 transition-all">
-                Register Now
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Footer */}

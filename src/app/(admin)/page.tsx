@@ -90,6 +90,9 @@ export default function Home() {
       {/* NEWS SECTION */}
       <News />
 
+      {/* EVENTS SECTION */}
+      <Events />
+
       {/* BOTTOM ROW - COMMUNITY FEED, FEATURE ADOPTION, AND RELEASE NOTES */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
         <div className="lg:col-span-1">

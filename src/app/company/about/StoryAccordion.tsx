@@ -33,10 +33,10 @@ export default function StoryAccordion() {
         <div className="px-6 pb-6">
           <div className="space-y-6">
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              Adora AI was born from a vision to revolutionize how businesses interact with artificial intelligence. Our journey began with a simple yet powerful idea: to make AI accessible, intuitive, and truly beneficial for everyone.
+              Adora's journey began over a decade ago with a simple mission: to use technology to make a positive impact. What started as the Adora Charity App in 2014-2015 has evolved into today's cutting-edge AI platform, representing years of innovation, learning, and dedication to transforming how businesses interact with artificial intelligence.
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              Today, we're proud to be at the forefront of AI innovation, helping businesses across industries harness the power of artificial intelligence to drive growth, efficiency, and success.
+              From our humble beginnings helping charities connect with donors to becoming a leader in AI innovation, our core values have remained constant: accessibility, intuition, and genuine benefit for everyone we serve.
             </p>
           </div>
 
@@ -44,19 +44,55 @@ export default function StoryAccordion() {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Our Journey</h3>
             <div className="space-y-6">
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6">
+                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">2014-2015</h4>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Launched the Adora Charity App - our first venture into technology for social good
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Focused on connecting charities with donors through innovative mobile technology
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Established core values of accessibility and positive impact
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6">
+                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">2016-2020</h4>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Evolved beyond charity apps to explore broader technology solutions
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Built expertise in mobile development, user experience, and scalable systems
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Laid the foundation for future AI innovations
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6">
                 <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">2021</h4>
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Spring: Started playing with AI (GPT-2) at a Hackathon at ASU in Phoenix AZ
+                    Spring: First exploration of AI technology at ASU Hackathon in Phoenix, AZ
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Spring: Our first attempt to load ML data into an AI model
+                    Experimented with GPT-2 and early machine learning models
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Summer: Started using AI for Social Media Avatar Correlation & Adora Venture Studio
+                    Summer: Began using AI for Social Media Avatar Correlation & launched Adora Venture Studio
                   </li>
                 </ul>
               </div>
@@ -66,7 +102,11 @@ export default function StoryAccordion() {
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Using AI internally, developing system architecture
+                    Intensive internal AI development and system architecture design
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Built foundational AI infrastructure and workflows
                   </li>
                 </ul>
               </div>
@@ -76,7 +116,19 @@ export default function StoryAccordion() {
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Started Adora AI under Adora Venture Studio, began first use case development
+                    Officially launched Adora AI under Adora Venture Studio
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Nearly launched Agentic AI System - almost 2 years before the market was ready
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    AI performance wasn't quite ready yet, so we continued development and optimization
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Began developing first commercial AI use cases and applications
                   </li>
                 </ul>
               </div>
@@ -86,7 +138,11 @@ export default function StoryAccordion() {
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Working on system optimization and plug-n-play capabilities
+                    Recognized the need to build a more well-rounded OS for all things AI to communicate and interface around
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Advanced system optimization and plug-and-play AI capabilities
                   </li>
                 </ul>
               </div>
@@ -96,7 +152,15 @@ export default function StoryAccordion() {
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
-                    Final Testing, Integrations, and Launch on September 22nd
+                    Expanded team and refined our AI platform architecture
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Final testing, integrations, and platform launch scheduled for September 22nd
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
+                    Ready to revolutionize how businesses harness AI technology
                   </li>
                 </ul>
               </div>

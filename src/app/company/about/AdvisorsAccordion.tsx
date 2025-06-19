@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type AdvisorModalType = 'naomi' | 'karina' | 'sharad' | 'antonio' | 'klyne' | 'kathi';
+type AdvisorModalType = 'naomi' | 'karina' | 'sharad' | 'antonio' | 'klyne' | 'kathi' | 'mercedes' | 'shakeel';
 
 interface AdvisorsAccordionProps {
   onPersonClick: (person: AdvisorModalType) => void;
@@ -62,6 +62,18 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               </div>
             </div>
 
+            {/* Mercedes Ballard */}
+            <div 
+              className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              onClick={() => onPersonClick('mercedes')}
+            >
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="ml-4">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Mercedes Ballard</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Magical Teams Strategist</p>
+              </div>
+            </div>
+
             {/* Sharad Karkera */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -107,6 +119,18 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Kathi Vidal</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">IP Advisor</p>
+              </div>
+            </div>
+
+            {/* Shakeel Raja */}
+            <div 
+              className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              onClick={() => onPersonClick('shakeel')}
+            >
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="ml-4">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Shakeel Raja</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Director Data Science @ TechGenies</p>
               </div>
             </div>
           </div>
