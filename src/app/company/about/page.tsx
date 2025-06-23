@@ -16,24 +16,56 @@ type ModalType = 'kyle' | 'kevin' | 'chittal' | 'sridurga' | 'sai' | 'anthony' |
 export default function AboutPage() {
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   const closeModal = () => setActiveModal(null);
-  const closeApplicationForm = () => setShowApplicationForm(false);
-
-  const handleApplicationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name');
-    const profile = formData.get('profile');
-    const email = formData.get('email');
-    const phone = formData.get('phone');
-    
-    const emailBody = `Name: ${name}%0D%0ALinkedIn/GitHub Profile: ${profile}%0D%0AEmail: ${email}%0D%0APhone: ${phone}`;
-    const subject = 'Job Application - Adora AI';
-    
-    window.location.href = `mailto:hello@adorahq.com?subject=${subject}&body=${emailBody}`;
+  const closeApplicationForm = () => {
     setShowApplicationForm(false);
+    setSubmitMessage(null);
+  };
+
+  const handleApplicationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    try {
+    const formData = new FormData(e.currentTarget);
+      const name = formData.get('name') as string;
+      const profile = formData.get('profile') as string;
+      const email = formData.get('email') as string;
+      const phone = formData.get('phone') as string;
+
+      const response = await fetch('/api/job-applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, profile, email, phone }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage({ type: 'success', text: 'Application submitted successfully! We\'ll get back to you soon.' });
+        // Reset form
+        // e.currentTarget.reset();
+        // Close form after 3 seconds
+        setTimeout(() => {
+          setShowApplicationForm(false);
+          setSubmitMessage(null);
+        }, 1000);
+      } else {
+        setSubmitMessage({ type: 'error', text: result.error || 'Failed to submit application. Please try again.' });
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmitMessage({ type: 'error', text: 'An unexpected error occurred. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Modal content data
@@ -549,6 +581,17 @@ export default function AboutPage() {
                 </p>
                 
                 <form onSubmit={handleApplicationSubmit} className="space-y-4">
+                  {/* Success/Error Message */}
+                  {submitMessage && (
+                    <div className={`p-3 rounded-md ${
+                      submitMessage.type === 'success' 
+                        ? 'bg-green-50 border border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400' 
+                        : 'bg-red-50 border border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400'
+                    }`}>
+                      {submitMessage.text}
+                    </div>
+                  )}
+                  
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
                       Name
@@ -558,7 +601,8 @@ export default function AboutPage() {
                       id="name"
                       name="name"
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                      disabled={isSubmitting}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   
@@ -567,11 +611,11 @@ export default function AboutPage() {
                       LinkedIn/GitHub Profile
                     </label>
                     <input
-                      type="url"
+                      type="text"
                       id="profile"
                       name="profile"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                      disabled={isSubmitting}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   
@@ -584,7 +628,8 @@ export default function AboutPage() {
                       id="email"
                       name="email"
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                      disabled={isSubmitting}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   
@@ -597,15 +642,27 @@ export default function AboutPage() {
                       id="phone"
                       name="phone"
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                      disabled={isSubmitting}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors mt-6"
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-4 rounded-md transition-colors mt-6 disabled:cursor-not-allowed flex items-center justify-center"
                   >
-                    Submit
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit'
+                    )}
                   </button>
                 </form>
               </div>
@@ -667,10 +724,10 @@ export default function AboutPage() {
                 Open Positions
               </h3>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Lead Cryptography Systems Engineer — Symbolic Encryption (Rust | C/C++)</li>
-                <li>Principal AI Systems Integrator — GenAI & LLM-Ops (Python | TypeScript | RAG | n8n)</li>
-                <li>Principal Product Designer — Agentic AI OS UI/UX (Web | Desktop | Mobile)</li>
-                <li>Principal Product Manager — Agentic AI OS Team Organization (Jira, Asana, Discord, Figma)</li>
+                <li>Cryptography Systems Engineer — Symbolic Encryption (Rust | C/C++)</li>
+                <li>AI Systems Integrator — GenAI & LLM-Ops (Python | TypeScript | RAG | n8n)</li>
+                <li>Product Designer — Agentic AI OS UI/UX (Web | Desktop | Mobile)</li>
+                <li>Product Manager — Agentic AI OS Team Organization (Jira, Asana, Discord, Figma)</li>
                 <li>AI first Social Media Manager</li>
                 <li>AI Educational Content Creator</li>
                 <li>Paid Internships Available</li>
