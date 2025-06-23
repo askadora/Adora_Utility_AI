@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     if (data && !data.success) {
       console.error('Function error:', data.error);
       return NextResponse.json(
-        { error: data.error || 'Failed to save application' },
+        { error: data},
         { status: 500 }
       );
     }
