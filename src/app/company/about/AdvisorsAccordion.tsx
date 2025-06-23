@@ -43,7 +43,13 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('naomi')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/naomi1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbmFvbWkxLkpQRyIsImlhdCI6MTc1MDcyMjExMSwiZXhwIjoxNzgyMjU4MTExfQ.oECVQVUXzejAu2426_oAFmImn5IGAGQGHGBSr_O5iEY"
+                  alt="Naomi Wang"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Naomi Wang</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Senior Product Advisor</p>
@@ -55,7 +61,13 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('karina')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/karina1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2FyaW5hMS5qcGciLCJpYXQiOjE3NTA3MjE5OTEsImV4cCI6MTc4MjI1Nzk5MX0.n3AdTJGFJNXVlhZhmgPG4FbGxrPvfp2Lgvj4TkrDsyE"
+                  alt="Karina Lupercio"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Karina Lupercio</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Fractional COO</p>
@@ -67,7 +79,13 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('mercedes')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/mercedes1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbWVyY2VkZXMxLmpwZyIsImlhdCI6MTc1MDcyMjAzMSwiZXhwIjoxNzgyMjU4MDMxfQ.itGYQpD5fQIn4628nL-SnTlJQgRdy12GyHDYxAGKRm8"
+                  alt="Mercedes Ballard"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Mercedes Ballard</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Magical Teams Strategist</p>

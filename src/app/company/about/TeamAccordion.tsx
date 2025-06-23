@@ -104,7 +104,13 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('kevin')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/kevin.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2V2aW4uSlBHIiwiaWF0IjoxNzUwNzIxODc5LCJleHAiOjE3ODIyNTc4Nzl9.4b-jxkeiACggQMsUFPRiI2dNUM407Gbj_7ljDt3JIuQ"
+                  alt="Kevin Bultongez"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Kevin Bultongez</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Head Architect</p>
@@ -114,7 +120,13 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('chittal')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/chittal1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvY2hpdHRhbDEuSlBHIiwiaWF0IjoxNzUwNzIxNDE4LCJleHAiOjE3ODIyNTc0MTh9.JdejHNL5dvv1DjTmWHXu6bmtGi3bfB2OehwqYFYoJBg"
+                  alt="Chittal Karuppiah"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Chittal Karuppiah</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">AI/ML Engineer</p>
@@ -124,7 +136,13 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('sridurga')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/sri1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uvc3JpMS5qcGciLCJpYXQiOjE3NTA3MjE2NzAsImV4cCI6MTc4MjI1NzY3MH0.eKuLDLlIUaJBm1WY_nhRtlrKria89N545XNKZMiGh3s"
+                  alt="Sridurga Linga"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Sridurga Linga</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">AI/ML Engineer</p>
@@ -144,7 +162,13 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('anthony')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/anthony.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvYW50aG9ueS5qcGciLCJpYXQiOjE3NTA3MjA2NDcsImV4cCI6MTc4MjI1NjY0N30.2DlzdDUrDLaonfrfJA1MbTRVWVnOS8C-1ZMczvC8Whc"
+                  alt="Anthony Porter"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Anthony Porter</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Corporate Relationships</p>
@@ -154,7 +178,13 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('jacob')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/jacob1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvamFjb2IxLkpQRyIsImlhdCI6MTc1MDcyMTQ2MiwiZXhwIjoxNzgyMjU3NDYyfQ.9tvKgj_ykyNuJMyR6U-3J1n-4uAyRasknqQ08SjyU0U"
+                  alt="Jacob Gresham"
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Jacob Gresham</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Talent Acquisition</p>
