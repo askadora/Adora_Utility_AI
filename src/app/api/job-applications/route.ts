@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     if (error) {
       console.error('Supabase function error:', error);
       return NextResponse.json(
-        { error: 'Failed to save application' },
+        { error: error },
         { status: 500 }
       );
     }
