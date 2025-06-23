@@ -4,7 +4,7 @@ import { GreetingBar } from "@/components/home/GreetingBar";
 import { AdoptionMeter } from "@/components/home/AdoptionMeter";
 import { ReleaseNotes } from "@/components/home/ReleaseNotes";
 import { KpiSummary } from "@/components/home/KpiSummary";
-
+import { CUSalesKpi } from "@/components/home/CUSalesKpi";
 
 import { Agenda } from "@/components/home/Agenda";
 
@@ -45,24 +45,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Orders KPI */}
-        <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 transition-all duration-200 hover:shadow-lg">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex-shrink-0">
-            <svg className="size-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          </div>
-          <div className="flex flex-col flex-1 gap-2">
-            <span className="text-sm text-gray-500 dark:text-gray-400">Orders</span>
-            <h4 className="font-bold text-gray-800 text-title-sm dark:text-white/90">2,847</h4>
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full dark:bg-red-500/15 dark:text-red-400 w-fit">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-              -3.2%
-            </span>
-          </div>
-        </div>
+        {/* CU Sales KPI */}
+        <CUSalesKpi />
 
         {/* Conversion Rate KPI */}
         <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 transition-all duration-200 hover:shadow-lg">
