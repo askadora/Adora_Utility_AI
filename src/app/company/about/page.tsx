@@ -18,6 +18,7 @@ export default function AboutPage() {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [showPartnerPDF, setShowPartnerPDF] = useState<ModalType | null>(null);
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   const closeModal = () => setActiveModal(null);
@@ -25,6 +26,7 @@ export default function AboutPage() {
     setShowApplicationForm(false);
     setSubmitMessage(null);
   };
+  const closePartnerPDF = () => setShowPartnerPDF(null);
 
   const handleApplicationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
