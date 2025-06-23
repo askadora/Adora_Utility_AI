@@ -6,9 +6,10 @@ type PartnerModalType = 'techgenies' | 'magical' | 'growit' | 'hexa';
 
 interface PartnersAccordionProps {
   onPersonClick: (partner: PartnerModalType) => void;
+  onPDFClick: (partner: PartnerModalType) => void;
 }
 
-export default function PartnersAccordion({ onPersonClick }: PartnersAccordionProps) {
+export default function PartnersAccordion({ onPersonClick, onPDFClick }: PartnersAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,43 +39,61 @@ export default function PartnersAccordion({ onPersonClick }: PartnersAccordionPr
       {isOpen && (
         <div className="px-6 pb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* TechGenies */}
+            {/* TechGenies - PDF available */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              onClick={() => onPersonClick('techgenies')}
+              onClick={() => onPDFClick('techgenies')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden bg-white">
+                <img 
+                  src="/images/brand/Techgenies.png"
+                  alt="TechGenies Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">TechGenies</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Technical Development Partner</p>
               </div>
             </div>
 
-            {/* Magical Teams */}
+            {/* Magical Teams - PDF available */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              onClick={() => onPersonClick('magical')}
+              onClick={() => onPDFClick('magical')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden bg-white">
+                <img 
+                  src="/images/brand/Magical Teams.png"
+                  alt="Magical Teams Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Magical Teams</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Strategic Partner</p>
               </div>
             </div>
 
-            {/* GrowIT */}
+            {/* GrowIT - PDF available */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              onClick={() => onPersonClick('growit')}
+              onClick={() => onPDFClick('growit')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden bg-white">
+                <img 
+                  src="/images/brand/GrowIT.png"
+                  alt="GrowIT Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">GrowIT</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Growth Partner</p>
               </div>
             </div>
 
-            {/* Hexa */}
+            {/* Hexa - Regular modal */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('hexa')}

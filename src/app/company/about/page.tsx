@@ -16,10 +16,12 @@ type ModalType = 'kyle' | 'kevin' | 'chittal' | 'sridurga' | 'sai' | 'anthony' |
 export default function AboutPage() {
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [showPartnerPDF, setShowPartnerPDF] = useState<ModalType | null>(null);
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   const closeModal = () => setActiveModal(null);
   const closeApplicationForm = () => setShowApplicationForm(false);
+  const closePartnerPDF = () => setShowPartnerPDF(null);
 
   const handleApplicationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -274,6 +276,7 @@ export default function AboutPage() {
     techgenies: {
       name: 'TechGenies',
       title: 'Technical Development Partner',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20TechGenies.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gVGVjaEdlbmllcy5wZGYiLCJpYXQiOjE3NTA3MTA5MDUsImV4cCI6MTc4MjI0NjkwNX0.EF9X9QYQPejMwBJzMZw9_ypuM5Qgw3qdb9IFlfnO10w',
       bio: {
         intro: "TechGenies is our trusted technical development partner, providing specialized expertise in software development, system integration, and technical implementation to accelerate our product development.",
         motivations: [
@@ -289,6 +292,7 @@ export default function AboutPage() {
     magical: {
       name: 'Magical Teams',
       title: 'Strategic Partner',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Magical%20Teams.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gTWFnaWNhbCBUZWFtcy5wZGYiLCJpYXQiOjE3NTA3MTA5MTgsImV4cCI6MTc4MjI0NjkxOH0.ftcAIBhzMyNi8LEkHC0wChaERhkC2fW7TPikzKIJs1k',
       bio: {
         intro: "Magical Teams partners with us to provide strategic insights, operational support, and specialized expertise that helps Adora AI achieve its goals more effectively.",
         motivations: [
@@ -304,6 +308,7 @@ export default function AboutPage() {
     growit: {
       name: 'GrowIT',
       title: 'Growth Partner',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Grow%20IT%20Partners.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gR3JvdyBJVCBQYXJ0bmVycy5wZGYiLCJpYXQiOjE3NTA3MTA5MzYsImV4cCI6MTc4MjI0NjkzNn0.uVqYcZvL28jzDisrYGzdy2KzxzFhepmmu8jIF-kOmOA',
       bio: {
         intro: "GrowIT is our growth partner, providing expertise in marketing, business development, and growth strategies to help Adora AI expand its reach and impact.",
         motivations: [
@@ -616,6 +621,114 @@ export default function AboutPage() {
     );
   };
 
+  // Render PDF modal function
+  const renderPDFModal = () => {
+    if (!showPartnerPDF) return null;
+
+    const data = modalData[showPartnerPDF];
+    if (!data || !(data as any).pdfUrl) return null;
+
+    // Calculate sidebar offset for desktop - matches the layout system
+    const getSidebarOffset = () => {
+      // On mobile, sidebar overlays so no offset needed
+      if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+        return '0px';
+      }
+      
+      // Desktop: match the layout system's margin logic
+      if (isExpanded || isHovered) {
+        return '290px'; // Full sidebar width
+      }
+      return '90px'; // Collapsed sidebar width
+    };
+
+    return (
+      <>
+        {/* Overlay */}
+        <div 
+          className="fixed inset-0 bg-black/60 z-40 transition-opacity" 
+          onClick={closePartnerPDF} 
+        />
+        
+        {/* Modal positioned to account for sidebar and header */}
+        <div 
+          className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+          style={{
+            top: '80px', // Account for header height
+            left: '0',
+            right: '0', 
+            bottom: '0',
+            marginLeft: getSidebarOffset(),
+            transition: 'margin-left 300ms ease-in-out'
+          }}
+        >
+          <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+              {/* Close button */}
+              <button 
+                className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                onClick={closePartnerPDF}
+                aria-label="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              {/* Header */}
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {data.name} - Partnership Profile
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                  {data.title}
+                </p>
+              </div>
+              
+              {/* PDF Viewer */}
+              <div className="p-6">
+                <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-lg" style={{ height: '70vh' }}>
+                  <iframe
+                    src={`${(data as any).pdfUrl}#zoom=85`}
+                    title={`${data.name} Partnership Profile`}
+                    className="w-full h-full rounded-lg"
+                    style={{ border: 'none' }}
+                  />
+                </div>
+              </div>
+              
+              {/* Action buttons */}
+              <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <div className="flex space-x-4">
+                  <a
+                    href={(data as any).pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download PDF
+                  </a>
+                  <a
+                    href="mailto:hello@adorahq.com?subject=Partnership Inquiry"
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className="space-y-6 md:space-y-8 relative">
       {/* Modal */}
@@ -623,6 +736,9 @@ export default function AboutPage() {
 
       {/* Application Form Modal */}
       {renderApplicationForm()}
+
+      {/* PDF Modal */}
+      {renderPDFModal()}
 
       {/* PAGE HEADER - FLEXBOX (1D) Layout */}
       <header className="flex flex-col gap-2 pb-6 border-b border-gray-200 dark:border-gray-800">
@@ -651,6 +767,7 @@ export default function AboutPage() {
       {/* Partners Section */}
       <PartnersAccordion 
         onPersonClick={(partner: ModalType) => setActiveModal(partner)}
+        onPDFClick={(partner: ModalType) => setShowPartnerPDF(partner)}
       />
 
       {/* Careers Section */}

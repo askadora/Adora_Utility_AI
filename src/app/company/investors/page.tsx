@@ -12,15 +12,36 @@ export default function InvestorDataRoom() {
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
+  const [showExecutiveSummaryModal, setShowExecutiveSummaryModal] = useState(false);
+  const [showHiringRoadmapModal, setShowHiringRoadmapModal] = useState(false);
+  const [showOrgChartModal, setShowOrgChartModal] = useState(false);
+  
+  // Technology document modals
+  const [showAIPinModal, setShowAIPinModal] = useState(false);
+  const [showB2CPlayerProModal, setShowB2CPlayerProModal] = useState(false);
+  const [showMultiModelModal, setShowMultiModelModal] = useState(false);
+  const [showProductRoadmapModal, setShowProductRoadmapModal] = useState(false);
+  const [showRecommendationSystemModal, setShowRecommendationSystemModal] = useState(false);
+  const [showSecurityFrameworkModal, setShowSecurityFrameworkModal] = useState(false);
+  const [showUnifiedCommHubModal, setShowUnifiedCommHubModal] = useState(false);
+  const [showUserManagementModal, setShowUserManagementModal] = useState(false);
+  
+  // Brand & Market document modals
+  const [showMarketAnalysisModal, setShowMarketAnalysisModal] = useState(false);
+  const [showAIStormModal, setShowAIStormModal] = useState(false);
+  
+  // Legal document modals
+  const [showOperatingAgreementModal, setShowOperatingAgreementModal] = useState(false);
+  const [showMutualNDAModal, setShowMutualNDAModal] = useState(false);
   const { messages, isLoading, sendMessage, error, clearMessages } = useDocsBot(DOCSBOT_BOTS.INVESTOR as string);
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Accordion state management
   const [openSections, setOpenSections] = useState({
+    companyOverview: false,
     technology: false,
     financials: false,
     legal: false,
-    operations: false,
     brandMarket: false
   });
 
@@ -261,6 +282,73 @@ export default function InvestorDataRoom() {
           </div>
         </ComponentCard>
 
+        {/* Company Overview Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Company Overview</h2>
+                <p className="mt-1 text-gray-600 dark:text-gray-300">Business operations and infrastructure</p>
+              </div>
+              <button
+                onClick={() => toggleSection('companyOverview')}
+                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg
+                  className={`w-6 h-6 transform transition-transform ${openSections.companyOverview ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {openSections.companyOverview && (
+            <div className="px-6 pb-6">
+              <div className="space-y-4">
+                <ul className="space-y-2">
+                  <li>
+                    <button
+                      onClick={() => setShowExecutiveSummaryModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Executive Summary - Investor Overview
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setShowHiringRoadmapModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Hiring & Team Roadmap
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setShowOrgChartModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                      Current Org Chart - June 2025
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Technology Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="p-6">
@@ -287,81 +375,86 @@ export default function InvestorDataRoom() {
 
           {openSections.technology && (
             <div className="px-6 pb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Core Technology</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        AI Architecture Overview
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Machine Learning Models
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Data Processing Pipeline
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Security Framework
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Technical Documentation</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                        API Documentation
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                        </svg>
-                        System Architecture
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                        </svg>
-                        Performance Benchmarks
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                        Security Audit Reports
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div className="space-y-3">
+                <button
+                  onClick={() => setShowAIPinModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  AI Pin - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowB2CPlayerProModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  B2C Player Pro - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowMultiModelModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Multi-Model Strategy & Cost-Control - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowProductRoadmapModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Product Roadmap - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowRecommendationSystemModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Recommendation System Architecture - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowSecurityFrameworkModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Security Framework - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowUnifiedCommHubModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Unified Communication Hub - Investor Overview
+                </button>
+
+                <button
+                  onClick={() => setShowUserManagementModal(true)}
+                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  User Management System Architecture - Investor Overview
+                </button>
               </div>
             </div>
           )}
@@ -499,175 +592,37 @@ export default function InvestorDataRoom() {
 
           {openSections.legal && (
             <div className="px-6 pb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Corporate Documents</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Articles of Incorporation
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Bylaws
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Share Structure
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Shareholder Agreements
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Intellectual Property</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Trademark Documentation
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Patent Applications
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Copyright Registrations
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Domain Names
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div className="space-y-4">
+                <ul className="space-y-2">
+                  <li>
+                    <button 
+                      onClick={() => setShowOperatingAgreementModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Draft Operating Agreement
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => setShowMutualNDAModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Mutual NDA Template
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
           )}
         </div>
 
-        {/* Operations Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Operations</h2>
-                <p className="mt-1 text-gray-600 dark:text-gray-300">Business operations and infrastructure</p>
-              </div>
-              <button
-                onClick={() => toggleSection('operations')}
-                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-              >
-                <svg
-                  className={`w-6 h-6 transform transition-transform ${openSections.operations ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-          </div>
 
-          {openSections.operations && (
-            <div className="px-6 pb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Business Operations</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Business Plan
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Organizational Chart
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Standard Operating Procedures
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Infrastructure</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        IT Infrastructure
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Security Protocols
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Data Privacy Policies
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
 
         {/* Brand & Market Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
@@ -695,65 +650,31 @@ export default function InvestorDataRoom() {
 
           {openSections.brandMarket && (
             <div className="px-6 pb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Brand Assets</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Brand Book & Guidelines
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Marketing Assets
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        Press Kit
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Market Analysis</h3>
-                  <ul className="space-y-2">
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Market Size & Growth
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Competitive Analysis
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Customer Research
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div className="space-y-4">
+                <ul className="space-y-2">
+                  <li>
+                    <button 
+                      onClick={() => setShowMarketAnalysisModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Market Analysis May 2025 - Investor Overview
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      onClick={() => setShowAIStormModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      The AI Storm - Why Today's Tech is Tomorrow Quicksand
+                    </button>
+                  </li>
+                </ul>
               </div>
             </div>
           )}
@@ -1213,6 +1134,845 @@ export default function InvestorDataRoom() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
                       </svg>
                       Contact About Investment
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Executive Summary PDF Modal */}
+      {showExecutiveSummaryModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowExecutiveSummaryModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowExecutiveSummaryModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Executive Summary
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Investor Overview • Company strategy, vision, and key metrics
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* PDF Viewer Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Executive%20Summary%20-%20Invenstor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gRXhlY3V0aXZlIFN1bW1hcnkgLSBJbnZlbnN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDM1LCJleHAiOjE3ODIyNDMwMzV9.4qwtbk1jlpTzrNHyNBNb9Z5-anKZqgZzof6Z1iJSddw#view=FitH&zoom=110"
+                      title="Adora AI Executive Summary - Investor Overview"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Executive%20Summary%20-%20Invenstor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gRXhlY3V0aXZlIFN1bW1hcnkgLSBJbnZlbnN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDM1LCJleHAiOjE3ODIyNDMwMzV9.4qwtbk1jlpTzrNHyNBNb9Z5-anKZqgZzof6Z1iJSddw"
+                      download="Adora_AI_Executive_Summary.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=Executive Summary Inquiry&body=Hello, I'd like to discuss the information in the Executive Summary."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Summary
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Hiring Roadmap PDF Modal */}
+      {showHiringRoadmapModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHiringRoadmapModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHiringRoadmapModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Hiring & Team Roadmap
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Investor Overview • Team expansion strategy and hiring plan
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* PDF Viewer Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20Hiring%20Roadmap%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIEhpcmluZyBSb2FkbWFwIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDU1LCJleHAiOjE3ODIyNDMwNTV9.NGR0StzHtFKcTDOBNnpmYard_pAn3qkbjl3gp5PXhxc#view=FitH&zoom=110"
+                      title="Adora AI Hiring & Team Roadmap - Investor Overview"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20Hiring%20Roadmap%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIEhpcmluZyBSb2FkbWFwIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDU1LCJleHAiOjE3ODIyNDMwNTV9.NGR0StzHtFKcTDOBNnpmYard_pAn3qkbjl3gp5PXhxc"
+                      download="Adora_AI_Hiring_Roadmap.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=Hiring Roadmap Inquiry&body=Hello, I'd like to discuss the hiring and team expansion strategy."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Roadmap
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Org Chart Image Modal */}
+      {showOrgChartModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowOrgChartModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowOrgChartModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Current Org Chart
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        June 2025 • Current organizational structure and team composition
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Image Viewer Container */}
+                <div className="p-6">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <img
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Current%20Org%20Chart%20-%20June%202025.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0N1cnJlbnQgT3JnIENoYXJ0IC0gSnVuZSAyMDI1LnBuZyIsImlhdCI6MTc1MDcwNzk4NiwiZXhwIjoxNzgyMjQzOTg2fQ.9zFXWULFKz2ZJBbwBPRx2SJrOKYdQMpE8FKTjsDF-UQ"
+                      alt="Adora AI Current Org Chart - June 2025"
+                      className="w-full h-auto rounded-lg max-h-[70vh] object-contain"
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-6 pb-6">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Current%20Org%20Chart%20-%20June%202025.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0N1cnJlbnQgT3JnIENoYXJ0IC0gSnVuZSAyMDI1LnBuZyIsImlhdCI6MTc1MDcwNzk4NiwiZXhwIjoxNzgyMjQzOTg2fQ.9zFXWULFKz2ZJBbwBPRx2SJrOKYdQMpE8FKTjsDF-UQ"
+                      download="Adora_AI_Current_Org_Chart_June_2025.png"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download Image
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=Org Chart Inquiry&body=Hello, I'd like to discuss the current organizational structure."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Structure
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* AI Pin Modal */}
+      {showAIPinModal && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowAIPinModal(false)}
+          />
+          
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px',
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px';
+                }
+                if (isExpanded || isHovered) {
+                  return '290px';
+                }
+                return '90px';
+              })(),
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowAIPinModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Pin - Investor Overview
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Wearable AI device roadmap and specifications
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20AI%20Pin%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQUkgUGluIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4Mjg3LCJleHAiOjE3ODIyNDQyODd9.HOdD2eCoN21xX-P1sPyL-mqVR8PEMX5mZ6xWhcHLahA#view=FitH&zoom=110"
+                      title="Adora AI Pin - Investor Overview"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20AI%20Pin%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQUkgUGluIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4Mjg3LCJleHAiOjE3ODIyNDQyODd9.HOdD2eCoN21xX-P1sPyL-mqVR8PEMX5mZ6xWhcHLahA"
+                      download="Adora_AI_Pin_Investor_Overview.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=AI Pin Technology Inquiry&body=Hello, I'd like to discuss the AI Pin technology and roadmap."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About AI Pin
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* B2C Player Pro Modal */}
+      {showB2CPlayerProModal && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowB2CPlayerProModal(false)}
+          />
+          
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px',
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px';
+                }
+                if (isExpanded || isHovered) {
+                  return '290px';
+                }
+                return '90px';
+              })(),
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowB2CPlayerProModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        B2C Player Pro - Investor Overview
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Consumer AI platform and monetization strategy
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20B2C%20Player%20Pro%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQjJDIFBsYXllciBQcm8gLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgyOTgsImV4cCI6MTc4MjI0NDI5OH0.B5UIMw-VpQqeL2pueoLMBkh4VdKiOX74GLGzZ0Sf_-8#view=FitH&zoom=110"
+                      title="B2C Player Pro - Investor Overview"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20B2C%20Player%20Pro%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQjJDIFBsYXllciBQcm8gLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgyOTgsImV4cCI6MTc4MjI0NDI5OH0.B5UIMw-VpQqeL2pueoLMBkh4VdKiOX74GLGzZ0Sf_-8"
+                      download="Adora_AI_B2C_Player_Pro_Investor_Overview.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:investors@adorahq.com?subject=B2C Player Pro Inquiry&body=Hello, I'd like to discuss the B2C Player Pro platform and monetization strategy."
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                      </svg>
+                      Contact About Player Pro
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Multi-Model Strategy Modal */}
+      {showMultiModelModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowMultiModelModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowMultiModelModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Multi-Model Strategy & Cost-Control</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI model optimization and cost management</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo#view=FitH&zoom=110" title="Multi-Model Strategy & Cost-Control" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo" download="Adora_AI_Multi_Model_Strategy.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Multi-Model Strategy Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Strategy
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Product Roadmap Modal */}
+      {showProductRoadmapModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowProductRoadmapModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowProductRoadmapModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Product Roadmap - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic product development timeline</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY#view=FitH&zoom=110" title="Product Roadmap - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY" download="Adora_AI_Product_Roadmap.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Product Roadmap Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Roadmap
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Recommendation System Modal */}
+      {showRecommendationSystemModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowRecommendationSystemModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowRecommendationSystemModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Recommendation System Architecture</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI-powered recommendation engine design</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E#view=FitH&zoom=110" title="Recommendation System Architecture" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E" download="Adora_AI_Recommendation_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Recommendation System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About System
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Security Framework Modal */}
+      {showSecurityFrameworkModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowSecurityFrameworkModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowSecurityFrameworkModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Security Framework - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive security architecture and protocols</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4MzU3LCJleHAiOjE3ODIyNDQzNTd9.CvkWGyAi6Hd_Fw4ERrDi6-icWBawb1JLLHoMa3CkJAg#view=FitH&zoom=110" title="Security Framework - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4MzU3LCJleHAiOjE3ODIyNDQzNTd9.CvkWGyAi6Hd_Fw4ERrDi6-icWBawb1JLLHoMa3CkJAg" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Security Framework Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Security
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Unified Communication Hub Modal */}
+      {showUnifiedCommHubModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowUnifiedCommHubModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowUnifiedCommHubModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Unified Communication Hub</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Integrated communication platform architecture</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc#view=FitH&zoom=110" title="Unified Communication Hub" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc" download="Adora_AI_Unified_Communication_Hub.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Communication Hub Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Hub
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* User Management System Modal */}
+      {showUserManagementModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowUserManagementModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowUserManagementModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">User Management System Architecture</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">User authentication and management system</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU#view=FitH&zoom=110" title="User Management System Architecture" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU" download="Adora_AI_User_Management_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=User Management System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About System
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Market Analysis Modal */}
+      {showMarketAnalysisModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowMarketAnalysisModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowMarketAnalysisModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Market Analysis May 2025 - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive AI market analysis and strategic positioning</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I#view=FitH&zoom=110" title="Market Analysis May 2025" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I" download="Market_Analysis_May_2025.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Market Analysis Inquiry&body=Hello, I'd like to discuss the market analysis and strategic positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Market Analysis
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* AI Storm Modal */}
+      {showAIStormModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowAIStormModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowAIStormModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">The AI Storm - Why Today's Tech is Tomorrow Quicksand</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic analysis of AI technology evolution and market disruption</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s#view=FitH&zoom=110" title="The AI Storm - Why Today's Tech is Tomorrow Quicksand" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s" download="The_AI_Storm_Analysis.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=AI Storm Analysis Inquiry&body=Hello, I'd like to discuss the AI Storm analysis and strategic technology positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About AI Strategy
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Operating Agreement Modal */}
+      {showOperatingAgreementModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowOperatingAgreementModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowOperatingAgreementModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Draft Operating Agreement</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Corporate governance and operational structure</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As#view=FitH&zoom=110" title="Draft Operating Agreement" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As" download="Adora_AI_Draft_Operating_Agreement.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=Operating Agreement Inquiry&body=Hello, I'd like to discuss the draft operating agreement and corporate structure for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Agreement
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Mutual NDA Modal */}
+      {showMutualNDAModal && (
+        <>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowMutualNDAModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowMutualNDAModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Mutual NDA Template</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Non-disclosure agreement for confidential discussions</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Mutual%20NDA%20Template.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIE11dHVhbCBOREEgVGVtcGxhdGUucGRmIiwiaWF0IjoxNzUwNzEwNDg1LCJleHAiOjE3ODIyNDY0ODV9.vu2IxvVwu8L4Krabe1242SF6OV7qdMcwB5H0N-lE-do#view=FitH&zoom=110" title="Mutual NDA Template" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Mutual%20NDA%20Template.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIE11dHVhbCBOREEgVGVtcGxhdGUucGRmIiwiaWF0IjoxNzUwNzEwNDg1LCJleHAiOjE3ODIyNDY0ODV9.vu2IxvVwu8L4Krabe1242SF6OV7qdMcwB5H0N-lE-do" download="Adora_AI_Mutual_NDA_Template.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    </a>
+                    <a href="mailto:investors@adorahq.com?subject=NDA Template Inquiry&body=Hello, I'd like to discuss the mutual NDA template and confidentiality requirements for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About NDA
                     </a>
                   </div>
                 </div>
