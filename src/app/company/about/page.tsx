@@ -11,7 +11,7 @@ import { useSidebar } from '@/context/SidebarContext';
 // Define types for modal content
 type ModalType = 'kyle' | 'kevin' | 'chittal' | 'sridurga' | 'sai' | 'anthony' | 'jacob' | 
                  'naomi' | 'karina' | 'sharad' | 'antonio' | 'klyne' | 'kathi' | 'mercedes' | 'shakeel' |
-                 'techgenies' | 'magical' | 'growit' | 'hexa';
+                 'techgenies' | 'magical' | 'growit' | 'hexa' | 'winston';
 
 export default function AboutPage() {
   const [activeModal, setActiveModal] = useState<ModalType | null>(null);
@@ -389,6 +389,7 @@ export default function AboutPage() {
     hexa: {
       name: 'Hexa',
       title: 'Innovation Partner',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20HEXA%20Innovation.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gSEVYQSBJbm5vdmF0aW9uLnBkZiIsImlhdCI6MTc1MDc5MzE0NSwiZXhwIjoxNzgyMzI5MTQ1fQ.2uCyZ2JDM_1rJ_fwBYU16bkrJz5bi4newYkEmDe23WU',
       image: '',
       bio: {
         intro: "Hexa serves as our innovation partner, bringing fresh perspectives, creative solutions, and cutting-edge expertise to help Adora AI stay at the forefront of AI innovation.",
@@ -400,6 +401,23 @@ export default function AboutPage() {
         ],
         background: "Hexa specializes in innovation consulting, emerging technology research, and creative problem-solving for technology companies.",
         thesis: "Innovation requires both technical expertise and creative thinking. We believe in pushing boundaries while maintaining practical focus on real-world applications."
+      }
+    },
+    winston: {
+      name: 'Winston & Strawn LLP',
+      title: 'Legal Partner',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Wiston%20&%20Strawn%20LLP.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gV2lzdG9uICYgU3RyYXduIExMUC5wZGYiLCJpYXQiOjE3NTA3OTQ1NDQsImV4cCI6MTc4MjMzMDU0NH0.xCuGMtgjDRiFramYfsoN6Fw_w0U0zHLlW-UIfv8OjFQ',
+      image: '',
+      bio: {
+        intro: "Winston & Strawn LLP serves as our legal partner, providing expert legal advice and support to help Adora AI navigate complex legal challenges and ensure compliance with all relevant laws and regulations.",
+        motivations: [
+          "Legal compliance — Ensuring adherence to all relevant laws and regulations",
+          "IP protection — Securing patents and trademarks for key innovations",
+          "Regulatory guidance — Providing expert guidance on compliance and compliance",
+          "Litigation support — Supporting legal disputes and litigation"
+        ],
+        background: "Winston & Strawn LLP is a leading law firm with a strong reputation for providing expert legal advice and support to technology companies.",
+        thesis: "Legal compliance is essential for the success of any technology company. We believe in ensuring that Adora AI operates in a legally compliant manner while also driving innovation and growth."
       }
     }
   };

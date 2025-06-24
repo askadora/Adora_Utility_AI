@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type PartnerModalType = 'techgenies' | 'magical' | 'growit' | 'hexa';
+type PartnerModalType = 'techgenies' | 'magical' | 'growit' | 'hexa' | 'winston';
 
 interface PartnersAccordionProps {
   onPersonClick: (partner: PartnerModalType) => void;
@@ -96,12 +96,36 @@ export default function PartnersAccordion({ onPersonClick, onPDFClick }: Partner
             {/* Hexa - Regular modal */}
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-              onClick={() => onPersonClick('hexa')}
+              onClick={() => onPDFClick('hexa')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden bg-white">
+                <img 
+                  src="/images/brand/hexa.png"
+                  alt="Hexa Logo"
+                  className="w-8 h-8 object-contain"
+                />
+              </div>
               <div className="ml-4">
                 <h3 className="text-base font-semibold text-gray-900 dark:text-white">Hexa</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Innovation Partner</p>
+              </div>
+            </div>
+
+            {/* Winston LLC - Regular modal */}
+            <div 
+              className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              onClick={() => onPDFClick('winston')}
+            >
+              <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden bg-white">
+                <img 
+                  src="/images/brand/winston.png"
+                  alt="Winston Logo"
+                  className="w-8 h-8 object-contain"
+                />
+              </div>
+              <div className="ml-4">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Winston & Strawn LLP</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">Legal Partner</p>
               </div>
             </div>
           </div>
