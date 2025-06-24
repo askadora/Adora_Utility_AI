@@ -339,7 +339,6 @@ export default function AboutPage() {
       name: 'TechGenies',
       title: 'Technical Development Partner',
       image: '',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20TechGenies.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gVGVjaEdlbmllcy5wZGYiLCJpYXQiOjE3NTA3MTA5MDUsImV4cCI6MTc4MjI0NjkwNX0.EF9X9QYQPejMwBJzMZw9_ypuM5Qgw3qdb9IFlfnO10w',
       bio: {
         intro: "TechGenies is our trusted technical development partner, providing specialized expertise in software development, system integration, and technical implementation to accelerate our product development.",
         motivations: [
@@ -356,8 +355,7 @@ export default function AboutPage() {
       name: 'Magical Teams',
       title: 'Strategic Partner',
       image: '',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Magical%20Teams.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gTWFnaWNhbCBUZWFtcy5wZGYiLCJpYXQiOjE3NTA3MTA5MTgsImV4cCI6MTc4MjI0NjkxOH0.ftcAIBhzMyNi8LEkHC0wChaERhkC2fW7TPikzKIJs1k',
-      bio: {
+            bio: {
         intro: "Magical Teams partners with us to provide strategic insights, operational support, and specialized expertise that helps Adora AI achieve its goals more effectively.",
         motivations: [
           "Strategic partnership — Providing strategic guidance and support",
@@ -373,7 +371,6 @@ export default function AboutPage() {
       name: 'GrowIT',
       title: 'Growth Partner',
       image: '',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Grow%20IT%20Partners.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gR3JvdyBJVCBQYXJ0bmVycy5wZGYiLCJpYXQiOjE3NTA3MTA5MzYsImV4cCI6MTc4MjI0NjkzNn0.uVqYcZvL28jzDisrYGzdy2KzxzFhepmmu8jIF-kOmOA',
       bio: {
         intro: "GrowIT is our growth partner, providing expertise in marketing, business development, and growth strategies to help Adora AI expand its reach and impact.",
         motivations: [
@@ -389,7 +386,6 @@ export default function AboutPage() {
     hexa: {
       name: 'Hexa',
       title: 'Innovation Partner',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20HEXA%20Innovation.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gSEVYQSBJbm5vdmF0aW9uLnBkZiIsImlhdCI6MTc1MDc5MzE0NSwiZXhwIjoxNzgyMzI5MTQ1fQ.2uCyZ2JDM_1rJ_fwBYU16bkrJz5bi4newYkEmDe23WU',
       image: '',
       bio: {
         intro: "Hexa serves as our innovation partner, bringing fresh perspectives, creative solutions, and cutting-edge expertise to help Adora AI stay at the forefront of AI innovation.",
@@ -406,7 +402,6 @@ export default function AboutPage() {
     winston: {
       name: 'Winston & Strawn LLP',
       title: 'Legal Partner',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Wiston%20&%20Strawn%20LLP.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gV2lzdG9uICYgU3RyYXduIExMUC5wZGYiLCJpYXQiOjE3NTA3OTQ1NDQsImV4cCI6MTc4MjMzMDU0NH0.xCuGMtgjDRiFramYfsoN6Fw_w0U0zHLlW-UIfv8OjFQ',
       image: '',
       bio: {
         intro: "Winston & Strawn LLP serves as our legal partner, providing expert legal advice and support to help Adora AI navigate complex legal challenges and ensure compliance with all relevant laws and regulations.",
