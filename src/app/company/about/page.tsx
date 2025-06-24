@@ -95,156 +95,171 @@ export default function AboutPage() {
         cta: "If you want to partner, work here at Adora AI, Invest, or even if you have an awesome idea about how we can improve then what are you waiting for? Send me a message, email me, let's get connected!"
       }
     },
-    kevin: {
-      name: 'Kevin Bultongez',
-      title: 'Head Architect',
+    tarryn: {
+      name: "Tarryn Thomas",
+      title: "Head of Experience",
       bio: {
-        intro: "As Head Architect at Adora AI, I lead the technical vision and architecture decisions that power our next-generation AI platform. My focus is on building scalable, secure, and innovative systems that can handle the complex demands of enterprise AI workloads.",
+        intro: "Tarryn is an Alchemist at Adora, where she supports culture, operations and experience strategy to help the team scale with soul and precision.",
         motivations: [
-          "System architecture design — Creating robust, scalable infrastructure is my passion",
-          "Technical leadership — Mentoring teams and driving technical excellence",
-          "Innovation in AI — Pushing the boundaries of what's possible with AI systems",
-          "Enterprise solutions — Building technology that solves real business problems"
+          "Customer experience — Designing aligned, high-touch experiences",
+          "Leadership development — Supporting mission-driven teams",
+          "Operations — Building systems that scale with soul and intention",
+          "Visionary growth — Helping teams build meaningful companies"
         ],
-        background: "With over a decade of experience in software architecture and system design, I've worked across various industries from fintech to healthcare. My expertise spans cloud infrastructure, microservices, and AI/ML system architecture.",
-        thesis: "Great architecture is invisible to users but enables everything they love about a product. My goal is to build systems that are not just functional, but elegant, maintainable, and future-proof."
+        background: "Before joining Adora, she led transformational programs and retreats, advised founders, and designed high-end experiences that delivered real impact.",
+        thesis: "She’s excited to build Adora because she believes in the power of meaningful AI and teams that make magic."
+      }
+    },
+    kevin: {
+      name: "Kevin Bultongez",
+      title: "Head Architect",
+      bio: {
+        intro: "Kevin Bultongez is the Head Architect at Adora AI, where he drives business architecture, external engagement, and strategic partnerships to establish Adora’s market leadership in the AI ecosystem.",
+        motivations: [
+          "Business architecture — Designing scalable infrastructure for AI",
+          "Strategic partnerships — Bridging technical solutions with business needs",
+          "Regulatory strategy — Navigating compliance in complex systems",
+          "Innovation — Creating human-first, AI-native platforms"
+        ],
+        background: "Kevin has over a decade of experience managing high-stakes technical programs at Procter & Gamble, Novo Nordisk, Insulet, and Regeneron. He holds a Master's in Mechanical Engineering.",
+        thesis: "He’s excited to build Adora because he believes in infrastructure that transforms business and improves global quality of life."
       }
     },
     chittal: {
-      name: 'Chittal Karuppiah',
-      title: 'AI/ML Engineer',
+      name: "Chittal Karuppiah",
+      title: "AI/ML Engineer",
       bio: {
-        intro: "As an AI/ML Engineer at Adora AI, I work on developing and optimizing machine learning models that power our intelligent platform. My focus is on creating efficient, accurate, and scalable AI solutions.",
+        intro: "Chittal Karuppiah is an AI/ML Engineer at Adora, where she develops AI-powered systems that synthesize outputs from multiple large language models.",
         motivations: [
-          "Machine learning innovation — Developing cutting-edge ML models and algorithms",
-          "Model optimization — Making AI systems faster and more efficient",
-          "Data science — Extracting insights from complex datasets",
-          "AI research — Contributing to the advancement of artificial intelligence"
+          "Conversational AI — Building smart, human-feeling systems",
+          "Scalable architecture — Designing reliable backend for real-time applications",
+          "NLP & ML — Applying deep technical knowledge to useful AI products",
+          "System integration — Merging research and product into seamless experiences"
         ],
-        background: "I bring expertise in deep learning, natural language processing, and computer vision. My experience includes working with large-scale ML systems and deploying models in production environments.",
-        thesis: "AI should augment human intelligence, not replace it. I believe in building AI systems that empower people to make better decisions and achieve more than they could alone."
+        background: "Chittal has a background in backend development and NLP. Before Adora, she built scalable cloud systems with a focus on deep learning and generative AI.",
+        thesis: "She’s excited to shape the future of AI at Adora with tools that are both robust and deeply human."
       }
     },
     sridurga: {
-      name: 'Sridurga Linga',
-      title: 'AI/ML Engineer',
+      name: "Sridurga Linga",
+      title: "AI/ML Engineer",
       bio: {
-        intro: "I'm passionate about developing AI solutions that make a real difference in how businesses operate. At Adora AI, I focus on building robust machine learning pipelines and ensuring our AI models perform reliably at scale.",
+        intro: "Sridurga Linga is an AI/ML Engineer at Adora, where she builds agentic systems and AI-first recommendation engines.",
         motivations: [
-          "AI pipeline development — Building end-to-end ML systems",
-          "Model reliability — Ensuring consistent AI performance",
-          "Data engineering — Creating efficient data processing workflows",
-          "Applied research — Turning AI research into practical solutions"
+          "Autonomous AI — Designing intelligent, integrated agents",
+          "Computer vision — Delivering real-time insights at scale",
+          "MLOps — Streamlining ML pipelines from prototype to production",
+          "Human-AI synergy — Empowering people through seamless automation"
         ],
-        background: "My background spans machine learning engineering, data science, and software development. I have experience with various ML frameworks and cloud platforms, specializing in production ML systems.",
-        thesis: "The best AI is the AI that works seamlessly in the background, making complex tasks simple and empowering users to focus on what matters most."
+        background: "Sridurga worked at Zentron Labs and UT Arlington, building inspection pipelines and forecasting platforms using Python, NLP, OpenCV, and TensorFlow.",
+        thesis: "She’s excited to help build Adora’s AI OS—an ecosystem of modular agents that power intelligent operations everywhere."
       }
     },
     sai: {
-      name: 'Sai Akhil Sakhamuri',
-      title: 'AI/ML Engineer',
-      bio: {
-        intro: "At Adora AI, I contribute to developing intelligent systems that can understand and process complex business data. My work focuses on natural language processing and creating AI models that can communicate effectively with users.",
-        motivations: [
-          "Natural language processing — Making AI understand human communication",
-          "Model training — Developing and fine-tuning AI models",
-          "Performance optimization — Making AI systems faster and more accurate",
-          "User experience — Ensuring AI interactions feel natural and helpful"
-        ],
-        background: "I have a strong foundation in computer science and machine learning, with particular expertise in NLP and conversational AI. I enjoy working on problems that require both technical depth and creative thinking.",
-        thesis: "AI should feel like a natural extension of human thought processes, helping us process information and make decisions more effectively."
-      }
-    },
+    name: "Sai Akhil Sakhamuri",
+    title: "AI/ML Engineer",
+    bio: {
+      intro: "Sai Akhil is an AI/ML Engineer at Adora, where he architects intelligent infrastructure and workflow engines that support scalable agent collaboration and secure data operations.",
+      motivations: [
+        "Backend engineering \u2014 Building modular AI pipelines and orchestration systems",
+        "Data operations \u2014 Architecting secure, real-time analytics platforms",
+        "RAG systems \u2014 Leveraging retrieval-augmented generation for intelligent agents",
+        "Cross-functional AI \u2014 Integrating AI across products, teams, and cloud systems"
+      ],
+      background: "Sai has contributed to RAG chatbots, multi-agent orchestration, and data platforms at Verizon and Genpact. He specializes in secure deployments, MLOps, and cloud-native infrastructure.",
+      thesis: "He\u2019s driven to build Adora as a platform for next-gen automation\u2014empowering teams to build faster, think smarter, and operate securely at scale."
+    }
+  },
     anthony: {
-      name: 'Anthony Porter',
-      title: 'Corporate Relationships',
+      name: "Anthony Porter",
+      title: "Events & Outreach Coordinator",
       bio: {
-        intro: "I lead corporate relationship development at Adora AI, focusing on building strategic partnerships and fostering connections that drive mutual growth and innovation in the AI space.",
+        intro: "Anthony Porter is the Events and Outreach Coordinator at Adora, where he leads national AI hackathons, learning experiences, and workforce readiness initiatives.",
         motivations: [
-          "Strategic partnerships — Building relationships that create value for all parties",
-          "Business development — Identifying and pursuing growth opportunities",
-          "Corporate strategy — Aligning partnerships with company goals",
-          "Relationship management — Maintaining long-term business relationships"
+          "Education equity — Expanding access to emerging technologies",
+          "Community leadership — Designing impactful, inclusive learning programs",
+          "Systems thinking — Bringing operational insight to complex environments",
+          "AI integration — Scaling future-ready education rooted in ethics"
         ],
-        background: "With extensive experience in business development and corporate partnerships, I've helped organizations across various industries build meaningful connections and achieve their strategic objectives.",
-        thesis: "Strong relationships are the foundation of sustainable business growth. I believe in creating partnerships that are built on trust, mutual benefit, and shared vision for the future."
+        background: "Anthony has worked in mechanical design, pharmacy ownership, and compliance roles at Maximus and U.S. banks. He’s certified in CompTIA Security+ and Microsoft Azure AI.",
+        thesis: "He’s excited to help build Adora because he believes innovation must be inclusive, ethical, and human-centered."
       }
     },
     jacob: {
-      name: 'Jacob Gresham',
-      title: 'Talent Acquisition',
+      name: "Jacob Gresham",
+      title: "Talent & Founder Support Coordinator",
       bio: {
-        intro: "I'm responsible for attracting and recruiting top talent to join the Adora AI team. My focus is on finding individuals who not only have the right skills but also share our vision and values.",
+        intro: "Jacob Gresham is the Talent & Founder Support Coordinator at Adora, where he recruits mission-aligned talent and supports founder initiatives.",
         motivations: [
-          "Talent identification — Finding exceptional people who can make a difference",
-          "Team building — Creating diverse, high-performing teams",
-          "Culture development — Ensuring new hires align with our values",
-          "Growth facilitation — Helping the company scale with the right people"
+          "Talent acquisition — Recruiting mission-driven, emotionally intelligent teammates",
+          "Founder support — Enabling founders to scale with integrity",
+          "Community engagement — Building trust through immersive experiences",
+          "Innovation coaching — Advising on tools, soft skills, and curriculum"
         ],
-        background: "I have a passion for connecting great people with great opportunities. My experience in talent acquisition spans multiple industries, with a focus on technical and leadership roles.",
-        thesis: "The right people are the most important factor in any company's success. I believe in finding individuals who are not just skilled, but who are also passionate about making a positive impact."
+        background: "Jacob has led community events, fundraising campaigns, and immersive learning initiatives. He advises an EMT training program and draws on experience in mentorship and public speaking.",
+        thesis: "He’s excited to help shape Adora’s culture—where purpose and performance go hand in hand."
       }
     },
     naomi: {
       name: 'Naomi Wang',
       title: 'Senior Product Advisor',
       bio: {
-        intro: "As a Senior Product Advisor, I provide strategic guidance on product development, user experience, and market positioning. My role is to help Adora AI build products that truly serve our users' needs.",
+        intro: "As a Senior Product Advisor at Adora, I architect and build scalable systems that power AI-native applications. My focus is on creating performant infrastructure and intelligent features that directly support user and business needs.",
         motivations: [
-          "Product strategy — Defining product vision and roadmap",
-          "User experience — Ensuring products are intuitive and valuable",
-          "Market analysis — Understanding user needs and market opportunities",
-          "Innovation guidance — Helping teams think creatively about solutions"
+          "AI system design — Building intelligent, real-time products that scale",
+          "Infrastructure & architecture — Designing backend systems that support growth",
+          "Cross-platform experience — Delivering web and native experiences for diverse users",
+          "ML innovation — Exploring the boundaries of multimodal and generative AI"
         ],
-        background: "I bring years of experience in product management and strategy across various technology companies. My expertise includes user research, product design, and go-to-market strategy.",
-        thesis: "Great products solve real problems in elegant ways. I believe in putting users at the center of every product decision and building solutions that make their lives better."
+        background: "With a foundation in full-stack engineering and experience in AI/ML pipelines, cloud infrastructure, and system design, she's worked on everything from web apps to deep infrastructure, embedded systems to supercomputers. I care about clean architecture, developer experience, and delivering polished AI-first products.",
+        thesis: "The best AI products are those that combine thoughtful engineering with responsible innovation. I believe in designing systems that are both technically robust and deeply human-centered."
       }
     },
     karina: {
-      name: 'Karina Lupercio',
-      title: 'Fractional COO',
+      name: "Karina Lupercio",
+      title: "Fractional COO",
       bio: {
-        intro: "As Fractional COO, I help optimize Adora AI's operations, processes, and organizational structure to support sustainable growth and operational excellence.",
+        intro: "Karina Lupercio is an Advisor at Adora AI, where she guides operational strategy, systems design, and implementation to help the company scale with intention.",
         motivations: [
-          "Operational excellence — Building efficient, scalable processes",
-          "Team development — Creating environments where people can thrive",
-          "Strategic execution — Turning vision into actionable plans",
-          "Growth enablement — Scaling operations to support business growth"
+          "Operational strategy — Implementing scalable and effective systems",
+          "Healthcare innovation — Designing tech-enabled solutions that empower people",
+          "Team enablement — Supporting collaborative and mission-aligned cultures",
+          "Execution — Translating complex ideas into high-performance operations"
         ],
-        background: "I have extensive experience in operations management, organizational development, and business strategy. I've helped numerous companies optimize their operations and scale effectively.",
-        thesis: "Strong operations are the backbone of any successful company. I believe in creating systems and processes that enable teams to do their best work while maintaining focus on what matters most."
+        background: "Karina brings deep experience in startup and healthcare operations. She’s led operational transformations and scaled tech-driven teams with soul.",
+        thesis: "She’s excited to help build systems that empower, not replace, and believes great ops unlock purpose-driven impact."
       }
     },
     sharad: {
-      name: 'Sharad Karkera',
-      title: 'Fractional CTO',
-      bio: {
-        intro: "As Fractional CTO, I provide technical leadership and strategic guidance on technology decisions, architecture, and engineering practices that will scale with Adora AI's growth.",
-        motivations: [
-          "Technical strategy — Defining long-term technology vision",
-          "Engineering excellence — Building high-quality, maintainable systems",
-          "Team leadership — Mentoring and developing technical talent",
-          "Innovation guidance — Staying ahead of technology trends"
-        ],
-        background: "I have over 15 years of experience in technology leadership, having served as CTO and technical advisor for multiple startups and established companies across various industries.",
-        thesis: "Technology should enable business success, not constrain it. I believe in making smart technology choices that provide both immediate value and long-term flexibility."
-      }
-    },
+    name: "Sharad Karkera",
+    title: "Fractional CTO",
+    bio: {
+      intro: "Sharad Karkera is a seasoned technology executive recognized for driving transformative growth and efficiency at scale.",
+      motivations: [
+        "Technology strategy \u2014 Leading innovation at enterprise scale",
+        "Digital transformation \u2014 Unlocking new growth through systems redesign",
+        "Team leadership \u2014 Scaling technical excellence with clarity and purpose",
+        "Operational excellence \u2014 Building resilient, high-retention platforms"
+      ],
+      background: "As CTO at Channel Control Merchants, he led a 200% loyalty increase. At Texas LawShield, he launched platforms achieving 92% retention. He's managed multi-million budgets and enterprise transformations.",
+      thesis: "Sharad brings strategic vision, operational excellence, and deep tech experience to help Adora grow with discipline and innovation."
+    }
+  },
     antonio: {
-      name: 'Antonio Paes',
-      title: 'Principal AI Advisor',
-      bio: {
-        intro: "As Principal AI Advisor, I provide deep expertise in artificial intelligence research and development, helping guide Adora AI's technical direction and innovation in AI technologies.",
-        motivations: [
-          "AI research — Advancing the state of artificial intelligence",
-          "Technical innovation — Exploring new possibilities in AI",
-          "Strategic guidance — Helping make informed AI technology decisions",
-          "Knowledge sharing — Educating teams on AI best practices"
-        ],
-        background: "I have extensive experience in AI research and development, with a focus on machine learning, deep learning, and AI system architecture. I've contributed to numerous AI projects and publications.",
-        thesis: "AI has the potential to transform how we work and live. I believe in developing AI systems that are not only powerful but also ethical, transparent, and beneficial to society."
-      }
-    },
+    name: "Antonio Paes",
+    title: "Principal AI Advisor",
+    bio: {
+      intro: "Antonio Paes is an accomplished technology executive and thought leader in Artificial Intelligence and Machine Learning.",
+      motivations: [
+        "AI strategy \u2014 Guiding enterprise adoption of advanced AI systems",
+        "Academic leadership \u2014 Educating future leaders in AI and analytics",
+        "Generative & quantum AI \u2014 Innovating at the edge of ML technology",
+        "Transformation initiatives \u2014 Driving real-world AI integration at scale"
+      ],
+      background: "Antonio is Chief AI Officer at Zallpy Digital and directs the AI MS program at UT Dallas. His experience includes NASA, IBM, and ThoughtWorks, and he developed the widely adopted AI Maturity Model.",
+      thesis: "He\u2019s excited to support Adora in pioneering responsible, high-impact AI that transforms industries."
+    }
+  },
     klyne: {
       name: 'Dr. Klyne Smith',
       title: 'Security & Cryptography Advisor',
@@ -276,18 +291,18 @@ export default function AboutPage() {
       }
     },
     mercedes: {
-      name: 'Mercedes Ballard',
-      title: 'Magical Teams Strategist',
+      name: "Mercedes Ballard",
+      title: "Advisor",
       bio: {
-        intro: "As Magical Teams Strategist, I bring strategic insight and innovative approaches to help Adora AI optimize team dynamics, enhance collaboration, and achieve breakthrough results through strategic team organization and workflow optimization.",
+        intro: "Mercedes Ballard is an Advisor at Adora, where she brings hands-on support in strategic planning, team building, and operational infrastructure.",
         motivations: [
-          "Team optimization — Creating high-performing, collaborative teams",
-          "Strategic planning — Developing comprehensive team strategies",
-          "Workflow innovation — Designing efficient team processes",
-          "Collaborative excellence — Fostering effective team communication"
+          "Strategic planning — Supporting teams from vision to execution",
+          "Startup growth — Helping founders scale operations and culture",
+          "People operations — Building founder-first systems",
+          "Workflow design — Creating structures that enable scale and alignment"
         ],
-        background: "I specialize in team strategy, organizational development, and collaborative workflow design. My experience spans helping technology companies build exceptional teams and optimize their collaborative processes.",
-        thesis: "Great teams are more than the sum of their parts. I believe in creating team environments where individual strengths combine to achieve extraordinary collective results."
+        background: "Before Adora, she co-founded a consultancy for tech startups and nonprofits and led growth and people operations at Magical Teams. She specializes in startup validation, lean ops, and talent acquisition.",
+        thesis: "Mercedes believes the future of AI in the workplace should be built intentionally, inclusively, and with operational excellence at the core."
       }
     },
     shakeel: {
