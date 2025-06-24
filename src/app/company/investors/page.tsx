@@ -428,16 +428,6 @@ export default function InvestorDataRoom() {
                 </button>
 
                 <button
-                  onClick={() => setShowSecurityFrameworkModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Security Framework - Investor Overview
-                </button>
-
-                <button
                   onClick={() => setShowUnifiedCommHubModal(true)}
                   className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
                 >
@@ -627,6 +617,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Summary of Corporate Bylaws
                     </button>
+                  </li>
+                  <li>
+                    <button
+                    onClick={() => setShowSecurityFrameworkModal(true)}
+                    className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Security Framework - Investor Overview
+                  </button>
                   </li>
                 </ul>
               </div>
@@ -1771,12 +1772,12 @@ export default function InvestorDataRoom() {
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4MzU3LCJleHAiOjE3ODIyNDQzNTd9.CvkWGyAi6Hd_Fw4ERrDi6-icWBawb1JLLHoMa3CkJAg#view=FitH&zoom=110" title="Security Framework - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE#view=FitH&zoom=110" title="Security Framework - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4MzU3LCJleHAiOjE3ODIyNDQzNTd9.CvkWGyAi6Hd_Fw4ERrDi6-icWBawb1JLLHoMa3CkJAg" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
                     <a href="mailto:investors@adorahq.com?subject=Security Framework Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
