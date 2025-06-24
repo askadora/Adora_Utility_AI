@@ -4,11 +4,32 @@ import React, { useState } from 'react';
 
 type AdvisorModalType = 'naomi' | 'karina' | 'sharad' | 'antonio' | 'klyne' | 'kathi' | 'mercedes' | 'shakeel';
 
+interface ModalDataType {
+  [key: string]: {
+    name: string;
+    title: string;
+    image: string;
+    bio: {
+      intro: string;
+      motivations?: string[];
+      background?: string;
+      thesis?: string;
+      cta?: string;
+    };
+    social?: {
+      linkedin?: string;
+      instagram?: string;
+      github?: string;
+    };
+    video?: string;
+  };
+}
 interface AdvisorsAccordionProps {
   onPersonClick: (person: AdvisorModalType) => void;
+  modalData: ModalDataType;
 }
 
-export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionProps) {
+export default function AdvisorsAccordion({ onPersonClick, modalData }: AdvisorsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -45,14 +66,14 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/naomi1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbmFvbWkxLkpQRyIsImlhdCI6MTc1MDcyMjExMSwiZXhwIjoxNzgyMjU4MTExfQ.oECVQVUXzejAu2426_oAFmImn5IGAGQGHGBSr_O5iEY"
-                  alt="Naomi Wang"
+                  src={modalData['naomi'].image}
+                  alt={modalData['naomi'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Naomi Wang</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Senior Product Advisor</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['naomi'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['naomi'].title}</p>
               </div>
             </div>
 
@@ -63,14 +84,14 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/karina1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2FyaW5hMS5qcGciLCJpYXQiOjE3NTA3MjE5OTEsImV4cCI6MTc4MjI1Nzk5MX0.n3AdTJGFJNXVlhZhmgPG4FbGxrPvfp2Lgvj4TkrDsyE"
-                  alt="Karina Lupercio"
+                  src={modalData['karina'].image}
+                  alt={modalData['karina'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Karina Lupercio</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Fractional COO</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['karina'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['karina'].title}</p>
               </div>
             </div>
 
@@ -81,14 +102,14 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/mercedes1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbWVyY2VkZXMxLmpwZyIsImlhdCI6MTc1MDcyMjAzMSwiZXhwIjoxNzgyMjU4MDMxfQ.itGYQpD5fQIn4628nL-SnTlJQgRdy12GyHDYxAGKRm8"
-                  alt="Mercedes Ballard"
+                  src={modalData['mercedes'].image}
+                  alt={modalData['mercedes'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Mercedes Ballard</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Magical Teams Strategist</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['mercedes'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['mercedes'].title}</p>
               </div>
             </div>
 
@@ -97,10 +118,16 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('sharad')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['sharad'].image}
+                  alt={modalData['sharad'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Sharad Karkera</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Fractional CTO</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['sharad'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['sharad'].title}</p>
               </div>
             </div>
 
@@ -109,10 +136,16 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('antonio')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['antonio'].image}
+                  alt={modalData['antonio'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Antonio Paes</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Principal AI Advisor</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['antonio'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['antonio'].title}</p>
               </div>
             </div>
 
@@ -121,10 +154,16 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('klyne')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['klyne'].image}
+                  alt={modalData['klyne'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Dr. Klyne Smith</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Security & Cryptography Advisor</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['klyne'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['klyne'].title}</p>
               </div>
             </div>
 
@@ -133,10 +172,16 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('kathi')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['kathi'].image}
+                  alt={modalData['kathi'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Kathi Vidal</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">IP Advisor</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['kathi'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['kathi'].title}</p>
               </div>
             </div>
 
@@ -145,10 +190,16 @@ export default function AdvisorsAccordion({ onPersonClick }: AdvisorsAccordionPr
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('shakeel')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['shakeel'].image}
+                  alt={modalData['shakeel'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Shakeel Raja</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Director Data Science @ TechGenies</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['shakeel'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['shakeel'].title}</p>
               </div>
             </div>
           </div>

@@ -98,6 +98,7 @@ export default function AboutPage() {
     tarryn: {
       name: "Tarryn Thomas",
       title: "Head of Experience",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/taryn1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvdGFyeW4xLmpwZyIsImlhdCI6MTc1MDc4NTg2MiwiZXhwIjoxNzgyMzIxODYyfQ.rJjhPZ4Edn0eNePmIOSjvQWiL0tcYexYsEtgZdNGskU',
       bio: {
         intro: "Tarryn is an Alchemist at Adora, where she supports culture, operations and experience strategy to help the team scale with soul and precision.",
         motivations: [
@@ -113,6 +114,7 @@ export default function AboutPage() {
     kevin: {
       name: "Kevin Bultongez",
       title: "Head Architect",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/kevin.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2V2aW4uSlBHIiwiaWF0IjoxNzUwNzg1NzUzLCJleHAiOjE3ODIzMjE3NTN9.sz5SZjFs65xKrMkO90OuYkqHINy_hsjoWP5EKhwmCXc',
       bio: {
         intro: "Kevin Bultongez is the Head Architect at Adora AI, where he drives business architecture, external engagement, and strategic partnerships to establish Adora’s market leadership in the AI ecosystem.",
         motivations: [
@@ -128,6 +130,7 @@ export default function AboutPage() {
     chittal: {
       name: "Chittal Karuppiah",
       title: "AI/ML Engineer",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/chittal1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvY2hpdHRhbDEuSlBHIiwiaWF0IjoxNzUwNzg1MjY3LCJleHAiOjE3ODIzMjEyNjd9.lNkRECZUGxVg6FEhZDmBVd8Evd1EfSdPGAyOEKjce58',
       bio: {
         intro: "Chittal Karuppiah is an AI/ML Engineer at Adora, where she develops AI-powered systems that synthesize outputs from multiple large language models.",
         motivations: [
@@ -143,6 +146,7 @@ export default function AboutPage() {
     sridurga: {
       name: "Sridurga Linga",
       title: "AI/ML Engineer",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/sri1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uvc3JpMS5qcGciLCJpYXQiOjE3NTA3ODU4NDksImV4cCI6MTc4MjMyMTg0OX0.fj5nMpe6hwWwgDAnj2Cz6EaHkDXgOpoqSe0aC7m-XcI',
       bio: {
         intro: "Sridurga Linga is an AI/ML Engineer at Adora, where she builds agentic systems and AI-first recommendation engines.",
         motivations: [
@@ -158,6 +162,7 @@ export default function AboutPage() {
     sai: {
     name: "Sai Akhil Sakhamuri",
     title: "AI/ML Engineer",
+    image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/sai2.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uvc2FpMi5wbmciLCJpYXQiOjE3NTA3ODY0NjAsImV4cCI6MTc4MjMyMjQ2MH0.Gmqw-FOXmBkrwKBSPHPET7xNyhOgfry6IhS-mzWJl4M',
     bio: {
       intro: "Sai Akhil is an AI/ML Engineer at Adora, where he architects intelligent infrastructure and workflow engines that support scalable agent collaboration and secure data operations.",
       motivations: [
@@ -173,6 +178,7 @@ export default function AboutPage() {
     anthony: {
       name: "Anthony Porter",
       title: "Events & Outreach Coordinator",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/anthony.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvYW50aG9ueS5qcGciLCJpYXQiOjE3NTA3ODUyNDUsImV4cCI6MTc4MjMyMTI0NX0.yaLJwjSffppeyweTdcNkXmoDOIv8CAx87ZfjJ9GuzEA',
       bio: {
         intro: "Anthony Porter is the Events and Outreach Coordinator at Adora, where he leads national AI hackathons, learning experiences, and workforce readiness initiatives.",
         motivations: [
@@ -188,6 +194,7 @@ export default function AboutPage() {
     jacob: {
       name: "Jacob Gresham",
       title: "Talent & Founder Support Coordinator",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/jacob1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvamFjb2IxLkpQRyIsImlhdCI6MTc1MDc4NTI4MywiZXhwIjoxNzgyMzIxMjgzfQ.IwzXTaPoM8QnxXaOm3jWmdP79K14100UQXt-k4VzbEU',
       bio: {
         intro: "Jacob Gresham is the Talent & Founder Support Coordinator at Adora, where he recruits mission-aligned talent and supports founder initiatives.",
         motivations: [
@@ -203,6 +210,7 @@ export default function AboutPage() {
     naomi: {
       name: 'Naomi Wang',
       title: 'Senior Product Advisor',
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/naomi1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbmFvbWkxLkpQRyIsImlhdCI6MTc1MDc4NTgwMSwiZXhwIjoxNzgyMzIxODAxfQ.0UlNQXB936Z14ljwM7ZaBsi09FPss0mhFSDi1NaN1G0',
       bio: {
         intro: "As a Senior Product Advisor at Adora, I architect and build scalable systems that power AI-native applications. My focus is on creating performant infrastructure and intelligent features that directly support user and business needs.",
         motivations: [
@@ -218,6 +226,7 @@ export default function AboutPage() {
     karina: {
       name: "Karina Lupercio",
       title: "Fractional COO",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/karina1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2FyaW5hMS5qcGciLCJpYXQiOjE3NTA3ODYwODUsImV4cCI6MTc4MjMyMjA4NX0.Zo0DyLp1Pr3My5bzExgQXmiH9TP8uq58v-yEPphYqzE',
       bio: {
         intro: "Karina Lupercio is an Advisor at Adora AI, where she guides operational strategy, systems design, and implementation to help the company scale with intention.",
         motivations: [
@@ -233,6 +242,7 @@ export default function AboutPage() {
     sharad: {
     name: "Sharad Karkera",
     title: "Fractional CTO",
+    image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/Sharad.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvU2hhcmFkLnBuZyIsImlhdCI6MTc1MDc4NTgzOCwiZXhwIjoxNzgyMzIxODM4fQ.pzO3Q30rJe7UB4AQs3QpDqwEUqmI_N0TGhoBrU4iGj0',
     bio: {
       intro: "Sharad Karkera is a seasoned technology executive recognized for driving transformative growth and efficiency at scale.",
       motivations: [
@@ -248,6 +258,7 @@ export default function AboutPage() {
     antonio: {
     name: "Antonio Paes",
     title: "Principal AI Advisor",
+    image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/Antonio_photo.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvQW50b25pb19waG90by5qcGVnIiwiaWF0IjoxNzUwNzg1NjI4LCJleHAiOjE3ODIzMjE2Mjh9.qRansga4QZMCMv8lx7qx_bEta9ualykMXTnFwjVr5gs',
     bio: {
       intro: "Antonio Paes is an accomplished technology executive and thought leader in Artificial Intelligence and Machine Learning.",
       motivations: [
@@ -263,6 +274,7 @@ export default function AboutPage() {
     klyne: {
       name: 'Dr. Klyne Smith',
       title: 'Security & Cryptography Advisor',
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/Klyne.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvS2x5bmUucG5nIiwiaWF0IjoxNzUwNzg1Nzc0LCJleHAiOjE3ODIzMjE3NzR9.lpFus082UskbEnrrJxRZUHDOFKVWBUJCitRws-0oBW0',
       bio: {
         intro: "I provide expertise in cybersecurity and cryptography, ensuring that Adora AI's systems are built with security as a fundamental principle, not an afterthought.",
         motivations: [
@@ -278,6 +290,7 @@ export default function AboutPage() {
     kathi: {
       name: 'Kathi Vidal',
       title: 'IP Advisor',
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/Kathi.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvS2F0aGkucG5nIiwiaWF0IjoxNzUwNzg1NzIzLCJleHAiOjE3ODIzMjE3MjN9.ByZVqdriedmrl2zYFPDSKgX7j3j7FUTidMFi5QlHoiQ',
       bio: {
         intro: "As IP Advisor, I help Adora AI navigate intellectual property strategy, patent protection, and compliance to ensure our innovations are properly protected and positioned for success.",
         motivations: [
@@ -293,6 +306,7 @@ export default function AboutPage() {
     mercedes: {
       name: "Mercedes Ballard",
       title: "Advisor",
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/mercedes1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvbWVyY2VkZXMxLmpwZyIsImlhdCI6MTc1MDc4NTc5MiwiZXhwIjoxNzgyMzIxNzkyfQ.Gdb8SrVZiTfam8XVDqfPLiZltr6E8cr6TLkVpngTXfg',
       bio: {
         intro: "Mercedes Ballard is an Advisor at Adora, where she brings hands-on support in strategic planning, team building, and operational infrastructure.",
         motivations: [
@@ -308,6 +322,7 @@ export default function AboutPage() {
     shakeel: {
       name: 'Shakeel Raja',
       title: 'Director Data Science @ TechGenies',
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/Shakeel.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvU2hha2VlbC5wbmciLCJpYXQiOjE3NTA3ODU4MjMsImV4cCI6MTc4MjMyMTgyM30.7YyO1c3YR_xDNEAs8UnAve1GZzB404bnke_Hgo253GA',
       bio: {
         intro: "As Director of Data Science at TechGenies, I lead data science initiatives and provide strategic guidance on AI/ML implementation, data architecture, and advanced analytics to help Adora AI leverage data-driven insights for optimal decision-making.",
         motivations: [
@@ -323,6 +338,7 @@ export default function AboutPage() {
     techgenies: {
       name: 'TechGenies',
       title: 'Technical Development Partner',
+      image: '',
       pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20TechGenies.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gVGVjaEdlbmllcy5wZGYiLCJpYXQiOjE3NTA3MTA5MDUsImV4cCI6MTc4MjI0NjkwNX0.EF9X9QYQPejMwBJzMZw9_ypuM5Qgw3qdb9IFlfnO10w',
       bio: {
         intro: "TechGenies is our trusted technical development partner, providing specialized expertise in software development, system integration, and technical implementation to accelerate our product development.",
@@ -339,6 +355,7 @@ export default function AboutPage() {
     magical: {
       name: 'Magical Teams',
       title: 'Strategic Partner',
+      image: '',
       pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Magical%20Teams.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gTWFnaWNhbCBUZWFtcy5wZGYiLCJpYXQiOjE3NTA3MTA5MTgsImV4cCI6MTc4MjI0NjkxOH0.ftcAIBhzMyNi8LEkHC0wChaERhkC2fW7TPikzKIJs1k',
       bio: {
         intro: "Magical Teams partners with us to provide strategic insights, operational support, and specialized expertise that helps Adora AI achieve its goals more effectively.",
@@ -355,6 +372,7 @@ export default function AboutPage() {
     growit: {
       name: 'GrowIT',
       title: 'Growth Partner',
+      image: '',
       pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Grow%20IT%20Partners.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gR3JvdyBJVCBQYXJ0bmVycy5wZGYiLCJpYXQiOjE3NTA3MTA5MzYsImV4cCI6MTc4MjI0NjkzNn0.uVqYcZvL28jzDisrYGzdy2KzxzFhepmmu8jIF-kOmOA',
       bio: {
         intro: "GrowIT is our growth partner, providing expertise in marketing, business development, and growth strategies to help Adora AI expand its reach and impact.",
@@ -371,6 +389,7 @@ export default function AboutPage() {
     hexa: {
       name: 'Hexa',
       title: 'Innovation Partner',
+      image: '',
       bio: {
         intro: "Hexa serves as our innovation partner, bringing fresh perspectives, creative solutions, and cutting-edge expertise to help Adora AI stay at the forefront of AI innovation.",
         motivations: [
@@ -829,11 +848,13 @@ export default function AboutPage() {
       {/* Team Section */}
       <TeamAccordion 
         onPersonClick={(person: ModalType) => setActiveModal(person)}
+        modalData={modalData}
       />
 
       {/* Advisors Section */}
       <AdvisorsAccordion 
         onPersonClick={(person: ModalType) => setActiveModal(person)}
+        modalData={modalData}
       />
 
       {/* Partners Section */}

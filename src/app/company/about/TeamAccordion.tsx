@@ -5,11 +5,33 @@ import Image from 'next/image';
 
 type ModalType = 'kyle' | 'kevin' | 'chittal' | 'sridurga' | 'sai' | 'anthony' | 'jacob';
 
-interface TeamAccordionProps {
-  onPersonClick: (person: ModalType) => void;
+interface ModalDataType {
+  [key: string]: {
+    name: string;
+    title: string;
+    image: string;
+    bio: {
+      intro: string;
+      motivations?: string[];
+      background?: string;
+      thesis?: string;
+      cta?: string;
+    };
+    social?: {
+      linkedin?: string;
+      instagram?: string;
+      github?: string;
+    };
+    video?: string;
+  };
 }
 
-export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
+interface TeamAccordionProps {
+  onPersonClick: (person: ModalType) => void;
+  modalData: ModalDataType;
+}
+
+export default function TeamAccordion({ onPersonClick, modalData }: TeamAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -46,8 +68,8 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0">
                 <Image
-                  src="/company/about/KyleProfileSmall.jpg"
-                  alt="Kyle Thomas"
+                  src={modalData['kyle'].image}
+                  alt={modalData['kyle'].name}
                   width={64}
                   height={64}
                   className="rounded-full object-cover"
@@ -55,8 +77,8 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
               </div>
               <div className="ml-4 flex-1 flex items-center justify-between">
                 <div>
-                  <span className="text-base font-semibold text-gray-900 dark:text-white">Kyle Thomas</span>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Founder</p>
+                  <span className="text-base font-semibold text-gray-900 dark:text-white">{modalData['kyle'].name}</span>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['kyle'].title}</p>
                 </div>
                 <div className="flex space-x-3 ml-4">
                   {/* LinkedIn */}
@@ -106,14 +128,14 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/kevin.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2V2aW4uSlBHIiwiaWF0IjoxNzUwNzIxODc5LCJleHAiOjE3ODIyNTc4Nzl9.4b-jxkeiACggQMsUFPRiI2dNUM407Gbj_7ljDt3JIuQ"
-                  alt="Kevin Bultongez"
+                  src={modalData['kevin'].image}
+                  alt={modalData['kevin'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Kevin Bultongez</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Head Architect</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['kevin'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['kevin'].title}</p>
               </div>
             </div>
             <div 
@@ -122,14 +144,14 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/chittal1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvY2hpdHRhbDEuSlBHIiwiaWF0IjoxNzUwNzIxNDE4LCJleHAiOjE3ODIyNTc0MTh9.JdejHNL5dvv1DjTmWHXu6bmtGi3bfB2OehwqYFYoJBg"
-                  alt="Chittal Karuppiah"
+                  src={modalData['chittal'].image}
+                  alt={modalData['chittal'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Chittal Karuppiah</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">AI/ML Engineer</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['chittal'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['chittal'].title}</p>
               </div>
             </div>
             <div 
@@ -138,24 +160,30 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/sri1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uvc3JpMS5qcGciLCJpYXQiOjE3NTA3MjE2NzAsImV4cCI6MTc4MjI1NzY3MH0.eKuLDLlIUaJBm1WY_nhRtlrKria89N545XNKZMiGh3s"
-                  alt="Sridurga Linga"
+                  src={modalData['sridurga'].image}
+                  alt={modalData['sridurga'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Sridurga Linga</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">AI/ML Engineer</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['sridurga'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['sridurga'].title}</p>
               </div>
             </div>
             <div 
               className="flex items-center bg-gray-50 dark:bg-gray-800/70 rounded-lg border border-gray-200 dark:border-gray-700 p-3 h-20 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               onClick={() => onPersonClick('sai')}
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700" />
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <img
+                  src={modalData['sai'].image}
+                  alt={modalData['sai'].name}
+                  className="w-16 h-16 object-cover rounded-full"
+                />
+              </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Sai Akhil Sakhamuri</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">AI/ML Engineer</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['sai'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['sai'].title}</p>
               </div>
             </div>
             <div 
@@ -164,14 +192,14 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/anthony.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvYW50aG9ueS5qcGciLCJpYXQiOjE3NTA3MjA2NDcsImV4cCI6MTc4MjI1NjY0N30.2DlzdDUrDLaonfrfJA1MbTRVWVnOS8C-1ZMczvC8Whc"
-                  alt="Anthony Porter"
+                  src={modalData['anthony'].image}
+                  alt={modalData['anthony'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Anthony Porter</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Corporate Relationships</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['anthony'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['anthony'].title}</p>
               </div>
             </div>
             <div 
@@ -180,14 +208,14 @@ export default function TeamAccordion({ onPersonClick }: TeamAccordionProps) {
             >
               <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
                 <img
-                  src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/jacob1.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvamFjb2IxLkpQRyIsImlhdCI6MTc1MDcyMTQ2MiwiZXhwIjoxNzgyMjU3NDYyfQ.9tvKgj_ykyNuJMyR6U-3J1n-4uAyRasknqQ08SjyU0U"
-                  alt="Jacob Gresham"
+                  src={modalData['jacob'].image}
+                  alt={modalData['jacob'].name}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Jacob Gresham</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Talent Acquisition</p>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">{modalData['jacob'].name}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{modalData['jacob'].title}</p>
               </div>
             </div>
           </div>
