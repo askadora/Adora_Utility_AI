@@ -313,13 +313,24 @@ export default function InvestorDataRoom() {
                 <ul className="space-y-2">
                   <li>
                     <button
+                      onClick={() => setShowOrgChartModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                      Current Org Chart - June 2025
+                    </button>
+                  </li>
+                  <li>
+                    <button
                       onClick={() => setShowExecutiveSummaryModal(true)}
                       className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      Executive Summary - Investor Overview
+                      Executive Summary 
                     </button>
                   </li>
                   <li>
@@ -331,17 +342,6 @@ export default function InvestorDataRoom() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                       Hiring & Team Roadmap
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => setShowOrgChartModal(true)}
-                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      Current Org Chart - June 2025
                     </button>
                   </li>
                 </ul>
@@ -376,76 +376,97 @@ export default function InvestorDataRoom() {
 
           {openSections.technology && (
             <div className="px-6 pb-6">
-              <div className="space-y-3">
-                <button
-                  onClick={() => setShowAIPinModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  AI Pin - Investor Overview
-                </button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Product Overview */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Product Overview</h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <button
+                        onClick={() => setShowAIPinModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        AI Pin
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => setShowB2CPlayerProModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        B2C Player Pro
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => setShowMultiModelModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Multi-Model Strategy & Cost-Control
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => setShowProductRoadmapModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Product Roadmap
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => setShowUnifiedCommHubModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Unified Communication Hub
+                      </button>
+                    </li>
+                  </ul>
+                </div>
 
-                <button
-                  onClick={() => setShowB2CPlayerProModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  B2C Player Pro - Investor Overview
-                </button>
-
-                <button
-                  onClick={() => setShowMultiModelModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Multi-Model Strategy & Cost-Control - Investor Overview
-                </button>
-
-                <button
-                  onClick={() => setShowProductRoadmapModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Product Roadmap - Investor Overview
-                </button>
-
-                <button
-                  onClick={() => setShowRecommendationSystemModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Recommendation System Architecture - Investor Overview
-                </button>
-
-                <button
-                  onClick={() => setShowUnifiedCommHubModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Unified Communication Hub - Investor Overview
-                </button>
-
-                <button
-                  onClick={() => setShowUserManagementModal(true)}
-                  className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  User Management System Architecture - Investor Overview
-                </button>
+                {/* Architecture */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Architecture</h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <button
+                        onClick={() => setShowUserManagementModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        User Management System
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => setShowRecommendationSystemModal(true)}
+                        className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Recommendation System
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           )}
@@ -586,6 +607,17 @@ export default function InvestorDataRoom() {
               <div className="space-y-4">
                 <ul className="space-y-2">
                   <li>
+                    <button
+                      onClick={() => setShowSecurityFrameworkModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Security Framework
+                    </button>
+                  </li>
+                  <li>
                     <button 
                       onClick={() => setShowOperatingAgreementModal(true)}
                       className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
@@ -617,17 +649,6 @@ export default function InvestorDataRoom() {
                       </svg>
                       Summary of Corporate Bylaws
                     </button>
-                  </li>
-                  <li>
-                    <button
-                    onClick={() => setShowSecurityFrameworkModal(true)}
-                    className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Security Framework - Investor Overview
-                  </button>
                   </li>
                 </ul>
               </div>
@@ -673,7 +694,7 @@ export default function InvestorDataRoom() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      Market Analysis May 2025 - Investor Overview
+                      Market Analysis May 2025
                     </button>
                   </li>
                   <li>
@@ -1221,7 +1242,7 @@ export default function InvestorDataRoom() {
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Executive%20Summary%20-%20Invenstor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gRXhlY3V0aXZlIFN1bW1hcnkgLSBJbnZlbnN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDM1LCJleHAiOjE3ODIyNDMwMzV9.4qwtbk1jlpTzrNHyNBNb9Z5-anKZqgZzof6Z1iJSddw#view=FitH&zoom=110"
-                      title="Adora AI Executive Summary - Investor Overview"
+                      title="Adora AI Executive Summary"
                       className="w-full h-[65vh] rounded-lg"
                       style={{ minHeight: '500px' }}
                     />
@@ -1325,7 +1346,7 @@ export default function InvestorDataRoom() {
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20Hiring%20Roadmap%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIEhpcmluZyBSb2FkbWFwIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDU1LCJleHAiOjE3ODIyNDMwNTV9.NGR0StzHtFKcTDOBNnpmYard_pAn3qkbjl3gp5PXhxc#view=FitH&zoom=110"
-                      title="Adora AI Hiring & Team Roadmap - Investor Overview"
+                      title="Adora AI Hiring & Team Roadmap"
                       className="w-full h-[65vh] rounded-lg"
                       style={{ minHeight: '500px' }}
                     />
@@ -1510,7 +1531,7 @@ export default function InvestorDataRoom() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                        Adora AI Pin - Investor Overview
+                        Adora AI Pin 
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         Wearable AI device roadmap and specifications
@@ -1523,7 +1544,7 @@ export default function InvestorDataRoom() {
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20AI%20Pin%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQUkgUGluIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4Mjg3LCJleHAiOjE3ODIyNDQyODd9.HOdD2eCoN21xX-P1sPyL-mqVR8PEMX5mZ6xWhcHLahA#view=FitH&zoom=110"
-                      title="Adora AI Pin - Investor Overview"
+                      title="Adora AI Pin"
                       className="w-full h-[65vh] rounded-lg"
                       style={{ minHeight: '500px' }}
                     />
@@ -1604,7 +1625,7 @@ export default function InvestorDataRoom() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                        B2C Player Pro - Investor Overview
+                        B2C Player Pro 
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         Consumer AI platform and monetization strategy
@@ -1617,7 +1638,7 @@ export default function InvestorDataRoom() {
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20B2C%20Player%20Pro%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQjJDIFBsYXllciBQcm8gLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgyOTgsImV4cCI6MTc4MjI0NDI5OH0.B5UIMw-VpQqeL2pueoLMBkh4VdKiOX74GLGzZ0Sf_-8#view=FitH&zoom=110"
-                      title="B2C Player Pro - Investor Overview"
+                      title="B2C Player Pro"
                       className="w-full h-[65vh] rounded-lg"
                       style={{ minHeight: '500px' }}
                     />
@@ -1700,11 +1721,11 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Product Roadmap - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic product development timeline</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Product Roadmap</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic product development timeline</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY#view=FitH&zoom=110" title="Product Roadmap - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY#view=FitH&zoom=110" title="Product Roadmap" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -1734,7 +1755,7 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Recommendation System Architecture</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI-powered recommendation engine design</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Recommendation System </h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI-powered recommendation engine design</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -1768,11 +1789,11 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Security Framework - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive security architecture and protocols</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Security Framework </h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive security architecture and protocols</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE#view=FitH&zoom=110" title="Security Framework - Investor Overview" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE#view=FitH&zoom=110" title="Security Framework" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -1836,7 +1857,7 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">User Management System Architecture</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">User authentication and management system</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">User Management System</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">User authentication and management system</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -1870,7 +1891,7 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Market Analysis May 2025 - Investor Overview</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive AI market analysis and strategic positioning</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Market Analysis May 2025</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive AI market analysis and strategic positioning</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
