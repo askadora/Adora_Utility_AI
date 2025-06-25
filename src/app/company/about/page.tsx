@@ -114,7 +114,7 @@ export default function AboutPage() {
     kevin: {
       name: "Kevin Bultongez",
       title: "Head Architect",
-      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/kevin.JPG?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2V2aW4uSlBHIiwiaWF0IjoxNzUwNzg1NzUzLCJleHAiOjE3ODIzMjE3NTN9.sz5SZjFs65xKrMkO90OuYkqHINy_hsjoWP5EKhwmCXc',
+      image: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/kevin.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2Uva2V2aW4uanBnIiwiaWF0IjoxNzUwODE5NjUzLCJleHAiOjE3ODIzNTU2NTN9.LIWitCoCpYdHOrfuwklLtNBhId-l0hMLNW5n6es2K60',
       bio: {
         intro: "Kevin Bultongez is the Head Architect at Adora AI, where he drives business architecture, external engagement, and strategic partnerships to establish Adora’s market leadership in the AI ecosystem.",
         motivations: [
