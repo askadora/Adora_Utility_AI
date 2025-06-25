@@ -370,10 +370,10 @@ export default function AboutPage() {
       }
     },
     growit: {
-      name: 'GrowIT',
+      name: 'Grow IT Partners',
       title: 'Growth Partner',
       image: '',
-      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Grow%20IT%20Partners%20(1).pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gR3JvdyBJVCBQYXJ0bmVycyAoMSkucGRmIiwiaWF0IjoxNzUwODEzNjE3LCJleHAiOjIwNjYxNzM2MTd9.MRKtrg2avKJb4GqGoKEeh3Wj3rOtniRTM2bGs-3wrRo',
+      pdfUrl: 'https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Team_HR/Key%20Partnership%20Profile%20-%20Grow%20IT%20Partners.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWFtX0hSL0tleSBQYXJ0bmVyc2hpcCBQcm9maWxlIC0gR3JvdyBJVCBQYXJ0bmVycy5wZGYiLCJpYXQiOjE3NTA4NzA1ODEsImV4cCI6MTc4MjQwNjU4MX0.Lu4j6VBGbNXbamci9ejFzy7IJdt02_IbesgdB6kZ1qI',
       bio: {
         intro: "GrowIT is our growth partner, providing expertise in marketing, business development, and growth strategies to help Adora AI expand its reach and impact.",
         motivations: [

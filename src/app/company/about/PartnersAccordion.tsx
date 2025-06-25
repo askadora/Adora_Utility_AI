@@ -88,7 +88,7 @@ export default function PartnersAccordion({ onPersonClick, onPDFClick }: Partner
                 />
               </div>
               <div className="ml-4">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">GrowIT</h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Grow IT Partners</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Growth Partner</p>
               </div>
             </div>
