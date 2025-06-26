@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
               
               <div class="footer">
                   <p>Best regards,<br>The Adora AI Team</p>
-                  <p>© 2024 Adora AI. All rights reserved.</p>
+                  <p>© 2025 Adora AI. All rights reserved.</p>
                   <p>If you didn't request this access, please contact us immediately at <a href="mailto:hello.adorahq@gmail.com" class="link">hello.adorahq@gmail.com</a></p>
               </div>
           </div>
