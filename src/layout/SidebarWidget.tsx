@@ -1,4 +1,5 @@
 import React from "react";
+import { handleGetStartedClick } from "@/utils/referrerUtils";
 
 export default function SidebarWidget() {
   return (
@@ -12,7 +13,12 @@ export default function SidebarWidget() {
       <p className="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
         To Join a Live Demo, Learn more, or book a 1-on-1 meeting click...
       </p>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded">Get Started</button>
+      <button 
+        onClick={handleGetStartedClick}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+      >
+        Get Started
+      </button>
     </div>
   );
 }
