@@ -140,17 +140,7 @@ const InvestorPasswordProtection: React.FC<InvestorPasswordProtectionProps> = ({
             </button>
           </div>
 
-          <div className="text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Need access? Contact{' '}
-              <a 
-                href="mailto:investors@adoraai.com" 
-                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
-              >
-                investors@adoraai.com
-              </a>
-            </p>
-          </div>
+
         </form>
       </div>
     </div>
