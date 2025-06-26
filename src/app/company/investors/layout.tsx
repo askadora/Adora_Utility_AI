@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import InvestorPasswordProtection from '@/components/auth/InvestorPasswordProtection';
 
 export const metadata: Metadata = {
   title: "Investor Data Room | Adora AI",
@@ -10,5 +11,9 @@ export default function InvestorsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <InvestorPasswordProtection>
+      {children}
+    </InvestorPasswordProtection>
+  );
 } 
