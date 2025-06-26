@@ -2100,7 +2100,7 @@ export default function InvestorDataRoom() {
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20Budget%20Template%20-%20Q2%202025.xlsx?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQnVkZ2V0IFRlbXBsYXRlIC0gUTIgMjAyNS54bHN4IiwiaWF0IjoxNzUwOTc1NDM3LCJleHAiOjE3ODI1MTE0Mzd9.ySMLsehqOL2N-MXYEXIbrQ1FZqaaU0vuPoU9Fy2_dJM#view=FitH&zoom=110" title="Budget Template Q2 2025" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <iframe src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent('https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20Budget%20Template%20-%20Q2%202025.xlsx?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQnVkZ2V0IFRlbXBsYXRlIC0gUTIgMjAyNS54bHN4IiwiaWF0IjoxNzUwOTc1NDM3LCJleHAiOjE3ODI1MTE0Mzd9.ySMLsehqOL2N-MXYEXIbrQ1FZqaaU0vuPoU9Fy2_dJM')}`} title="Budget Template Q2 2025" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
