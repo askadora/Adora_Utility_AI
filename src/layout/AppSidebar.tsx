@@ -91,6 +91,17 @@ const RealEstateIcon = () => (
   </svg>
 );
 
+const SynthesizeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 12L12 8L16 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M8 16L12 12L16 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <circle cx="12" cy="4" r="2" fill="currentColor"/>
+    <circle cx="12" cy="20" r="2" fill="currentColor"/>
+    <circle cx="4" cy="12" r="2" fill="currentColor"/>
+    <circle cx="20" cy="12" r="2" fill="currentColor"/>
+  </svg>
+);
+
 const navItems: NavItem[] = [
   {
     icon: <HomeIcon />,
@@ -108,12 +119,16 @@ const navItems: NavItem[] = [
     path: "/adoralink",
   },
   {
+    name: "Synthesize",
+    icon: <SynthesizeIcon />,
+    path: "/prompt/multi-chat",
+  },
+  {
     icon: <PromptIcon />,
     name: "Prompt",
     subItems: [
       { name: "Adora Chat", path: "/prompt/n8n-chat", pro: false },
       { name: "Focused Chat", path: "/prompt/chat", pro: false },
-      { name: "Synthesize", path: "/prompt/multi-chat", pro: false },
       { name: "Create Prompt", path: "/prompt/create", pro: false },
       { name: "My Prompts", path: "/prompt/list", pro: false },
       { name: "Prompt Library", path: "/prompt/library", pro: false },
