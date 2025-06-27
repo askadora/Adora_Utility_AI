@@ -141,10 +141,10 @@ export default function KnowledgeBase() {
           </div>
         </div>
 
-        {/* Knowledge Base Categories */}
+        {/* Knowledge Base Categories 
         <ComponentCard title="Knowledge Categories" desc="Browse our knowledge base by category">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Product Documentation */}
+            {/* Product Documentation
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Product Documentation</h3>
               <ul className="space-y-2">
@@ -175,7 +175,7 @@ export default function KnowledgeBase() {
               </ul>
             </div>
 
-            {/* Tutorials & Guides */}
+            {/* Tutorials & Guides 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Tutorials & Guides</h3>
               <ul className="space-y-2">
@@ -206,7 +206,7 @@ export default function KnowledgeBase() {
               </ul>
             </div>
 
-            {/* FAQs & Support */}
+            {/* FAQs & Support 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">FAQs & Support</h3>
               <ul className="space-y-2">
@@ -237,7 +237,7 @@ export default function KnowledgeBase() {
               </ul>
             </div>
           </div>
-        </ComponentCard>
+        </ComponentCard>*/}
       </div>
     </div>
   );
