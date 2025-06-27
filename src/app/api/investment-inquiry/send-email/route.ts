@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       </head>
       <body>
           <div class="container">
-              <img src="https://www.adorahq.ai/images/logo/adora-ai-logo.png" alt="Adora AI Logo" class="logo">
+              <img src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/team-profile-image/adora-ai-logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZWFtLXByb2ZpbGUtaW1hZ2UvYWRvcmEtYWktbG9nby5wbmciLCJpYXQiOjE3NTA5OTk2MDEsImV4cCI6MTc4MjUzNTYwMX0.QCL7iKtPh9OWIhi9YLgR-GtiRNKRQN-S73EEHguGf6A" alt="Adora AI Logo" class="logo">
               
               <div class="header">
                   <h1 class="title">Thank you for your interest!</h1>
