@@ -10,6 +10,7 @@ import { supabase } from '@/lib/supabaseClient';
 export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showPresentationVideoModal, setShowPresentationVideoModal] = useState(false);
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
@@ -218,7 +219,7 @@ export default function InvestorDataRoom() {
               Your Investment Opportunity
             </h2>
             <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6">
-              We're seeking $2.5-3.2M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
+              We're seeking $5-7M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-6">
               <button 
@@ -389,15 +390,15 @@ export default function InvestorDataRoom() {
                 </svg>
                 Download Pitch Deck (PDF)
               </a>
-              <a
-                href="#"
+              <button
+                onClick={() => setShowPresentationVideoModal(true)}
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Watch Presentation
-              </a>
+              </button>
             </div>
           </div>
         </ComponentCard>
@@ -802,11 +803,11 @@ export default function InvestorDataRoom() {
               For investment inquiries or to schedule a meeting with our team, please contact:
             </p>
             <div className="flex flex-col gap-2">
-              <a href="mailto:investors@adorahq.com" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
+              <a href="mailto:Kyle@adorahq.com" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                investors@adorahq.com
+                Kyle@adorahq.com
               </a>
               <a href="tel:+12148367794" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -904,6 +905,103 @@ export default function InvestorDataRoom() {
                        className="w-full h-full"
                        src="https://www.youtube.com/embed/VIDEO_ID"
                        title="How to Use the Data Room"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                     */}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </>
+       )}
+
+      {/* Presentation Video Modal */}
+      {showPresentationVideoModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowPresentationVideoModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowPresentationVideoModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Investor Presentation
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Watch our comprehensive investor presentation and pitch deck walkthrough
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     {/* Placeholder for video - replace with actual video URL */}
+                     <div className="w-full h-full flex items-center justify-center">
+                       <div className="text-center">
+                         <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
+                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                           </svg>
+                         </div>
+                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                           Investor Presentation Video
+                         </h4>
+                         <p className="text-gray-600 dark:text-gray-400 mb-4">
+                           Watch our comprehensive investor presentation and pitch deck walkthrough.
+                         </p>
+                         <p className="text-sm text-gray-500 dark:text-gray-400">
+                           Video coming soon - Replace this placeholder with your actual video embed
+                         </p>
+                       </div>
+                     </div>
+                     
+                     {/* Uncomment and replace VIDEO_ID with actual video when ready */}
+                     {/* 
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/VIDEO_ID"
+                       title="Investor Presentation"
                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                        allowFullScreen
                      ></iframe>
