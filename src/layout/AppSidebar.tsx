@@ -114,11 +114,6 @@ const navItems: NavItem[] = [
     path: "/focus",
   },
   {
-    name: "AdoraLink",
-    icon: <PlugInIcon />,
-    path: "/adoralink",
-  },
-  {
     name: "Synthesize",
     icon: <SynthesizeIcon />,
     path: "/prompt/multi-chat",
@@ -147,6 +142,11 @@ const navItems: NavItem[] = [
     name: "Integrations",
     icon: <IntegrationsIcon />,
     path: "/integrations",
+  },
+  {
+    name: "AdoraLink",
+    icon: <PlugInIcon />,
+    path: "/adoralink",
   },
   {
     icon: <GridIcon />,
