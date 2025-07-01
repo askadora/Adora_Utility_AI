@@ -9,6 +9,7 @@ import { useSidebar } from '@/context/SidebarContext';
 export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showPresentationVideoModal, setShowPresentationVideoModal] = useState(false);
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
@@ -100,7 +101,7 @@ export default function InvestorDataRoom() {
               Your Investment Opportunity
             </h2>
             <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6">
-              We're seeking $2.5-3.2M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
+              We're seeking $5-7M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-6">
               <button 
@@ -271,15 +272,15 @@ export default function InvestorDataRoom() {
                 </svg>
                 Download Pitch Deck (PDF)
               </a>
-              <a
-                href="#"
+              <button
+                onClick={() => setShowPresentationVideoModal(true)}
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Watch Presentation
-              </a>
+              </button>
             </div>
           </div>
         </ComponentCard>
@@ -733,11 +734,11 @@ export default function InvestorDataRoom() {
               For investment inquiries or to schedule a meeting with our team, please contact:
             </p>
             <div className="flex flex-col gap-2">
-              <a href="mailto:investors@adorahq.com" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
+              <a href="mailto:Kyle@adorahq.com" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                investors@adorahq.com
+                Kyle@adorahq.com
               </a>
               <a href="tel:+12148367794" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -835,6 +836,103 @@ export default function InvestorDataRoom() {
                        className="w-full h-full"
                        src="https://www.youtube.com/embed/VIDEO_ID"
                        title="How to Use the Data Room"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                     */}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </>
+       )}
+
+      {/* Presentation Video Modal */}
+      {showPresentationVideoModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowPresentationVideoModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowPresentationVideoModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Investor Presentation
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Watch our comprehensive investor presentation and pitch deck walkthrough
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     {/* Placeholder for video - replace with actual video URL */}
+                     <div className="w-full h-full flex items-center justify-center">
+                       <div className="text-center">
+                         <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
+                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                           </svg>
+                         </div>
+                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                           Investor Presentation Video
+                         </h4>
+                         <p className="text-gray-600 dark:text-gray-400 mb-4">
+                           Watch our comprehensive investor presentation and pitch deck walkthrough.
+                         </p>
+                         <p className="text-sm text-gray-500 dark:text-gray-400">
+                           Video coming soon - Replace this placeholder with your actual video embed
+                         </p>
+                       </div>
+                     </div>
+                     
+                     {/* Uncomment and replace VIDEO_ID with actual video when ready */}
+                     {/* 
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/VIDEO_ID"
+                       title="Investor Presentation"
                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                        allowFullScreen
                      ></iframe>
@@ -946,7 +1044,7 @@ export default function InvestorDataRoom() {
                        Download PDF
                      </a>
                      <a
-                       href="mailto:investors@adorahq.com?subject=SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $1M SAFE investment opportunity."
+                       href="mailto:Kyle@adorahq.com?subject=SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $1M SAFE investment opportunity."
                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                      >
                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1061,7 +1159,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=Client SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $322K Client investment opportunity."
+                      href="mailto:Kyle@adorahq.com?subject=Client SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $322K Client investment opportunity."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1173,7 +1271,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=Minimum SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $250K minimum investment opportunity."
+                      href="mailto:Kyle@adorahq.com?subject=Minimum SAFE Note Investment Inquiry&body=Hello, I'm interested in learning more about the $250K minimum investment opportunity."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1277,7 +1375,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=Executive Summary Inquiry&body=Hello, I'd like to discuss the information in the Executive Summary."
+                      href="mailto:Kyle@adorahq.com?subject=Executive Summary Inquiry&body=Hello, I'd like to discuss the information in the Executive Summary."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1381,7 +1479,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=Hiring Roadmap Inquiry&body=Hello, I'd like to discuss the hiring and team expansion strategy."
+                      href="mailto:Kyle@adorahq.com?subject=Hiring Roadmap Inquiry&body=Hello, I'd like to discuss the hiring and team expansion strategy."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1484,7 +1582,7 @@ export default function InvestorDataRoom() {
                       Download Image
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=Org Chart Inquiry&body=Hello, I'd like to discuss the current organizational structure."
+                      href="mailto:Kyle@adorahq.com?subject=Org Chart Inquiry&body=Hello, I'd like to discuss the current organizational structure."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1578,7 +1676,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=AI Pin Technology Inquiry&body=Hello, I'd like to discuss the AI Pin technology and roadmap."
+                      href="mailto:Kyle@adorahq.com?subject=AI Pin Technology Inquiry&body=Hello, I'd like to discuss the AI Pin technology and roadmap."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1672,7 +1770,7 @@ export default function InvestorDataRoom() {
                       Download PDF
                     </a>
                     <a
-                      href="mailto:investors@adorahq.com?subject=B2C Player Pro Inquiry&body=Hello, I'd like to discuss the B2C Player Pro platform and monetization strategy."
+                      href="mailto:Kyle@adorahq.com?subject=B2C Player Pro Inquiry&body=Hello, I'd like to discuss the B2C Player Pro platform and monetization strategy."
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1711,7 +1809,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo" download="Adora_AI_Multi_Model_Strategy.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Multi-Model Strategy Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Multi-Model Strategy Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Strategy
                     </a>
                   </div>
@@ -1745,7 +1843,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY" download="Adora_AI_Product_Roadmap.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Product Roadmap Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Product Roadmap Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Roadmap
                     </a>
                   </div>
@@ -1779,7 +1877,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E" download="Adora_AI_Recommendation_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Recommendation System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Recommendation System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About System
                     </a>
                   </div>
@@ -1813,7 +1911,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Security Framework Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Security Framework Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Security
                     </a>
                   </div>
@@ -1847,7 +1945,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc" download="Adora_AI_Unified_Communication_Hub.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Communication Hub Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Communication Hub Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Hub
                     </a>
                   </div>
@@ -1881,7 +1979,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU" download="Adora_AI_User_Management_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=User Management System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=User Management System Inquiry" className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About System
                     </a>
                   </div>
@@ -1915,7 +2013,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Adora%20AI%20-%20Go-To-Market%20Strategy%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvQWRvcmEgQUkgLSBHby1Uby1NYXJrZXQgU3RyYXRlZ3kgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA4NzExODUsImV4cCI6MTc4MjQwNzE4NX0.MUkrMElMw7TJ0xyPb9H2jl5WTGN_sbj1tW7fQ0Z-jCg" download="Adora_AI_Go_To_Market_Strategy.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Go-To-Market Strategy Inquiry&body=Hello, I'd like to discuss the go-to-market strategy and customer acquisition plan for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Go-To-Market Strategy Inquiry&body=Hello, I'd like to discuss the go-to-market strategy and customer acquisition plan for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Strategy
                     </a>
                   </div>
@@ -1949,7 +2047,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I" download="Market_Analysis_May_2025.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Market Analysis Inquiry&body=Hello, I'd like to discuss the market analysis and strategic positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Market Analysis Inquiry&body=Hello, I'd like to discuss the market analysis and strategic positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Market Analysis
                     </a>
                   </div>
@@ -1983,7 +2081,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s" download="The_AI_Storm_Analysis.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=AI Storm Analysis Inquiry&body=Hello, I'd like to discuss the AI Storm analysis and strategic technology positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=AI Storm Analysis Inquiry&body=Hello, I'd like to discuss the AI Storm analysis and strategic technology positioning for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About AI Strategy
                     </a>
                   </div>
@@ -2017,7 +2115,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As" download="Adora_AI_Draft_Operating_Agreement.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=Operating Agreement Inquiry&body=Hello, I'd like to discuss the draft operating agreement and corporate structure for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=Operating Agreement Inquiry&body=Hello, I'd like to discuss the draft operating agreement and corporate structure for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Agreement
                     </a>
                   </div>
@@ -2051,7 +2149,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Summary%20of%20Corporate%20Bylaws.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIFN1bW1hcnkgb2YgQ29ycG9yYXRlIEJ5bGF3cy5wZGYiLCJpYXQiOjE3NTA3ODY2OTIsImV4cCI6MTc4MjMyMjY5Mn0.4EtYDGLb-6waITqz8CZCN_L0r8sEKSnLgltHmW9WV4A" download="Adora_AI_Mutual_NDA_Template.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=NDA Template Inquiry&body=Hello, I'd like to discuss the mutual NDA template and confidentiality requirements for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=NDA Template Inquiry&body=Hello, I'd like to discuss the mutual NDA template and confidentiality requirements for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About NDA
                     </a>
                   </div>
@@ -2085,7 +2183,7 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Mutual%20NDA%20Template.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIE11dHVhbCBOREEgVGVtcGxhdGUucGRmIiwiaWF0IjoxNzUwNzEwNDg1LCJleHAiOjE3ODIyNDY0ODV9.vu2IxvVwu8L4Krabe1242SF6OV7qdMcwB5H0N-lE-do" download="Adora_AI_Mutual_NDA_Template.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <a href="mailto:investors@adorahq.com?subject=NDA Template Inquiry&body=Hello, I'd like to discuss the mutual NDA template and confidentiality requirements for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                    <a href="mailto:Kyle@adorahq.com?subject=NDA Template Inquiry&body=Hello, I'd like to discuss the mutual NDA template and confidentiality requirements for Adora AI." className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About NDA
                     </a>
                   </div>
