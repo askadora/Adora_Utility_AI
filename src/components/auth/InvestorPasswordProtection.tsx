@@ -14,6 +14,7 @@ const InvestorPasswordProtection: React.FC<InvestorPasswordProtectionProps> = ({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   
   // Request Access Modal State
   const [showRequestModal, setShowRequestModal] = useState(false);
@@ -28,10 +29,64 @@ const InvestorPasswordProtection: React.FC<InvestorPasswordProtectionProps> = ({
 
   // Check if user is already authenticated for investors page
   useEffect(() => {
-    const investorAuth = sessionStorage.getItem('investor_authenticated');
-    if (investorAuth === 'true') {
-      setIsAuthenticated(true);
-    }
+    const checkAuthentication = async () => {
+      try {
+        // First check session storage for immediate response
+        const investorAuth = sessionStorage.getItem('investor_authenticated');
+        if (investorAuth === 'true') {
+          setIsAuthenticated(true);
+          setIsCheckingAuth(false);
+          return;
+        }
+        
+        // Then check the database flag for persistent access
+        const { data: sessionData } = await supabase.auth.getSession();
+        console.log('sessionData', sessionData);
+        if (sessionData?.session?.user) {
+          try {
+            // Check if the function exists before calling it
+            // This is a temporary check until the function is created in the database
+            console.log('sessionData.session.user.id', sessionData.session.user.id);
+            const { data, error } = await supabase
+              .rpc('check_investor_dataroom_access', {
+                auth_user_id: sessionData.session.user.id
+              });
+            console.log('data', data);
+            console.log('error', error);
+            if (error) {
+              // If the function doesn't exist, log the error but continue
+              console.error('Error checking investor dataroom access:', error);
+              // Fall back to session storage only for now
+            } else if (data[0] && data[0].has_investor_dataroom_access) {
+              // User has access in the database
+              console.log('user has access in the database');
+              setIsAuthenticated(true);
+              // Also set in session storage for faster checks in the future
+              sessionStorage.setItem('investor_authenticated', 'true');
+            }
+          } catch (innerErr) {
+            console.error('Error checking investor access flag:', innerErr);
+          }
+        }
+      } catch (err) {
+        console.error('Error in authentication check:', err);
+      } finally {
+        // Always set checking to false to avoid infinite loading
+        setTimeout(() => {
+          setIsCheckingAuth(false);
+        }, 500); // Add a small delay to prevent flickering
+      }
+    };
+    
+    // Set a timeout to ensure we don't get stuck in loading state
+    const timeoutId = setTimeout(() => {
+      setIsCheckingAuth(false);
+    }, 3000); // Fallback after 3 seconds
+    
+    checkAuthentication();
+    
+    // Clear the timeout if the check completes normally
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +101,35 @@ const InvestorPasswordProtection: React.FC<InvestorPasswordProtectionProps> = ({
       setIsAuthenticated(true);
       sessionStorage.setItem('investor_authenticated', 'true');
       setError('');
+      
+      // Update the user's has_investor_dataroom_access flag in the database
+      try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session?.user) {
+          const userId = sessionData.session.user.id;
+          
+          try {
+            // Try to update the user's has_investor_dataroom_access flag
+            const { error: updateError } = await supabase
+              .rpc('update_investor_dataroom_access', {
+                auth_user_id: userId,
+                has_access: true
+              });
+              
+            if (updateError) {
+              console.error('Error updating investor dataroom access:', updateError);
+              // Function might not exist yet, log the error but continue
+            } else {
+              console.log('Investor dataroom access flag updated successfully');
+            }
+          } catch (innerErr) {
+            console.error('Error calling update_investor_dataroom_access function:', innerErr);
+            // Function might not exist yet, just continue
+          }
+        }
+      } catch (err) {
+        console.error('Error updating investor dataroom access flag:', err);
+      }
     } else {
       setError('Invalid password. Please contact Adora AI for access.');
     }
@@ -147,6 +231,17 @@ const InvestorPasswordProtection: React.FC<InvestorPasswordProtectionProps> = ({
       [field]: value
     }));
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+          <p className="mt-4 text-gray-700 dark:text-gray-300">Checking access...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (isAuthenticated) {
     return (
