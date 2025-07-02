@@ -66,7 +66,8 @@ export default function InvestorDataRoom() {
     technology: false,
     financials: false,
     legal: false,
-    brandMarket: false
+    brandMarket: false,
+    useOfFunds: false
   });
 
   const toggleSection = (section: keyof typeof openSections) => {
@@ -198,8 +199,8 @@ export default function InvestorDataRoom() {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white/90">
                 Investor Data Room
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 max-w-3xl">
-                We've built a different kind of data room—one powered by AI that can answer your questions instantly without requiring you to dig through documents. Ask anything about our business, financials, or technology and get detailed answers faster than reading every document. For those who prefer traditional due diligence, all comprehensive documentation is available too. <span className="hidden sm:inline">Click the pulsing "Start Here" button to the right to watch a quick tutorial on maximizing your data room experience.</span><span className="sm:hidden">Click the pulsing "Start Here" button below to watch a quick tutorial on maximizing your data room experience.</span>
+              <p className="text-gray-600 dark:text-gray-400 max-w-4xl pr-6">
+                AI-powered data room that answers your questions instantly. Ask about our business, financials, or technology—get detailed responses without digging through documents. Traditional documentation is also available. <span className="hidden sm:inline">Click the pulsing "Start Here" button to the right to watch a quick tutorial on maximizing your data room experience.</span><span className="sm:hidden">Click the pulsing "Start Here" button below to watch a quick tutorial on maximizing your data room experience.</span>
               </p>
             </div>
             
@@ -296,6 +297,69 @@ export default function InvestorDataRoom() {
                   View Document
                 </div>
               </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Use of Funds Summary */}
+        <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/[0.03]">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 text-center">How We'll Use Your Investment</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Timeline & Scale */}
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Timeline</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">September launch through March 2026</p>
+              </div>
+
+              {/* Client Growth */}
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Scale</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Onboard 2,000+ organizations</p>
+              </div>
+
+              {/* Infrastructure */}
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h6a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h6a2 2 0 002-2v-4a2 2 0 00-2-2m8-8a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V4z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Infrastructure</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Launch 4-6 micro data centers</p>
+              </div>
+
+              {/* Team Growth */}
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Team</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Hire 20-25 key roles in AI, product, GTM & security</p>
+              </div>
+            </div>
+
+            {/* Bottom Summary */}
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                  <strong className="text-gray-900 dark:text-white">Strategic Opportunity:</strong> 
+                  Entry at sub-$100M valuation with clear path to Series A participation at 2-3× markup by Q1 2026.{' '}
+                  <span className="text-[#5365FF] dark:text-blue-400 font-medium">Last chance to invest before infrastructure scale begins.</span>
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -994,6 +1058,197 @@ export default function InvestorDataRoom() {
                     </button>
                   </li>
                 </ul>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Use of Funds Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Use of Funds</h2>
+                <p className="mt-1 text-gray-600 dark:text-gray-300">How we plan to allocate the investment capital</p>
+              </div>
+              <button
+                onClick={() => toggleSection('useOfFunds')}
+                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg
+                  className={`w-6 h-6 transform transition-transform ${openSections.useOfFunds ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {openSections.useOfFunds && (
+            <div className="px-6 pb-6">
+              <div className="space-y-6">
+                {/* Executive Summary */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800 rounded-lg p-6 border border-blue-200 dark:border-gray-600">
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl">🧭</div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Executive Summary</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        "We're raising a <strong>$5–7M strategic round</strong> to fuel our September launch through March of 2026, scale onboarding for our first 2,000+ org clients, and operationalize the first 4–6 of our U.S.-based micro data centers. This sets the stage for a <strong>$30M Series A in early 2026</strong>, unlocking national node coverage, and a <strong>$100M Series B in 2027</strong> to scale globally—supporting 24+ distributed micro data centers and $400M+ ARR by that point."
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Multi-Stage Capital Strategy Table */}
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span>📈</span>
+                    Multi-Stage Capital Strategy
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-gray-200 dark:border-gray-700">
+                          <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Round</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Timing</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Raise</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Valuation</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-900 dark:text-white">Key Milestones</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr className="bg-blue-50 dark:bg-blue-900/20">
+                          <td className="py-3 px-4 font-medium text-blue-900 dark:text-blue-300">Seed+/Pre-A</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">Q3 2025</td>
+                          <td className="py-3 px-4 font-semibold text-gray-900 dark:text-white">$5–7M</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">~$75–100M</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">Launch, 4–6 DCs, $20–30M ARR run-rate</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 px-4 font-medium text-gray-900 dark:text-white">Series A</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">Q1 2026</td>
+                          <td className="py-3 px-4 font-semibold text-gray-900 dark:text-white">$30M</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">~$200–250M</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">12 DCs, 3K orgs, $100M+ ARR</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 px-4 font-medium text-gray-900 dark:text-white">Series B</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">Q2–Q3 2027</td>
+                          <td className="py-3 px-4 font-semibold text-gray-900 dark:text-white">$100M</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">$500M–1B+</td>
+                          <td className="py-3 px-4 text-gray-700 dark:text-gray-300">Global deployment, 5K orgs, $400M ARR</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Current Round Details */}
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span>💰</span>
+                    This Round: $5–7M Seed+/Pre-A
+                  </h3>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-gray-900 dark:text-white">Use of Funds</h4>
+                      <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                        <li>• Ramp onboarding ops to 1,500 orgs/month</li>
+                        <li>• Hire 20–25 key roles (AI, product, GTM, & Security Engineering)</li>
+                        <li>• Launch 4–6 micro DCs in US (modular, edge)</li>
+                        <li>• Finalize PRIO + encryption rollout v1</li>
+                      </ul>
+                    </div>
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-gray-900 dark:text-white">Milestones Unlocked</h4>
+                      <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                        <li>• Org ARR to $20–30M (run-rate)</li>
+                        <li>• AI OS infrastructure in production</li>
+                        <li>• Proven client trust + usage</li>
+                        <li>• Validated edge node architecture</li>
+                      </ul>
+                    </div>
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-gray-900 dark:text-white">Investor Outcome</h4>
+                      <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                        <li>• Entry at sub-$100M valuation</li>
+                        <li>• Position in pre-A tranche with pro-rata rights</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Future Rounds Preview */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Series A */}
+                  <div className="bg-white dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span>🚀</span>
+                      Series A: $30M (Q1 2026)
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 dark:text-white mb-2">Key Focus</h4>
+                        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                          <li>• Scale to 12 micro DCs across U.S.</li>
+                          <li>• Onboard next 3,000 orgs</li>
+                          <li>• Expand agentic workflow engine</li>
+                        </ul>
+                      </div>
+                      <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                        <p className="text-sm font-medium text-green-800 dark:text-green-300">
+                          Target: $200–250M valuation
+                        </p>
+                        <p className="text-xs text-green-700 dark:text-green-400">
+                          2–3× markup from current round
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Series B */}
+                  <div className="bg-white dark:bg-gray-900 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                      <span>🌍</span>
+                      Series B: $100M (Q2–Q3 2027)
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 dark:text-white mb-2">Global Expansion</h4>
+                        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                          <li>• Deploy global micro DCs</li>
+                          <li>• Scale PRIO mesh + encryption</li>
+                          <li>• Expand app ecosystem, SDKs</li>
+                        </ul>
+                      </div>
+                      <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                        <p className="text-sm font-medium text-purple-800 dark:text-purple-300">
+                          Target: $500M–1B+ valuation
+                        </p>
+                        <p className="text-xs text-purple-700 dark:text-purple-400">
+                          "Adora is the Cloudflare of secure, distributed AI"
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Strategic Framing */}
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-6 border border-green-200 dark:border-green-700">
+                  <div className="flex items-start gap-3">
+                    <div className="text-2xl">🧠</div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Strategic Opportunity</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        "This is the <strong>last opportunity to get in before infrastructure scale begins</strong>. We've de-risked go-to-market, proven early enterprise demand, and architected a defensible infrastructure layer. This raise accelerates onboarding, begins our distributed DC mesh, and positions you for Series A participation at a significant markup."
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
