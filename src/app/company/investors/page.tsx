@@ -14,6 +14,9 @@ export default function InvestorDataRoom() {
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
+  const [showProblemThesisModal, setShowProblemThesisModal] = useState(false);
+  const [showSolutionMatrixModal, setShowSolutionMatrixModal] = useState(false);
+  const [showFinancialOutlineModal, setShowFinancialOutlineModal] = useState(false);
   const [showExecutiveSummaryModal, setShowExecutiveSummaryModal] = useState(false);
   const [showHiringRoadmapModal, setShowHiringRoadmapModal] = useState(false);
   const [showOrgChartModal, setShowOrgChartModal] = useState(false);
@@ -192,23 +195,51 @@ export default function InvestorDataRoom() {
                 Investor Data Room
               </h1>
               <p className="text-gray-600 dark:text-gray-400 max-w-3xl">
-                Access our secure investor data room for pitch decks, financials, legal documents, and more. Connect with our team and explore investment opportunities with Adora AI.
+                We've built a different kind of data room—one powered by AI that can answer your questions instantly without requiring you to dig through documents. Ask anything about our business, financials, or technology and get detailed answers faster than reading every document. For those who prefer traditional due diligence, all comprehensive documentation is available too. <span className="hidden sm:inline">Click the pulsing "Start Here" button to the right to watch a quick tutorial on maximizing your data room experience.</span><span className="sm:hidden">Click the pulsing "Start Here" button below to watch a quick tutorial on maximizing your data room experience.</span>
               </p>
             </div>
             
-            {/* Video Help Icon */}
-            <div className="flex-shrink-0">
+            {/* Desktop Video Help Icon - Hidden on mobile */}
+            <div className="hidden sm:flex flex-shrink-0 items-center gap-3">
+              {/* Pulsing Red Arrow - Right pointing for desktop */}
+              <div className="animate-[pulse_2s_ease-in-out_infinite]">
+                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+                </svg>
+              </div>
+              
               <button
                 onClick={() => setShowVideoModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#5365FF] text-white rounded-lg hover:bg-[#4152cc] transition-colors duration-200 shadow-sm"
-                title="How to use the Data Room"
+                className="flex items-center gap-2 px-4 py-2 bg-[#5365FF] text-white rounded-lg hover:bg-[#4152cc] transition-colors duration-200 shadow-sm animate-[pulse_2s_ease-in-out_infinite] hover:animate-none"
+                title="Watch tutorial to learn how to use the Data Room"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
                 </svg>
-                <span className="hidden sm:inline">How to Use</span>
+                <span className="font-semibold">Start Here</span>
               </button>
             </div>
+          </div>
+          
+          {/* Mobile Video Help Icon - Shown only on mobile, below description */}
+          <div className="sm:hidden flex flex-col items-center gap-3 mt-4">
+            {/* Pulsing Red Arrow - Down pointing for mobile */}
+            <div className="animate-[pulse_2s_ease-in-out_infinite]">
+              <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M1 13.025l2.828-2.847 6.176 6.176v-16.354h3.992v16.354l6.176-6.176 2.828 2.847-11 10.975z"/>
+              </svg>
+            </div>
+            
+            <button
+              onClick={() => setShowVideoModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#5365FF] text-white rounded-lg hover:bg-[#4152cc] transition-colors duration-200 shadow-sm animate-[pulse_2s_ease-in-out_infinite] hover:animate-none"
+              title="Watch tutorial to learn how to use the Data Room"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span className="font-semibold">Start Here</span>
+            </button>
           </div>
         </div>
 
@@ -264,6 +295,104 @@ export default function InvestorDataRoom() {
             </div>
           </div>
         </section>
+
+        {/* Pitch Deck Section - Compact Horizontal Layout */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            {/* Left side - Title and Description */}
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Pitch Deck & Presentation</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Three ways to explore our investment opportunity
+              </p>
+            </div>
+            
+            {/* Right side - Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors text-sm font-medium"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                View Deck
+              </a>
+              
+              <button
+                onClick={() => setShowPresentationVideoModal(true)}
+                className="inline-flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 transition-colors text-sm font-medium"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Watch Presentation
+              </button>
+              
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors text-sm font-medium"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Pitch Deck (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Analysis Documents - Quick Access */}
+        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3">
+          {/* Problem Thesis Button */}
+          <button
+            onClick={() => setShowProblemThesisModal(true)}
+            className="flex items-start gap-4 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="flex-shrink-0 mt-1">
+              <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-semibold text-gray-900 dark:text-white mb-2">Problem Thesis</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Market challenges we're solving</div>
+            </div>
+          </button>
+
+          {/* Solution Matrix Button */}
+          <button
+            onClick={() => setShowSolutionMatrixModal(true)}
+            className="flex items-start gap-4 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="flex-shrink-0 mt-1">
+              <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-semibold text-gray-900 dark:text-white mb-2">Solution Matrix</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Our comprehensive approach</div>
+            </div>
+          </button>
+
+          {/* Financial Outline Button */}
+          <button
+            onClick={() => setShowFinancialOutlineModal(true)}
+            className="flex items-start gap-4 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="flex-shrink-0 mt-1">
+              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-semibold text-gray-900 dark:text-white mb-2">Financial Outline</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Projections and key metrics</div>
+            </div>
+          </button>
+        </div>
 
         {/* InvestAssist AI Chatbot Section */}
         <div className="mb-8">
@@ -374,34 +503,82 @@ export default function InvestorDataRoom() {
           </div>
         </div>
 
-        {/* Pitch Deck Section */}
-        <ComponentCard title="Pitch Deck & Presentation" desc="Key materials for investors">
-          <div className="space-y-4">
-            <p className="text-gray-600 dark:text-gray-400">
-              Download our comprehensive pitch deck and watch our latest investor presentation.
+        {/* Chat Bot Starter Prompts */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-6">
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
+              We've given you a few starting questions to get the conversation started. Click any of them to start chatting with the Adora AI Data Room Chat Bot.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] dark:bg-blue-500 dark:hover:bg-blue-600"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download Pitch Deck (PDF)
-              </a>
+            
+            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3">
+              {/* Defensibility Prompt */}
               <button
-                onClick={() => setShowPresentationVideoModal(true)}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
+                onClick={() => {
+                  const input = document.querySelector('input[placeholder="Ask a question about our investment opportunity..."]') as HTMLInputElement;
+                  if (input) {
+                    input.value = "What makes Adora AI uniquely defensible in the AI OS market?";
+                    input.focus();
+                  }
+                }}
+                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-blue-400 hover:shadow-lg dark:hover:border-blue-400 transition-all duration-200 shadow-md"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Watch Presentation
+                <div className="flex-shrink-0 mt-1">
+                  <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 dark:text-gray-900">Market Defensibility</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">What makes Adora AI uniquely defensible in the AI OS market?</div>
+                </div>
+              </button>
+
+              {/* Revenue & Scaling Prompt */}
+              <button
+                onClick={() => {
+                  const input = document.querySelector('input[placeholder="Ask a question about our investment opportunity..."]') as HTMLInputElement;
+                  if (input) {
+                    input.value = "Show me how Adora AI makes money, the sales traction, and how it scales.";
+                    input.focus();
+                  }
+                }}
+                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-green-400 hover:shadow-lg dark:hover:border-green-400 transition-all duration-200 shadow-md"
+              >
+                <div className="flex-shrink-0 mt-1">
+                  <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 dark:text-gray-900">Revenue & Scaling</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">Show me how Adora AI makes money, the sales traction, and how it scales.</div>
+                </div>
+              </button>
+
+              {/* Funding Impact Prompt */}
+              <button
+                onClick={() => {
+                  const input = document.querySelector('input[placeholder="Ask a question about our investment opportunity..."]') as HTMLInputElement;
+                  if (input) {
+                    input.value = "What will this round of funding unlock over the next 12–18 months?";
+                    input.focus();
+                  }
+                }}
+                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-purple-400 hover:shadow-lg dark:hover:border-purple-400 transition-all duration-200 shadow-md"
+              >
+                <div className="flex-shrink-0 mt-1">
+                  <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 dark:text-gray-900">Funding Impact</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">What will this round of funding unlock over the next 12–18 months?</div>
+                </div>
               </button>
             </div>
           </div>
-        </ComponentCard>
+        </div>
 
         {/* Company Overview Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
@@ -2322,6 +2499,198 @@ export default function InvestorDataRoom() {
                     <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
                     </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Problem Thesis Modal */}
+      {showProblemThesisModal && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowProblemThesisModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Problem Thesis</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Market challenges we're solving</p>
+                </div>
+                <button
+                  onClick={() => setShowProblemThesisModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-problem-thesis.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Problem Thesis PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-problem-thesis.pdf"
+                      download="adora-ai-problem-thesis.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:Kyle@adorahq.com?subject=Question about Problem Thesis&body=Hi Kyle,%0A%0AI have a question about the Problem Thesis document:%0A%0A"
+                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Contact Kyle@adorahq.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Solution Matrix Modal */}
+      {showSolutionMatrixModal && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowSolutionMatrixModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solution Matrix</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Our comprehensive approach</p>
+                </div>
+                <button
+                  onClick={() => setShowSolutionMatrixModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-solution-matrix.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Solution Matrix PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-solution-matrix.pdf"
+                      download="adora-ai-solution-matrix.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:Kyle@adorahq.com?subject=Question about Solution Matrix&body=Hi Kyle,%0A%0AI have a question about the Solution Matrix document:%0A%0A"
+                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Contact Kyle@adorahq.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Financial Outline Modal */}
+      {showFinancialOutlineModal && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowFinancialOutlineModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Financial Outline</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Projections and key metrics</p>
+                </div>
+                <button
+                  onClick={() => setShowFinancialOutlineModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-financial-outline.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Financial Outline PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-financial-outline.pdf"
+                      download="adora-ai-financial-outline.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="mailto:Kyle@adorahq.com?subject=Question about Financial Outline&body=Hi Kyle,%0A%0AI have a question about the Financial Outline document:%0A%0A"
+                      className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Contact Kyle@adorahq.com
+                    </a>
                   </div>
                 </div>
               </div>
