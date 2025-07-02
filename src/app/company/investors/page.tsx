@@ -2605,51 +2605,25 @@ export default function InvestorDataRoom() {
       {/* Problem Thesis Modal */}
       {showProblemThesisModal && (
         <>
-          {/* Overlay */}
-          <div 
-            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
-            onClick={() => setShowProblemThesisModal(false)}
-          />
-          
-          {/* Modal */}
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Problem Thesis</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Market challenges we're solving</p>
-                </div>
-                <button
-                  onClick={() => setShowProblemThesisModal(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowProblemThesisModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowProblemThesisModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="space-y-4">
-                  <iframe 
-                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto#view=FitH&zoom=110" 
-                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
-                    title="Problem Thesis PDF"
-                  />
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a
-                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto"
-                      download="Adora_AI_Problem_Thesis.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                      Download PDF
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Problem Thesis</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Market challenges we're solving</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto#view=FitH&zoom=110" title="Problem Thesis PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto" download="Adora_AI_Problem_Thesis.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
                     <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
@@ -2665,51 +2639,25 @@ export default function InvestorDataRoom() {
       {/* Solution Matrix Modal */}
       {showSolutionMatrixModal && (
         <>
-          {/* Overlay */}
-          <div 
-            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
-            onClick={() => setShowSolutionMatrixModal(false)}
-          />
-          
-          {/* Modal */}
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solution Matrix</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Our comprehensive approach</p>
-                </div>
-                <button
-                  onClick={() => setShowSolutionMatrixModal(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowSolutionMatrixModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowSolutionMatrixModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="space-y-4">
-                  <iframe 
-                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA#view=FitH&zoom=110" 
-                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
-                    title="Solution Matrix PDF"
-                  />
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a
-                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA"
-                      download="Adora_AI_Solution_Matrix.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                      Download PDF
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Solution Matrix</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Our comprehensive approach</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA#view=FitH&zoom=110" title="Solution Matrix PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA" download="Adora_AI_Solution_Matrix.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
                     <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
@@ -2725,51 +2673,25 @@ export default function InvestorDataRoom() {
       {/* Financial Outline Modal */}
       {showFinancialOutlineModal && (
         <>
-          {/* Overlay */}
-          <div 
-            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
-            onClick={() => setShowFinancialOutlineModal(false)}
-          />
-          
-          {/* Modal */}
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Financial Outline</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Projections and key metrics</p>
-                </div>
-                <button
-                  onClick={() => setShowFinancialOutlineModal(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowFinancialOutlineModal(false)} />
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowFinancialOutlineModal(false)} aria-label="Close">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="space-y-4">
-                  <iframe 
-                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDg0MjUzLCJleHAiOjE3ODMwMjAyNTN9.lztewfKYQ_wzTG0Ai80LPwKLkDvKw4arlKWfhyGSOdM#view=FitH&zoom=110" 
-                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
-                    title="Financial Outline PDF"
-                  />
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a
-                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDg0MjUzLCJleHAiOjE3ODMwMjAyNTN9.lztewfKYQ_wzTG0Ai80LPwKLkDvKw4arlKWfhyGSOdM"
-                      download="Adora_AI_2_Year_Financial_Projection.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                      Download PDF
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Financial Outline</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Projections and key metrics</p></div>
+                </div>
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDkyNDA5LCJleHAiOjE3ODMwMjg0MDl9.iMiOF2MsLuV41EovQc4DzPDuMEF9ov1tutnF2atj5EY#view=FitH&zoom=110" title="Financial Outline PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                  </div>
+                </div>
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDkyNDA5LCJleHAiOjE3ODMwMjg0MDl9.iMiOF2MsLuV41EovQc4DzPDuMEF9ov1tutnF2atj5EY" download="Adora_AI_2_Year_Financial_Projection.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
                     <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
