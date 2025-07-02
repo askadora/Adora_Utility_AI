@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
-import { useDocsBot } from '@/docsbot/useDocsBot';
-import { DOCSBOT_BOTS } from '@/docsbot/config';
+import { useRagChatbot } from '@/ragchatbot/useRagChatbot';
 import { useSidebar } from '@/context/SidebarContext';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -55,7 +54,7 @@ export default function InvestorDataRoom() {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitError, setSubmitError] = useState('');
   
-  const { messages, isLoading, sendMessage, error, clearMessages } = useDocsBot(DOCSBOT_BOTS.INVESTOR as string);
+  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('investor');
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Accordion state management
