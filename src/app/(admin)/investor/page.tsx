@@ -310,7 +310,7 @@ export default function InvestorDashboard() {
                 <ul className="list-disc list-inside mt-2 text-gray-600 dark:text-gray-400">
                   <li>Investment thesis</li>
                   <li>Key metrics and KPIs</li>
-                  <li>Recent updates and news</li>
+                  <li>Recent updates and milestones</li>
                   <li>Risk assessment</li>
                   <li>Exit strategy</li>
                 </ul>

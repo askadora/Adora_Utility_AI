@@ -4,7 +4,7 @@ import ComponentCard from '@/components/common/ComponentCard';
 
 export const metadata: Metadata = {
   title: "Press & Media | Adora AI - Media Resources and Press Kit",
-  description: "Latest news, press releases, and media resources for Adora AI.",
+  description: "Latest press releases, media coverage, and media resources for Adora AI.",
 };
 
 export default function PressPage() {
@@ -20,7 +20,7 @@ export default function PressPage() {
           Press & Media
         </h1>
         <p className="text-gray-600 dark:text-gray-400 max-w-3xl">
-          Stay up to date with the latest press releases, media coverage, and company news from Adora AI.
+          Stay up to date with the latest press releases, media coverage, and company updates from Adora AI.
         </p>
       </header>
 

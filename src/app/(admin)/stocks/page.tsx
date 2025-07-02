@@ -3,7 +3,6 @@ import KpiSummaryCard from "@/components/kpi/KpiSummaryCard";
 import PriceHistoryTable from "@/components/stock/PriceHistoryTable";
 import TradingStats from "@/components/stock/TradingStats";
 import CompanyOverview from "@/components/stock/CompanyOverview";
-import RecentNews from "@/components/stock/RecentNews";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -56,9 +55,6 @@ export default function StocksDashboard() {
         <TradingStats />
         <CompanyOverview />
       </div>
-
-      {/* Recent News */}
-      <RecentNews />
     </div>
   );
 } 
