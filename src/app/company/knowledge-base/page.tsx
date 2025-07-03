@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
-import { useDocsBot } from '@/docsbot/useDocsBot';
-import { DOCSBOT_BOTS } from '@/docsbot/config';
+import { useRagChatbot } from '@/ragchatbot/useRagChatbot';
+import { Message } from '@/ragchatbot/types';
 
 export default function KnowledgeBase() {
   const [input, setInput] = useState('');
-  const { messages, isLoading, sendMessage, error, clearMessages } = useDocsBot(DOCSBOT_BOTS.KNOW_BASE as string);
+  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('knowledge_base');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ export default function KnowledgeBase() {
                   </div>
                 </div>
               )}
-              {messages.map((message, index) => (
+              {messages.map((message: Message, index: number) => (
                 <div
                   key={index}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} items-end`}

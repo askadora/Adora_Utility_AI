@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
-import { useDocsBot } from '@/docsbot/useDocsBot';
-import { DOCSBOT_BOTS } from '@/docsbot/config';
+import { useRagChatbot } from '@/ragchatbot/useRagChatbot';
 import { useSidebar } from '@/context/SidebarContext';
 import { supabase } from '@/lib/supabaseClient';
+import { FormattedMessage } from '@/components/common/FormattedMessage';
 
 export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
@@ -57,7 +57,7 @@ export default function InvestorDataRoom() {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitError, setSubmitError] = useState('');
   
-  const { messages, isLoading, sendMessage, error, clearMessages } = useDocsBot(DOCSBOT_BOTS.INVESTOR as string);
+  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('investors');
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Accordion state management
@@ -519,7 +519,7 @@ export default function InvestorDataRoom() {
                         : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
                     }`}
                   >
-                    {message.content}
+                    <FormattedMessage content={message.content} role={message.role} />
                   </div>
                   {message.role === 'user' && <div className="w-8 h-8 ml-2" />}
                 </div>

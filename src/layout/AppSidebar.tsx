@@ -270,11 +270,11 @@ const companyItems: NavItem[] = [
     subItems: [
       { name: "About Adora AI", path: "/company/about", pro: false },
       { name: "Investors", path: "/company/investors", pro: false },
-      { name: "Press", path: "/company/press", pro: false },
-      { name: "Knowledge Base", path: "/company/knowledge-base", pro: false },
+      { name: "Press", path: "/company/press", pro: false }
     ],
   },
 ];
+// { name: "Knowledge Base", path: "/company/knowledge-base", pro: false },
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
