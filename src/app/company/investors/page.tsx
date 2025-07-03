@@ -5,6 +5,7 @@ import ComponentCard from '@/components/common/ComponentCard';
 import { useRagChatbot } from '@/ragchatbot/useRagChatbot';
 import { useSidebar } from '@/context/SidebarContext';
 import { supabase } from '@/lib/supabaseClient';
+import { FormattedMessage } from '@/components/common/FormattedMessage';
 
 export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
@@ -450,7 +451,7 @@ export default function InvestorDataRoom() {
                         : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
                     }`}
                   >
-                    {message.content}
+                    <FormattedMessage content={message.content} role={message.role} />
                   </div>
                   {message.role === 'user' && <div className="w-8 h-8 ml-2" />}
                 </div>
