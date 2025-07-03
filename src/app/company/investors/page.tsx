@@ -11,6 +11,7 @@ export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [showPresentationVideoModal, setShowPresentationVideoModal] = useState(false);
+  const [showDeckModal, setShowDeckModal] = useState(false);
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
@@ -106,6 +107,7 @@ export default function InvestorDataRoom() {
     setShowMutualNDAModal(false);
     setShowSummaryCorporateByLawsModal(false);
     setShowVideoModal(false);
+    setShowDeckModal(false);
     
     // Then show investment modal
     setShowInvestmentModal(true);
@@ -373,8 +375,12 @@ export default function InvestorDataRoom() {
             
             {/* Right side - Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
-              <a
-                href="#"
+              <button
+                onClick={() => {
+                  setShowVideoModal(false);
+                  setShowPresentationVideoModal(false);
+                  setShowDeckModal(true);
+                }}
                 className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors text-sm font-medium"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -382,7 +388,7 @@ export default function InvestorDataRoom() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 View Deck
-              </a>
+              </button>
               
               <button
                 onClick={() => setShowPresentationVideoModal(true)}
@@ -1445,6 +1451,112 @@ export default function InvestorDataRoom() {
            </div>
          </>
        )}
+
+      {/* Deck Modal */}
+      {showDeckModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowDeckModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowDeckModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Pitch Deck
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Interactive presentation - The Operating System for the AI Native World
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Iframe Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://gamma.app/docs/The-Operating-System-for-the-AI-Native-World-wcad05kzxbifzan?mode=doc"
+                      title="Adora AI Pitch Deck"
+                      className="w-full h-[75vh] rounded-lg"
+                      style={{ minHeight: '600px' }}
+                      allow="fullscreen"
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://gamma.app/docs/The-Operating-System-for-the-AI-Native-World-wcad05kzxbifzan?mode=doc"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Open in New Tab
+                    </a>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* SAFE Document PDF Modal */}
       {showSafeModal && (
