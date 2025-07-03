@@ -28,13 +28,13 @@ export default function PressPage() {
       <ComponentCard title="Latest Press Releases" desc="Official announcements from Adora AI">
         <ul className="divide-y divide-gray-200 dark:divide-gray-800">
           <li className="py-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Announces $3M Pre-Launch Funding Round</h3>
-            <p className="text-gray-600 dark:text-gray-400">June 2025 &mdash; Adora AI secures strategic investment to accelerate product launch and team growth.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Announces $7M Pre-Launch Funding Round</h3>
+            <p className="text-gray-600 dark:text-gray-400">June 2025 &mdash; Adora AI seeks strategic investments to accelerate product launch and team growth.</p>
             <a href="#" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm">Read full release</a>
           </li>
           <li className="py-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Unveils Next-Gen AI OS at Tech Summit</h3>
-            <p className="text-gray-600 dark:text-gray-400">April 2025 &mdash; The company showcases its multi-model AI platform at the annual Tech Summit.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI to Launch Next-Gen AI OS</h3>
+            <p className="text-gray-600 dark:text-gray-400">September 2025 &mdash; The company will do a 5 day launch event to showcase its multi-model AI platform.</p>
             <a href="#" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm">Read full release</a>
           </li>
         </ul>
@@ -87,11 +87,11 @@ export default function PressPage() {
       {/* Media Contact */}
       <ComponentCard title="Media Contact" desc="For press inquiries, please contact our team">
         <div className="space-y-2">
-          <a href="mailto:press@adoraai.com" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+          <a href="mailto:hello@adorahq.com" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            press@adoraai.com
+            hello@adorahq.com
           </a>
         </div>
       </ComponentCard>
