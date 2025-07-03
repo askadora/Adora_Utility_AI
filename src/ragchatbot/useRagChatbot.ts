@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Message } from './types';
 import { RagChatbotService } from './ragChatbotService';
 
-export const useRagChatbot = (documentType: 'investor' | 'general' | 'legal' = 'general') => {
+export const useRagChatbot = (documentType: 'investors' | 'general' | 'knowledgebase' = 'general') => {
   console.log('🎣 useRagChatbot hook initialized with documentType:', documentType);
   
   // Session storage keys

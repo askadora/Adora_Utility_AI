@@ -54,7 +54,7 @@ export default function InvestorDataRoom() {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitError, setSubmitError] = useState('');
   
-  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('investor');
+  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('investors');
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Accordion state management

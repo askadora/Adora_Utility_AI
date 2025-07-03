@@ -6,7 +6,7 @@ export interface Message {
 export interface ChatRequest {
   message: string;
   session_id?: string;
-  document_type?: string; // For namespace filtering (e.g., 'investor', 'general', 'legal')
+  document_type?: string; // For namespace filtering (e.g., 'investors', 'general', 'knowledgebase')
   recent_messages?: Message[]; // Recent message history for context
 }
 
