@@ -12,76 +12,76 @@ export const FormattedMessage: React.FC<FormattedMessageProps> = ({ content, rol
 
   // Format assistant messages with proper structure
   const formatAssistantMessage = (text: string): React.ReactElement => {
-    // Split the text into sections based on patterns
+    // Split text into paragraphs and bullet points
     const sections: React.ReactElement[] = [];
-    let currentIndex = 0;
     
-    // First, let's identify the main title
-    const titleMatch = text.match(/^([^.]+(?:Framework|System|Technology|Solution)[^.]*)/);
-    if (titleMatch) {
-      sections.push(
-        <div key="title" className="font-bold text-xl text-gray-900 dark:text-white mb-4 leading-tight">
-          {titleMatch[1].trim()}
-        </div>
-      );
-      currentIndex = titleMatch[0].length;
-    }
-
-    // Process the rest of the text
-    const remainingText = text.slice(currentIndex);
-    
-    // Split by "- **" pattern for bullet points with headers
-    const bulletSections = remainingText.split(/\s*-\s*\*\*([^*]+)\*\*\s*/);
-    
-    if (bulletSections.length > 1) {
-      // First section is the intro text
-      if (bulletSections[0].trim()) {
-        sections.push(
-          <div key="intro" className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-            {bulletSections[0].trim()}
-          </div>
-        );
+    // First, check if this looks like a structured response with bullet points
+    if (text.includes('- **') || text.includes('**') && text.includes(':')) {
+      // Split by bullet points pattern: "- **Header:** Content"
+      const parts = text.split(/\s*-\s*\*\*([^*]+)\*\*\s*/);
+      
+      // First part is usually the intro
+      if (parts[0] && parts[0].trim()) {
+        const intro = parts[0].trim();
+        // Check if it looks like a title (ends with period or is short)
+        if (intro.length < 200 && (intro.includes('Framework') || intro.includes('System') || intro.includes('Technology'))) {
+          sections.push(
+            <div key="title" className="font-bold text-lg text-gray-900 dark:text-white mb-3 leading-tight">
+              {intro}
+            </div>
+          );
+        } else {
+          sections.push(
+            <div key="intro" className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+              {intro}
+            </div>
+          );
+        }
       }
       
       // Process bullet points
       const bulletPoints: React.ReactElement[] = [];
-      for (let i = 1; i < bulletSections.length; i += 2) {
-        const header = bulletSections[i];
-        const content = bulletSections[i + 1] || '';
+      for (let i = 1; i < parts.length; i += 2) {
+        const header = parts[i];
+        const content = parts[i + 1] || '';
         
         if (header) {
           bulletPoints.push(
-            <li key={`bullet-${i}`} className="mb-4">
-              <div className="font-semibold text-gray-900 dark:text-white mb-2">
-                {header}
+            <div key={`bullet-${i}`} className="mb-4">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#5365FF] rounded-full mt-2 flex-shrink-0"></div>
+                <div className="flex-1">
+                  <div className="font-semibold text-gray-900 dark:text-white mb-1">
+                    {header.trim()}
+                  </div>
+                  <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    {content.trim()}
+                  </div>
+                </div>
               </div>
-              <div className="text-gray-700 dark:text-gray-300 leading-relaxed pl-4">
-                {content.trim()}
-              </div>
-            </li>
+            </div>
           );
         }
       }
       
       if (bulletPoints.length > 0) {
         sections.push(
-          <ul key="bullets" className="space-y-2 mb-4">
+          <div key="bullets" className="space-y-3">
             {bulletPoints}
-          </ul>
+          </div>
         );
       }
     } else {
-      // No bullet pattern found, process as regular paragraphs
-      const paragraphs = remainingText.split(/\.\s+(?=[A-Z])/);
+      // No bullet pattern, treat as regular paragraphs
+      const paragraphs = text.split(/\.\s+(?=[A-Z])/).filter(p => p.trim());
       
       paragraphs.forEach((paragraph, index) => {
         const trimmed = paragraph.trim();
         if (trimmed) {
-          // Add period back if it was removed by split
-          const text = trimmed.endsWith('.') ? trimmed : trimmed + '.';
+          const finalText = trimmed.endsWith('.') ? trimmed : trimmed + '.';
           sections.push(
             <div key={`para-${index}`} className="mb-3 text-gray-700 dark:text-gray-300 leading-relaxed">
-              {text}
+              {finalText}
             </div>
           );
         }

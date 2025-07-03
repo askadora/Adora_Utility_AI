@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import ComponentCard from '@/components/common/ComponentCard';
 import { useRagChatbot } from '@/ragchatbot/useRagChatbot';
 import { Message } from '@/ragchatbot/types';
+import { FormattedMessage } from '@/components/common/FormattedMessage';
 
 export default function KnowledgeBase() {
   const [input, setInput] = useState('');
-  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('knowledge_base');
+  const { messages, isLoading, sendMessage, error, clearMessages } = useRagChatbot('knowledgebase');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +90,7 @@ export default function KnowledgeBase() {
                         : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
                     }`}
                   >
-                    {message.content}
+                    <FormattedMessage content={message.content} role={message.role} />
                   </div>
                   {message.role === 'user' && <div className="w-8 h-8 ml-2" />}
                 </div>
