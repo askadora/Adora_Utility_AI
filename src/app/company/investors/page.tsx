@@ -425,13 +425,14 @@ export default function InvestorDataRoom() {
               </button>
               
               <a
-                href="#"
+                href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=..."
+                download="adora-ai-investor-memo.pdf"
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors text-sm font-medium"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                Download Pitch Deck (PDF)
+                Download PDF
               </a>
             </div>
           </div>
@@ -679,7 +680,7 @@ export default function InvestorDataRoom() {
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                </svg>
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-900 dark:text-gray-900">Funding Impact</div>
@@ -3777,7 +3778,7 @@ export default function InvestorDataRoom() {
               <div className="p-6">
                 <div className="space-y-4">
                   <iframe 
-                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4" 
+                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4"
                     className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
                     title="Investor Memo PDF"
                   />
