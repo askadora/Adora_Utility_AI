@@ -1,11 +1,25 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
 // import { Resend } from 'resend';
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Only import supabase if environment variables are available
+let supabase: any = null;
+if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  const { supabase: supabaseClient } = require('@/lib/supabaseClient');
+  supabase = supabaseClient;
+}
+
 export async function POST(req: Request) {
   try {
+    // Check if Supabase is configured
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Supabase not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.' },
+        { status: 503 }
+      );
+    }
+
     const { name, profile, email, phone } = await req.json();
 
     // Validate required fields

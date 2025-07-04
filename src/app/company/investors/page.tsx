@@ -11,9 +11,19 @@ export default function InvestorDataRoom() {
   const [input, setInput] = useState('');
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [showPresentationVideoModal, setShowPresentationVideoModal] = useState(false);
+  const [showHistoricalVideo1Modal, setShowHistoricalVideo1Modal] = useState(false);
+  const [showHistoricalVideo2Modal, setShowHistoricalVideo2Modal] = useState(false);
+  const [showHistoricalVideo3Modal, setShowHistoricalVideo3Modal] = useState(false);
+  const [showHistoricalVideo4Modal, setShowHistoricalVideo4Modal] = useState(false);
+  const [showHistoricalVideo5Modal, setShowHistoricalVideo5Modal] = useState(false);
+  const [showHistoricalVideo6Modal, setShowHistoricalVideo6Modal] = useState(false);
+  const [showHistoricalVideo7Modal, setShowHistoricalVideo7Modal] = useState(false);
+  const [showHistoricalVideo8Modal, setShowHistoricalVideo8Modal] = useState(false);
+  const [showDeckModal, setShowDeckModal] = useState(false);
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
+  const [showInvestorMemoModal, setShowInvestorMemoModal] = useState(false);
   const [showProblemThesisModal, setShowProblemThesisModal] = useState(false);
   const [showSolutionMatrixModal, setShowSolutionMatrixModal] = useState(false);
   const [showFinancialOutlineModal, setShowFinancialOutlineModal] = useState(false);
@@ -39,7 +49,6 @@ export default function InvestorDataRoom() {
   // Financial document modals
   const [showFinancialProjectionModal, setShowFinancialProjectionModal] = useState(false);
   const [showBudgetTemplateModal, setShowBudgetTemplateModal] = useState(false);
-  const [showInvestorMemoModal, setShowInvestorMemoModal] = useState(false);
   
   // Legal document modals
   const [showOperatingAgreementModal, setShowOperatingAgreementModal] = useState(false);
@@ -90,6 +99,10 @@ export default function InvestorDataRoom() {
     setShowSafeModal(false);
     setShowClientSafeModal(false);
     setShowMinimumSafeModal(false);
+    setShowInvestorMemoModal(false);
+    setShowProblemThesisModal(false);
+    setShowSolutionMatrixModal(false);
+    setShowFinancialOutlineModal(false);
     setShowExecutiveSummaryModal(false);
     setShowHiringRoadmapModal(false);
     setShowOrgChartModal(false);
@@ -110,6 +123,15 @@ export default function InvestorDataRoom() {
     setShowPatentRecordModal(false);
     setShowInvestorMemoModal(false);
     setShowVideoModal(false);
+    setShowDeckModal(false);
+    setShowHistoricalVideo1Modal(false);
+    setShowHistoricalVideo2Modal(false);
+    setShowHistoricalVideo3Modal(false);
+    setShowHistoricalVideo4Modal(false);
+    setShowHistoricalVideo5Modal(false);
+    setShowHistoricalVideo6Modal(false);
+    setShowHistoricalVideo7Modal(false);
+    setShowHistoricalVideo8Modal(false);
     
     // Then show investment modal
     setShowInvestmentModal(true);
@@ -377,8 +399,12 @@ export default function InvestorDataRoom() {
             
             {/* Right side - Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 lg:flex-shrink-0">
-              <a
-                href="#"
+              <button
+                onClick={() => {
+                  setShowVideoModal(false);
+                  setShowPresentationVideoModal(false);
+                  setShowDeckModal(true);
+                }}
                 className="inline-flex items-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors text-sm font-medium"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -386,7 +412,7 @@ export default function InvestorDataRoom() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 View Deck
-              </a>
+              </button>
               
               <button
                 onClick={() => setShowPresentationVideoModal(true)}
@@ -412,7 +438,23 @@ export default function InvestorDataRoom() {
         </div>
 
         {/* Analysis Documents - Quick Access */}
-        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
+          {/* Investor Memo Button */}
+          <button
+            onClick={() => setShowInvestorMemoModal(true)}
+            className="flex items-start gap-4 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+          >
+            <div className="flex-shrink-0 mt-1">
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-semibold text-gray-900 dark:text-white mb-2">Investor Memo</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Investment overview & highlights</div>
+            </div>
+          </button>
+
           {/* Problem Thesis Button */}
           <button
             onClick={() => setShowProblemThesisModal(true)}
@@ -593,7 +635,7 @@ export default function InvestorDataRoom() {
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
+                </svg>
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-900 dark:text-gray-900">Market Defensibility</div>
@@ -615,12 +657,12 @@ export default function InvestorDataRoom() {
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
+                </svg>
+            </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-900 dark:text-gray-900">Revenue & Scaling</div>
                   <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">Show me how Adora AI makes money, the sales traction, and how it scales.</div>
-                </div>
+          </div>
               </button>
 
               {/* Funding Impact Prompt */}
@@ -874,43 +916,32 @@ export default function InvestorDataRoom() {
 
           {openSections.financials && (
             <div className="px-6 pb-6">
-              <div className="space-y-4">
+                <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Financial Documents</h3>
-                <ul className="space-y-2">
-                  <li>
+                  <ul className="space-y-2">
+                    <li>
                     <button
                       onClick={() => setShowFinancialProjectionModal(true)}
                       className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
                       2-Year Financial Projection
                     </button>
-                  </li>
-                  <li>
+                    </li>
+                    <li>
                     <button
                       onClick={() => setShowBudgetTemplateModal(true)}
                       className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
                       Budget Template Q2 2025
                     </button>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => setShowInvestorMemoModal(true)}
-                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      Investor Memo
-                    </button>
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
               </div>
             </div>
           )}
@@ -1190,7 +1221,7 @@ export default function InvestorDataRoom() {
                       <span>🚀</span>
                       Series A: $30M (Q1 2026)
                     </h3>
-                    <div className="space-y-4">
+          <div className="space-y-4">
                       <div>
                         <h4 className="font-medium text-gray-900 dark:text-white mb-2">Key Focus</h4>
                         <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
@@ -1255,27 +1286,262 @@ export default function InvestorDataRoom() {
         </div>
 
         {/* Contact Section */}
-        <ComponentCard title="Contact Us" desc="Get in touch with our investment team">
-          <div className="space-y-4">
-            <p className="text-gray-600 dark:text-gray-400">
-              For investment inquiries or to schedule a meeting with our team, please contact:
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+          <div className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              Contact Us
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Ready to discuss your investment? Schedule a 1-on-1 meeting with our team.
             </p>
-            <div className="flex flex-col gap-2">
-              <a href="mailto:Kyle@adorahq.com" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="https://www.adoraos.com/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-6 py-3 font-medium"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                 </svg>
-                Kyle@adorahq.com
+                Book 1-on-1 Meeting
               </a>
-              <a href="tel:+12148367794" className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300">
+              <a
+                href="tel:+12148367794"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-colors"
+              >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                +1 (214) 836-7794
+                Call Kyle
+              </a>
+              <a
+                href="mailto:Kyle@adorahq.com"
+                className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Email Kyle@adorahq.com
               </a>
             </div>
           </div>
-        </ComponentCard>
+        </div>
+
+        {/* Historical Videos Section */}
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+          <div className="p-6">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              Historical Videos
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Check out our first round of videos to see how early we were to the AI race
+            </p>
+            
+            {/* Video Grid - Chronologically ordered to show AI journey progression */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* Video 1 - Aug 7, 2023 - Adora AI First Video (THE BEGINNING) */}
+              <button
+                onClick={() => setShowHistoricalVideo6Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/tzsaa5kd-DY/hqdefault.jpg"
+                  alt="Adora AI First Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">Adora AI First Video</p>
+                  <p className="text-white/80 text-xs">Aug 7, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 2 - Aug 30, 2023 - Understanding Adora AI */}
+              <button
+                onClick={() => setShowHistoricalVideo8Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/qkco9WFTtFg/hqdefault.jpg"
+                  alt="Understanding Adora AI Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">Understanding Adora AI</p>
+                  <p className="text-white/80 text-xs">Aug 30, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 3 - Sep 14, 2023 - What is the Future of AI? (VISIONARY) */}
+              <button
+                onClick={() => setShowHistoricalVideo7Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/ptdG7-PHejo/hqdefault.jpg"
+                  alt="What is the Future of AI? Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">What is the Future of AI?</p>
+                  <p className="text-white/80 text-xs">Sep 14, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 4 - Oct 4, 2023 - The Power of AI Tools and Models */}
+              <button
+                onClick={() => setShowHistoricalVideo5Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/imBMvGYVbu8/hqdefault.jpg"
+                  alt="The Power of AI Tools and Models Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">The Power of AI Tools and Models</p>
+                  <p className="text-white/80 text-xs">Oct 4, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 5 - Nov 14, 2023 - First Pitch Deck */}
+              <button
+                onClick={() => setShowHistoricalVideo1Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/4jP_BcFXVdY/hqdefault.jpg"
+                  alt="First Pitch Deck Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">First Pitch Deck</p>
+                  <p className="text-white/80 text-xs">Nov 14, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 6 - Nov 29, 2023 - Open AI Chaos */}
+              <button
+                onClick={() => setShowHistoricalVideo3Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/pGjPPkVOzFs/hqdefault.jpg"
+                  alt="Open AI Chaos Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">Open AI Chaos</p>
+                  <p className="text-white/80 text-xs">Nov 29, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 7 - Nov 29, 2023 - Historical Financials (SAME DAY!) */}
+              <button
+                onClick={() => setShowHistoricalVideo4Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/nbOkNkXrBaM/hqdefault.jpg"
+                  alt="Historical Financials Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">Historical Financials</p>
+                  <p className="text-white/80 text-xs">Nov 29, 2023</p>
+                </div>
+              </button>
+              
+              {/* Video 8 - Dec 14, 2023 - Micro Data Centers (LATEST) */}
+              <button
+                onClick={() => setShowHistoricalVideo2Modal(true)}
+                className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group hover:shadow-lg transition-all duration-200 cursor-pointer"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/m742FeO1nTY/hqdefault.jpg"
+                  alt="Micro Data Centers Video Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                {/* Video title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <p className="text-white text-sm font-medium">Micro Data Centers</p>
+                  <p className="text-white/80 text-xs">Dec 14, 2023</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Video Modal Lightbox */}
@@ -1408,7 +1674,7 @@ export default function InvestorDataRoom() {
             }}
           >
             {/* Scrollable container with max height */}
-            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+            <div className="w-full max-w-6xl max-h-full overflow-y-auto">
               <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
                 {/* Close button */}
                 <button
@@ -1434,36 +1700,711 @@ export default function InvestorDataRoom() {
                  {/* Video Container */}
                  <div className="px-6 pb-6">
                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
-                     {/* Placeholder for video - replace with actual video URL */}
-                     <div className="w-full h-full flex items-center justify-center">
-                       <div className="text-center">
-                         <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
-                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                           </svg>
-                         </div>
-                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                           Investor Presentation Video
-                         </h4>
-                         <p className="text-gray-600 dark:text-gray-400 mb-4">
-                           Watch our comprehensive investor presentation and pitch deck walkthrough.
-                         </p>
-                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                           Video coming soon - Replace this placeholder with your actual video embed
-                         </p>
-                       </div>
-                     </div>
-                     
-                     {/* Uncomment and replace VIDEO_ID with actual video when ready */}
-                     {/* 
                      <iframe
                        className="w-full h-full"
-                       src="https://www.youtube.com/embed/VIDEO_ID"
+                       src="https://www.youtube.com/embed/9EzdB5LDJG8"
                        title="Investor Presentation"
                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                        allowFullScreen
                      ></iframe>
-                     */}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </>
+       )}
+
+      {/* Historical Video 1 Modal */}
+      {showHistoricalVideo1Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo1Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo1Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                                   {/* Modal Header */}
+                  <div className="p-6 pr-16">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                      First Pitch Deck
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                      Our original pitch deck presentation from our historical archives • Nov 14, 2023
+                    </p>
+                  </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/4jP_BcFXVdY"
+                       title="First Pitch Deck"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 2 Modal */}
+      {showHistoricalVideo2Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo2Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo2Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Micro Data Centers
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Innovative data center technology from our historical archives • Dec 14, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/m742FeO1nTY"
+                       title="Micro Data Centers"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 3 Modal */}
+      {showHistoricalVideo3Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo3Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo3Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Open AI Chaos
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     AI industry analysis from our historical archives • Nov 29, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/pGjPPkVOzFs"
+                       title="Open AI Chaos"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 4 Modal */}
+      {showHistoricalVideo4Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo4Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo4Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Historical Financials
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Financial analysis and projections from our historical archives • Nov 29, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/nbOkNkXrBaM"
+                       title="Historical Financials"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 5 Modal */}
+      {showHistoricalVideo5Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo5Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo5Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Adora AI - The Power of AI Tools and Models
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Early AI tools and models analysis from our historical archives • Oct 4, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/imBMvGYVbu8"
+                       title="Adora AI - The Power of AI Tools and Models"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 6 Modal */}
+      {showHistoricalVideo6Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo6Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo6Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Adora AI First Video
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Our very first video marking the beginning of our AI journey • Aug 7, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/tzsaa5kd-DY"
+                       title="Adora AI First Video"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 7 Modal */}
+      {showHistoricalVideo7Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo7Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo7Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     What is the Future of AI?
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Visionary analysis on AI's future trajectory from our early insights • Sep 14, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/ptdG7-PHejo"
+                       title="What is the Future of AI?"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+                   </>
+        )}
+
+      {/* Historical Video 8 Modal */}
+      {showHistoricalVideo8Modal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowHistoricalVideo8Modal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-4xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowHistoricalVideo8Modal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                 {/* Modal Header */}
+                 <div className="p-6 pr-16">
+                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                     Understanding Adora AI
+                   </h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                     Comprehensive overview of Adora AI's platform and vision • Aug 30, 2023
+                   </p>
+                 </div>
+                 
+                 {/* Video Container */}
+                 <div className="px-6 pb-6">
+                   <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                     <iframe
+                       className="w-full h-full"
+                       src="https://www.youtube.com/embed/qkco9WFTtFg"
+                       title="Understanding Adora AI"
+                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                     ></iframe>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </>
+       )}
+
+      {/* Deck Modal */}
+      {showDeckModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowDeckModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowDeckModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Pitch Deck
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Interactive presentation - The Operating System for the AI Native World
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Iframe Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://gamma.app/docs/The-Operating-System-for-the-AI-Native-World-wcad05kzxbifzan?mode=doc"
+                      title="Adora AI Pitch Deck"
+                      className="w-full h-[75vh] rounded-lg"
+                      style={{ minHeight: '600px' }}
+                      allow="fullscreen"
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://gamma.app/docs/The-Operating-System-for-the-AI-Native-World-wcad05kzxbifzan?mode=doc"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Open in New Tab
+                    </a>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
                    </div>
                  </div>
                </div>
@@ -1570,15 +2511,17 @@ export default function InvestorDataRoom() {
                        </svg>
                        Download PDF
                      </a>
-                     <button
-                       onClick={handleShowInvestmentModal}
-                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                     <a
+                       href="https://www.adoraos.com/meeting"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                      >
                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                        </svg>
-                       Contact About Investment
-                     </button>
+                       Book 1-on-1 Meeting
+                     </a>
                    </div>
                  </div>
               </div>
@@ -1685,15 +2628,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1797,15 +2742,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1901,15 +2848,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2005,15 +2954,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2108,15 +3059,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download Image
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2202,15 +3155,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2296,15 +3251,17 @@ export default function InvestorDataRoom() {
                       </svg>
                       Download PDF
                     </a>
-                    <button
-                      onClick={handleShowInvestmentModal}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium"
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
                       </svg>
-                      Contact About Investment
-                    </button>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2370,9 +3327,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY" download="Adora_AI_Product_Roadmap.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2404,9 +3361,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E" download="Adora_AI_Recommendation_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2438,9 +3395,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2472,9 +3429,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc" download="Adora_AI_Unified_Communication_Hub.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2506,9 +3463,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU" download="Adora_AI_User_Management_System.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2540,9 +3497,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Adora%20AI%20-%20Go-To-Market%20Strategy%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvQWRvcmEgQUkgLSBHby1Uby1NYXJrZXQgU3RyYXRlZ3kgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA4NzExODUsImV4cCI6MTc4MjQwNzE4NX0.MUkrMElMw7TJ0xyPb9H2jl5WTGN_sbj1tW7fQ0Z-jCg" download="Adora_AI_Go_To_Market_Strategy.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2574,9 +3531,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I" download="Market_Analysis_May_2025.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2608,9 +3565,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s" download="The_AI_Storm_Analysis.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2676,9 +3633,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Summary%20of%20Corporate%20Bylaws.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIFN1bW1hcnkgb2YgQ29ycG9yYXRlIEJ5bGF3cy5wZGYiLCJpYXQiOjE3NTA3ODY2OTIsImV4cCI6MTc4MjMyMjY5Mn0.4EtYDGLb-6waITqz8CZCN_L0r8sEKSnLgltHmW9WV4A" download="Adora_AI_Mutual_NDA_Template.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2710,43 +3667,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Mutual%20NDA%20Template.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIE11dHVhbCBOREEgVGVtcGxhdGUucGRmIiwiaWF0IjoxNzUwNzEwNDg1LCJleHAiOjE3ODIyNDY0ODV9.vu2IxvVwu8L4Krabe1242SF6OV7qdMcwB5H0N-lE-do" download="Adora_AI_Mutual_NDA_Template.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Patent Record Modal */}
-      {showPatentRecordModal && (
-        <>
-          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowPatentRecordModal(false)} />
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
-            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
-                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowPatentRecordModal(false)} aria-label="Close">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Security Provisional Patent Record</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Patent application overview and intellectual property documentation</p></div>
-                </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20Security%20Provisional%20Patent%20Record%20and%20Application%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBTZWN1cml0eSBQcm92aXNpb25hbCBQYXRlbnQgUmVjb3JkIGFuZCBBcHBsaWNhdGlvbiBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTE0ODU4OTUsImV4cCI6MTc4MzAyMTg5NX0.ApwZnTkSV8pEOMQs0KDT0MsQ52AfyfXo777P5vuBLrQ#view=FitH&zoom=110" title="Security Provisional Patent Record" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
-                  </div>
-                </div>
-                <div className="px-2 pb-3">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20Security%20Provisional%20Patent%20Record%20and%20Application%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBTZWN1cml0eSBQcm92aXNpb25hbCBQYXRlbnQgUmVjb3JkIGFuZCBBcHBsaWNhdGlvbiBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTE0ODU4OTUsImV4cCI6MTc4MzAyMTg5NX0.ApwZnTkSV8pEOMQs0KDT0MsQ52AfyfXo777P5vuBLrQ" download="Adora_Security_Provisional_Patent_Record.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
                   </div>
                 </div>
               </div>
@@ -2754,7 +3677,6 @@ export default function InvestorDataRoom() {
           </div>
         </>
       )}
-
       {/* Financial Projection Modal */}
       {showFinancialProjectionModal && (
         <>
@@ -2778,9 +3700,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUlfIDItWWVhciBGaW5hbmNpYWwgUHJvamVjdGlvbi5wZGYiLCJpYXQiOjE3NTA5NzU0MzAsImV4cCI6MTc4MjUxMTQzMH0.wd5Ibgcz3nHZUjCyPbTv4mibsQoyIACFae9SoPQLn9Q" download="Adora_AI_2_Year_Financial_Projection.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2812,9 +3734,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20Budget%20Template%20-%20Q2%202025.xlsx?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQnVkZ2V0IFRlbXBsYXRlIC0gUTIgMjAyNS54bHN4IiwiaWF0IjoxNzUwOTc1NDM3LCJleHAiOjE3ODI1MTE0Mzd9.ySMLsehqOL2N-MXYEXIbrQ1FZqaaU0vuPoU9Fy2_dJM" download="Adora_Budget_Template_Q2_2025.xlsx" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download Excel
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2826,29 +3748,61 @@ export default function InvestorDataRoom() {
       {/* Investor Memo Modal */}
       {showInvestorMemoModal && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowInvestorMemoModal(false)} />
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
-            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
-                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowInvestorMemoModal(false)} aria-label="Close">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowInvestorMemoModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Investor Memo</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Investment overview & highlights</p>
+                </div>
+                <button
+                  onClick={() => setShowInvestorMemoModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Investor Memo</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive investment overview and opportunity summary</p></div>
-                </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTQ4MzYwNSwiZXhwIjoxNzgzMDE5NjA1fQ.EfQeUJXdKEe5B_nrf2syQD16PoXGsXJiBOOlmxKT17o#view=FitH&zoom=110" title="Investor Memo" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
-                  </div>
-                </div>
-                <div className="px-2 pb-3">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTQ4MzYwNSwiZXhwIjoxNzgzMDE5NjA1fQ.EfQeUJXdKEe5B_nrf2syQD16PoXGsXJiBOOlmxKT17o" download="Adora_AI_Investor_Memo.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-investor-memo.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Investor Memo PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-investor-memo.pdf"
+                      download="adora-ai-investor-memo.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2857,32 +3811,64 @@ export default function InvestorDataRoom() {
         </>
       )}
 
-      {/* Problem Thesis Modal */}
-      {showProblemThesisModal && (
+      {/* Investor Memo Modal */}
+      {showInvestorMemoModal && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowProblemThesisModal(false)} />
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
-            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
-                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowProblemThesisModal(false)} aria-label="Close">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowProblemThesisModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Problem Thesis</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Market challenges we're solving</p>
+                </div>
+                <button
+                  onClick={() => setShowProblemThesisModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Problem Thesis</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Market challenges we're solving</p></div>
-                </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto#view=FitH&zoom=110" title="Problem Thesis PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
-                  </div>
-                </div>
-                <div className="px-2 pb-3">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNDg0MjA1LCJleHAiOjE3ODMwMjAyMDV9.gnkgU_tBTidqu2-O4O1IQjbELh-Ydkf8QyyP6Ph8fto" download="Adora_AI_Problem_Thesis.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-problem-thesis.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Problem Thesis PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-problem-thesis.pdf"
+                      download="adora-ai-problem-thesis.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2891,32 +3877,64 @@ export default function InvestorDataRoom() {
         </>
       )}
 
-      {/* Solution Matrix Modal */}
-      {showSolutionMatrixModal && (
+      {/* Investor Memo Modal */}
+      {showInvestorMemoModal && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowSolutionMatrixModal(false)} />
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
-            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
-                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowSolutionMatrixModal(false)} aria-label="Close">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowSolutionMatrixModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Solution Matrix</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Our comprehensive approach</p>
+                </div>
+                <button
+                  onClick={() => setShowSolutionMatrixModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Solution Matrix</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Our comprehensive approach</p></div>
-                </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA#view=FitH&zoom=110" title="Solution Matrix PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
-                  </div>
-                </div>
-                <div className="px-2 pb-3">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTQ4NDA3MiwiZXhwIjoxNzgzMDIwMDcyfQ.uPdTKxHHLFgGQbVjiFANSEoMMJDdFD0sROn-gZZMnwA" download="Adora_AI_Solution_Matrix.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-solution-matrix.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Solution Matrix PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-solution-matrix.pdf"
+                      download="adora-ai-solution-matrix.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2925,32 +3943,64 @@ export default function InvestorDataRoom() {
         </>
       )}
 
-      {/* Financial Outline Modal */}
-      {showFinancialOutlineModal && (
+      {/* Investor Memo Modal */}
+      {showInvestorMemoModal && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowFinancialOutlineModal(false)} />
-          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
-            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
-                <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowFinancialOutlineModal(false)} aria-label="Close">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowFinancialOutlineModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 inset-0">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Financial Outline</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Projections and key metrics</p>
+                </div>
+                <button
+                  onClick={() => setShowFinancialOutlineModal(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Financial Outline</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Projections and key metrics</p></div>
-                </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDkyNDA5LCJleHAiOjE3ODMwMjg0MDl9.iMiOF2MsLuV41EovQc4DzPDuMEF9ov1tutnF2atj5EY#view=FitH&zoom=110" title="Financial Outline PDF" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
-                  </div>
-                </div>
-                <div className="px-2 pb-3">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJXyAyLVllYXIgRmluYW5jaWFsIFByb2plY3Rpb24ucGRmIiwiaWF0IjoxNzUxNDkyNDA5LCJleHAiOjE3ODMwMjg0MDl9.iMiOF2MsLuV41EovQc4DzPDuMEF9ov1tutnF2atj5EY" download="Adora_AI_2_Year_Financial_Projection.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-4">
+                  <iframe 
+                    src="/placeholder-financial-outline.pdf" 
+                    className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
+                    title="Financial Outline PDF"
+                  />
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a
+                      href="/placeholder-financial-outline.pdf"
+                      download="adora-ai-financial-outline.pdf"
+                      className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
