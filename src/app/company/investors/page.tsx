@@ -23,7 +23,6 @@ export default function InvestorDataRoom() {
   const [showSafeModal, setShowSafeModal] = useState(false);
   const [showClientSafeModal, setShowClientSafeModal] = useState(false);
   const [showMinimumSafeModal, setShowMinimumSafeModal] = useState(false);
-  const [showInvestorMemoModal, setShowInvestorMemoModal] = useState(false);
   const [showProblemThesisModal, setShowProblemThesisModal] = useState(false);
   const [showSolutionMatrixModal, setShowSolutionMatrixModal] = useState(false);
   const [showFinancialOutlineModal, setShowFinancialOutlineModal] = useState(false);
@@ -49,6 +48,7 @@ export default function InvestorDataRoom() {
   // Financial document modals
   const [showFinancialProjectionModal, setShowFinancialProjectionModal] = useState(false);
   const [showBudgetTemplateModal, setShowBudgetTemplateModal] = useState(false);
+  const [showInvestorMemoModal, setShowInvestorMemoModal] = useState(false);
   
   // Legal document modals
   const [showOperatingAgreementModal, setShowOperatingAgreementModal] = useState(false);
