@@ -3777,13 +3777,13 @@ export default function InvestorDataRoom() {
               <div className="p-6">
                 <div className="space-y-4">
                   <iframe 
-                    src="/placeholder-investor-memo.pdf" 
+                    src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4" 
                     className="w-full h-96 border border-gray-200 dark:border-gray-700 rounded"
                     title="Investor Memo PDF"
                   />
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <a
-                      href="/placeholder-investor-memo.pdf"
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4"
                       download="adora-ai-investor-memo.pdf"
                       className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 transition-colors"
                     >
