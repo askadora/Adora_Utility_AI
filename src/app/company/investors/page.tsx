@@ -29,6 +29,7 @@ export default function InvestorDataRoom() {
   const [showExecutiveSummaryModal, setShowExecutiveSummaryModal] = useState(false);
   const [showHiringRoadmapModal, setShowHiringRoadmapModal] = useState(false);
   const [showOrgChartModal, setShowOrgChartModal] = useState(false);
+  const [showCompanyOverviewModal, setShowCompanyOverviewModal] = useState(false);
   
   // Technology document modals
   const [showAIPinModal, setShowAIPinModal] = useState(false);
@@ -106,6 +107,7 @@ export default function InvestorDataRoom() {
     setShowExecutiveSummaryModal(false);
     setShowHiringRoadmapModal(false);
     setShowOrgChartModal(false);
+    setShowCompanyOverviewModal(false);
     setShowAIPinModal(false);
     setShowB2CPlayerProModal(false);
     setShowMultiModelModal(false);
@@ -758,6 +760,17 @@ export default function InvestorDataRoom() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                       Hiring & Team Roadmap
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setShowCompanyOverviewModal(true)}
+                      className="flex items-center gap-2 text-[#5365FF] hover:text-[#4152cc] dark:text-blue-400 dark:hover:text-blue-300 w-full text-left"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Certificate of good standing
                     </button>
                   </li>
                 </ul>
@@ -2964,6 +2977,112 @@ export default function InvestorDataRoom() {
                     <a
                       href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20Hiring%20Roadmap%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIEhpcmluZyBSb2FkbWFwIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDU1LCJleHAiOjE3ODIyNDMwNTV9.NGR0StzHtFKcTDOBNnpmYard_pAn3qkbjl3gp5PXhxc"
                       download="Adora_AI_Hiring_Roadmap.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Download PDF
+                    </a>
+                    <a
+                      href="https://www.adoraos.com/meeting"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" />
+                      </svg>
+                      Book 1-on-1 Meeting
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Company Overview PDF Modal */}
+      {showCompanyOverviewModal && (
+        <>
+          {/* Overlay for lightbox - covers entire viewport */}
+          <div 
+            className="fixed inset-0 bg-black/60 z-40 transition-opacity"
+            onClick={() => setShowCompanyOverviewModal(false)}
+          />
+          
+          {/* Modal positioned to account for sidebar and header */}
+          <div 
+            className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            style={{
+              top: '80px', // Account for header height
+              left: '0',
+              right: '0', 
+              bottom: '0',
+              marginLeft: (() => {
+                // Calculate sidebar offset for desktop - matches the layout system
+                if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                  return '0px'; // On mobile, sidebar overlays so no offset needed
+                }
+                // Desktop: match the layout system's margin logic
+                if (isExpanded || isHovered) {
+                  return '290px'; // Full sidebar width
+                }
+                return '90px'; // Collapsed sidebar width
+              })(),
+              // Add smooth transition for sidebar state changes
+              transition: 'margin-left 300ms ease-in-out'
+            }}
+          >
+            {/* Scrollable container with max height */}
+            <div className="w-full max-w-7xl max-h-full overflow-y-auto">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+                {/* Close button */}
+                <button
+                  className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
+                  onClick={() => setShowCompanyOverviewModal(false)}
+                  aria-label="Close"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                {/* Modal Header */}
+                <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                        Adora AI Company Overview
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        June 2025 • Comprehensive company overview and business operations
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* PDF Viewer Container */}
+                <div className="p-2 pb-3">
+                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <iframe
+                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/GS%202025-06-27.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0dTIDIwMjUtMDYtMjcucGRmIiwiaWF0IjoxNzUxOTM2MDMyLCJleHAiOjE3ODM0NzIwMzJ9.LA-7invfuf5vIOyC-oER_oFHWnQ6KhwryHoXywNhCME#view=FitH&zoom=110"
+                      title="Adora AI Company Overview"
+                      className="w-full h-[65vh] rounded-lg"
+                      style={{ minHeight: '500px' }}
+                    />
+                  </div>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="px-2 pb-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/GS%202025-06-27.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0dTIDIwMjUtMDYtMjcucGRmIiwiaWF0IjoxNzUxOTM2MDMyLCJleHAiOjE3ODM0NzIwMzJ9.LA-7invfuf5vIOyC-oER_oFHWnQ6KhwryHoXywNhCME"
+                      download="Adora_AI_Company_Overview_June_2025.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium"
