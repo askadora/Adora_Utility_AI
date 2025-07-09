@@ -37,7 +37,7 @@ function SignInForm() {
       if (redirectParam) {
         router.replace(redirectParam);
       } else {
-        router.replace('/dashboard');
+        router.replace('/'); // go to home page
       }
     }
 
@@ -90,7 +90,7 @@ function SignInForm() {
         if (redirectParam) {
           router.replace(redirectParam);
         } else {
-          router.replace('/dashboard');
+          router.replace('/'); // go to home page
         }
       }
     });
