@@ -1704,36 +1704,13 @@ export default function InvestorDataRoom() {
                  {/* Video Container */}
                  <div className="px-6 pb-6">
                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
-                     {/* Placeholder for video - replace with actual video URL */}
-                     <div className="w-full h-full flex items-center justify-center">
-                       <div className="text-center">
-                         <div className="w-16 h-16 mx-auto mb-4 bg-[#5365FF] rounded-full flex items-center justify-center">
-                           <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                           </svg>
-                         </div>
-                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                           Data Room Tutorial Video
-                         </h4>
-                         <p className="text-gray-600 dark:text-gray-400 mb-4">
-                           Learn how to navigate and use our investor data room effectively.
-                         </p>
-                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                           Video coming soon - Replace this placeholder with your actual video embed
-                         </p>
-                       </div>
-                     </div>
-                     
-                     {/* Uncomment and replace VIDEO_ID with actual video when ready */}
-                     {/* 
                      <iframe
                        className="w-full h-full"
-                       src="https://www.youtube.com/embed/VIDEO_ID"
+                       src="https://www.youtube.com/embed/J5n6VyZbQl8"
                        title="How to Use the Data Room"
                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                        allowFullScreen
                      ></iframe>
-                     */}
                    </div>
                  </div>
                </div>
