@@ -1085,7 +1085,7 @@ export default function Settings() {
                   <div className="text-center">
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">PLAY</h4>
                     <div className="mb-4">
-                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$20</span>
+                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$49</span>
                       <span className="text-gray-500 dark:text-gray-400">/mo</span>
                     </div>
                     <div className="space-y-1 mb-6">
@@ -1116,7 +1116,7 @@ export default function Settings() {
                   <div className="text-center">
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">PRO</h4>
                     <div className="mb-4">
-                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$200</span>
+                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$297</span>
                       <span className="text-gray-500 dark:text-gray-400">/seat/mo</span>
                     </div>
                     <div className="space-y-1 mb-6">
@@ -1189,8 +1189,11 @@ export default function Settings() {
                   <div className="text-center">
                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">ORG</h4>
                     <div className="mb-4">
-                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$6,000</span>
+                      <span className="text-3xl font-bold text-gray-900 dark:text-white">$6,000*</span>
                       <span className="text-gray-500 dark:text-gray-400">/mo</span>
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 italic mb-2">
+                      *$8k/m starting in 2026
                     </div>
                     <div className="space-y-1 mb-6">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">500,000 CU</p>
@@ -1494,8 +1497,8 @@ export default function Settings() {
                         <tr className="border-b border-gray-100 dark:border-gray-700">
                           <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90">PRO Plan</td>
                           <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">1</td>
-                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">$200</td>
-                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90 font-medium">$200</td>
+                          <td className="py-3 px-4 text-sm text-gray-600 dark:text-gray-400">$297</td>
+                          <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90 font-medium">$297</td>
                         </tr>
                         <tr className="border-b border-gray-100 dark:border-gray-700">
                           <td className="py-3 px-4 text-sm text-gray-800 dark:text-white/90">Pro Boost Add-on</td>
@@ -1517,15 +1520,15 @@ export default function Settings() {
                   <div className="flex flex-col gap-2 items-end mb-6">
                     <div className="flex justify-between w-full max-w-xs gap-8">
                       <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Sub Total:</span>
-                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$365</span>
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$462</span>
                     </div>
                     <div className="flex justify-between w-full max-w-xs gap-8">
                       <span className="text-sm font-medium text-gray-600 dark:text-gray-400">VAT (10%):</span>
-                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$36.50</span>
+                      <span className="text-sm font-medium text-gray-800 dark:text-white/90">$46.20</span>
                     </div>
                     <div className="flex justify-between w-full max-w-xs gap-8 pt-2 border-t border-gray-200 dark:border-gray-600">
                       <span className="text-base font-semibold text-gray-800 dark:text-white/90">Total:</span>
-                      <span className="text-base font-semibold text-gray-800 dark:text-white/90">$401.50</span>
+                      <span className="text-base font-semibold text-gray-800 dark:text-white/90">$508.20</span>
                     </div>
                   </div>
 
