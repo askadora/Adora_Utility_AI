@@ -279,7 +279,7 @@ export default function InvestorDataRoom() {
               Your Investment Opportunity
             </h2>
             <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6">
-              We're seeking $5-7M in funding to accelerate our AI platform launch. Join us in building the future of artificial intelligence.
+              We're seeking $5-7M in funding to accelerate our AI platform launch. Join us in building the future of Enterprise Grade Artificial Intelligence.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-6">
               <button 
@@ -379,8 +379,7 @@ export default function InvestorDataRoom() {
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
               <div className="text-center">
                 <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                  <strong className="text-gray-900 dark:text-white">Strategic Opportunity:</strong> 
-                  Entry at sub-$100M valuation with clear path to Series A participation at 2-3× markup by Q1 2026.{' '}
+                  <strong className="text-gray-900 dark:text-white">Strategic Opportunity:</strong> Entry at sub-$100M valuation with clear path to Series A participation at 2-3× markup by Q1 2026.{' '}
                   <span className="text-[#5365FF] dark:text-blue-400 font-medium">Last chance to invest before infrastructure scale begins.</span>
                 </p>
               </div>
@@ -530,8 +529,8 @@ export default function InvestorDataRoom() {
             <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 px-6 py-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#5365FF] flex items-center justify-center overflow-hidden">
-                    <img src="/images/logo/adora-ai-logo.png" alt="Adora AI Logo" width={40} height={40} />
+                  <div className="w-10 h-10 rounded-full bg-[#5365FF] flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img src="/images/logo/adora-ai-logo.png" alt="Adora AI Logo" className="w-8 h-8 object-contain" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Adora Data Room Bot</h3>
@@ -638,8 +637,8 @@ export default function InvestorDataRoom() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} items-end`}
                 >
                   {message.role !== 'user' && (
-                    <div className="w-8 h-8 mr-2 rounded-full bg-[#5365FF] flex items-center justify-center overflow-hidden">
-                      <img src="/images/logo/adora-ai-logo.png" alt="Adora AI Logo" width={32} height={32} />
+                    <div className="w-8 h-8 mr-2 rounded-full bg-[#5365FF] flex items-center justify-center overflow-hidden flex-shrink-0">
+                      <img src="/images/logo/adora-ai-logo.png" alt="Adora AI Logo" className="w-6 h-6 object-contain" />
                     </div>
                   )}
                   <div
@@ -718,7 +717,7 @@ export default function InvestorDataRoom() {
                 onClick={() => {
                   setInput("What makes Adora AI uniquely defensible in the AI OS market?");
                 }}
-                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-blue-400 hover:shadow-lg dark:hover:border-blue-400 transition-all duration-200 shadow-md"
+                className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 hover:shadow-lg dark:hover:border-blue-400 transition-all duration-200 shadow-md"
               >
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -726,8 +725,8 @@ export default function InvestorDataRoom() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <div className="font-medium text-gray-900 dark:text-gray-900">Market Defensibility</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">What makes Adora AI uniquely defensible in the AI OS market?</div>
+                  <div className="font-medium text-gray-900 dark:text-white">Market Defensibility</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">What makes Adora AI uniquely defensible in the AI OS market?</div>
                 </div>
               </button>
 
@@ -736,7 +735,7 @@ export default function InvestorDataRoom() {
                 onClick={() => {
                   setInput("Show me how Adora AI makes money, the sales traction, and how it scales.");
                 }}
-                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-green-400 hover:shadow-lg dark:hover:border-green-400 transition-all duration-200 shadow-md"
+                className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-green-400 hover:shadow-lg dark:hover:border-green-400 transition-all duration-200 shadow-md"
               >
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -744,8 +743,8 @@ export default function InvestorDataRoom() {
                   </svg>
             </div>
                 <div className="text-left">
-                  <div className="font-medium text-gray-900 dark:text-gray-900">Revenue & Scaling</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">Show me how Adora AI makes money, the sales traction, and how it scales.</div>
+                  <div className="font-medium text-gray-900 dark:text-white">Revenue & Scaling</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">Show me how Adora AI makes money, the sales traction, and how it scales.</div>
           </div>
               </button>
 
@@ -754,7 +753,7 @@ export default function InvestorDataRoom() {
                 onClick={() => {
                   setInput("What will this round of funding unlock over the next 12–18 months?");
                 }}
-                className="flex items-start gap-3 p-4 bg-white dark:bg-white border-2 border-gray-300 dark:border-gray-300 rounded-lg hover:border-purple-400 hover:shadow-lg dark:hover:border-purple-400 transition-all duration-200 shadow-md"
+                className="flex items-start gap-3 p-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-purple-400 hover:shadow-lg dark:hover:border-purple-400 transition-all duration-200 shadow-md"
               >
                 <div className="flex-shrink-0 mt-1">
                   <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -762,8 +761,8 @@ export default function InvestorDataRoom() {
                 </svg>
                 </div>
                 <div className="text-left">
-                  <div className="font-medium text-gray-900 dark:text-gray-900">Funding Impact</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-600 mt-1">What will this round of funding unlock over the next 12–18 months?</div>
+                  <div className="font-medium text-gray-900 dark:text-white">Funding Impact</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">What will this round of funding unlock over the next 12–18 months?</div>
                 </div>
               </button>
             </div>
@@ -839,7 +838,7 @@ export default function InvestorDataRoom() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      Certificate of good standing
+                      Certificate of Good Standing
                     </button>
                   </li>
                 </ul>
@@ -1187,7 +1186,7 @@ export default function InvestorDataRoom() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      The AI Storm - Why Today's Tech is Tomorrow Quicksand
+                      The AI Storm: Today's Tech is Tomorrow Quicksand
                     </button>
                   </li>
                 </ul>
@@ -1230,7 +1229,7 @@ export default function InvestorDataRoom() {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Executive Summary</h3>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        "We're raising a <strong>$5–7M strategic round</strong> to fuel our September launch through March of 2026, scale onboarding for our first 2,000+ org clients, and operationalize the first 4–6 of our U.S.-based micro data centers. This sets the stage for a <strong>$30M Series A in early 2026</strong>, unlocking national node coverage, and a <strong>$100M Series B in 2027</strong> to scale globally—supporting 24+ distributed micro data centers and $400M+ ARR by that point."
+                        We're raising a <strong>$5–7M strategic round</strong> to fuel our September launch through March of 2026, scale onboarding for our first 2,000+ org clients, and operationalize the first 4–6 of our U.S.-based micro data centers. This sets the stage for a <strong>$30M Series A in early 2026</strong>, unlocking national node coverage, and a <strong>$100M Series B in 2027</strong> to scale globally—supporting 24+ distributed micro data centers and $400M+ ARR by that point.
                       </p>
                     </div>
                   </div>
@@ -2568,7 +2567,7 @@ export default function InvestorDataRoom() {
                         Adora AI Dynamic SAFE Note
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        $1,000,000 Investment Agreement • Post-Money Valuation Cap & Discount - 1 yr of Adora AI OS included
+                        $1,000,000 Investment Agreement • Post-Money Valuation Cap & Discount - 1 year of Adora AI OS included
                       </p>
                       <div className="flex items-center gap-4 mt-3 text-sm flex-wrap">
                         <span className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-2 py-1 rounded">
@@ -2578,7 +2577,7 @@ export default function InvestorDataRoom() {
                           20% Discount Rate
                         </span>
                         <span className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 px-2 py-1 rounded">
-                          1yr of Adora AI OS Included
+                          1 year of Adora AI OS Included
                         </span>
                       </div>
                     </div>
@@ -2685,7 +2684,7 @@ export default function InvestorDataRoom() {
                         Adora AI Client SAFE Note
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        $322,000 Investment Agreement • Post-Money Valuation Cap & Discount - Investor get's investment credit for adding their first year of Adora AI to the $250k minimum investment
+                        $322,000 Investment Agreement • Post-Money Valuation Cap & Discount - Investor gets investment credit for adding their first year of Adora AI to the $250k minimum investment
                       </p>
                       <div className="flex items-center gap-4 mt-3 text-sm flex-wrap">
                         <span className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 px-2 py-1 rounded">
@@ -2695,7 +2694,7 @@ export default function InvestorDataRoom() {
                           20% Discount Rate
                         </span>
                         <span className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 px-2 py-1 rounded">
-                          1yr of Adora AI OS Included
+                          1 year of Adora AI OS Included
                         </span>
                       </div>
                     </div>
@@ -3500,9 +3499,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo" download="Adora_AI_Multi_Model_Strategy.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
@@ -3594,12 +3593,12 @@ export default function InvestorDataRoom() {
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE#view=FitH&zoom=110" title="Security Framework" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUyMDI4MDUzLCJleHAiOjE3ODM1NjQwNTN9.GiMuhdpIydylv5_RCgIhI2ObSEmxZPbJHgceXFCijxA#view=FitH&zoom=110" title="Security Framework" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20Security%20-%20Provisional%20Patent%20Filing%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSBTZWN1cml0eSAtIFByb3Zpc2lvbmFsIFBhdGVudCBGaWxpbmcgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3OTk5MzEsImV4cCI6MTc4MjMzNTkzMX0.Td5iutqSz1jpuHeByujHDb4Nd4x6Zyy9yr-XAI3r-BE" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
+                    <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Security%20Framework%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gU2VjdXJpdHkgRnJhbWV3b3JrIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUyMDI4MDUzLCJleHAiOjE3ODM1NjQwNTN9.GiMuhdpIydylv5_RCgIhI2ObSEmxZPbJHgceXFCijxA" download="Adora_AI_Security_Framework.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
                     <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
@@ -3760,7 +3759,7 @@ export default function InvestorDataRoom() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
-                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">The AI Storm - Why Today's Tech is Tomorrow Quicksand</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic analysis of AI technology evolution and market disruption</p></div>
+                  <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">The AI Storm: Today's Tech is Tomorrow Quicksand</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic analysis of AI technology evolution and market disruption</p></div>
                 </div>
                 <div className="p-2 pb-3">
                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -3806,9 +3805,9 @@ export default function InvestorDataRoom() {
                     <a href="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As" download="Adora_AI_Draft_Operating_Agreement.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#5365FF] px-4 py-2 text-white hover:bg-[#4152cc] transition-colors font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>Download PDF
                     </a>
-                    <button onClick={handleShowInvestmentModal} className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>Contact About Investment
-                    </button>
+                    <a href="https://www.adoraos.com/meeting" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg bg-purple-800 text-white hover:bg-purple-900 transition-colors px-4 py-2 font-medium">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 9l6-6m0 0l6 6m-6-6v9a9 9 0 01-9 9H5l6-6z" /></svg>Book 1-on-1 Meeting
+                    </a>
                   </div>
                 </div>
               </div>
