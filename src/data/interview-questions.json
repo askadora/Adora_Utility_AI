@@ -1,0 +1,90 @@
+[
+  {
+    "id": "q1",
+    "category": "Culture & Collaboration",
+    "subcategory": "Async Work Style",
+    "goal": "Understand time management in async/remote environments",
+    "question": "How do you stay on track in async/remote environments?",
+    "tone": "friendly",
+    "follow_up_style": "reflective",
+    "answer_type": "free_text",
+    "priority": "high"
+  },
+  {
+    "id": "q2",
+    "category": "Technical Skills",
+    "subcategory": "Problem Solving",
+    "goal": "Evaluate analytical thinking and approach to complex problems",
+    "question": "Can you walk me through how you would approach a complex technical problem that you've never seen before?",
+    "tone": "curious",
+    "follow_up_style": "example-seeking",
+    "answer_type": "free_text",
+    "priority": "high"
+  },
+  {
+    "id": "q3",
+    "category": "Communication",
+    "subcategory": "Cross-functional Collaboration",
+    "goal": "Assess ability to work with diverse teams and stakeholders",
+    "question": "Tell me about a time when you had to explain a technical concept to someone with no technical background. How did you approach it?",
+    "tone": "friendly",
+    "follow_up_style": "reflective",
+    "answer_type": "free_text",
+    "priority": "medium"
+  },
+  {
+    "id": "q4",
+    "category": "Innovation & Learning",
+    "subcategory": "Adaptability",
+    "goal": "Understand willingness to learn new technologies and adapt to change",
+    "question": "What's the most challenging new technology or skill you've learned recently? What made it challenging and how did you overcome it?",
+    "tone": "curious",
+    "follow_up_style": "example-seeking",
+    "answer_type": "free_text",
+    "priority": "medium"
+  },
+  {
+    "id": "q5",
+    "category": "Leadership & Initiative",
+    "subcategory": "Self-direction",
+    "goal": "Evaluate ability to take initiative and work independently",
+    "question": "Describe a project where you had to take the lead without much guidance. How did you structure your approach?",
+    "tone": "friendly",
+    "follow_up_style": "reflective",
+    "answer_type": "free_text",
+    "priority": "high"
+  },
+  {
+    "id": "q6",
+    "category": "Values & Motivation",
+    "subcategory": "Mission Alignment",
+    "goal": "Understand alignment with company mission and values",
+    "question": "What excites you most about working in AI and how do you see yourself contributing to our mission of transforming business intelligence?",
+    "tone": "enthusiastic",
+    "follow_up_style": "reflective",
+    "answer_type": "free_text",
+    "priority": "high"
+  },
+  {
+    "id": "q7",
+    "category": "Technical Skills",
+    "subcategory": "Code Quality",
+    "goal": "Assess understanding of best practices and code quality",
+    "question": "How do you ensure the code you write is maintainable and scalable? Can you share an example of a time when you had to refactor existing code?",
+    "tone": "curious",
+    "follow_up_style": "example-seeking",
+    "answer_type": "free_text",
+    "priority": "medium"
+  },
+  {
+    "id": "q8",
+    "category": "Communication",
+    "subcategory": "Feedback & Growth",
+    "goal": "Evaluate openness to feedback and continuous improvement",
+    "question": "Tell me about a time when you received difficult feedback on your work. How did you handle it and what did you learn from it?",
+    "tone": "friendly",
+    "follow_up_style": "reflective",
+    "answer_type": "free_text",
+    "priority": "medium"
+  }
+] 
