@@ -19,6 +19,7 @@ function SignInForm() {
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const redirectParam = searchParams.get('redirect');
 
   useEffect(() => {
     // Sign out any existing session when landing on the sign-in page
@@ -33,7 +34,11 @@ function SignInForm() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace('/');
+      if (redirectParam) {
+        router.replace(redirectParam);
+      } else {
+        router.replace('/'); // go to home page
+      }
     }
 
     // Check for success message
@@ -41,7 +46,7 @@ function SignInForm() {
     if (message === 'password_updated') {
       setSuccess('Your password has been updated successfully. Please sign in with your new password.');
     }
-  }, [user, authLoading, router, searchParams]);
+  }, [user, authLoading, router, searchParams, redirectParam]);
   console.log('User:', user);
 
   useEffect(() => {
@@ -82,14 +87,18 @@ function SignInForm() {
           }
           console.log('User table updated successfully');
         }
-        router.replace('/');
+        if (redirectParam) {
+          router.replace(redirectParam);
+        } else {
+          router.replace('/'); // go to home page
+        }
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [router]);
+  }, [router, redirectParam]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
