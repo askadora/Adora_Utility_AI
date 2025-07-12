@@ -1,47 +1,77 @@
 "use client";
+
 import React from "react";
 
 interface ComponentCardProps {
   title: string;
+  description?: string;
   children: React.ReactNode;
-  className?: string; // Additional custom classes for styling
-  desc?: string; // Description text
+  className?: string;
+  onClick?: () => void;
+  interactive?: boolean;
 }
 
 const ComponentCard: React.FC<ComponentCardProps> = ({
   title,
+  description,
   children,
   className = "",
-  desc = "",
+  onClick,
+  interactive = false,
 }) => {
+  // Base card classes with enhanced mobile styling
+  const baseClasses = "rounded-2xl border border-gray-200 bg-white p-4 sm:p-6 dark:border-gray-800 dark:bg-white/[0.03] transition-all duration-200";
+  
+  // Interactive card classes for clickable cards
+  const interactiveClasses = interactive 
+    ? "cursor-pointer hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20" 
+    : "";
+  
+  // Mobile-specific touch target styling
+  const mobileClasses = interactive 
+    ? "min-h-[44px] sm:min-h-0" 
+    : "";
+
   return (
     <div
-      className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] transition-all duration-200 hover:shadow-lg ${className}`}
+      className={`${baseClasses} ${interactiveClasses} ${mobileClasses} ${className}`}
+      onClick={onClick}
+      style={interactive ? { 
+        WebkitTapHighlightColor: 'transparent',
+        touchAction: 'manipulation'
+      } : undefined}
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      onKeyDown={interactive ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      } : undefined}
     >
       {/* 
-        CARD HEADER - FLEXBOX (1D) Layout
-        - Column direction for title and description stacking
-        - Responsive padding for different screen sizes
+        CARD HEADER - Enhanced mobile styling
+        - Better spacing and typography for mobile
+        - Responsive padding and margins
       */}
-      <div className="px-4 py-4 sm:px-6 sm:py-5">
-        <h3 className="text-base font-semibold text-gray-800 dark:text-white/90 md:text-lg">
+      <div className="mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white/90 mb-1 sm:mb-2">
           {title}
         </h3>
-        {desc && (
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-            {desc}
+        {description && (
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            {description}
           </p>
         )}
       </div>
 
       {/* 
-        CARD BODY - Content container
-        - Border-top creates visual separation
-        - Responsive padding matches header
-        - Space-y provides consistent vertical spacing for child elements
+        CARD CONTENT - Mobile optimized
+        - Proper spacing and responsive design
+        - Enhanced touch targets for interactive elements
       */}
-      <div className="px-4 py-4 border-t border-gray-100 dark:border-gray-800 sm:px-6 sm:py-6">
-        <div className="space-y-4 md:space-y-6">{children}</div>
+      <div className="space-y-3 sm:space-y-4">
+        {children}
       </div>
     </div>
   );

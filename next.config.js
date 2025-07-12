@@ -24,6 +24,8 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  // Allow mobile development access
+  allowedDevOrigins: ['192.168.1.80:3000'],
 };
 
 module.exports = nextConfig; 
