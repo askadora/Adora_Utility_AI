@@ -882,7 +882,7 @@ export default function AboutPage() {
       />
 
       {/* Careers Section */}
-      <ComponentCard title="Join Our Team" desc="Build the future of AI with us">
+      <ComponentCard title="Join Our Team" description="Build the future of AI with us">
         <div className="space-y-6">
           <p className="text-gray-600 dark:text-gray-300">
             We're always looking for talented individuals who are passionate about AI 
@@ -923,7 +923,7 @@ export default function AboutPage() {
       </ComponentCard>
 
       {/* Contact Section */}
-      <ComponentCard title="Contact Us" desc="Get in touch with our team">
+      <ComponentCard title="Contact Us" description="Get in touch with our team">
         <div className="max-w-3xl mx-auto">
           <div className="space-y-8">
             <div>

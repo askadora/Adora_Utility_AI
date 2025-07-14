@@ -25,7 +25,7 @@ export default function PressPage() {
       </header>
 
       {/* Latest Press Releases */}
-      <ComponentCard title="Latest Press Releases" desc="Official announcements from Adora AI">
+      <ComponentCard title="Latest Press Releases" description="Official announcements from Adora AI">
         <ul className="divide-y divide-gray-200 dark:divide-gray-800">
           <li className="py-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Adora AI Announces $7M Pre-Launch Funding Round</h3>
@@ -41,7 +41,7 @@ export default function PressPage() {
       </ComponentCard>
 
       {/* Media Coverage */}
-      <ComponentCard title="Media Coverage" desc="What the media is saying about Adora AI">
+      <ComponentCard title="Media Coverage" description="What the media is saying about Adora AI">
         <ul className="divide-y divide-gray-200 dark:divide-gray-800">
           <li className="py-4 flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
@@ -61,7 +61,7 @@ export default function PressPage() {
       </ComponentCard>
 
       {/* Press Kit Download */}
-      <ComponentCard title="Press Kit" desc="Download our brand assets, logos, and company overview">
+      <ComponentCard title="Press Kit" description="Download our brand assets, logos, and company overview">
         <div className="flex flex-col md:flex-row gap-4 items-center">
           <a
             href="#"
@@ -85,7 +85,7 @@ export default function PressPage() {
       </ComponentCard>
 
       {/* Media Contact */}
-      <ComponentCard title="Media Contact" desc="For press inquiries, please contact our team">
+      <ComponentCard title="Media Contact" description="For press inquiries, please contact our team">
         <div className="space-y-2">
           <a href="mailto:hello@adorahq.com" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
