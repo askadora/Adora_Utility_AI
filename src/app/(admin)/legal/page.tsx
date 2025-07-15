@@ -73,7 +73,7 @@ export default function LegalDashboard() {
 
 
       {/* AI Tools Section with Tabs */}
-      <ComponentCard title="AI-Powered Legal Tools" desc="Leverage AI to streamline your legal workflows">
+      <ComponentCard title="AI-Powered Legal Tools" description="Leverage AI to streamline your legal workflows">
         {/* Tab Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
@@ -282,7 +282,7 @@ export default function LegalDashboard() {
       </ComponentCard>
 
       {/* Document Library */}
-      <ComponentCard title="Document Library" desc="Access your legal document templates and precedents">
+      <ComponentCard title="Document Library" description="Access your legal document templates and precedents">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Contract Templates</h3>

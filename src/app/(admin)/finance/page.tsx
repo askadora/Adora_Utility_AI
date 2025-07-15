@@ -130,7 +130,7 @@ export default function FinanceDashboard() {
       </section>
 
       {/* Financial Analysis Tools with Tabs */}
-      <ComponentCard title="AI-Powered Financial Tools" desc="Advanced analytics and automated reporting capabilities">
+      <ComponentCard title="AI-Powered Financial Tools" description="Advanced analytics and automated reporting capabilities">
         {/* Tab Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
@@ -418,7 +418,7 @@ export default function FinanceDashboard() {
       </ComponentCard>
 
       {/* Portfolio Performance Chart */}
-      <ComponentCard title="Portfolio Performance" desc="Track assets under management and client performance over time">
+      <ComponentCard title="Portfolio Performance" description="Track assets under management and client performance over time">
         <div className="mb-4 flex gap-2">
           {['1M', '3M', '6M', '1Y', 'ALL'].map((period) => (
             <button
@@ -466,7 +466,7 @@ export default function FinanceDashboard() {
       {/* Transactions and Risk Alerts */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:gap-8">
         {/* Recent Transactions */}
-        <ComponentCard title="Recent Transactions" desc="Latest trading activity and client orders">
+        <ComponentCard title="Recent Transactions" description="Latest trading activity and client orders">
           <div className="space-y-4">
             {recentTransactions.map((transaction) => (
               <div key={transaction.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
@@ -505,7 +505,7 @@ export default function FinanceDashboard() {
         </ComponentCard>
 
         {/* Risk Alerts */}
-        <ComponentCard title="Risk Alerts" desc="Monitor portfolio risks and compliance issues">
+        <ComponentCard title="Risk Alerts" description="Monitor portfolio risks and compliance issues">
           <div className="space-y-4">
             {riskAlerts.map((alert, index) => (
               <div key={index} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
@@ -538,7 +538,7 @@ export default function FinanceDashboard() {
       </section>
 
       {/* Market Insights */}
-      <ComponentCard title="Market Research & Insights" desc="Stay informed with AI-curated market intelligence">
+      <ComponentCard title="Market Research & Insights" description="Stay informed with AI-curated market intelligence">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Today's Market Movers</h3>
