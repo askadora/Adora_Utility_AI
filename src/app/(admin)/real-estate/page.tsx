@@ -119,7 +119,7 @@ export default function RealEstateDashboard() {
       </section>
 
       {/* AI-Powered Tools with Tabs */}
-      <ComponentCard title="AI-Powered Real Estate Tools" desc="Advanced property analysis and automated marketing solutions">
+      <ComponentCard title="AI-Powered Real Estate Tools" description="Advanced property analysis and automated marketing solutions">
         {/* Tab Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
@@ -457,7 +457,7 @@ export default function RealEstateDashboard() {
       {/* Property Listings and Activity */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:gap-8">
         {/* Active Property Listings */}
-        <ComponentCard title="Active Property Listings" desc="Manage your current property portfolio and listings">
+        <ComponentCard title="Active Property Listings" description="Manage your current property portfolio and listings">
           <div className="space-y-4">
             {propertyListings.map((property) => (
               <div key={property.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow">
@@ -499,7 +499,7 @@ export default function RealEstateDashboard() {
         </ComponentCard>
 
         {/* Recent Activity */}
-        <ComponentCard title="Recent Activity" desc="Track latest updates and client interactions">
+        <ComponentCard title="Recent Activity" description="Track latest updates and client interactions">
           <div className="space-y-4">
             {recentActivity.map((activity, index) => (
               <div key={index} className="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
@@ -531,7 +531,7 @@ export default function RealEstateDashboard() {
       </section>
 
       {/* Market Insights */}
-      <ComponentCard title="Market Insights" desc="Local market trends and analysis">
+      <ComponentCard title="Market Insights" description="Local market trends and analysis">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {marketInsights.map((insight, index) => (
             <div key={index} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">

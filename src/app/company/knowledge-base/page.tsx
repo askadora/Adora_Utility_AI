@@ -143,7 +143,7 @@ export default function KnowledgeBase() {
         </div>
 
         {/* Knowledge Base Categories 
-        <ComponentCard title="Knowledge Categories" desc="Browse our knowledge base by category">
+        <ComponentCard title="Knowledge Categories" description="Browse our knowledge base by category">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Product Documentation
             <div className="space-y-4">

@@ -1241,7 +1241,7 @@ export default function AdoraLinkPage() {
                 currentView === 'analytics' ? 'Performance Metrics' :
                 'Conversations'
               } 
-              desc={
+              description={
                 currentView === 'live' ? 'Real-time message stream across all channels' : 
                 currentView === 'recent' ? 'People who have recently contacted you' :
                 currentView === 'analytics' ? 'Track your communication performance and response metrics' :
@@ -1328,7 +1328,7 @@ export default function AdoraLinkPage() {
                 currentView === 'analytics' ? 'Analytics Dashboard' : 
                 'Message Details'
               } 
-              desc={
+              description={
                 currentView === 'recent' ? 'Contact history and information' : 
                 currentView === 'analytics' ? 'Detailed performance analytics and insights' :
                 'Full conversation thread and message details'
@@ -1591,7 +1591,7 @@ export default function AdoraLinkPage() {
       {/* Message Composer */}
       <ComponentCard 
         title="Compose Message" 
-        desc="Send messages across all connected channels"
+        description="Send messages across all connected channels"
       >
         <ComposerBar />
       </ComponentCard>

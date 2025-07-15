@@ -95,7 +95,7 @@ export default function DevToolsDashboard() {
       </section>
 
       {/* AI-Powered Development Tools with Tabs */}
-      <ComponentCard title="AI-Powered Development Tools" desc="Accelerate development with intelligent code generation and automation">
+      <ComponentCard title="AI-Powered Development Tools" description="Accelerate development with intelligent code generation and automation">
         {/* Tab Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
@@ -389,7 +389,7 @@ export default function DevToolsDashboard() {
       {/* Projects and Recent Activity */}
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 md:gap-8">
         {/* Active Projects */}
-        <ComponentCard title="Active Projects" desc="Track progress and deadlines for current development projects">
+        <ComponentCard title="Active Projects" description="Track progress and deadlines for current development projects">
           <div className="space-y-4">
             {activeProjects.map((project) => (
               <div key={project.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
@@ -432,7 +432,7 @@ export default function DevToolsDashboard() {
         </ComponentCard>
 
         {/* Recent Commits */}
-        <ComponentCard title="Recent Commits" desc="Latest code changes and development activity">
+        <ComponentCard title="Recent Commits" description="Latest code changes and development activity">
           <div className="space-y-4">
             {recentCommits.map((commit, index) => (
               <div key={index} className="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
@@ -463,7 +463,7 @@ export default function DevToolsDashboard() {
       </section>
 
       {/* Code Quality Metrics */}
-      <ComponentCard title="Code Quality Metrics" desc="Monitor code health and development best practices">
+      <ComponentCard title="Code Quality Metrics" description="Monitor code health and development best practices">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {codeMetrics.map((metric, index) => (
             <div key={index} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -484,7 +484,7 @@ export default function DevToolsDashboard() {
       </ComponentCard>
 
       {/* Development Resources */}
-      <ComponentCard title="Development Resources" desc="Quick access to documentation, tools, and project templates">
+      <ComponentCard title="Development Resources" description="Quick access to documentation, tools, and project templates">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Documentation</h3>

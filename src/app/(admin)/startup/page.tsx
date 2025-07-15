@@ -49,7 +49,7 @@ export default function StartupDataRoom() {
       </section>
 
       {/* Company Overview Section */}
-      <ComponentCard title="Company Overview" desc="Learn about our mission, vision, and team">
+      <ComponentCard title="Company Overview" description="Learn about our mission, vision, and team">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Company Information</h3>
@@ -113,7 +113,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Traction & Metrics Section */}
-      <ComponentCard title="Traction & Metrics" desc="Our growth story and key performance indicators">
+      <ComponentCard title="Traction & Metrics" description="Our growth story and key performance indicators">
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-4">
@@ -156,7 +156,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Financial Information Section */}
-      <ComponentCard title="Financial Information" desc="Financial health and projections">
+      <ComponentCard title="Financial Information" description="Financial health and projections">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Financial Documents</h3>
@@ -220,7 +220,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Market & Competition Section */}
-      <ComponentCard title="Market & Competition" desc="Market opportunity and competitive landscape">
+      <ComponentCard title="Market & Competition" description="Market opportunity and competitive landscape">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Market Analysis</h3>
@@ -284,7 +284,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Legal & Compliance Section */}
-      <ComponentCard title="Legal & Compliance" desc="Corporate structure and legal documentation">
+      <ComponentCard title="Legal & Compliance" description="Corporate structure and legal documentation">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white/90">Corporate Documents</h3>
@@ -340,7 +340,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Press & Media Section */}
-      <ComponentCard title="Press & Media" desc="Media coverage and press materials">
+      <ComponentCard title="Press & Media" description="Media coverage and press materials">
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a href="#" className="flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">
@@ -366,7 +366,7 @@ export default function StartupDataRoom() {
       </ComponentCard>
 
       {/* Contact Section */}
-      <ComponentCard title="Get in Touch" desc="Connect with our team">
+      <ComponentCard title="Get in Touch" description="Connect with our team">
         <div className="space-y-4">
           <p className="text-gray-600 dark:text-gray-400">
             Interested in learning more about our startup? We'd love to hear from you.
