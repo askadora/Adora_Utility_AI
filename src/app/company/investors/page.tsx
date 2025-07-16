@@ -2446,13 +2446,13 @@ export default function InvestorDataRoom() {
                     </div>
                     
                 {/* Iframe Container */}
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Investor%20Pitch%20Deck.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gSW52ZXN0b3IgUGl0Y2ggRGVjay5wZGYiLCJpYXQiOjE3NTE2NTUxMzksImV4cCI6MTc4MzE5MTEzOX0.TmjU0GcdjZTRkgI8cuJ_FZn_Nm_xBVg3kSsJZZb-Pbc#view=FitH&zoom=110"
                       title="Adora AI Pitch Deck"
-                      className="w-full h-[75vh] rounded-lg"
-                      style={{ minHeight: '600px' }}
+                      className="w-full h-full rounded-lg flex-1"
+                      style={{ minHeight: '400px' }}
                     />
                   </div>
                 </div>
@@ -2522,9 +2522,9 @@ export default function InvestorDataRoom() {
               transition: 'margin-left 300ms ease-in-out'
             }}
           >
-            {/* Scrollable container with max height */}
+                            {/* Scrollable container with max height */}
             <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0 flex flex-col">
                 {/* Close button */}
                 <button
                   className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
@@ -2562,13 +2562,13 @@ export default function InvestorDataRoom() {
                 </div>
                 
                                  {/* PDF Viewer Container */}
-                 <div className="p-2 pb-3">
-                   <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                 <div className="p-2 pb-3 flex-1 min-h-0">
+                   <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
                      <iframe
                        src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$1m.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMW0ucGRmIiwiaWF0IjoxNzUwMjgwMDM4LCJleHAiOjE3ODE4MTYwMzh9.rcy8tlyTbJZ0-3UCiEREXq9mJv696dsCMZygo1IHovU#view=FitH&zoom=110"
                        title="Adora AI Dynamic SAFE Note - $1M Investment Agreement"
-                       className="w-full h-[65vh] rounded-lg"
-                       style={{ minHeight: '500px' }}
+                       className="w-full h-full rounded-lg flex-1"
+                       style={{ minHeight: '400px' }}
                           />
                         </div>
                  </div>
@@ -2678,17 +2678,17 @@ export default function InvestorDataRoom() {
                   </div>
                 </div>
                 
-                {/* PDF Viewer Container */}
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe
-                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$322k%20Client.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMzIyayBDbGllbnQucGRmIiwiaWF0IjoxNzUwMjgyMjQ2LCJleHAiOjE3ODE4MTgyNDZ9.2Le6WTGQNFtx_doB8cUK6bshEJ6jIxj6VMzLZQ1Fjuw#view=FitH&zoom=110"
-                      title="Adora AI Client SAFE Note - $322K Investment Agreement"
-                      className="w-full h-[65vh] rounded-lg"
-                      style={{ minHeight: '500px' }}
+                                {/* PDF Viewer Container */}
+                 <div className="p-2 pb-3 flex-1 min-h-0">
+                   <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                     <iframe
+                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$322k%20Client.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMzIyayBDbGllbnQucGRmIiwiaWF0IjoxNzUwMjgyMjQ2LCJleHAiOjE3ODE4MTgyNDZ9.2Le6WTGQNFtx_doB8cUK6bshEJ6jIxj6VMzLZQ1Fjuw#view=FitH&zoom=110"
+                       title="Adora AI Client SAFE Note - $322K Investment Agreement"
+                       className="w-full h-full rounded-lg flex-1"
+                       style={{ minHeight: '400px' }}
                           />
                         </div>
-                </div>
+                 </div>
                 
                 {/* Action Buttons */}
                 <div className="px-2 pb-3">
@@ -2792,17 +2792,17 @@ export default function InvestorDataRoom() {
                   </div>
                 </div>
                 
-                {/* PDF Viewer Container */}
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe
-                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$250k.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMjUway5wZGYiLCJpYXQiOjE3NTAyODI0MjksImV4cCI6MTc4MTgxODQyOX0.XA9bFdsO30pZ4Rs62qBvxCC3-gniLuE4d97b0jS_54M#view=FitH&zoom=110"
-                      title="Adora AI Minimum SAFE Note - $250K Investment Agreement"
-                      className="w-full h-[65vh] rounded-lg"
-                      style={{ minHeight: '500px' }}
+                                {/* PDF Viewer Container */}
+                 <div className="p-2 pb-3 flex-1 min-h-0">
+                   <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                     <iframe
+                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/ADORA%20AI%20DYNAMIC%20SAFE%20NOTE%20$250k.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9BRE9SQSBBSSBEWU5BTUlDIFNBRkUgTk9URSAkMjUway5wZGYiLCJpYXQiOjE3NTAyODI0MjksImV4cCI6MTc4MTgxODQyOX0.XA9bFdsO30pZ4Rs62qBvxCC3-gniLuE4d97b0jS_54M#view=FitH&zoom=110"
+                       title="Adora AI Minimum SAFE Note - $250K Investment Agreement"
+                       className="w-full h-full rounded-lg flex-1"
+                       style={{ minHeight: '400px' }}
                           />
                         </div>
-                </div>
+                 </div>
                 
                 {/* Action Buttons */}
                 <div className="px-2 pb-3">
@@ -2898,14 +2898,14 @@ export default function InvestorDataRoom() {
                   </div>
                 </div>
                 
-                {/* PDF Viewer Container */}
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe
-                      src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Executive%20Summary%20-%20Invenstor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gRXhlY3V0aXZlIFN1bW1hcnkgLSBJbnZlbnN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDM1LCJleHAiOjE3ODIyNDMwMzV9.4qwtbk1jlpTzrNHyNBNb9Z5-anKZqgZzof6Z1iJSddw#view=FitH&zoom=110"
-                      title="Adora AI Executive Summary"
-                      className="w-full h-[65vh] rounded-lg"
-                      style={{ minHeight: '500px' }}
+                                {/* PDF Viewer Container */}
+                 <div className="p-2 pb-3 flex-1 min-h-0">
+                   <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                     <iframe
+                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Executive%20Summary%20-%20Invenstor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gRXhlY3V0aXZlIFN1bW1hcnkgLSBJbnZlbnN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA3MDM1LCJleHAiOjE3ODIyNDMwMzV9.4qwtbk1jlpTzrNHyNBNb9Z5-anKZqgZzof6Z1iJSddw#view=FitH&zoom=110"
+                       title="Adora AI Executive Summary"
+                       className="w-full h-full rounded-lg flex-1"
+                       style={{ minHeight: '400px' }}
                     />
                   </div>
                 </div>
@@ -3313,13 +3313,13 @@ export default function InvestorDataRoom() {
                   </div>
                 </div>
                 
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20AI%20Pin%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQUkgUGluIC0gSW52ZXN0b3IgT3ZlcnZpZXcucGRmIiwiaWF0IjoxNzUwNzA4Mjg3LCJleHAiOjE3ODIyNDQyODd9.HOdD2eCoN21xX-P1sPyL-mqVR8PEMX5mZ6xWhcHLahA#view=FitH&zoom=110"
                       title="Adora AI Pin"
-                      className="w-full h-[65vh] rounded-lg"
-                      style={{ minHeight: '500px' }}
+                      className="w-full h-full rounded-lg flex-1"
+                      style={{ minHeight: '400px' }}
                     />
                   </div>
                 </div>
@@ -3409,13 +3409,13 @@ export default function InvestorDataRoom() {
                   </div>
                 </div>
                 
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
                     <iframe
                       src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20B2C%20Player%20Pro%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gQjJDIFBsYXllciBQcm8gLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgyOTgsImV4cCI6MTc4MjI0NDI5OH0.B5UIMw-VpQqeL2pueoLMBkh4VdKiOX74GLGzZ0Sf_-8#view=FitH&zoom=110"
                       title="B2C Player Pro"
-                      className="w-full h-[65vh] rounded-lg"
-                      style={{ minHeight: '500px' }}
+                      className="w-full h-full rounded-lg flex-1"
+                      style={{ minHeight: '400px' }}
                     />
                   </div>
                 </div>
@@ -3466,9 +3466,9 @@ export default function InvestorDataRoom() {
                     <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Multi-Model Strategy & Cost-Control</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI model optimization and cost management</p></div>
                     </div>
-                    <div className="p-2 pb-3">
-                      <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo#view=FitH&zoom=110" title="Multi-Model Strategy & Cost-Control" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                    <div className="p-2 pb-3 flex-1 min-h-0">
+                      <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Multi-Model%20Strategy%20&%20Cost-Control%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gTXVsdGktTW9kZWwgU3RyYXRlZ3kgJiBDb3N0LUNvbnRyb2wgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzMTAsImV4cCI6MTc4MjI0NDMxMH0.b9aiJ3-eAcuQpzh2PmDIX6igL3_INN2kO1JBzqUtwRo#view=FitH&zoom=110" title="Multi-Model Strategy & Cost-Control" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                       </div>
                     </div>
                     <div className="px-2 pb-3">
@@ -3500,9 +3500,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Product Roadmap</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic product development timeline</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY#view=FitH&zoom=110" title="Product Roadmap" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Product%20Roadmap%20-%20%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUHJvZHVjdCBSb2FkbWFwIC0gIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMyNCwiZXhwIjoxNzgyMjQ0MzI0fQ.jKs0BDK9NDgxASGemnFUql4NZDwlo8xQC_W7v2cIeTY#view=FitH&zoom=110" title="Product Roadmap" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3534,9 +3534,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Recommendation System </h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">AI-powered recommendation engine design</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E#view=FitH&zoom=110" title="Recommendation System Architecture" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Recommendation%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gUmVjb21tZW5kYXRpb24gU3lzdGVtIEFyY2hpdGVjdHVyZSAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODMzNywiZXhwIjoxNzgyMjQ0MzM3fQ.NcGoH2mf6OOO4fvKSK_gnCQ2yQvIf4jqkgbKv-mVc5E#view=FitH&zoom=110" title="Recommendation System Architecture" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3602,9 +3602,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Unified Communication Hub</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Integrated communication platform architecture</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc#view=FitH&zoom=110" title="Unified Communication Hub" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20Unified%20Communication%20Hub%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVW5pZmllZCBDb21tdW5pY2F0aW9uIEh1YiAtIEludmVzdG9yIE92ZXJ2aWV3LnBkZiIsImlhdCI6MTc1MDcwODM4MiwiZXhwIjoxNzgyMjQ0MzgyfQ.Eia4JUOJyYMD0JWnwN1WPf8cX4TOU4aHljy58gUnMNc#view=FitH&zoom=110" title="Unified Communication Hub" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3636,9 +3636,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">User Management System</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">User authentication and management system</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU#view=FitH&zoom=110" title="User Management System Architecture" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Technology/Adora%20AI%20-%20User%20Management%20System%20Architecture%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9UZWNobm9sb2d5L0Fkb3JhIEFJIC0gVXNlciBNYW5hZ2VtZW50IFN5c3RlbSBBcmNoaXRlY3R1cmUgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA3MDgzOTksImV4cCI6MTc4MjI0NDM5OX0.D2jnJo7ur7_liUKxrLMR9zd5reki8czaWU7mebYRRrU#view=FitH&zoom=110" title="User Management System Architecture" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3670,9 +3670,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Go-To-Market Strategy</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive strategy for market entry and customer acquisition</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Adora%20AI%20-%20Go-To-Market%20Strategy%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvQWRvcmEgQUkgLSBHby1Uby1NYXJrZXQgU3RyYXRlZ3kgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA4NzExODUsImV4cCI6MTc4MjQwNzE4NX0.MUkrMElMw7TJ0xyPb9H2jl5WTGN_sbj1tW7fQ0Z-jCg#view=FitH&zoom=110" title="Go-To-Market Strategy" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Adora%20AI%20-%20Go-To-Market%20Strategy%20-%20Investor%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvQWRvcmEgQUkgLSBHby1Uby1NYXJrZXQgU3RyYXRlZ3kgLSBJbnZlc3RvciBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTA4NzExODUsImV4cCI6MTc4MjQwNzE4NX0.MUkrMElMw7TJ0xyPb9H2jl5WTGN_sbj1tW7fQ0Z-jCg#view=FitH&zoom=110" title="Go-To-Market Strategy" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3704,9 +3704,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Market Analysis May 2025</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Comprehensive AI market analysis and strategic positioning</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I#view=FitH&zoom=110" title="Market Analysis May 2025" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/Market%20Analysis%20May%202025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvTWFya2V0IEFuYWx5c2lzIE1heSAyMDI1LnBkZiIsImlhdCI6MTc1MDcwOTgxMiwiZXhwIjoxNzgyMjQ1ODEyfQ.R6gF-U6zrOfIUzq7AZYRz1Y_vFvQeNLlv-PJxFmeT1I#view=FitH&zoom=110" title="Market Analysis May 2025" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3738,9 +3738,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">The AI Storm: Today's Tech is Tomorrow Quicksand</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Strategic analysis of AI technology evolution and market disruption</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s#view=FitH&zoom=110" title="The AI Storm - Why Today's Tech is Tomorrow Quicksand" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/Go-To-Market/The%20AI%20Storm%20-%20Why%20Today's%20Tech%20is%20Tomorrow%20Quicksand.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9Hby1Uby1NYXJrZXQvVGhlIEFJIFN0b3JtIC0gV2h5IFRvZGF5J3MgVGVjaCBpcyBUb21vcnJvdyBRdWlja3NhbmQucGRmIiwiaWF0IjoxNzUwNzE0MDI2LCJleHAiOjE3ODIyNTAwMjZ9.nPf2gOUfRMWsppVqGYTQnWAtKuI6Mfdvbn9H9wppH-s#view=FitH&zoom=110" title="The AI Storm - Why Today's Tech is Tomorrow Quicksand" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3772,9 +3772,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Draft Operating Agreement</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Corporate governance and operational structure</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As#view=FitH&zoom=110" title="Draft Operating Agreement" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20AI%20-%20Draft%20Operating%20Agreement.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBBSSAtIERyYWZ0IE9wZXJhdGluZyBBZ3JlZW1lbnQucGRmIiwiaWF0IjoxNzUwNzEwNDc0LCJleHAiOjE3ODIyNDY0NzR9.q4vZTLjxVOL7GdSIMuVm5oa5ZNBPSWsgb2-G7Osf8As#view=FitH&zoom=110" title="Draft Operating Agreement" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3941,9 +3941,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Investor Memo</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Investment overview & highlights</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4#view=FitH&zoom=110" title="Investor Memo" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI%20-%20Investor%20Memo.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUkgLSBJbnZlc3RvciBNZW1vLnBkZiIsImlhdCI6MTc1MTU5MjAyNSwiZXhwIjoyMDY2OTUyMDI1fQ.nO4aWqjimnLlYEYSF7342gi2h4Oe7vXlQmi0AcQ_ob4#view=FitH&zoom=110" title="Investor Memo" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -3975,9 +3975,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Problem Thesis</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Market challenges we're solving</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNjU0MDk1LCJleHAiOjE3ODMxOTAwOTV9.lHYweC6qt9ZZ1FpWgpg2pdD6qqbnTNMrcBvOs4lEzIo#view=FitH&zoom=110" title="Problem Thesis" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Problem%20Thesis.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gUHJvYmxlbSBUaGVzaXMucGRmIiwiaWF0IjoxNzUxNjU0MDk1LCJleHAiOjE3ODMxOTAwOTV9.lHYweC6qt9ZZ1FpWgpg2pdD6qqbnTNMrcBvOs4lEzIo#view=FitH&zoom=110" title="Problem Thesis" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -4009,9 +4009,9 @@ export default function InvestorDataRoom() {
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Solution Matrix</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Our comprehensive approach</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTY1NDc2MCwiZXhwIjoxNzgzMTkwNzYwfQ.C-kAeHVg8ErzB3L82xoDnY9mLIRffUADQd1frupVkCc#view=FitH&zoom=110" title="Solution Matrix" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/company_overview/Adora%20AI%20-%20Solution%20Matrix.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9jb21wYW55X292ZXJ2aWV3L0Fkb3JhIEFJIC0gU29sdXRpb24gTWF0cml4LnBkZiIsImlhdCI6MTc1MTY1NDc2MCwiZXhwIjoxNzgzMTkwNzYwfQ.C-kAeHVg8ErzB3L82xoDnY9mLIRffUADQd1frupVkCc#view=FitH&zoom=110" title="Solution Matrix" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -4036,16 +4036,16 @@ export default function InvestorDataRoom() {
           <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowFinancialOutlineModal(false)} />
           <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
             <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0 flex flex-col">
                 <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowFinancialOutlineModal(false)} aria-label="Close">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Financial Outline</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Projections and key metrics</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUlfIDItWWVhciBGaW5hbmNpYWwgUHJvamVjdGlvbi5wZGYiLCJpYXQiOjE3NTA5NzU0MzAsImV4cCI6MTc4MjUxMTQzMH0.wd5Ibgcz3nHZUjCyPbTv4mibsQoyIACFae9SoPQLn9Q#view=FitH&zoom=110" title="Financial Outline" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/financial/Adora%20AI_%202-Year%20Financial%20Projection.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9maW5hbmNpYWwvQWRvcmEgQUlfIDItWWVhciBGaW5hbmNpYWwgUHJvamVjdGlvbi5wZGYiLCJpYXQiOjE3NTA5NzU0MzAsImV4cCI6MTc4MjUxMTQzMH0.wd5Ibgcz3nHZUjCyPbTv4mibsQoyIACFae9SoPQLn9Q#view=FitH&zoom=110" title="Financial Outline" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
@@ -4070,16 +4070,16 @@ export default function InvestorDataRoom() {
           <div className="fixed inset-0 bg-black/60 z-40 transition-opacity" onClick={() => setShowPatentRecordModal(false)} />
           <div className="fixed z-50 flex items-center justify-center p-4 sm:p-6 lg:p-8" style={{ top: '80px', left: '0', right: '0', bottom: '0', marginLeft: (() => { if (typeof window !== 'undefined' && window.innerWidth < 1024) { return '0px'; } if (isExpanded || isHovered) { return '290px'; } return '90px'; })(), transition: 'margin-left 300ms ease-in-out' }}>
             <div className="w-full max-w-7xl max-h-full overflow-y-auto">
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl relative min-h-0 flex flex-col">
                 <button className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-white dark:bg-gray-900 rounded-full p-2 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700" onClick={() => setShowPatentRecordModal(false)} aria-label="Close">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="p-6 pr-16 border-b border-gray-200 dark:border-gray-700">
                   <div><h3 className="text-xl font-bold text-gray-900 dark:text-white">Security Provisional Patent Record</h3><p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Provisional patent application and overview</p></div>
                 </div>
-                <div className="p-2 pb-3">
-                  <div className="w-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20Security%20Provisional%20Patent%20Record%20and%20Application%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBTZWN1cml0eSBQcm92aXNpb25hbCBQYXRlbnQgUmVjb3JkIGFuZCBBcHBsaWNhdGlvbiBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTE2NjAzNTAsImV4cCI6MTc4MzE5NjM1MH0.ps6bb0l_O-Yw_j0A4p23A0cHFkDzYFXKAwj3TRxQU7A#view=FitH&zoom=110" title="Security Provisional Patent Record" className="w-full h-[65vh] rounded-lg" style={{ minHeight: '500px' }} />
+                <div className="p-2 pb-3 flex-1 min-h-0">
+                  <div className="w-full h-full rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col">
+                    <iframe src="https://tnbsoahieqhejtoewmbt.supabase.co/storage/v1/object/sign/dataroom/legal/Adora%20Security%20Provisional%20Patent%20Record%20and%20Application%20Overview.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84NmZhMDAxZS1mMDUxLTQ4OTItYTc4Mi1jY2M4Y2ZjMTljZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkYXRhcm9vbS9sZWdhbC9BZG9yYSBTZWN1cml0eSBQcm92aXNpb25hbCBQYXRlbnQgUmVjb3JkIGFuZCBBcHBsaWNhdGlvbiBPdmVydmlldy5wZGYiLCJpYXQiOjE3NTE2NjAzNTAsImV4cCI6MTc4MzE5NjM1MH0.ps6bb0l_O-Yw_j0A4p23A0cHFkDzYFXKAwj3TRxQU7A#view=FitH&zoom=110" title="Security Provisional Patent Record" className="w-full h-full rounded-lg flex-1" style={{ minHeight: '400px' }} />
                   </div>
                 </div>
                 <div className="px-2 pb-3">
