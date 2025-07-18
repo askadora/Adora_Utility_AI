@@ -86,7 +86,7 @@ export default function MarketingDashboard() {
       </section>
 
       {/* AI-Powered Marketing Tools with Tabs */}
-      <ComponentCard title="AI-Powered Marketing Tools" desc="Advanced content creation, campaign optimization, and analytics insights">
+      <ComponentCard title="AI-Powered Marketing Tools" description="Advanced content creation, campaign optimization, and analytics insights">
         {/* Tab Navigation */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">

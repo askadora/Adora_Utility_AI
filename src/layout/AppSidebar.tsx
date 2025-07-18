@@ -520,13 +520,13 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-3 sm:px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
-            ? "w-[290px]"
+            ? "w-[280px] sm:w-[290px]"
             : isHovered
-            ? "w-[290px]"
-            : "w-[90px]"
+            ? "w-[280px] sm:w-[290px]"
+            : "w-[80px] sm:w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}
@@ -538,25 +538,25 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link href="/">
+        <Link href="/" className="flex items-center">
           {isExpanded || isHovered || isMobileOpen ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Image
-                className="dark:hidden w-10 h-10 lg:w-11 lg:h-11"
+                className="dark:hidden w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11"
                 src="/images/logo/adora-ai-logo.png"
                 alt="Adora AI Logo"
                 width={40}
                 height={40}
               />
               <Image
-                className="hidden dark:block w-10 h-10 lg:w-11 lg:h-11"
+                className="hidden dark:block w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11"
                 src="/images/logo/adora-ai-logo.png"
                 alt="Adora AI Logo"
                 width={40}
                 height={40}
               />
               <Image
-                className="dark:hidden h-8 w-auto"
+                className="dark:hidden h-6 sm:h-8 w-auto"
                 src="/images/logo/adora-ai-dark-grey-logo.png"
                 alt="Adora AI Wordmark"
                 width={160}
@@ -564,7 +564,7 @@ const AppSidebar: React.FC = () => {
                 style={{ objectFit: 'contain' }}
               />
               <Image
-                className="hidden dark:block h-8 w-auto"
+                className="hidden dark:block h-6 sm:h-8 w-auto"
                 src="/images/logo/adora-ai-white-logo.png"
                 alt="Adora AI Wordmark"
                 width={160}
@@ -574,7 +574,7 @@ const AppSidebar: React.FC = () => {
             </div>
           ) : (
             <Image
-              className="w-10 h-10 lg:w-11 lg:h-11"
+              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11"
               src="/images/logo/adora-ai-logo.png"
               alt="Adora AI Logo"
               width={44}
@@ -583,12 +583,12 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar mt-[40px]">
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar mt-[40px] pb-4">
         <nav className="mb-6">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 sm:gap-4">
             <div>
               <h2
-                className={`hidden mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`hidden mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -605,7 +605,7 @@ const AppSidebar: React.FC = () => {
 
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -622,7 +622,7 @@ const AppSidebar: React.FC = () => {
 
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -639,7 +639,7 @@ const AppSidebar: React.FC = () => {
 
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -656,7 +656,7 @@ const AppSidebar: React.FC = () => {
 
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"

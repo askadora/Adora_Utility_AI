@@ -29,7 +29,7 @@ export default function Buttons() {
         {/* PRIMARY BUTTONS SECTION */}
         <ComponentCard 
           title="Primary Buttons" 
-          desc="Main action buttons with solid background and high visual prominence"
+          description="Main action buttons with solid background and high visual prominence"
         >
           {/* 
             BUTTON GROUP - FLEXBOX (1D) Layout
@@ -50,7 +50,7 @@ export default function Buttons() {
         {/* PRIMARY BUTTONS WITH LEFT ICON */}
         <ComponentCard 
           title="Primary Buttons with Left Icon" 
-          desc="Primary buttons enhanced with leading icons for better visual communication"
+          description="Primary buttons enhanced with leading icons for better visual communication"
         >
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm" variant="primary" startIcon={<BoxIcon />}>
@@ -65,7 +65,7 @@ export default function Buttons() {
         {/* PRIMARY BUTTONS WITH RIGHT ICON */}
         <ComponentCard 
           title="Primary Buttons with Right Icon" 
-          desc="Primary buttons with trailing icons, commonly used for actions like 'Next' or 'Submit'"
+          description="Primary buttons with trailing icons, commonly used for actions like 'Next' or 'Submit'"
         >
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm" variant="primary" endIcon={<BoxIcon />}>
@@ -80,7 +80,7 @@ export default function Buttons() {
         {/* SECONDARY/OUTLINE BUTTONS */}
         <ComponentCard 
           title="Secondary Buttons" 
-          desc="Outline buttons for secondary actions with subtle visual hierarchy"
+          description="Outline buttons for secondary actions with subtle visual hierarchy"
         >
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm" variant="outline">
@@ -95,7 +95,7 @@ export default function Buttons() {
         {/* OUTLINE BUTTONS WITH LEFT ICON */}
         <ComponentCard 
           title="Outline Buttons with Left Icon" 
-          desc="Secondary buttons with leading icons for enhanced usability"
+          description="Secondary buttons with leading icons for enhanced usability"
         >
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm" variant="outline" startIcon={<BoxIcon />}>
@@ -110,7 +110,7 @@ export default function Buttons() {
         {/* OUTLINE BUTTONS WITH RIGHT ICON */}
         <ComponentCard 
           title="Outline Buttons with Right Icon" 
-          desc="Secondary buttons with trailing icons for directional or confirmatory actions"
+          description="Secondary buttons with trailing icons for directional or confirmatory actions"
         >
           <div className="flex flex-wrap items-center gap-4">
             <Button size="sm" variant="outline" endIcon={<BoxIcon />}>
@@ -125,7 +125,7 @@ export default function Buttons() {
         {/* BUTTON COMBINATIONS SHOWCASE */}
         <ComponentCard 
           title="Button Combinations" 
-          desc="Common button groupings and layouts used in real-world applications"
+          description="Common button groupings and layouts used in real-world applications"
         >
           {/* 
             BUTTON COMBINATIONS - Multiple FLEXBOX (1D) layouts

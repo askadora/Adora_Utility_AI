@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev --",
-    "dev:local": "cross-env NODE_ENV=development next dev --hostname",
+    "dev:local": "cross-env NODE_ENV=development next dev --hostname 0.0.0.0",
     "dev:prod": "cross-env NODE_ENV=production next dev --",
     "build": "cross-env NODE_ENV=production next build",
     "build:local": "cross-env NODE_ENV=local next build",

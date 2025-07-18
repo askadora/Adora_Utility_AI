@@ -118,39 +118,39 @@ export default function InvestorDashboard() {
 
       {/* Portfolio Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ComponentCard title="Total Capital Invested" desc="Total value of all investments">
+        <ComponentCard title="Total Capital Invested" description="Total value of all investments">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$1,150,000</div>
           <p className="text-sm text-green-600 dark:text-green-400">+15% YTD</p>
         </ComponentCard>
 
-        <ComponentCard title="Private Portfolio" desc="Private equity and startup investments">
+        <ComponentCard title="Private Portfolio" description="Private equity and startup investments">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$560,000</div>
           <p className="text-sm text-green-600 dark:text-green-400">+12% YTD</p>
         </ComponentCard>
 
-        <ComponentCard title="Public Portfolio" desc="Public stocks and ETFs">
+        <ComponentCard title="Public Portfolio" description="Public stocks and ETFs">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$340,000</div>
           <p className="text-sm text-green-600 dark:text-green-400">+8% YTD</p>
         </ComponentCard>
 
-        <ComponentCard title="Real Estate" desc="Property investments">
+        <ComponentCard title="Real Estate" description="Property investments">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$500,000</div>
           <p className="text-sm text-green-600 dark:text-green-400">+12% YTD</p>
         </ComponentCard>
 
-        <ComponentCard title="Liquidity" desc="Available cash and liquid assets">
+        <ComponentCard title="Liquidity" description="Available cash and liquid assets">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$250,000</div>
           <p className="text-sm text-gray-600 dark:text-gray-400">Available for investment</p>
         </ComponentCard>
 
-        <ComponentCard title="Total Line of Credit" desc="Available credit facilities">
+        <ComponentCard title="Total Line of Credit" description="Available credit facilities">
           <div className="text-3xl font-bold text-gray-900 dark:text-white">$1,000,000</div>
           <p className="text-sm text-gray-600 dark:text-gray-400">$750,000 utilized</p>
         </ComponentCard>
       </div>
 
       {/* Portfolio Performance Chart */}
-      <ComponentCard title="Portfolio Performance" desc="Track your investments over time">
+      <ComponentCard title="Portfolio Performance" description="Track your investments over time">
         <div className="h-[400px]">
           <Line
             data={portfolioData}
@@ -181,7 +181,7 @@ export default function InvestorDashboard() {
       </ComponentCard>
 
       {/* Investment List */}
-      <ComponentCard title="Investment Portfolio" desc="Detailed view of all investments">
+      <ComponentCard title="Investment Portfolio" description="Detailed view of all investments">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
