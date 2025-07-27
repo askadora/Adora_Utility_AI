@@ -9,6 +9,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/AuthContext';
+import Image from 'next/image';
 
 type MessageRole = 'user' | 'assistant';
 
@@ -24,6 +25,27 @@ interface ModelConversation {
   messages: Message[];
   isLoading: boolean;
 }
+
+// ModelIcon component to display logo with fallback
+const ModelIcon = ({ model, size = 20 }: { model?: Model, size?: number }) => {
+  if (!model) return null;
+  
+  if (model.logo) {
+    return (
+      <div className="flex-shrink-0" style={{ width: size, height: size }}>
+        <Image 
+          src={model.logo} 
+          alt={`${model.name} logo`}
+          width={size}
+          height={size}
+          className="object-contain"
+        />
+      </div>
+    );
+  }
+  
+  return <span className="flex-shrink-0" style={{ fontSize: size }}>{model.icon}</span>;
+};
 
 // Add markdown preprocessing function
 const preprocessMarkdown = (content: string): string => {
@@ -525,7 +547,7 @@ export default function MultiChat() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <span className="text-2xl">{model?.icon}</span>
+            <ModelIcon model={model} size={32} />
             <div>
               <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{model?.name}</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">{model?.description}</p>
@@ -544,7 +566,7 @@ export default function MultiChat() {
             {conversation?.messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
                 <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                  <span className="text-3xl">{model?.icon}</span>
+                  <ModelIcon model={model} size={48} />
                 </div>
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   Chat with {model?.name}
@@ -560,7 +582,7 @@ export default function MultiChat() {
                     <div className={`flex gap-4 ${message.role === 'user' ? 'justify-end' : ''}`}>
                       {message.role === 'assistant' && (
                         <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-sm">{model?.icon}</span>
+                          <ModelIcon model={model} size={20} />
                         </div>
                       )}
                       
@@ -686,11 +708,11 @@ export default function MultiChat() {
                 ))}
                 
                 {conversation?.isLoading && (
-                  <div className="group">
-                    <div className="flex gap-4">
-                      <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-sm">{model?.icon}</span>
-                      </div>
+                                      <div className="group">
+                      <div className="flex gap-4">
+                        <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                          <ModelIcon model={model} size={20} />
+                        </div>
                       <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <div className="flex space-x-1">
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
@@ -736,11 +758,31 @@ export default function MultiChat() {
       {/* Header */}
       <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Synthesize</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Compare responses from multiple AI models simultaneously
-            </p>
+            {/* Info tooltip */}
+            <div className="relative group">
+              <button className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+              
+              {/* Tooltip */}
+              <div className="absolute top-full left-0 mt-2 w-80 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                <div className="font-semibold text-purple-300 mb-2">✨ What is Synthesize?</div>
+                <div className="space-y-1">
+                  <div>• <strong>Combines</strong> insights from all your selected models</div>
+                  <div>• <strong>Eliminates</strong> redundant information</div>
+                  <div>• <strong>Preserves</strong> unique perspectives from each AI</div>
+                  <div>• <strong>Highlights</strong> dissent where AI models disagree</div>
+                  <div>• <strong>Creates</strong> one superior, comprehensive response</div>
+                </div>
+                <div className="mt-2 text-xs text-purple-200">
+                  Powered by Adora AI's proprietary synthesis engine
+                </div>
+              </div>
+            </div>
           </div>
           
           <div className="flex items-center gap-3">
@@ -761,13 +803,14 @@ export default function MultiChat() {
                   <button
                     key={model.id}
                     onClick={() => toggleModelSelection(model.id)}
-                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors flex items-center gap-2 ${
                       selectedModels.includes(model.id)
                         ? 'bg-blue-100 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
                         : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
                     }`}
                   >
-                    {model.icon} {model.name}
+                    <ModelIcon model={model} size={16} />
+                    <span>{model.name}</span>
                   </button>
                 ))}
               </div>
@@ -931,7 +974,7 @@ export default function MultiChat() {
                 <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-t-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-lg flex-shrink-0">{model?.icon}</span>
+                      <ModelIcon model={model} size={24} />
                       <div className="min-w-0">
                         <select
                           value={modelVersions[modelId]}
@@ -974,7 +1017,7 @@ export default function MultiChat() {
                   {conversation?.messages.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center">
                       <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3">
-                        <span className="text-xl">{model?.icon}</span>
+                        <ModelIcon model={model} size={32} />
                       </div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         Waiting for your message...
