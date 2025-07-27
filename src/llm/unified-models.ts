@@ -11,6 +11,7 @@ export interface Model {
   name: string;
   description: string;
   icon: string;
+  logo?: string;
   versions: ModelVersion[];
   capabilities?: string[];
 }
@@ -21,6 +22,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'ChatGPT',
     description: 'OpenAI\'s advanced language model',
     icon: '🤖',
+    logo: '/images/AI-Images/OpenAI-black-monoblossom.svg',
     capabilities: ['💬', '🔍', '📊'],
     versions: [
       { id: 'gpt-4.1-nano', name: 'GPT-4.1 Nano', modelKey: 'gpt-4.1-nano', description: 'Fast lightweight version', available: true },
@@ -35,6 +37,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Claude',
     description: 'Anthropic\'s conversational AI',
     icon: '🧠',
+    logo: '/images/AI-Images/claude-ai-icon.svg',
     capabilities: ['💬', '📝', '🔍'],
     versions: [
       { id: 'claude-3.7', name: 'Claude 3.7 Sonnet', modelKey: 'anthropic/claude-3-7-sonnet-latest', description: 'Latest Claude model', available: true },
@@ -47,6 +50,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Gemini',
     description: 'Google\'s multimodal AI model',
     icon: '🔍',
+    logo: '/images/AI-Images/gemini-color.svg',
     capabilities: ['💬', '🔍', '🌐', '📊'],
     versions: [
       { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', modelKey: 'google/gemini-2.0-flash-001', description: 'Balanced version', available: true },
@@ -59,6 +63,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Grok',
     description: 'xAI\'s real-time AI model',
     icon: '⚡',
+    logo: '/images/AI-Images/grok.svg',
     capabilities: ['💬', '🌐', '📈'],
     versions: [
       { id: 'grok-3-mini', name: 'Grok 3 Mini', modelKey: 'grok-3-mini', description: 'Fast efficient version', available: true }
@@ -69,6 +74,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Perplexity',
     description: 'Advanced search and research AI',
     icon: '🔎',
+    logo: '/images/AI-Images/perplexity-color.svg',
     capabilities: ['💬', '🔍', '🌐'],
     versions: [
       { id: 'sonar', name: 'Sonar', modelKey: 'sonar', description: 'Standard version', available: true },
@@ -83,6 +89,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Mistral',
     description: 'European AI model',
     icon: '🦅',
+    logo: '/images/AI-Images/mistral-color.svg',
     capabilities: ['💬', '📝'],
     versions: [
       { id: 'mistral-small-24B', name: 'Mistral Small 24B Instruct', modelKey: 'mistralai/Mistral-Small-24B-Instruct-2501', description: 'General purpose', available: true },
@@ -95,6 +102,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'DeepSeek',
     description: 'Advanced reasoning and coding AI',
     icon: '🎯',
+    logo: '/images/AI-Images/deepseek-color.svg',
     capabilities: ['💬', '💻', '🧮'],
     versions: [
       { id: 'deepseek-v3-0324', name: 'DeepSeek V3-0324', modelKey: 'deepseek-ai/DeepSeek-V3-0324', description: 'Latest version', available: true },
@@ -107,6 +115,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Qwen',
     description: 'Alibaba\'s multilingual AI model',
     icon: '🌟',
+    logo: '/images/AI-Images/qwen-color.svg',
     capabilities: ['💬', '🌐', '📝', '🔍'],
     versions: [
       { id: 'qwen3-32B', name: 'Qwen 3 32B', modelKey: 'Qwen/Qwen3-32B', description: 'Large version', available: true },
@@ -120,6 +129,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Llama',
     description: 'Meta\'s open-source language model',
     icon: '🦙',
+    logo: '/images/AI-Images/meta-color.svg',
     capabilities: ['💬', '📝', '🔍'],
     versions: [
       { id: 'llama-3.2-3b', name: 'Llama 3.2 3B', modelKey: 'meta-llama/Llama-3.2-3B-Instruct', description: 'Lightweight', available: true },
@@ -133,6 +143,7 @@ export const UNIFIED_MODELS: Model[] = [
     name: 'Phi',
     description: 'Microsoft\'s small language model',
     icon: '🔬',
+    logo: '/images/AI-Images/phi-2.png',
     capabilities: ['💬', '📊', '🧮'],
     versions: [
       { id: 'phi-4', name: 'Phi 4', modelKey: 'microsoft/phi-4', description: 'Latest version', available: true },
