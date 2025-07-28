@@ -10,6 +10,7 @@ import { Agenda } from "@/components/home/Agenda";
 
 import { CommunityFeed } from "@/components/home/CommunityFeed";
 import { QuickActions } from "@/components/home/QuickActions";
+import { LearningHub } from "@/components/home/LearningHub";
 import { Events } from "@/components/home/Events";
 
 export const metadata: Metadata = {
@@ -69,6 +70,9 @@ export default function Home() {
 
       {/* QUICK ACTIONS */}
       <QuickActions />
+
+      {/* LEARNING HUB - Combined Onboarding & Videos */}
+      <LearningHub />
 
       {/* EVENTS SECTION */}
       <Events />
