@@ -1209,123 +1209,7 @@ export default function Settings() {
                 </div>
                               </div>
 
-              {/* Founding Org Offer Section */}
-              <div className="mt-12 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-2xl p-8 border border-purple-200 dark:border-purple-800">
-                <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                    🟣 Founding Org Offer — Ends Dec 31, 2025
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                    Lock in $6,000/month with Unlimited Users Forever
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-                    As an existing user, you have priority access to our Founding Org pricing. This exclusive offer ends December 31st, 2025.
-                  </p>
-                </div>
 
-                <div className="grid md:grid-cols-2 gap-8 mb-8">
-                  {/* 2025 Founding Org Pricing */}
-                  <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-purple-300 dark:border-purple-700 relative">
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-purple-600 text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
-                        🟣 Founding Org (2025)
-                      </span>
-                    </div>
-                    <div className="text-center pt-2">
-                      <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Your Exclusive Rate</h4>
-                      <div className="mb-4">
-                        <span className="text-3xl font-bold text-purple-600">$6,000</span>
-                        <span className="text-gray-500 dark:text-gray-400">/month</span>
-                      </div>
-                      <div className="space-y-3 text-sm">
-                        <div className="flex justify-between">
-                          <span>Included Users</span>
-                          <span className="font-semibold text-purple-600">Unlimited ✨</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Extra Users</span>
-                          <span className="font-semibold text-purple-600">$0</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Included CU</span>
-                          <span className="font-semibold">500,000</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Extra CU</span>
-                          <span className="font-semibold">+100K for $1,000</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Price Lock</span>
-                          <span className="font-semibold text-green-600">Forever</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 2026+ Standard Pricing */}
-                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 border border-gray-300 dark:border-gray-600 relative opacity-75">
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-gray-500 text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
-                        2026+ Standard
-                      </span>
-                    </div>
-                    <div className="text-center pt-2">
-                      <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">What You'd Pay Later</h4>
-                      <div className="mb-4">
-                        <span className="text-3xl font-bold text-gray-600">$8,000</span>
-                        <span className="text-gray-500 dark:text-gray-400">/month</span>
-                      </div>
-                      <div className="space-y-3 text-sm">
-                        <div className="flex justify-between">
-                          <span>Included Users</span>
-                          <span className="font-semibold">30 only</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Extra Users</span>
-                          <span className="font-semibold">$197/user</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Included CU</span>
-                          <span className="font-semibold">500,000</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Extra CU</span>
-                          <span className="font-semibold">+100K for $1,000</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Price Lock</span>
-                          <span className="font-semibold text-red-600">None</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl p-4 border border-purple-200 dark:border-purple-700 mb-6">
-                    <div className="text-2xl">💰</div>
-                    <div className="text-left">
-                      <div className="text-lg font-semibold text-gray-900 dark:text-white">Save $24,000+ per year</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-300">Plus unlimited users at no extra cost</div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <button 
-                      onClick={() => handleUpgrade('founding-org')}
-                      className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                    >
-                      🔒 Lock in Founding Org Rate Now
-                    </button>
-                    <div className="text-xs text-red-600 dark:text-red-400 font-medium">
-                      ⏰ Offer expires December 31, 2025 • Limited availability
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      Contact sales@adora.ai or book a demo to secure your rate
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* CU Explanation Accordion */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
@@ -1517,24 +1401,152 @@ export default function Settings() {
                     </button>
                   </div>
 
-                  {/* Enterprise Block - Not available for current Pro plan */}
-                  <div className="bg-purple-50 dark:bg-purple-900/10 rounded-xl p-4 border border-purple-200 dark:border-purple-800/50 opacity-60">
+                  {/* Enterprise Block - Requires ORG upgrade */}
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4 border-2 border-purple-300 dark:border-purple-600 relative overflow-hidden">
+                    {/* Premium indicator */}
+                    <div className="absolute top-2 right-2 w-2 h-2 bg-purple-400 dark:bg-purple-300 rounded-full animate-pulse"></div>
+                    
                     <div className="flex items-center justify-between mb-3">
-                      <h5 className="font-medium text-purple-400 dark:text-purple-500">Enterprise Block</h5>
-                      <span className="text-xs bg-purple-200 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 px-2 py-1 rounded-full">
-                        ORG Only
+                      <h5 className="font-medium text-purple-700 dark:text-purple-200">Enterprise Block</h5>
+                      <span className="text-xs bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1 rounded-full font-medium shadow-sm">
+                        ⭐ ORG Only
                       </span>
                     </div>
                     <div className="space-y-1 mb-4">
-                      <p className="text-sm font-semibold text-purple-400 dark:text-purple-500">+100,000 CU</p>
-                      <p className="text-lg font-bold text-purple-400 dark:text-purple-500">$1,000</p>
+                      <p className="text-sm font-semibold text-purple-600 dark:text-purple-300">+100,000 CU</p>
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-lg font-bold text-purple-700 dark:text-purple-200">$1,000</p>
+                        <span className="text-xs text-purple-500 dark:text-purple-400">per block</span>
+                      </div>
                     </div>
                     <button 
                       disabled
-                      className="w-full px-3 py-2 bg-purple-200 text-purple-500 text-sm rounded-lg cursor-not-allowed dark:bg-purple-900/20 dark:text-purple-400"
+                      className="w-full px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-sm rounded-lg cursor-not-allowed opacity-75 hover:opacity-90 transition-opacity relative overflow-hidden group"
                     >
-                      Requires ORG
+                      <span className="relative z-10">Upgrade to ORG Plan</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </button>
+                    <p className="text-xs text-purple-600 dark:text-purple-300 text-center mt-2 font-medium">
+                      💎 Premium Enterprise Feature
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Founding Org Offer Section */}
+              <div className="mt-12 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-2xl p-8 border border-purple-200 dark:border-purple-800">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    🟣 Founding Org Offer — Ends Dec 31, 2025
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                    Lock in $6,000/month with Unlimited Users Forever
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-100 mb-6 max-w-2xl mx-auto">
+                    As an existing user, you have priority access to our Founding Org pricing. This exclusive offer ends December 31st, 2025.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  {/* 2025 Founding Org Pricing */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-purple-300 dark:border-purple-600 relative">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-purple-600 dark:bg-purple-600 text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
+                        🟣 Founding Org (2025)
+                      </span>
+                    </div>
+                    <div className="text-center pt-2">
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Your Exclusive Rate</h4>
+                      <div className="mb-4">
+                        <span className="text-3xl font-bold text-purple-600 dark:text-purple-300">$6,000</span>
+                        <span className="text-gray-500 dark:text-gray-300">/month</span>
+                      </div>
+                      <div className="space-y-3 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Included Users</span>
+                          <span className="font-semibold text-purple-600 dark:text-purple-300">Unlimited ✨</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Extra Users</span>
+                          <span className="font-semibold text-purple-600 dark:text-purple-300">$0</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Included CU</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">500,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Extra CU</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">+100K for $1,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Price Lock</span>
+                          <span className="font-semibold text-green-600 dark:text-green-300">Forever</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2026+ Standard Pricing */}
+                  <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 border border-gray-300 dark:border-gray-600 relative">
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-gray-500 dark:bg-gray-600 text-white text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap shadow-sm">
+                        2026+ Standard
+                      </span>
+                    </div>
+                    <div className="text-center pt-2 opacity-75 dark:opacity-90">
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">What You'd Pay Later</h4>
+                      <div className="mb-4">
+                        <span className="text-3xl font-bold text-gray-600 dark:text-gray-100">$8,000</span>
+                        <span className="text-gray-500 dark:text-gray-300">/month</span>
+                      </div>
+                      <div className="space-y-3 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Included Users</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">30 only</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Extra Users</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">$197/user</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Included CU</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">500,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Extra CU</span>
+                          <span className="font-semibold text-gray-800 dark:text-white">+100K for $1,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-700 dark:text-gray-100">Price Lock</span>
+                          <span className="font-semibold text-red-600 dark:text-red-300">None</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl p-4 border border-purple-200 dark:border-purple-700 mb-6">
+                    <div className="text-2xl">💰</div>
+                    <div className="text-left">
+                      <div className="text-lg font-semibold text-gray-900 dark:text-white">Save $24,000+ per year</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-100">Plus unlimited users at no extra cost</div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <button 
+                      onClick={() => handleUpgrade('founding-org')}
+                      className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
+                      🔒 Lock in Founding Org Rate Now
+                    </button>
+                    <div className="text-xs text-red-600 dark:text-red-400 font-medium">
+                      ⏰ Offer expires December 31, 2025 • Limited availability
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-300">
+                      Contact sales@adora.ai or book a demo to secure your rate
+                    </div>
                   </div>
                 </div>
               </div>
