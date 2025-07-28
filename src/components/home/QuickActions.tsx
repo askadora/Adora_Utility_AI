@@ -2,51 +2,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { PlusIcon, ArrowUpIcon, ChevronDownIcon, ChevronUpIcon } from "@/icons";
-
-interface Meeting {
-  id: number;
-  title: string;
-  time: string;
-  attendees: string;
-  completed: boolean;
-}
+import { PlusIcon, ArrowUpIcon } from "@/icons";
 
 export const QuickActions: React.FC = () => {
   const router = useRouter();
   const [isServiceHealthExpanded, setIsServiceHealthExpanded] = useState(false);
-  const [isAgendaExpanded, setIsAgendaExpanded] = useState(false);
-  const [meetings, setMeetings] = useState<Meeting[]>([
-    {
-      id: 1,
-      title: "Product Strategy Review",
-      time: "9:00 AM - 10:00 AM",
-      attendees: "Sarah, Mike, David",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Customer Feedback Session",
-      time: "2:00 PM - 3:00 PM",
-      attendees: "Emma, John",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Sprint Planning",
-      time: "4:00 PM - 5:00 PM",
-      attendees: "Dev Team",
-      completed: true,
-    },
-  ]);
-
-  const toggleMeeting = (id: number) => {
-    setMeetings(prev => 
-      prev.map(meeting => 
-        meeting.id === id ? { ...meeting, completed: !meeting.completed } : meeting
-      )
-    );
-  };
 
   const services = [
     { name: "API Gateway", status: "operational", uptime: "99.9%" },
@@ -143,95 +103,7 @@ export const QuickActions: React.FC = () => {
             </div>
             </Link>
 
-            {/* Today's Agenda Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setIsAgendaExpanded(!isAgendaExpanded)}
-                className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span className="font-medium text-gray-700 dark:text-gray-300">
-                  Today's Agenda
-                </span>
-                {isAgendaExpanded ? (
-                  <ChevronUpIcon className="w-4 h-4" />
-                ) : (
-                  <ChevronDownIcon className="w-4 h-4" />
-                )}
-              </button>
 
-              {/* Today's Agenda Dropdown */}
-              {isAgendaExpanded && (
-                <div className="absolute top-full right-0 mt-2 w-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-sm font-semibold text-gray-800 dark:text-white/90">
-                        Today's Agenda
-                      </h4>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {new Date().toLocaleDateString('en-US', { 
-                          weekday: 'long', 
-                          month: 'short', 
-                          day: 'numeric' 
-                        })}
-                      </span>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      {meetings.map((meeting) => (
-                        <div 
-                          key={meeting.id}
-                          className={`flex items-start gap-3 p-3 rounded-lg border transition-all ${
-                            meeting.completed 
-                              ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-500/10' 
-                              : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
-                          }`}
-                        >
-                          <button
-                            onClick={() => toggleMeeting(meeting.id)}
-                            className={`flex-shrink-0 w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${
-                              meeting.completed
-                                ? 'border-green-500 bg-green-500 text-white'
-                                : 'border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500'
-                            }`}
-                          >
-                            {meeting.completed && (
-                              <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
-                            )}
-                          </button>
-                          
-                          <div className="flex-1">
-                            <h5 className={`text-xs font-medium mb-1 ${
-                              meeting.completed 
-                                ? 'text-gray-600 line-through dark:text-gray-400' 
-                                : 'text-gray-900 dark:text-white/90'
-                            }`}>
-                              {meeting.title}
-                            </h5>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                              {meeting.time}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                              {meeting.attendees}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-                      <Link href="/adoralink?view=calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-                        View full calendar →
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* Service Health Status */}
             <div className="relative">
@@ -244,9 +116,13 @@ export const QuickActions: React.FC = () => {
                   All systems operational
                 </span>
                 {isServiceHealthExpanded ? (
-                  <ChevronUpIcon className="w-4 h-4" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
                 ) : (
-                  <ChevronDownIcon className="w-4 h-4" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 )}
               </button>
 
@@ -303,94 +179,9 @@ export const QuickActions: React.FC = () => {
               Quick Actions
             </h3>
             
-            {/* Mobile Today's Agenda and Service Health */}
+            {/* Mobile Service Health */}
             <div className="flex items-center gap-2">
-              {/* Mobile Today's Agenda */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsAgendaExpanded(!isAgendaExpanded)}
-                  className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
-                >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Agenda
-                  </span>
-                  {isAgendaExpanded ? (
-                    <ChevronUpIcon className="w-3 h-3" />
-                  ) : (
-                    <ChevronDownIcon className="w-3 h-3" />
-                  )}
-                </button>
 
-                {/* Mobile Today's Agenda Dropdown */}
-                {isAgendaExpanded && (
-                  <div className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                    <div className="p-3">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-sm font-semibold text-gray-800 dark:text-white/90">
-                          Today's Agenda
-                        </h4>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date().toLocaleDateString('en-US', { 
-                            weekday: 'short', 
-                            month: 'short', 
-                            day: 'numeric' 
-                          })}
-                        </span>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        {meetings.map((meeting) => (
-                          <div 
-                            key={meeting.id}
-                            className={`flex items-start gap-2 p-2 rounded-lg border transition-all ${
-                              meeting.completed 
-                                ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-500/10' 
-                                : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
-                            }`}
-                          >
-                            <button
-                              onClick={() => toggleMeeting(meeting.id)}
-                              className={`flex-shrink-0 w-3 h-3 rounded border-2 flex items-center justify-center transition-colors ${
-                                meeting.completed
-                                  ? 'border-green-500 bg-green-500 text-white'
-                                  : 'border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500'
-                              }`}
-                            >
-                              {meeting.completed && (
-                                <svg className="w-2 h-2" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                              )}
-                            </button>
-                            
-                            <div className="flex-1">
-                              <h5 className={`text-xs font-medium mb-1 ${
-                                meeting.completed 
-                                  ? 'text-gray-600 line-through dark:text-gray-400' 
-                                  : 'text-gray-900 dark:text-white/90'
-                              }`}>
-                                {meeting.title}
-                              </h5>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                {meeting.time}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      <div className="mt-3 pt-2 border-t border-gray-100 dark:border-gray-700">
-                        <Link href="/adoralink?view=calendar" className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-                          View full calendar →
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
 
               {/* Mobile Service Health Status */}
               <div className="relative">
@@ -403,9 +194,13 @@ export const QuickActions: React.FC = () => {
                     All operational
                   </span>
                   {isServiceHealthExpanded ? (
-                    <ChevronUpIcon className="w-3 h-3" />
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    </svg>
                   ) : (
-                    <ChevronDownIcon className="w-3 h-3" />
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   )}
                 </button>
 

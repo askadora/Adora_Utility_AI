@@ -117,6 +117,20 @@ const getFirstAvailableVersion = (modelId: string): string => {
   return availableVersion ? availableVersion.id : model.versions[0]?.id || '';
 };
 
+// Pro roles data
+const proRoles = [
+  { id: 'ceo', name: 'CEO', description: 'Chief Executive Officer - Vision, leadership, market positioning, competitive strategy' },
+  { id: 'cfo', name: 'CFO', description: 'Chief Financial Officer - Financial modeling, risk assessment, capital allocation, ROI' },
+  { id: 'cto', name: 'CTO', description: 'Chief Technology Officer - Technical feasibility, architecture, scalability, innovation risk' },
+  { id: 'cmo', name: 'CMO', description: 'Chief Marketing Officer - Market positioning, customer insight, GTM strategy, brand resonance' },
+  { id: 'coo', name: 'COO', description: 'Chief Operating Officer - Execution, logistics, ops scalability, process optimization' },
+  { id: 'chro', name: 'CHRO', description: 'Chief People/HR Officer - Talent alignment, org culture, change readiness, internal messaging' },
+  { id: 'ciso', name: 'CISO', description: 'Chief Information Security Officer - Security risk, data governance, compliance, privacy' },
+  { id: 'clo', name: 'CLO', description: 'Chief Legal Officer - Legal risk, IP strategy, regulatory alignment, contracts' },
+  { id: 'cpo', name: 'CPO', description: 'Chief Product Officer - Feature strategy, UX, roadmap tradeoffs, user needs alignment' },
+  { id: 'cro', name: 'CRO', description: 'Chief Revenue Officer - Monetization, client objections, pricing strategy, deal velocity' },
+];
+
 export default function MultiChat() {
   const [input, setInput] = useState('');
   
@@ -139,6 +153,7 @@ export default function MultiChat() {
   const [expandedModel, setExpandedModel] = useState<string | null>(null);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [synthesizedResponse, setSynthesizedResponse] = useState<string | null>(null);
+  const [selectedProRoles, setSelectedProRoles] = useState<string[]>([]);
   const messagesEndRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const { session } = useAuth();
   const [llmUsage, setLlmUsage] = useState<number>(0);
@@ -515,6 +530,14 @@ export default function MultiChat() {
     );
   };
 
+  const toggleProRoleSelection = (roleId: string) => {
+    setSelectedProRoles(prev => 
+      prev.includes(roleId) 
+        ? prev.filter(id => id !== roleId)
+        : [...prev, roleId]
+    );
+  };
+
   const changeModelVersion = (modelId: string, versionId: string) => {
     setModelVersions(prev => ({
       ...prev,
@@ -756,72 +779,103 @@ export default function MultiChat() {
         </div>
       )}
       {/* Header */}
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Synthesize</h1>
-            {/* Info tooltip */}
-            <div className="relative group">
-              <button className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
-              
-              {/* Tooltip */}
-              <div className="absolute top-full left-0 mt-2 w-80 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                <div className="font-semibold text-purple-300 mb-2">✨ What is Synthesize?</div>
-                <div className="space-y-1">
-                  <div>• <strong>Combines</strong> insights from all your selected models</div>
-                  <div>• <strong>Eliminates</strong> redundant information</div>
-                  <div>• <strong>Preserves</strong> unique perspectives from each AI</div>
-                  <div>• <strong>Highlights</strong> dissent where AI models disagree</div>
-                  <div>• <strong>Creates</strong> one superior, comprehensive response</div>
-                </div>
-                <div className="mt-2 text-xs text-purple-200">
-                  Powered by Adora AI's proprietary synthesis engine
+      <div className="flex-none mb-6">
+        <div className="rounded-2xl border border-gray-200 bg-white px-6 py-5 dark:border-gray-800 dark:bg-white/[0.03] transition-all duration-200 hover:shadow-lg">
+          {/* First row: Title and actions */}
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Synthesize</h1>
+              {/* Info tooltip */}
+              <div className="relative group">
+                <button className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                  <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+                
+                {/* Tooltip */}
+                <div className="absolute top-full left-0 mt-2 w-80 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                  <div className="font-semibold text-purple-300 mb-2">✨ What is Synthesize?</div>
+                  <div className="space-y-1">
+                    <div>• <strong>Combines</strong> insights from all your selected models</div>
+                    <div>• <strong>Eliminates</strong> redundant information</div>
+                    <div>• <strong>Preserves</strong> unique perspectives from each AI</div>
+                    <div>• <strong>Highlights</strong> dissent where AI models disagree</div>
+                    <div>• <strong>Creates</strong> one superior, comprehensive response</div>
+                  </div>
+                  <div className="mt-2 text-xs text-purple-200">
+                    Powered by Adora AI's proprietary synthesis engine
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <button
-              onClick={clearAllChats}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <PlusIcon className="w-4 h-4" />
-              Clear All
-            </button>
-            <span className="text-xs text-gray-500 ml-2">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
             
-            {/* Model Selection */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Models:</span>
-              <div className="flex gap-1">
-                {availableModels.map((model) => (
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-gray-500">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
+              <button
+                onClick={clearAllChats}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500/20 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700 transition-colors"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Clear All
+              </button>
+            </div>
+          </div>
+
+          {/* Second row: Model Selection */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Models:</span>
+            <div className="flex gap-1 flex-wrap">
+              {availableModels.map((model) => (
+                <button
+                  key={model.id}
+                  onClick={() => toggleModelSelection(model.id)}
+                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors flex items-center gap-2 ${
+                    selectedModels.includes(model.id)
+                      ? 'bg-blue-100 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
+                      : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  <ModelIcon model={model} size={16} />
+                  <span>{model.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Third row: Pro Roles Selection */}
+          <div className="flex items-center gap-2 mt-2">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Pro:</span>
+            <div className="flex gap-1 flex-wrap">
+              {proRoles.map((role) => (
+                <div key={role.id} className="relative group">
                   <button
-                    key={model.id}
-                    onClick={() => toggleModelSelection(model.id)}
-                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors flex items-center gap-2 ${
-                      selectedModels.includes(model.id)
-                        ? 'bg-blue-100 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
+                    onClick={() => toggleProRoleSelection(role.id)}
+                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+                      selectedProRoles.includes(role.id)
+                        ? 'bg-purple-100 dark:bg-purple-900/20 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300'
                         : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
                     }`}
                   >
-                    <ModelIcon model={model} size={16} />
-                    <span>{model.name}</span>
+                    {role.name}
                   </button>
-                ))}
-              </div>
+                  
+                  {/* Hover tooltip */}
+                  <div className="absolute bottom-full left-0 mb-2 w-64 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                    {role.description}
+                  </div>
+                </div>
+              ))}
             </div>
+            <span className="text-sm text-gray-500 dark:text-gray-400 italic ml-2">(coming soon)</span>
           </div>
         </div>
-      </header>
+      </div>
 
       {/** Synthesized Response Section */}
       {synthesizedResponse && (
-        <div className="flex-none bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border-b border-purple-200 dark:border-purple-800 p-4">
+        <div className="flex-none bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border-b border-purple-200 dark:border-purple-800 mb-6">
+          <div className="p-4">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -958,12 +1012,14 @@ export default function MultiChat() {
               </div>
             </div>
           </div>
+          </div>
         </div>
       )}
 
       {/* Models Grid */}
-      <div className="relative flex-1 overflow-y-auto p-4">
-        <div className={`grid ${getGridCols()} gap-4 h-full`}>
+      <div className="relative flex-1 overflow-hidden">
+        <div className="h-full bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-y-auto">
+          <div className={`grid ${getGridCols()} gap-4 p-4 h-fit min-h-full`}>
           {selectedModels.map((modelId) => {
             const model = availableModels.find(m => m.id === modelId);
             const conversation = conversations[modelId];
@@ -1167,6 +1223,7 @@ export default function MultiChat() {
               </div>
             );
           })}
+          </div>
         </div>
       </div>
 
@@ -1215,7 +1272,7 @@ export default function MultiChat() {
           </div>
           
           {/* Synthesize Button Section */}
-          <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3">

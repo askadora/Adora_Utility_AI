@@ -263,6 +263,54 @@ const othersItems: NavItem[] = [
   },
 ];
 
+const customerJourneyItems: NavItem[] = [
+  {
+    icon: <UserCircleIcon />,
+    name: "Customer Journey",
+    subItems: [
+      { 
+        name: "Users 1st Time Demo",
+        path: "/customer-journey/demo",
+        subItems: [
+          { name: "What Brings You Here", path: "/customer-journey/demo/what-brings-you", pro: false },
+          { name: "Focus Area Selection", path: "/customer-journey/demo/focus-area", pro: false },
+          { name: "Enterprise AI Stage", path: "/customer-journey/demo/ai-stage", pro: false },
+          { name: "Demo Routing", path: "/customer-journey/demo/routing", pro: false },
+          { name: "Industry Use Case", path: "/customer-journey/demo/industry-use-case", pro: false },
+          { name: "Investor Data Room", path: "/customer-journey/demo/investor-data-room", pro: false },
+          { name: "General Demo", path: "/customer-journey/demo/general-demo", pro: false },
+        ],
+        pro: false 
+      },
+      { 
+        name: "Users First Time Daily",
+        path: "/customer-journey/daily",
+        subItems: [
+          { name: "Morning Check-in", path: "/customer-journey/daily/morning-checkin", pro: false },
+          { name: "Task Prioritization", path: "/customer-journey/daily/task-priority", pro: false },
+          { name: "AI Assistant Setup", path: "/customer-journey/daily/ai-setup", pro: false },
+          { name: "Workflow Optimization", path: "/customer-journey/daily/workflow-optimization", pro: false },
+          { name: "Progress Tracking", path: "/customer-journey/daily/progress-tracking", pro: false },
+        ],
+        pro: false 
+      },
+      { 
+        name: "New User 1st Time",
+        path: "/customer-journey/new-user",
+        subItems: [
+          { name: "Account Setup", path: "/customer-journey/new-user/account-setup", pro: false },
+          { name: "Profile Configuration", path: "/customer-journey/new-user/profile-config", pro: false },
+          { name: "Feature Introduction", path: "/customer-journey/new-user/feature-intro", pro: false },
+          { name: "First AI Interaction", path: "/customer-journey/new-user/first-interaction", pro: false },
+          { name: "Integration Guidance", path: "/customer-journey/new-user/integration-guide", pro: false },
+          { name: "Success Metrics", path: "/customer-journey/new-user/success-metrics", pro: false },
+        ],
+        pro: false 
+      },
+    ],
+  },
+];
+
 const companyItems: NavItem[] = [
   {
     icon: <UserCircleIcon />,
@@ -282,7 +330,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others" | "company" | "usecases" | "dashboards"
+    menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -443,7 +491,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "company" | "usecases" | "dashboards";
+    type: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -505,7 +553,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -652,6 +700,23 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(othersItems, "others")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Customer Journey"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(customerJourneyItems, "customerjourney")}
             </div>
 
             <div className="">
