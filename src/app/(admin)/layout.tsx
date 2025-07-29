@@ -54,8 +54,9 @@ export default function AdminLayout({
     ? "lg:ml-[290px]"
     : "lg:ml-[90px]";
 
-  // Determine if we're in a Living Docs section
+  // Determine if we're in a Living Docs section or Synth Pro
   const isLivingDocs = pathname?.startsWith("/living-docs");
+  const isSynthPro = pathname?.includes("/synth-pro");
 
   return (
     <div className="min-h-screen">
@@ -93,8 +94,8 @@ export default function AdminLayout({
           - Max-width constraint prevents content from becoming too wide
           - Overflow-x-hidden prevents horizontal scroll issues
         */}
-        <main className={isLivingDocs ? "p-0 max-w-none h-[calc(100vh-64px)] overflow-hidden" : "p-4 md:p-6 lg:p-8 max-w-full overflow-x-hidden"}>
-          {isLivingDocs ? (
+        <main className={isLivingDocs || isSynthPro ? "p-0 max-w-none h-[calc(100vh-64px)] overflow-hidden" : "p-4 md:p-6 lg:p-8 max-w-full overflow-x-hidden"}>
+          {isLivingDocs || isSynthPro ? (
             <div className="w-full h-full">{children}</div>
           ) : (
             <div className="max-w-7xl mx-auto w-full">{children}</div>

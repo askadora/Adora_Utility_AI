@@ -225,6 +225,7 @@ const othersItems: NavItem[] = [
         ],
         pro: false 
       },
+      { name: "Synth Pro", path: "/synth-pro", pro: false },
       { name: "Alerts", path: "/alerts", pro: false },
       { name: "Avatar", path: "/avatars", pro: false },
       { name: "Badge", path: "/badge", pro: false },
