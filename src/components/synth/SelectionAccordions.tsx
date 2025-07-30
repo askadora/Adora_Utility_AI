@@ -68,32 +68,36 @@ const SelectionAccordions: React.FC<SelectionAccordionsProps> = ({
   return (
     <div className="flex flex-col gap-2">
         
-        {/* Pro Roles Accordion - Opens UP */}
+        {/* Pro Roles Accordion - Opens DOWN */}
         {isProAccordionOpen && (
-          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-3 mb-2">
-            <div className="flex flex-wrap gap-2 max-w-4xl">
-              {proRoles.map((role) => (
-                <div key={role.id} className="relative group">
-                  <button
-                    onClick={() => onProRoleToggle(role.id)}
-                    className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
-                      selectedProRoles.includes(role.id)
-                        ? 'bg-purple-100 dark:bg-purple-900/20 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300'
-                        : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
-                    }`}
-                  >
-                    {role.name}
-                  </button>
-                  
-                  {/* Hover tooltip */}
-                  <div className="absolute bottom-full left-0 mb-2 w-64 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                    {role.description}
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-3 mt-2">
+            <div className="w-full">
+              <div className="flex flex-wrap gap-2 justify-start items-center">
+                {proRoles.map((role) => (
+                  <div key={role.id} className="relative group">
+                    <button
+                      onClick={() => onProRoleToggle(role.id)}
+                      className={`px-3 py-2 text-sm rounded-lg border transition-colors whitespace-nowrap ${
+                        selectedProRoles.includes(role.id)
+                          ? 'bg-purple-100 dark:bg-purple-900/20 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300'
+                          : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      {role.name}
+                    </button>
+                    
+                    {/* Hover tooltip */}
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-30">
+                      {role.description}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-2">
-              <span className="text-sm text-gray-500 dark:text-gray-400 italic">(coming soon)</span>
+                ))}
+                
+                {/* Coming soon text inline */}
+                <span className="text-sm text-gray-500 dark:text-gray-400 italic ml-2">
+                  (coming soon)
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -126,21 +130,23 @@ const SelectionAccordions: React.FC<SelectionAccordionsProps> = ({
         {/* Model Selection Accordion - Opens Horizontally */}
         {isModelAccordionOpen && (
           <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-3 mt-2">
-            <div className="flex flex-wrap gap-2 max-w-4xl">
-              {availableModels.map((model) => (
-                <button
-                  key={model.id}
-                  onClick={() => onModelToggle(model.id)}
-                  className={`px-3 py-2 text-sm rounded-lg border transition-colors flex items-center gap-2 ${
-                    selectedModels.includes(model.id)
-                      ? 'bg-blue-100 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
-                      : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  <ModelIcon model={model} size={16} />
-                  <span>{model.name}</span>
-                </button>
-              ))}
+            <div className="w-full">
+              <div className="flex flex-wrap gap-2 justify-start">
+                {availableModels.map((model) => (
+                  <button
+                    key={model.id}
+                    onClick={() => onModelToggle(model.id)}
+                    className={`px-3 py-2 text-sm rounded-lg border transition-colors flex items-center gap-2 whitespace-nowrap ${
+                      selectedModels.includes(model.id)
+                        ? 'bg-blue-100 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
+                        : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    <ModelIcon model={model} size={16} />
+                    <span>{model.name}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}

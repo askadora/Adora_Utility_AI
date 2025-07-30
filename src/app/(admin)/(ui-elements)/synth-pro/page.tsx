@@ -486,11 +486,11 @@ const SynthProPage = () => {
       />
       
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {/* Main Chat Interface */}
-        <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900 relative">
+        <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900 relative min-h-0">
           {/* Floating Selection Accordions - positioned in top left */}
-          <div className="absolute top-6 left-6 z-50">
+          <div className="absolute top-6 left-6 z-30 max-w-[calc(100vw-12rem)]">
             <SelectionAccordions 
               selectedModels={selectedModels}
               onModelToggle={toggleModelSelection}
@@ -567,7 +567,7 @@ const SynthProPage = () => {
           )}
 
           {/* Main Content Area - Model Response Cards */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-6 pb-40 overflow-y-auto min-h-0">
             {selectedModels.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center text-gray-500 dark:text-gray-400">
@@ -581,7 +581,7 @@ const SynthProPage = () => {
                 </div>
               </div>
             ) : (
-              <div className={`grid gap-4 h-full ${selectedModels.length <= 2 ? 'grid-cols-1 lg:grid-cols-2' : selectedModels.length <= 4 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+              <div className={`grid gap-4 ${selectedModels.length <= 2 ? 'grid-cols-1 lg:grid-cols-2' : selectedModels.length <= 4 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                 {selectedModels.map((modelId) => {
                   const model = availableModels.find(m => m.id === modelId);
                   const conversation = conversations[modelId];
@@ -589,7 +589,7 @@ const SynthProPage = () => {
                   if (!conversation) return null;
                   
                   return (
-                    <div key={modelId} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col h-full min-h-[400px]">
+                    <div key={modelId} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col min-h-[400px] max-h-[600px]">
                       {/* Model Header */}
                       <div className="flex-none p-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-t-lg">
                         <div className="flex items-center justify-between">
@@ -695,8 +695,8 @@ const SynthProPage = () => {
             )}
           </div>
           
-          {/* Input Area - for prompt input */}
-          <div className="flex-none p-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+          {/* Floating Input Area */}
+          <div className="absolute bottom-16 left-6 right-6 z-40">
             <div className="max-w-4xl mx-auto">
               <PromptInput 
                 value={input}
@@ -709,7 +709,7 @@ const SynthProPage = () => {
               {/* Additional Controls */}
               <div className="flex items-center justify-between mt-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-gray-500">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Prompts used: {llmUsage}/{LLM_PROMPT_LIMIT}</span>
                   <button
                     onClick={clearAllChats}
                     className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline"

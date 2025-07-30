@@ -89,60 +89,65 @@ const PromptInput: React.FC<PromptInputProps> = ({
 
   return (
     <div className="relative">
-      <div className="flex items-end bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
-        {/* Left side icons */}
-        <div className="flex items-center pl-4 pb-3">
-          <button
-            onClick={handleAttachment}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            aria-label="Attach file"
-          >
-            <AttachmentIcon />
-          </button>
-          
-          <button
-            onClick={handleTools}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors ml-1"
-            aria-label="Tools"
-          >
-            <ToolsIcon />
-          </button>
+      <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
+        {/* Text input row */}
+        <div className="px-4 pt-4 pb-2">
+          <textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            disabled={disabled}
+            className="w-full bg-transparent border-0 outline-none resize-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-base leading-6 max-h-32 min-h-[80px]"
+            rows={3}
+            onInput={(e) => {
+              const target = e.target as HTMLTextAreaElement;
+              target.style.height = 'auto';
+              target.style.height = Math.min(target.scrollHeight, 128) + 'px';
+            }}
+          />
         </div>
 
-        {/* Text input */}
-        <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          disabled={disabled}
-          className="flex-1 px-3 py-3 bg-transparent border-0 outline-none resize-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-base leading-6 max-h-32 min-h-[48px]"
-          rows={1}
-          onInput={(e) => {
-            const target = e.target as HTMLTextAreaElement;
-            target.style.height = 'auto';
-            target.style.height = Math.min(target.scrollHeight, 128) + 'px';
-          }}
-        />
+        {/* Button row */}
+        <div className="flex items-center justify-between px-4 pb-4">
+          {/* Left side buttons */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleAttachment}
+              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label="Attach file"
+            >
+              <AttachmentIcon />
+            </button>
+            
+            <button
+              onClick={handleTools}
+              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label="Tools"
+            >
+              <ToolsIcon />
+            </button>
+          </div>
 
-        {/* Right side icons */}
-        <div className="flex items-center pr-3 pb-3">
-          <button
-            onClick={handleVoice}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors mr-1"
-            aria-label="Voice input"
-          >
-            <MicrophoneIcon className="w-5 h-5" />
-          </button>
-          
-          <button
-            onClick={onSubmit}
-            disabled={disabled || !value.trim()}
-            className="p-2.5 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center"
-            aria-label="Send message"
-          >
-            <PaperPlaneIcon className="w-4 h-4" />
-          </button>
+          {/* Right side buttons */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleVoice}
+              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              aria-label="Voice input"
+            >
+              <MicrophoneIcon className="w-5 h-5" />
+            </button>
+            
+            <button
+              onClick={onSubmit}
+              disabled={disabled || !value.trim()}
+              className="p-2.5 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center"
+              aria-label="Send message"
+            >
+              <PaperPlaneIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
       
