@@ -160,7 +160,7 @@ const DocumentComparison: React.FC<DocumentComparisonProps> = ({
                               {key.replace('_', ' ')}:
                             </span>
                             <span className="text-gray-900 dark:text-gray-100">
-                              {typeof value === 'number' ? value.toFixed(2) : value}
+                              {typeof value === 'number' ? value.toFixed(2) : String(value)}
                             </span>
                           </div>
                         ))}
@@ -181,7 +181,7 @@ const DocumentComparison: React.FC<DocumentComparisonProps> = ({
                               {key.replace('_', ' ')}:
                             </span>
                             <span className="text-gray-900 dark:text-gray-100">
-                              {typeof value === 'number' ? value.toFixed(2) : value}
+                              {typeof value === 'number' ? value.toFixed(2) : String(value)}
                             </span>
                           </div>
                         ))}
@@ -225,7 +225,7 @@ const DocumentComparison: React.FC<DocumentComparisonProps> = ({
               {Object.entries(data.metrics).map(([key, value]) => (
                 <div key={key} className="text-center">
                   <div className="text-lg font-semibold text-green-800 dark:text-green-200">
-                    {typeof value === 'number' ? value.toFixed(2) : value}
+                    {typeof value === 'number' ? value.toFixed(2) : String(value)}
                   </div>
                   <div className="text-xs text-green-600 dark:text-green-400 capitalize">
                     {key.replace('_', ' ')}
