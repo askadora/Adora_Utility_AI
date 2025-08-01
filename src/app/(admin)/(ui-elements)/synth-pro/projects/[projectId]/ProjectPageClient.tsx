@@ -7,62 +7,75 @@ import SelectionAccordions from "@/components/synth/SelectionAccordions";
 
 // Mock project data
 const mockProject = {
-  id: "cross-functionalities",
-  title: "Cross Functionalities",
-  description: "We are trying to list down all the common functionalities from all the projects to derive a master architecture/foundational architecture.",
-  isPrivate: false,
+  id: "adora-os-prds",
+  title: "Adora OS PRD's",
+  description: "This is all of our PRD'S",
+  isPrivate: true,
   activities: [
     {
       id: 1,
-      title: "Architecture Pattern Analysis",
-      lastMessage: "Last message 1 hour ago"
+      title: "User Management System PRD Development",
+      lastMessage: "Last message 6 hours ago"
     },
     {
       id: 2,
-      title: "Common Components Mapping", 
-      lastMessage: "Last message 4 hours ago"
+      title: "PRD: Chatbot Development", 
+      lastMessage: "Last message 2 days ago"
     },
     {
       id: 3,
-      title: "Foundation Framework Design",
-      lastMessage: "Last message 1 day ago"
+      title: "Multi-Model Routing Product Alignment",
+      lastMessage: "Last message 3 days ago"
     }
   ],
   documents: [
     {
       id: 1,
-      title: "Master Architecture Blueprint",
-      lines: 312,
+      title: "Adora AI OS - Unified User Management &...",
+      lines: 241,
       type: "DOCX"
     },
     {
       id: 2,
-      title: "Cross-Project Feature Matrix",
-      lines: 198,
-      type: "XLSX"
+      title: "Adora AI OS UID & User Management System...",
+      lines: 166,
+      type: "DOCX"
     },
     {
       id: 3,
-      title: "Common Functionality Catalog",
-      lines: 267,
+      title: "Adora Business Plan DRAFT v1.docx",
+      lines: 1207,
       type: "DOCX"
     },
     {
       id: 4,
-      title: "Foundational Components Guide",
-      lines: 145,
+      title: "Revolutionary Multi-Model Synthesis...",
+      lines: 384,
+      type: "DOCX"
+    },
+    {
+      id: 5,
+      title: "Unified Capacity Unit.docx",
+      lines: 295,
+      type: "DOCX"
+    },
+    {
+      id: 6,
+      title: "Grok Adora AI OS Overview.docx",
+      lines: 260,
       type: "DOCX"
     }
   ]
 };
 
-// Icons (same as other project pages)
+// Arrow Left Icon
 const ArrowLeftIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
+// Star Icon
 const StarIcon = ({ filled = false }: { filled?: boolean }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path 
@@ -76,6 +89,7 @@ const StarIcon = ({ filled = false }: { filled?: boolean }) => (
   </svg>
 );
 
+// Share Icon
 const ShareIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 12V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -84,6 +98,7 @@ const ShareIcon = () => (
   </svg>
 );
 
+// Plus Circle Icon
 const PlusCircleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -91,6 +106,16 @@ const PlusCircleIcon = () => (
   </svg>
 );
 
+// Lock Icon
+const LockIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <circle cx="12" cy="16" r="1" fill="currentColor"/>
+    <path d="M7 11V7C7 4.24 9.24 2 12 2C14.76 2 17 4.24 17 7V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+// Document Icon
 const DocumentIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
@@ -98,7 +123,11 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPage = () => {
+interface ProjectPageClientProps {
+  projectId: string;
+}
+
+const ProjectPageClient = ({ projectId }: ProjectPageClientProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [input, setInput] = useState('');
   const [isFavorited, setIsFavorited] = useState(false);
@@ -128,16 +157,20 @@ const ProjectPage = () => {
 
   return (
     <div className="flex h-full">
+      {/* Left Sidebar */}
       <InternalSidebar 
         isExpanded={sidebarExpanded} 
         onToggle={() => setSidebarExpanded(!sidebarExpanded)} 
       />
       
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-h-0">
         <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900 relative min-h-0">
           
+          {/* Header Section */}
           <div className="flex-none p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div className="max-w-6xl mx-auto">
+              {/* Back Navigation */}
               <div className="flex items-center mb-4">
                 <button 
                   onClick={() => window.location.href = '/synth-pro/projects'}
@@ -148,36 +181,45 @@ const ProjectPage = () => {
                 </button>
               </div>
 
+              {/* Project Title and Controls */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
                       {mockProject.title}
                     </h1>
+                    {mockProject.isPrivate && (
+                      <span className="flex items-center gap-1 px-2 py-1 bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-full text-xs">
+                        <LockIcon />
+                        Private
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     {mockProject.description}
                   </p>
                 </div>
 
-                                 <div className="flex items-center gap-2">
-                   <button 
-                     onClick={() => setIsFavorited(!isFavorited)}
-                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                   >
-                     <StarIcon filled={isFavorited} />
-                   </button>
-                   <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                     <ShareIcon />
-                   </button>
-                   <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                     <PlusCircleIcon />
-                   </button>
-                 </div>
+                {/* Action Buttons */}
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => setIsFavorited(!isFavorited)}
+                    className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  >
+                    <StarIcon filled={isFavorited} />
+                  </button>
+                  <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <ShareIcon />
+                  </button>
+                  <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                    <PlusCircleIcon />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
+          {/* Main Content with Prompt Input */}
           <div className="flex-1 flex flex-col p-6 relative">
             {/* Selection Accordions */}
             <div className="absolute top-6 left-6 z-30 max-w-[calc(100vw-12rem)]">
@@ -190,6 +232,7 @@ const ProjectPage = () => {
             </div>
 
             <div className="max-w-4xl mx-auto w-full">
+              {/* Prompt Input */}
               <div className="mb-8 mt-16">
                 <PromptInput 
                   value={input}
@@ -200,6 +243,7 @@ const ProjectPage = () => {
                 />
               </div>
 
+              {/* Project Activities */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Recent Activities
@@ -222,7 +266,9 @@ const ProjectPage = () => {
         </div>
       </div>
 
+      {/* Right Sidebar - Project Knowledge */}
       <div className="w-80 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 flex flex-col">
+        {/* Header */}
         <div className="flex-none p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-gray-900 dark:text-white">
@@ -234,26 +280,29 @@ const ProjectPage = () => {
           </div>
         </div>
 
+        {/* Role/Context */}
         <div className="flex-none p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
             <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-              "You are a Solutions Architect focused on cross-functional analysis... Edit"
+              "You are a Senior Product Architect with expertise in AI pl... Edit"
             </p>
           </div>
         </div>
 
+        {/* Capacity Usage */}
         <div className="flex-none p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-400">15% of project capacity used</span>
-              <span className="text-gray-500 dark:text-gray-400">Mapping</span>
+              <span className="text-gray-600 dark:text-gray-400">13% of project capacity used</span>
+              <span className="text-gray-500 dark:text-gray-400">Retrieving</span>
             </div>
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-              <div className="bg-blue-500 h-2 rounded-full" style={{ width: '15%' }}></div>
+              <div className="bg-blue-500 h-2 rounded-full" style={{ width: '13%' }}></div>
             </div>
           </div>
         </div>
 
+        {/* Documents */}
         <div className="flex-1 p-4 overflow-y-auto">
           <div className="grid grid-cols-2 gap-3">
             {mockProject.documents.map((document) => (
@@ -283,4 +332,4 @@ const ProjectPage = () => {
   );
 };
 
-export default ProjectPage; 
+export default ProjectPageClient; 

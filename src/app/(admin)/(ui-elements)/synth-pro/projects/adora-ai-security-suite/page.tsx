@@ -118,7 +118,7 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPage = ({ params }: { params: { projectId: string } }) => {
+const ProjectPage = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [input, setInput] = useState('');
   const [isFavorited, setIsFavorited] = useState(false);
