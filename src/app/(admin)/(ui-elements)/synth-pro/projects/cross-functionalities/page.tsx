@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import InternalSidebar from "@/components/synth/InternalSidebar";
 import PromptInput from "@/components/synth/PromptInput";
 import SelectionAccordions from "@/components/synth/SelectionAccordions";
@@ -96,36 +98,39 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> }) => {
-  const { projectId } = await params;
-  
-  // Default values for server component
-  const sidebarExpanded = false;
-  const input = '';
-  const isFavorited = false;
-  const selectedModels = ['claude-3-5-sonnet', 'gpt-4'];
-  const selectedProRoles: string[] = [];
+const ProjectPage = ({ params }: { params: { projectId: string } }) => {
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [input, setInput] = useState('');
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [selectedModels, setSelectedModels] = useState<string[]>(['claude-3-5-sonnet', 'gpt-4']);
+  const [selectedProRoles, setSelectedProRoles] = useState<string[]>([]);
 
   const handleSend = () => {
-    // This will be handled by client components
     console.log('Sending message:', input);
+    setInput('');
   };
 
   const handleModelToggle = (modelId: string) => {
-    // This will be handled by client components
-    console.log('Toggle model:', modelId);
+    setSelectedModels(prev => 
+      prev.includes(modelId) 
+        ? prev.filter(id => id !== modelId)
+        : [...prev, modelId]
+    );
   };
 
   const handleProRoleToggle = (roleId: string) => {
-    // This will be handled by client components
-    console.log('Toggle role:', roleId);
+    setSelectedProRoles(prev => 
+      prev.includes(roleId) 
+        ? prev.filter(id => id !== roleId)
+        : [...prev, roleId]
+    );
   };
 
   return (
     <div className="flex h-full">
       <InternalSidebar 
         isExpanded={sidebarExpanded} 
-        onToggle={() => {}} 
+        onToggle={() => setSidebarExpanded(!sidebarExpanded)} 
       />
       
       <div className="flex-1 flex flex-col min-h-0">
@@ -156,8 +161,8 @@ const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> 
                 </div>
 
                                  <div className="flex items-center gap-2">
-                                                       <button 
-                    onClick={() => {}}
+                                                                                           <button 
+                    onClick={() => setIsFavorited(!isFavorited)}
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
                      <StarIcon filled={isFavorited} />
@@ -188,7 +193,7 @@ const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> 
               <div className="mb-8 mt-16">
                 <PromptInput 
                   value={input}
-                  onChange={() => {}}
+                  onChange={setInput}
                   onSubmit={handleSend}
                   placeholder="How can I help you today?"
                   disabled={false}
