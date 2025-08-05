@@ -119,6 +119,11 @@ const navItems: NavItem[] = [
     path: "/prompt/multi-chat",
   },
   {
+    name: "LMS",
+    icon: <LMSIcon />,
+    path: "/lms",
+  },
+  {
     icon: <PromptIcon />,
     name: "Prompt",
     subItems: [
@@ -153,28 +158,8 @@ const navItems: NavItem[] = [
     name: "Dashboard System",
     path: "/dashboard",
   },
-  {
-    name: "LMS",
-    icon: <LMSIcon />,
-    path: "/lms",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "CRM",
-    path: "/crm",
-  },
-  {
-    name: "Living Docs",
-    icon: <FolderIcon />,
-    path: "/living-docs",
-    subItems: [
-      { name: "My Drive", path: "/living-docs/my-drive" },
-      { name: "Living Docs", path: "/living-docs/living-docs" },
-      { name: "DataRain", path: "/living-docs/data-rain" },
-      { name: "Storytelling", path: "/living-docs/storytelling" },
-      { name: "Whiteboard", path: "/living-docs/whiteboard" },
-    ],
-  },
+
+
   {
     name: "Settings",
     icon: <SettingsIcon />,
@@ -191,6 +176,32 @@ const dashboardExampleItems: NavItem[] = [
       { name: "KPI's", path: "/kpi", pro: false },
       { name: "Stocks", path: "/stocks", pro: false },
       { name: "SaaS", path: "/saas", pro: false },
+    ],
+  },
+];
+
+const comingSoonItems: NavItem[] = [
+  {
+    icon: <BoxCubeIcon />,
+    name: "Coming Soon",
+    subItems: [
+      { name: "Advanced Analytics", path: "/coming-soon/analytics", pro: false },
+      { name: "AI Marketplace", path: "/coming-soon/marketplace", pro: false },
+      { name: "CRM", path: "/crm", pro: false },
+      { name: "Team Collaboration", path: "/coming-soon/collaboration", pro: false },
+      { name: "Native Apps", path: "/coming-soon/native", pro: false },
+    ],
+  },
+  {
+    name: "Living Docs",
+    icon: <FolderIcon />,
+    path: "/living-docs",
+    subItems: [
+      { name: "My Drive", path: "/living-docs/my-drive" },
+      { name: "Living Docs", path: "/living-docs/living-docs" },
+      { name: "DataRain", path: "/living-docs/data-rain" },
+      { name: "Storytelling", path: "/living-docs/storytelling" },
+      { name: "Whiteboard", path: "/living-docs/whiteboard" },
     ],
   },
 ];
@@ -331,7 +342,7 @@ const AppSidebar: React.FC = () => {
 
   const renderMenuItems = (
     navItems: NavItem[],
-    menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney"
+    menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney" | "comingsoon"
   ) => (
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => (
@@ -492,7 +503,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<{
-    type: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney";
+    type: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney" | "comingsoon";
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
@@ -506,8 +517,8 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
-    ["main", "others", "company", "usecases", "dashboards"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : menuType === "company" ? companyItems : menuType === "usecases" ? useCaseItems : dashboardExampleItems;
+    ["main", "others", "company", "usecases", "dashboards", "comingsoon"].forEach((menuType) => {
+      const items = menuType === "main" ? navItems : menuType === "others" ? othersItems : menuType === "company" ? companyItems : menuType === "usecases" ? useCaseItems : menuType === "dashboards" ? dashboardExampleItems : comingSoonItems;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           // Special case: keep Living Docs open for any /living-docs route
@@ -554,7 +565,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [openSubmenu]);
 
-  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney") => {
+  const handleSubmenuToggle = (index: number, menuType: "main" | "others" | "company" | "usecases" | "dashboards" | "customerjourney" | "comingsoon") => {
     setOpenSubmenu((prevOpenSubmenu) => {
       if (
         prevOpenSubmenu &&
@@ -667,6 +678,23 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(dashboardExampleItems, "dashboards")}
+            </div>
+
+            <div className="">
+              <h2
+                className={`mb-3 sm:mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Coming Soon"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(comingSoonItems, "comingsoon")}
             </div>
 
             <div className="">
