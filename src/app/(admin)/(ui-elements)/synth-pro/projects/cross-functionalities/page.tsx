@@ -125,7 +125,7 @@ const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> 
     <div className="flex h-full">
       <InternalSidebar 
         isExpanded={sidebarExpanded} 
-        onToggle={() => setSidebarExpanded(!sidebarExpanded)} 
+        onToggle={() => {}} 
       />
       
       <div className="flex-1 flex flex-col min-h-0">
@@ -156,10 +156,10 @@ const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> 
                 </div>
 
                                  <div className="flex items-center gap-2">
-                   <button 
-                     onClick={() => setIsFavorited(!isFavorited)}
-                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                   >
+                                                       <button 
+                    onClick={() => {}}
+                    className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  >
                      <StarIcon filled={isFavorited} />
                    </button>
                    <button className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
@@ -188,7 +188,7 @@ const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> 
               <div className="mb-8 mt-16">
                 <PromptInput 
                   value={input}
-                  onChange={setInput}
+                  onChange={() => {}}
                   onSubmit={handleSend}
                   placeholder="How can I help you today?"
                   disabled={false}
