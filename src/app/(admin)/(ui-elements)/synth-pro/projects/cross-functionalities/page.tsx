@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import InternalSidebar from "@/components/synth/InternalSidebar";
 import PromptInput from "@/components/synth/PromptInput";
 import SelectionAccordions from "@/components/synth/SelectionAccordions";
@@ -98,32 +96,29 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPage = ({ params }: { params: { projectId: string } }) => {
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
-  const [input, setInput] = useState('');
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [selectedModels, setSelectedModels] = useState<string[]>(['claude-3-5-sonnet', 'gpt-4']);
-  const [selectedProRoles, setSelectedProRoles] = useState<string[]>([]);
+const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> }) => {
+  const { projectId } = await params;
+  
+  // Default values for server component
+  const sidebarExpanded = false;
+  const input = '';
+  const isFavorited = false;
+  const selectedModels = ['claude-3-5-sonnet', 'gpt-4'];
+  const selectedProRoles: string[] = [];
 
   const handleSend = () => {
+    // This will be handled by client components
     console.log('Sending message:', input);
-    setInput('');
   };
 
   const handleModelToggle = (modelId: string) => {
-    setSelectedModels(prev => 
-      prev.includes(modelId) 
-        ? prev.filter(id => id !== modelId)
-        : [...prev, modelId]
-    );
+    // This will be handled by client components
+    console.log('Toggle model:', modelId);
   };
 
   const handleProRoleToggle = (roleId: string) => {
-    setSelectedProRoles(prev => 
-      prev.includes(roleId) 
-        ? prev.filter(id => id !== roleId)
-        : [...prev, roleId]
-    );
+    // This will be handled by client components
+    console.log('Toggle role:', roleId);
   };
 
   return (

@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import InternalSidebar from "@/components/synth/InternalSidebar";
 import PromptInput from "@/components/synth/PromptInput";
 import SelectionAccordions from "@/components/synth/SelectionAccordions";
@@ -123,32 +121,29 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPage = ({ params }: { params: { projectId: string } }) => {
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
-  const [input, setInput] = useState('');
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [selectedModels, setSelectedModels] = useState<string[]>(['claude-3-5-sonnet', 'gpt-4']);
-  const [selectedProRoles, setSelectedProRoles] = useState<string[]>([]);
+const ProjectPage = async ({ params }: { params: Promise<{ projectId: string }> }) => {
+  const { projectId } = await params;
+  
+  // Default values for server component
+  const sidebarExpanded = false;
+  const input = '';
+  const isFavorited = false;
+  const selectedModels = ['claude-3-5-sonnet', 'gpt-4'];
+  const selectedProRoles: string[] = [];
 
   const handleSend = () => {
+    // This will be handled by client components
     console.log('Sending message:', input);
-    setInput('');
   };
 
   const handleModelToggle = (modelId: string) => {
-    setSelectedModels(prev => 
-      prev.includes(modelId) 
-        ? prev.filter(id => id !== modelId)
-        : [...prev, modelId]
-    );
+    // This will be handled by client components
+    console.log('Toggle model:', modelId);
   };
 
   const handleProRoleToggle = (roleId: string) => {
-    setSelectedProRoles(prev => 
-      prev.includes(roleId) 
-        ? prev.filter(id => id !== roleId)
-        : [...prev, roleId]
-    );
+    // This will be handled by client components
+    console.log('Toggle role:', roleId);
   };
 
   return (
@@ -156,7 +151,7 @@ const ProjectPage = ({ params }: { params: { projectId: string } }) => {
       {/* Left Sidebar */}
       <InternalSidebar 
         isExpanded={sidebarExpanded} 
-        onToggle={() => setSidebarExpanded(!sidebarExpanded)} 
+        onToggle={() => {}} 
       />
       
       {/* Main Content Area */}
@@ -199,7 +194,7 @@ const ProjectPage = ({ params }: { params: { projectId: string } }) => {
                 {/* Action Buttons */}
                 <div className="flex items-center gap-2">
                   <button 
-                    onClick={() => setIsFavorited(!isFavorited)}
+                    onClick={() => {}}
                     className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
                     <StarIcon filled={isFavorited} />
@@ -230,13 +225,13 @@ const ProjectPage = ({ params }: { params: { projectId: string } }) => {
             <div className="max-w-4xl mx-auto w-full">
               {/* Prompt Input */}
               <div className="mb-8 mt-16">
-                <PromptInput 
-                  value={input}
-                  onChange={setInput}
-                  onSubmit={handleSend}
-                  placeholder="How can I help you today?"
-                  disabled={false}
-                />
+                              <PromptInput 
+                value={input}
+                onChange={() => {}}
+                onSubmit={handleSend}
+                placeholder="How can I help you today?"
+                disabled={false}
+              />
               </div>
 
               {/* Project Activities */}
