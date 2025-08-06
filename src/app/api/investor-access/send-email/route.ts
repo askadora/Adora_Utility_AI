@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Only initialize Resend if API key is available
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,6 +23,15 @@ export async function POST(req: NextRequest) {
         { message: 'No email sent - not an accredited investor' },
         { status: 200 }
       );
+    }
+
+    // Check if Resend is properly configured
+    if (!resend) {
+      console.warn('Resend API key not configured - skipping email send');
+      return NextResponse.json({
+        message: 'Email service not configured - message logged',
+        success: true
+      });
     }
 
     try {
