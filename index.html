@@ -1,12 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adora AI Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1> Hi i am from Main branch</h1>
+<body class="bg-gray-50 font-sans text-gray-800">
+  <div class="min-h-screen flex">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r p-6 hidden md:block">
+      <div class="text-2xl font-bold mb-8 text-center">ADORA <span class="text-indigo-600">AI</span></div>
+      <nav class="space-y-4 text-gray-600">
+        <div class="font-semibold text-indigo-600">General</div>
+        <div class="hover:text-indigo-600 cursor-pointer">Profile</div>
+        <div class="hover:text-indigo-600 cursor-pointer">AdoraLink</div>
+        <div class="hover:text-indigo-600 cursor-pointer">Access & Permissions</div>
+        <div class="hover:text-indigo-600 cursor-pointer">AI & Models</div>
+        <div class="hover:text-indigo-600 cursor-pointer">Usage & Billing</div>
+        <div class="hover:text-indigo-600 cursor-pointer">Security</div>
+        <div class="hover:text-indigo-600 cursor-pointer">Integrations</div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <div class="text-2xl font-semibold mb-6">Settings</div>
+
+      <!-- Notifications Section -->
+      <section class="bg-white rounded-xl shadow p-6 mb-6">
+        <h2 class="text-lg font-medium mb-4">Notifications</h2>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-medium">Email Notifications</p>
+              <p class="text-sm text-gray-500">Receive email updates</p>
+            </div>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only" checked>
+              <div class="w-11 h-6 bg-indigo-600 rounded-full shadow-inner peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-medium">Push Notifications</p>
+              <p class="text-sm text-gray-500">Receive push notifications</p>
+            </div>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only">
+              <div class="w-11 h-6 bg-gray-300 rounded-full shadow-inner peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timezone Section -->
+      <section class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-lg font-medium mb-4">Timezone</h2>
+        <select class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-indigo-200">
+          <option>UTC+5:30 (India Standard Time)</option>
+          <option>UTC+1 (Central European Time)</option>
+          <option>UTC-5 (Eastern Standard Time)</option>
+          <!-- Add more timezones as needed -->
+        </select>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile Nav Button -->
+  <div class="md:hidden fixed top-4 left-4">
+    <button onclick="document.querySelector('aside').classList.toggle('hidden')">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
 </body>
 </html>
-
