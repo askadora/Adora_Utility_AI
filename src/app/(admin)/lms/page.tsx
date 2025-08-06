@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { LearningHub } from '@/components/home/LearningHub';
 
 export default function LMS() {
   const [selectedTab, setSelectedTab] = useState('courses');
@@ -197,6 +198,11 @@ export default function LMS() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Get Started with Adora AI Section */}
+        <div className="mb-8">
+          <LearningHub />
         </div>
 
         <div className="mb-8">
