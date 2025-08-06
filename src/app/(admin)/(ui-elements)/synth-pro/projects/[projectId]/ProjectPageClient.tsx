@@ -127,7 +127,7 @@ const DocumentIcon = () => (
   </svg>
 );
 
-const ProjectPageClient: React.FC<ProjectPageClientProps> = ({ projectId }) => {
+const ProjectPageClient = ({ projectId }: ProjectPageClientProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [input, setInput] = useState('');
   const [isFavorited, setIsFavorited] = useState(false);
