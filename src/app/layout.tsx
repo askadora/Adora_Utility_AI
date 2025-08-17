@@ -12,8 +12,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Adora AI - AI-Powered Business Intelligence Platform",
-  description: "Adora AI is a platform that uses AI to help businesses make better decisions.",
+  title: "Ask Adora - AI-Powered Synthesis Platform",
+  description: "Ask Adora is an AI-powered platform that helps you synthesize information from multiple AI models.",
   icons: {
     icon: [
       {

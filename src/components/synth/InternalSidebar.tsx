@@ -3,16 +3,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PlusIcon, FolderIcon, TimeIcon, ChevronDownIcon } from '@/icons/index';
+import { PlusIcon, TimeIcon } from '@/icons/index';
 
-// Mock project data
-const mockProjects = [
-  { id: 1, title: "New project", isNew: true },
-  { id: 2, title: "Drift: Multi model", slug: "drift-multi-model" },
-  { id: 3, title: "Cross Functionalities", slug: "cross-functionalities" },
-  { id: 4, title: "Adora OS PRD's", slug: "adora-os-prds" },
-  { id: 5, title: "Adora AI Security Suite", slug: "adora-ai-security-suite" }
-];
+
 
 // Search Icon Component
 const SearchIcon = () => (
@@ -43,15 +36,14 @@ const InternalSidebar: React.FC<InternalSidebarProps> = ({
   onToggle 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isProjectsDropdownOpen, setIsProjectsDropdownOpen] = useState(false);
 
   const sidebarItems = [
     {
       icon: <PlusIcon />,
       label: 'New Chat',
-      path: '/synth-pro',
+      path: '/ask-adora',
       action: () => {
-        window.location.href = '/synth-pro';
+        window.location.href = '/ask-adora';
       }
     },
     {
@@ -61,14 +53,6 @@ const InternalSidebar: React.FC<InternalSidebarProps> = ({
       action: () => {
         // Handle search functionality
         console.log('Search clicked');
-      }
-    },
-    {
-      icon: <FolderIcon />,
-      label: 'Projects',
-      path: '/synth-pro/projects',
-      action: () => {
-        setIsProjectsDropdownOpen(!isProjectsDropdownOpen);
       }
     },
     {
@@ -129,42 +113,10 @@ const InternalSidebar: React.FC<InternalSidebarProps> = ({
                     {item.label}
                   </span>
                 )}
-                {/* Chevron for Projects dropdown */}
-                {item.label === 'Projects' && (isExpanded || isHovered) && (
-                  <span className={`w-4 h-4 transition-transform duration-200 ${
-                    isProjectsDropdownOpen ? 'rotate-180' : ''
-                  }`}>
-                    <ChevronDownIcon />
-                  </span>
-                )}
+
               </button>
 
-              {/* Projects Dropdown - Nested under Projects */}
-              {item.label === 'Projects' && isProjectsDropdownOpen && (isExpanded || isHovered) && (
-                <div className="mt-2 ml-9 space-y-1">
-                  {mockProjects.map((project) => (
-                    <button
-                      key={project.id}
-                      onClick={() => {
-                        if (project.isNew) {
-                          window.location.href = '/synth-pro/projects';
-                        } else {
-                          // Navigate to specific project
-                          window.location.href = `/synth-pro/projects/${project.slug}`;
-                        }
-                      }}
-                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm"
-                    >
-                      <span className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
-                        <FolderIcon />
-                      </span>
-                      <span className="truncate">
-                        {project.title}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
+
             </div>
           ))}
         </div>
